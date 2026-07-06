@@ -29,7 +29,7 @@ Manufacturing covers everything from "we occasionally kit two items into a box" 
 - Are any steps done by external processors (subcontracting)?
 - Do you configure products per customer order at sales-entry time (favors assemble-to-order)?
 
-**Interactions:** Drives the license tier (Essentials vs Premium). Constrains [Flushing methods](#flushing-methods-manual-vs-forward-vs-backward-vs-pick), [Work centers vs machine centers](#work-centers-vs-machine-centers-shop-calendars--capacity) and everything else in this file. Assembly interacts heavily with [warehouse handling levels](warehouse.md#warehouse-handling-level) (assemble-to-order + inventory picks). Component planning depends on [reordering policies](inventory.md#reordering-policies).
+**Interactions:** Drives the license tier (Essentials vs Premium). Constrains [Flushing methods](#flushing-methods-manual-vs-forward-vs-backward-vs-pick), [Work centers vs machine centers](#work-centers-vs-machine-centers-shop-calendars--capacity) and everything else in this file. Assembly interacts heavily with [warehouse handling levels](warehouse.md#item-journal-vs-warehouse-journal-per-level) (assemble-to-order + inventory picks). Component planning depends on [reordering policies](inventory.md#replenishment--planning-parameters).
 
 **Add-on impact:** Aptean Food & Beverage ERP effectively assumes the full-manufacturing footprint for process production: it adds process-oriented production (batch/recipe thinking, co/by-products, yield) and catch weight handling in production and sales on top of standard BC manufacturing. If the client is food/beverage processing, don't force their process world into bare assembly orders — evaluate the add-on first. See [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -64,7 +64,7 @@ Manufacturing covers everything from "we occasionally kit two items into a box" 
 - Should operators confirm actual output, or is expected quantity acceptable as a prefill?
 - Does setup/changeover time meaningfully affect unit cost?
 
-**Interactions:** Default Flushing Method feeds [Flushing methods](#flushing-methods-manual-vs-forward-vs-backward-vs-pick). Dynamic Low-Level Code interacts with [Planning setup](#planning-setup-mps-vs-mrp-parameters-forecasts) and with automatic cost adjustment ([costing method](inventory.md#costing-method)). Preset Output Quantity ties to [output/shop-floor registration](#capacityoutput-journals--shop-floor-registration).
+**Interactions:** Default Flushing Method feeds [Flushing methods](#flushing-methods-manual-vs-forward-vs-backward-vs-pick). Dynamic Low-Level Code interacts with [Planning setup](#planning-setup-mps-vs-mrp-parameters-forecasts) and with automatic cost adjustment ([costing method](inventory.md#costing-method-per-item)). Preset Output Quantity ties to [output/shop-floor registration](#capacityoutput-journals--shop-floor-registration).
 
 **Add-on impact:** Aptean F&B adds its own process-manufacturing setup on top; standard Manufacturing Setup toggles still apply underneath. See [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -99,7 +99,7 @@ Shop calendars: define working days/shifts once per pattern (1-shift, 2-shift), 
 
 **Required client info addendum:** none.
 
-**Interactions:** Routing design ([Production BOM & routing design](#production-bom--routing-design)) references these centers. Flushing method can be set per work/machine center and overridden on routing lines. Subcontract work centers are the backbone of [Subcontracting](#subcontracting-setup). Unit costs here flow into [standard cost rollup](#standard-cost-vs-actual-costing-for-manufactured-items). Open Shop Floor / To-Production bins on centers interact with [warehouse configuration](warehouse.md#warehouse-handling-level).
+**Interactions:** Routing design ([Production BOM & routing design](#production-bom--routing-design)) references these centers. Flushing method can be set per work/machine center and overridden on routing lines. Subcontract work centers are the backbone of [Subcontracting](#subcontracting-setup). Unit costs here flow into [standard cost rollup](#standard-cost-vs-actual-costing-for-manufactured-items). Open Shop Floor / To-Production bins on centers interact with [warehouse configuration](warehouse.md#item-journal-vs-warehouse-journal-per-level).
 
 **Add-on impact:** Aptean F&B production lines/process cells map onto work centers; catch-weight and yield reporting hang off output postings at these centers. See [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -134,7 +134,7 @@ Design rule: only certified BOMs/routings are usable; keep an ownership process 
 - Is yield loss predictable per operation/component?
 - Which components are consumed at which operation? (routing link codes)
 
-**Interactions:** Routing link codes enable per-operation [flushing](#flushing-methods-manual-vs-forward-vs-backward-vs-pick). BOM depth drives low-level codes ([Manufacturing Setup toggles](#manufacturing-setup--key-toggles)). Scrap % and routing times feed [standard cost rollup](#standard-cost-vs-actual-costing-for-manufactured-items). Subassembly items need their own [reordering policies](inventory.md#reordering-policies).
+**Interactions:** Routing link codes enable per-operation [flushing](#flushing-methods-manual-vs-forward-vs-backward-vs-pick). BOM depth drives low-level codes ([Manufacturing Setup toggles](#manufacturing-setup--key-toggles)). Scrap % and routing times feed [standard cost rollup](#standard-cost-vs-actual-costing-for-manufactured-items). Subassembly items need their own [reordering policies](inventory.md#replenishment--planning-parameters).
 
 **Add-on impact:** Aptean F&B replaces/extends BOM thinking with recipe management, co-products/by-products and yield-based formulas — standard production BOM design rules still apply to the discrete parts of the flow. See [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -166,10 +166,10 @@ Consultant judgement: map flushing to shop-floor discipline, not to elegance. Hi
 **Required client info:**
 - For each component class: does actual usage deviate from BOM quantity by more than you care about financially?
 - Will anyone on the floor touch a terminal/scanner between order release and finish?
-- Are production locations bin-mandatory or directed pick? (gates Pick+ variants — see [warehouse](warehouse.md#warehouse-handling-level))
+- Are production locations bin-mandatory or directed pick? (gates Pick+ variants — see [warehouse](warehouse.md#item-journal-vs-warehouse-journal-per-level))
 - How is scrap discovered today, and does anyone want to measure it?
 
-**Interactions:** Requires routing link codes from [BOM & routing design](#production-bom--routing-design) for per-operation behaviour. Default set in [Manufacturing Setup](#manufacturing-setup--key-toggles). Determines whether the [consumption journal](#capacityoutput-journals--shop-floor-registration) is a daily tool or an exception tool. Wrong flushing corrupts availability that [planning](#planning-setup-mps-vs-mrp-parameters-forecasts) and [reordering policies](inventory.md#reordering-policies) rely on, and misstates WIP in [finance](finance.md#inventory-and-wip-posting).
+**Interactions:** Requires routing link codes from [BOM & routing design](#production-bom--routing-design) for per-operation behaviour. Default set in [Manufacturing Setup](#manufacturing-setup--key-toggles). Determines whether the [consumption journal](#capacityoutput-journals--shop-floor-registration) is a daily tool or an exception tool. Wrong flushing corrupts availability that [planning](#planning-setup-mps-vs-mrp-parameters-forecasts) and [reordering policies](inventory.md#replenishment--planning-parameters) rely on, and misstates WIP in [finance](finance.md#inventory-posting-groups-and-inventory-posting-setup).
 
 **Add-on impact:** Aptean F&B changes the consumption picture materially: catch-weight components and yield-variable recipes push toward actual-weight registration rather than expected-quantity flushing; the add-on provides shop-floor/scanning flows tuned to this. See [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -196,7 +196,7 @@ Consultant judgement: map flushing to shop-floor discipline, not to elegance. Hi
 | Order Planning (order-by-order, no action messages) | Make-to-order shops with low volume wanting manual control per demand | Any volume — it doesn't scale and ignores parameter-based optimization |
 | Demand forecasts (item/period/location) | Make-to-stock with seasonality; MPS needs forecast when sales orders arrive short-notice | Pure make-to-order (forecast consumption logic adds confusion for no benefit) |
 
-Planning parameters live on the item (or SKU) card and interplay tightly with reordering policies — Lot-for-Lot with a reorder cycle is the workhorse for manufactured items; Fixed Reorder Qty/Maximum are for purchased commodity components; **Order** policy for pure MTO. Set Reserve = Never on planned manufactured items (reservations fight the planning engine). Dampener period/quantity suppress churn in action messages. Full parameter guidance: [reordering policies](inventory.md#reordering-policies) and [planning parameters](inventory.md#planning-parameters).
+Planning parameters live on the item (or SKU) card and interplay tightly with reordering policies — Lot-for-Lot with a reorder cycle is the workhorse for manufactured items; Fixed Reorder Qty/Maximum are for purchased commodity components; **Order** policy for pure MTO. Set Reserve = Never on planned manufactured items (reservations fight the planning engine). Dampener period/quantity suppress churn in action messages. Full parameter guidance: [reordering policies](inventory.md#replenishment--planning-parameters) and [planning parameters](inventory.md#replenishment--planning-parameters).
 
 **Required client info:**
 - Make-to-stock, make-to-order, or mixed — per product family?
@@ -205,7 +205,7 @@ Planning parameters live on the item (or SKU) card and interplay tightly with re
 - How much rescheduling noise will the planner tolerate? (dampeners, Planning Warning)
 - Lead times and lot-size constraints per level of the BOM?
 
-**Interactions:** Depends on correct low-level codes ([Manufacturing Setup](#manufacturing-setup--key-toggles)). Planning is infinite-capacity — check expectations set in [work centers](#work-centers-vs-machine-centers-shop-calendars--capacity). Availability accuracy depends on [flushing](#flushing-methods-manual-vs-forward-vs-backward-vs-pick). Item-level parameters: [inventory.md](inventory.md#reordering-policies). Safety stock valuation ties to [costing](inventory.md#costing-method).
+**Interactions:** Depends on correct low-level codes ([Manufacturing Setup](#manufacturing-setup--key-toggles)). Planning is infinite-capacity — check expectations set in [work centers](#work-centers-vs-machine-centers-shop-calendars--capacity). Availability accuracy depends on [flushing](#flushing-methods-manual-vs-forward-vs-backward-vs-pick). Item-level parameters: [inventory.md](inventory.md#replenishment--planning-parameters). Safety stock valuation ties to [costing](inventory.md#costing-method-per-item).
 
 **Add-on impact:** Aptean F&B adds shelf-life/expiry-aware planning considerations and catch-weight quantities into the demand/supply picture; standard MPS/MRP mechanics remain underneath. See [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -238,7 +238,7 @@ Planning parameters live on the item (or SKU) card and interplay tightly with re
 - How does the vendor price: per unit, per hour, per operation, per item?
 - Volume: occasional or an integral step of most routings?
 
-**Interactions:** Requires the full-manufacturing footprint with [routings](#production-bom--routing-design) and [work centers](#work-centers-vs-machine-centers-shop-calendars--capacity). Subcontract PO cost posts into the production order and flows to [cost rollup](#standard-cost-vs-actual-costing-for-manufactured-items). Vendor locations interact with [inventory locations](inventory.md#locations-and-transfers) and transfer flows. Purchase approval on subcontract POs: [general-setup — approval workflows](general-setup.md#approval-workflows-native-vs-power-automate).
+**Interactions:** Requires the full-manufacturing footprint with [routings](#production-bom--routing-design) and [work centers](#work-centers-vs-machine-centers-shop-calendars--capacity). Subcontract PO cost posts into the production order and flows to [cost rollup](#standard-cost-vs-actual-costing-for-manufactured-items). Vendor locations interact with [inventory locations](warehouse.md#location-design) and transfer flows. Purchase approval on subcontract POs: [general-setup — approval workflows](general-setup.md#approval-workflows-native-vs-power-automate).
 
 **Add-on impact:** Common in food (external smoking, packing, irradiation); Aptean F&B combines subcontracting with lot tracking and catch weight so the returned goods keep lot/weight integrity. See [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -252,7 +252,7 @@ Planning parameters live on the item (or SKU) card and interplay tightly with re
 
 ## Standard cost vs actual costing for manufactured items
 
-**Where:** Item card **Costing Method**; **Standard Cost Worksheet** (roll-up + implement, revaluation); **Cost Incl. Setup** in Manufacturing Setup; indirect cost % / overhead rate on work centers and items; **Adjust Cost - Item Entries** / automatic cost adjustment in [Inventory Setup](inventory.md#costing-method).
+**Where:** Item card **Costing Method**; **Standard Cost Worksheet** (roll-up + implement, revaluation); **Cost Incl. Setup** in Manufacturing Setup; indirect cost % / overhead rate on work centers and items; **Adjust Cost - Item Entries** / automatic cost adjustment in [Inventory Setup](inventory.md#costing-method-per-item).
 **What it controls:** Whether manufactured items carry a frozen expected cost with variance postings (Standard) or a cost derived from actual consumption and time (typically FIFO/Average), and the discipline needed to keep either honest.
 
 **Options:**
@@ -270,7 +270,7 @@ Cost rollup discipline (Standard): roll up via Standard Cost Worksheet bottom-up
 - Does management actually consume variance reports today, or want to?
 - Mixed model acceptable? (Common: Standard for manufactured, FIFO for purchased — supported and often right.)
 
-**Interactions:** Costing method is per item and effectively locked once entries exist — see [inventory.md — costing method](inventory.md#costing-method) for the full decision. Variance and WIP accounts must exist in the [posting setup](finance.md#inventory-and-wip-posting). Rollup accuracy depends on [BOM/routing quality and scrap %](#production-bom--routing-design) and work center rates ([work centers](#work-centers-vs-machine-centers-shop-calendars--capacity)). Actual costing quality depends directly on [flushing honesty](#flushing-methods-manual-vs-forward-vs-backward-vs-pick).
+**Interactions:** Costing method is per item and effectively locked once entries exist — see [inventory.md — costing method](inventory.md#costing-method-per-item) for the full decision. Variance and WIP accounts must exist in the [posting setup](finance.md#inventory-posting-groups-and-inventory-posting-setup). Rollup accuracy depends on [BOM/routing quality and scrap %](#production-bom--routing-design) and work center rates ([work centers](#work-centers-vs-machine-centers-shop-calendars--capacity)). Actual costing quality depends directly on [flushing honesty](#flushing-methods-manual-vs-forward-vs-backward-vs-pick).
 
 **Add-on impact:** Aptean F&B complicates costing with catch weight (cost per true weight vs per unit), co/by-product cost allocation and yield variance — verify the add-on's costing model before promising standard-cost variance reporting. See [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -305,7 +305,7 @@ Note: standard BC has no full MES; if the client demos "operators scan start/sto
 - Is scrap recorded with reasons (scrap codes) and does anyone review it?
 - Devices available on the floor? Wi-Fi coverage? Gloves/washdown environment (food)?
 
-**Interactions:** Registration intensity must match the [flushing decision](#flushing-methods-manual-vs-forward-vs-backward-vs-pick) — heavy flushing + heavy journaling double-posts effort; manual flushing + no registration capability is a design contradiction. Output posting to bins interacts with [warehouse flows](warehouse.md#warehouse-handling-level). Times posted here are the actuals behind [costing](#standard-cost-vs-actual-costing-for-manufactured-items) and capacity load review.
+**Interactions:** Registration intensity must match the [flushing decision](#flushing-methods-manual-vs-forward-vs-backward-vs-pick) — heavy flushing + heavy journaling double-posts effort; manual flushing + no registration capability is a design contradiction. Output posting to bins interacts with [warehouse flows](warehouse.md#item-journal-vs-warehouse-journal-per-level). Times posted here are the actuals behind [costing](#standard-cost-vs-actual-costing-for-manufactured-items) and capacity load review.
 
 **Add-on impact:** Aptean F&B provides shop-floor-oriented registration (scanning, catch-weight capture at output, lot assignment at reporting) purpose-built for food processes — usually the answer when base journals don't fit the floor. See [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 

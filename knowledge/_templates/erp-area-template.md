@@ -30,7 +30,7 @@
 
 **Interactions:** <Other setup decisions this one depends on or constrains, with links, e.g. [Costing Method](inventory.md#costing-method).>
 
-**Add-on impact:** <How known add-ons change, replace or extend these options. Link to the add-on file, e.g. see [Aptean F&B — Lot Management](../../addons/aptean-food-beverage/lot-management.md). Write "None known" if none.>
+**Add-on impact:** <How known add-ons change, replace or extend these options. Link to the add-on file, e.g. see [Aptean F&B — Lot Management](../../addons/aptean-food-beverage/lot-management-traceability.md). Write "None known" if none.>
 
 **Default recommendation:** <The option you'd pick absent strong signals otherwise, and the one-line reason.>
 

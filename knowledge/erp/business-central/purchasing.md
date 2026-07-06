@@ -19,8 +19,8 @@ Covers procure-to-pay configuration in Business Central: Purchases & Payables Se
 |---|---|---|
 | **Ext. Doc. No. Mandatory = On** (vendor's invoice no. required before posting) | Almost always. It is the duplicate-invoice defense: BC warns on a repeated external document number per vendor, and AP can trace every posted invoice to the vendor's paper. | Only for odd sub-processes (e.g. auto-generated internal charge invoices) — and even then prefer a dummy numbering convention over turning the toggle off. |
 | **Exact Cost Reversing Mandatory = On** | Clients that return goods to vendors and care about clean inventory valuation: forces the purchase return to be applied to the original receipt entry (Appl.-to Item Entry) so it leaves inventory at exactly the cost it arrived with. | High-volume returns where staff genuinely can't identify the original receipt; but as on the sales side, fix the process rather than the toggle. |
-| **Receipt on Invoice = On** (posting a purchase invoice also posts the receipt) | AP-driven clients without a goods-receipt step: invoice arrives, gets posted, stock updates. | Any client using warehouse receipts or three-way matching (order–receipt–invoice). With warehouse handling the receipt must come from the warehouse document — see [warehouse.md](warehouse.md#inbound-outbound-document-flow). |
-| **Default Posting Date = Work Date** vs **No Date** | Work Date for convenience. | No Date where posting-period discipline is weak — forces conscious dating; pair with [allowed posting dates](finance.md#allowed-posting-dates). |
+| **Receipt on Invoice = On** (posting a purchase invoice also posts the receipt) | AP-driven clients without a goods-receipt step: invoice arrives, gets posted, stock updates. | Any client using warehouse receipts or three-way matching (order–receipt–invoice). With warehouse handling the receipt must come from the warehouse document — see [warehouse.md](warehouse.md#warehouse-document-flow-toggles). |
+| **Default Posting Date = Work Date** vs **No Date** | Work Date for convenience. | No Date where posting-period discipline is weak — forces conscious dating; pair with [allowed posting dates](finance.md#general-ledger-setup-key-choices). |
 | **Default Qty. to Receive = Remainder** vs **Blank** | Remainder for full-delivery vendors. | Blank where partial deliveries are routine and warehouse should key what physically arrived — prevents accidental full receipts. |
 | **Calc. Inv. Discount = On** | Vendors grant total-amount invoice discounts that AP should take automatically. | No such agreements exist — noise. |
 | **Over-Receipt behavior** — governed by Over-Receipt Codes (separate page), not a setup toggle | See [Over-receipt codes](#over-receipt-codes--receiving-tolerances) below. | — |
@@ -30,7 +30,7 @@ Covers procure-to-pay configuration in Business Central: Purchases & Payables Se
 - Are vendor invoice numbers captured today, and have duplicate payments happened before? (They almost always have.)
 - Do vendors part-deliver routinely?
 
-**Interactions:** Exact Cost Reversing works with the [costing method](inventory.md#costing-method). Receipt on Invoice conflicts with [warehouse receipt documents](warehouse.md#require-receive). Posting date defaults align with [period controls](finance.md#allowed-posting-dates). E-documents/OCR invoice capture relies on external document numbers being disciplined.
+**Interactions:** Exact Cost Reversing works with the [costing method](inventory.md#costing-method-per-item). Receipt on Invoice conflicts with [warehouse receipt documents](warehouse.md#warehouse-document-flow-toggles). Posting date defaults align with [period controls](finance.md#general-ledger-setup-key-choices). E-documents/OCR invoice capture relies on external document numbers being disciplined.
 
 **Add-on impact:** Aptean Food & Beverage ERP adds commodity purchasing and vendor trade agreements that assume standard toggles (especially exact cost reversing) are on — see [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -60,7 +60,7 @@ Covers procure-to-pay configuration in Business Central: Purchases & Payables Se
 - Vendor segments differing in tax/currency/payment method?
 - Is there a group-level vendor master (multi-company: consider IC or master-data sync)?
 
-**Interactions:** Templates require the [posting group architecture](finance.md#posting-groups) to exist first. Payment methods/terms feed [payment journal and payment file setup](finance.md#bank--payment-setup). Purchaser codes on vendors feed [approval routing](#purchase-approval-workflows--amount-limits). Over-Receipt Code can be defaulted per vendor (below).
+**Interactions:** Templates require the [posting group architecture](finance.md#customer-and-vendor-posting-groups) to exist first. Payment methods/terms feed [payment journal and payment file setup](finance.md#bank-accounts-and-payment-reconciliation). Purchaser codes on vendors feed [approval routing](#purchase-approval-workflows--amount-limits). Over-Receipt Code can be defaulted per vendor (below).
 
 **Add-on impact:** Aptean F&B adds vendor attributes for commodity trading and quality/compliance (approved supplier status) — extend templates and the gating rules to cover them; see [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -91,7 +91,7 @@ Covers procure-to-pay configuration in Business Central: Purchases & Payables Se
 - Quantity-break or period pricing? Currency per vendor?
 - Who maintains purchase prices — buyer or finance — and how is a price change authorized?
 
-**Interactions:** Shares the one-way pricing feature switch with [sales pricing](sales.md#sales-pricing-model-price-lists-vs-legacy-sales-prices-discounts-hierarchy) — one decision covers both. Purchase price is the planned cost input for margin and for [standard cost review](inventory.md#costing-method). Price variances surface in invoice matching and hit [purchase variance accounts](finance.md#posting-groups) under standard costing.
+**Interactions:** Shares the one-way pricing feature switch with [sales pricing](sales.md#sales-pricing-model-price-lists-vs-legacy-sales-prices-discount-hierarchy) — one decision covers both. Purchase price is the planned cost input for margin and for [standard cost review](inventory.md#costing-method-per-item). Price variances surface in invoice matching and hit [purchase variance accounts](finance.md#customer-and-vendor-posting-groups) under standard costing.
 
 **Add-on impact:** Major under Aptean F&B: commodity pricing (market-indexed costs, formula pricing) replaces static purchase price lists for commodity items — see [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -124,7 +124,7 @@ Covers procure-to-pay configuration in Business Central: Purchases & Payables Se
 - Manufacturing in scope now or later? (Determines requisition vs planning worksheet — and it's cheap to start on requisition and move up.)
 - How often should suggestions run, and will someone actually review action messages? (Unreviewed MRP output destroys trust fast.)
 
-**Interactions:** Suggestion quality is entirely a function of item planning parameters — reordering policy, lead times, safety stock — see [inventory.md](inventory.md#planning-parameters--reordering-policies). CTP promises from sales create requisition lines that land in this process — see [sales.md](sales.md#shipping-setup-shipment-methods-agents-order-promising--atp-ctp). Location-level planning needs SKUs ([inventory.md](inventory.md#stockkeeping-units)). Created POs then flow into [approvals](#purchase-approval-workflows--amount-limits).
+**Interactions:** Suggestion quality is entirely a function of item planning parameters — reordering policy, lead times, safety stock — see [inventory.md](inventory.md#replenishment--planning-parameters). CTP promises from sales create requisition lines that land in this process — see [sales.md](sales.md#shipping-setup-shipment-methods-shipping-agents-order-promising--atpctp). Location-level planning needs SKUs ([inventory.md](inventory.md#stockkeeping-units-skus)). Created POs then flow into [approvals](#purchase-approval-workflows--amount-limits).
 
 **Add-on impact:** Aptean F&B adds shelf-life-aware and seasonal planning behavior on top of standard reordering policies — see [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -158,7 +158,7 @@ Watch the documented trap: a user who is both requester and approver in a workfl
 - Control point: commitment (PO) or payment (invoice)?
 - Approver availability — substitutes, vacation coverage, and who is the approval administrator?
 
-**Interactions:** Same Approval User Setup table serves [sales approvals](sales.md#salespeople-commission-tracking--sales-document-approvals) — design once. Over-receipt codes can require approval (below). Job queue/email must be configured for notifications ([finance.md](finance.md#email--job-queue-setup) or admin setup). Approvals delay PO release — factor into [lead times](inventory.md#planning-parameters--reordering-policies).
+**Interactions:** Same Approval User Setup table serves [sales approvals](sales.md#salespeople-commission-tracking--sales-document-approvals) — design once. Over-receipt codes can require approval (below). Job queue/email must be configured for notifications ([finance.md](general-setup.md#approval-workflows-native-vs-power-automate) or admin setup). Approvals delay PO release — factor into [lead times](inventory.md#replenishment--planning-parameters).
 
 **Add-on impact:** None known beyond extra document types Aptean F&B may add; verify its documents are covered by workflow events — see [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -190,7 +190,7 @@ Two hard caveats to tell clients: over-receipt does **not** work on orders creat
 - Does the client want to *keep* over-deliveries (discounts for keeping?) or return them?
 - Should excess require sign-off before posting (Approval Required)?
 
-**Interactions:** Applies on both purchase lines and [warehouse receipt lines](warehouse.md#require-receive). Invoice matching must expect quantity > ordered — brief AP, and align with [three-way-match expectations](#purchases--payables-setup--key-toggles). Excess stock lands in [planning](inventory.md#planning-parameters--reordering-policies) as extra supply.
+**Interactions:** Applies on both purchase lines and [warehouse receipt lines](warehouse.md#warehouse-document-flow-toggles). Invoice matching must expect quantity > ordered — brief AP, and align with [three-way-match expectations](#purchases--payables-setup--key-toggles). Excess stock lands in [planning](inventory.md#replenishment--planning-parameters) as extra supply.
 
 **Add-on impact:** Aptean F&B catch-weight receiving changes what "quantity vs ordered" even means for weight-variable items; its tolerance handling may supersede standard over-receipt codes — see [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -220,7 +220,7 @@ Two hard caveats to tell clients: over-receipt does **not** work on orders creat
 - Must receiving be blocked until the deposit is paid?
 - Jurisdictional VAT treatment of prepayments (unrealized VAT setup needed?).
 
-**Interactions:** Needs Purch. Prepayments Account rows in [General Posting Setup](finance.md#posting-groups) and possibly [unrealized VAT](finance.md#vat-posting-setup). Deposit payments flow through [payment journals](finance.md#bank--payment-setup). Mirrors [sales prepayments](sales.md#prepayments-on-sales) — configure both sides in one workshop.
+**Interactions:** Needs Purch. Prepayments Account rows in [General Posting Setup](finance.md#customer-and-vendor-posting-groups) and possibly [unrealized VAT](finance.md#vat-posting-setup). Deposit payments flow through [payment journals](finance.md#bank-accounts-and-payment-reconciliation). Mirrors [sales prepayments](sales.md#prepayments-on-sales) — configure both sides in one workshop.
 
 **Add-on impact:** None known.
 
@@ -250,10 +250,10 @@ Consultant caveats: the linked documents are **rigidly coupled** — quantity or
 **Required client info:**
 - Share of revenue that is drop-shipped, and per which vendors?
 - Who confirms vendor shipment to trigger posting the purchase receipt (which drives the sales shipment and thus revenue recognition timing)?
-- Do drop-shipped items carry item tracking? (Lot/serial on goods the client never sees is an operational problem — see [inventory.md](inventory.md#item-tracking).)
+- Do drop-shipped items carry item tracking? (Lot/serial on goods the client never sees is an operational problem — see [inventory.md](inventory.md#item-tracking-lot--serial--package).)
 - For special orders: genuine need for hard linking, or is normal reservation enough?
 
-**Interactions:** Sales-side twin decision: [sales.md — Order handling flow](sales.md#order-handling-flow-quote--order--ship--invoice-blanket-orders-drop-shipments-special-orders). Drop-ship receipts post no warehouse documents — exclude these flows from [warehouse KPIs](warehouse.md#inbound-outbound-document-flow). Margin on drop-ship lines depends on purchase cost landing before the sales invoice — coordinate with [item charge / landed cost practice](inventory.md#item-charges--landed-cost). Over-receipt codes and blanket orders don't mix with these flows.
+**Interactions:** Sales-side twin decision: [sales.md — Order handling flow](sales.md#order-handling-flow-quote--order--ship--invoice-blanket-orders-drop-shipments-special-orders). Drop-ship receipts post no warehouse documents — exclude these flows from [warehouse KPIs](warehouse.md#warehouse-document-flow-toggles). Margin on drop-ship lines depends on purchase cost landing before the sales invoice — coordinate with [item charge / landed cost practice](inventory.md#item-charges-landed-costs). Over-receipt codes and blanket orders don't mix with these flows.
 
 **Add-on impact:** Aptean F&B direct-store-delivery and brokerage scenarios extend drop-shipment handling (commissions, trade deductions on direct deliveries) — see [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 

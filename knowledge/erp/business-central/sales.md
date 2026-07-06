@@ -20,9 +20,9 @@ Covers the order-to-cash configuration in Business Central: Sales & Receivables 
 | **Credit Warnings = Both Warnings** (credit limit + overdue balance checked on document entry) | Clients with real credit-control discipline; B2B with meaningful credit exposure. Warning is advisory — posting is still allowed. | Cash-sale / prepaid businesses where the popups just train users to click through warnings. |
 | **Credit Warnings = No Warning** | POS-like or prepaid flows; when credit control lives in an external tool. | Any client that has ever written off a receivable because "the system let us ship." |
 | **Stockout Warning = On** | Trading companies where order entry should see availability problems immediately. | Large BOM/kit sales lines — this check is a documented performance drag on sales line entry. Turn it off company-wide and re-enable per item on the Item Card for the SKUs that matter. |
-| **Shipment on Invoice = On** (posting a sales invoice also creates a posted shipment) | Service companies and simple traders who invoice without a separate ship step. | Clients using warehouse documents — shipping must happen through the warehouse flow, not as a side effect of invoicing. See [warehouse.md](warehouse.md#inbound-outbound-document-flow). |
+| **Shipment on Invoice = On** (posting a sales invoice also creates a posted shipment) | Service companies and simple traders who invoice without a separate ship step. | Clients using warehouse documents — shipping must happen through the warehouse flow, not as a side effect of invoicing. See [warehouse.md](warehouse.md#warehouse-document-flow-toggles). |
 | **Return Receipt on Credit Memo = On** | Mirror of the above for returns; fits the same simple profile. | Warehouse-managed returns. |
-| **Default Posting Date = Work Date** vs **No Date** | *Work Date* is the standard convenience default. | *No Date* forces users to consciously pick a posting date — useful where period discipline is weak and month-end cutoff errors are recurring; pair with [Allowed Posting Period](finance.md#allowed-posting-dates). |
+| **Default Posting Date = Work Date** vs **No Date** | *Work Date* is the standard convenience default. | *No Date* forces users to consciously pick a posting date — useful where period discipline is weak and month-end cutoff errors are recurring; pair with [Allowed Posting Period](finance.md#general-ledger-setup-key-choices). |
 | **Default Quantity to Ship = Remainder** vs **Blank** | *Remainder* suits full-shipment businesses (less typing). | *Blank* is safer for clients who habitually part-ship: it forces explicit Qty. to Ship entry and prevents accidental full shipments. |
 | **Calc. Inv. Discount = On** | Client actually grants invoice (total-amount) discounts; on orders the discount recalculates as lines are added. | Clients with no invoice-discount scheme — leaving it on just adds calculation noise and confuses margin analysis. |
 | **Exact Cost Reversing Mandatory = On** | Almost always. Forces sales returns to be cost-applied to the original shipment entry so the return re-enters inventory at the original cost, not current average/FIFO cost. | High-volume returns where staff cannot identify the original shipment (they must fill Appl.-from Item Entry); but the better fix is training, not turning it off. |
@@ -34,7 +34,7 @@ Covers the order-to-cash configuration in Business Central: Sales & Receivables 
 - Do your customers' POs have to appear on your invoices?
 - What is your returns volume, and can staff trace a return to the original shipment?
 
-**Interactions:** Exact cost reversing interacts directly with the [costing method](inventory.md#costing-method) — with Average or FIFO costing it is the only way returns don't distort margins. Shipment on Invoice conflicts with [warehouse shipment documents](warehouse.md#require-shipment). Default Posting Date pairs with [posting period controls](finance.md#allowed-posting-dates).
+**Interactions:** Exact cost reversing interacts directly with the [costing method](inventory.md#costing-method-per-item) — with Average or FIFO costing it is the only way returns don't distort margins. Shipment on Invoice conflicts with [warehouse shipment documents](warehouse.md#warehouse-document-flow-toggles). Default Posting Date pairs with [posting period controls](finance.md#general-ledger-setup-key-choices).
 
 **Add-on impact:** Aptean Food & Beverage ERP layers trade management (rebates, promotions, bill-backs) on top of the standard discount toggles; if the client is on Aptean F&B, decide the discount architecture there first — see [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -64,7 +64,7 @@ Covers the order-to-cash configuration in Business Central: Sales & Receivables 
 - What customer segments exist that differ in tax treatment, currency, or payment terms?
 - Is there an external MDM/CRM that should own customer master (Dataverse/D365 Sales sync in play)?
 
-**Interactions:** Templates carry the customer posting group and Gen. Bus. Posting Group — those must exist first; see [posting group architecture](finance.md#posting-groups). If Dynamics 365 Sales integration is on, decide the system of record before go-live. Customer price group / discount group fields feed the [pricing model](#sales-pricing-model-price-lists-vs-legacy).
+**Interactions:** Templates carry the customer posting group and Gen. Bus. Posting Group — those must exist first; see [posting group architecture](finance.md#customer-and-vendor-posting-groups). If Dynamics 365 Sales integration is on, decide the system of record before go-live. Customer price group / discount group fields feed the [pricing model](#sales-pricing-model-price-lists-vs-legacy-sales-prices-discount-hierarchy).
 
 **Add-on impact:** Aptean F&B adds food-trade attributes (delivery schedules, route codes, trade agreement links) to the customer card; extend the templates accordingly — see [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -123,7 +123,7 @@ Discount hierarchy to explain to the client: **unit price** (best price wins amo
 | Order → post Ship+Invoice in one action | Small traders, counter sales, full shipments only. Enforce per user via Invoice Posting Policy if some roles may ship but not invoice. | Clients that combine multiple shipments per invoice, or where warehouse posts shipments. |
 | Sales Invoice document directly (no order) | Services, recurring fees, miscellaneous charges. | Anything needing partial delivery tracking or warehouse handling. |
 | **Blanket order** → releases as linked sales orders | Framework agreements: agreed quantity/price over a period, called off in parts. Gives commitment visibility and price lock. | Don't use blanket orders as a pricing tool — that's what price lists with ending dates are for. Note over-receipt logic and some promising features don't apply to blanket-linked orders. |
-| **Drop shipment** (Purchasing Code with Drop Shipment; vendor ships direct to customer) | Goods the client never wants to touch physically. Sales line links 1:1 to a purchase order; posting the purchase receipt posts the sales shipment; item never enters inventory quantity-wise on the client's floor but still flows through item ledger. | Items needing inspection/QA before customer receipt; lot-controlled goods where the client must record lot data they never see (painful — see [inventory.md](inventory.md#item-tracking)). |
+| **Drop shipment** (Purchasing Code with Drop Shipment; vendor ships direct to customer) | Goods the client never wants to touch physically. Sales line links 1:1 to a purchase order; posting the purchase receipt posts the sales shipment; item never enters inventory quantity-wise on the client's floor but still flows through item ledger. | Items needing inspection/QA before customer receipt; lot-controlled goods where the client must record lot data they never see (painful — see [inventory.md](inventory.md#item-tracking-lot--serial--package)). |
 | **Special order** (Purchasing Code with Special Order; goods come into own warehouse but are reserved hard to the sales order) | Customer-specific procurement that must not be consumed by other orders, but ships from own dock (consolidation with stock lines). | Standard stocked items — hard linking removes planning flexibility. |
 
 **Required client info:**
@@ -132,7 +132,7 @@ Discount hierarchy to explain to the client: **unit price** (best price wins amo
 - What share of sales is drop-shipped, and do those vendors confirm shipment dates reliably?
 - Should order entry staff be able to invoice? (Invoice Posting Policy per user.)
 
-**Interactions:** Drop shipments and special orders require the purchasing side configured identically — see [purchasing.md — Drop shipment / special order](purchasing.md#drop-shipment--special-order-purchasing-side). Ship-then-invoice separation depends on [warehouse document choice](warehouse.md#require-shipment). Combine Shipments affects customer statement/invoicing cadence in [finance.md](finance.md#receivables-management).
+**Interactions:** Drop shipments and special orders require the purchasing side configured identically — see [purchasing.md — Drop shipment / special order](purchasing.md#drop-shipment--special-order--purchasing-side). Ship-then-invoice separation depends on [warehouse document choice](warehouse.md#warehouse-document-flow-toggles). Combine Shipments affects customer statement/invoicing cadence in [finance.md](finance.md#payment-terms-payment-methods-reminders-and-finance-charges).
 
 **Add-on impact:** Aptean F&B adds catch-weight and delivery-trip handling into the order flow; order line UoM/weight behavior changes materially — see [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -156,7 +156,7 @@ Discount hierarchy to explain to the client: **unit price** (best price wins amo
 | Minimal: shipment methods only, no agents, no handling times | Service clients; goods clients where delivery dates are managed by phone and gut feel (be honest about this in scoping). | Anyone who later wants reliable Planned Delivery Dates — retro-fitting handling/shipping times invalidates open-order dates. |
 | Full date setup: agents + services with shipping time, outbound handling time per location | Distribution clients quoting delivery dates to customers; prerequisite for meaningful ATP. | Overkill if all shipping is "next truck, same day". |
 | **ATP (Available-to-Promise)** on demand from the order line | Checks unreserved inventory + scheduled receipts to validate/compute the earliest ship date. Good default for stocked goods. | Items with heavy reservations (ATP sees only unreserved qty) or made-to-order items with no scheduled supply — dates come back blank. |
-| **CTP (Capable-to-Promise)** | Make/buy-to-order: simulates the earliest date if the item were produced/purchased/transferred now; accepting the date creates requisition lines and a reservation. | Clients without planning discipline: CTP silently creates requisition worksheet lines and reservations that someone must own; if no one runs the [requisition process](purchasing.md#requisition-flow-quotesorders-vs-requisition-worksheet-vs-planning-worksheet), CTP promises rot. Also calculation-heavy. |
+| **CTP (Capable-to-Promise)** | Make/buy-to-order: simulates the earliest date if the item were produced/purchased/transferred now; accepting the date creates requisition lines and a reservation. | Clients without planning discipline: CTP silently creates requisition worksheet lines and reservations that someone must own; if no one runs the [requisition process](purchasing.md#requisition-flow-manual-quotesorders-vs-requisition-worksheet-vs-planning-worksheet), CTP promises rot. Also calculation-heavy. |
 
 **Required client info:**
 - Do you promise delivery dates at order entry, and how do you calculate them today?
@@ -164,7 +164,7 @@ Discount hierarchy to explain to the client: **unit price** (best price wins amo
 - How long from pick release to truck (outbound handling time), per location?
 - For out-of-stock items: quote a lead-time date (CTP) or just say "backordered"?
 
-**Interactions:** Handling times sit on Locations — coordinate with [warehouse.md](warehouse.md#location-setup). CTP writes into the requisition worksheet — coordinate ownership with [purchasing.md](purchasing.md#requisition-flow-quotesorders-vs-requisition-worksheet-vs-planning-worksheet). Reservation policy on items ([inventory.md](inventory.md#reservations)) directly changes ATP results. The Sales Order Agent (Copilot) uses this same Order Promising Setup if the client adopts it.
+**Interactions:** Handling times sit on Locations — coordinate with [warehouse.md](warehouse.md#location-design). CTP writes into the requisition worksheet — coordinate ownership with [purchasing.md](purchasing.md#requisition-flow-manual-quotesorders-vs-requisition-worksheet-vs-planning-worksheet). Reservation policy on items ([inventory.md](inventory.md)) directly changes ATP results. The Sales Order Agent (Copilot) uses this same Order Promising Setup if the client adopts it.
 
 **Add-on impact:** Aptean F&B route/delivery-trip planning typically supersedes plain shipping-agent dates for DSD-style distribution — see [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -196,7 +196,7 @@ Discount hierarchy to explain to the client: **unit price** (best price wins amo
 - What needs a second pair of eyes: all orders, orders over a threshold, discounts over a %, or only credit memos?
 - Who are approvers and substitutes, and do they work in BC or only in email/Teams?
 
-**Interactions:** Approval limits are LCY — multi-currency clients see limits applied to converted amounts ([finance.md](finance.md#currencies)). Credit memo approvals complement [Exact Cost Reversing](#sales--receivables-setup--key-toggles) as return controls. Purchase-side approvals share the same Approval User Setup — configure both at once, see [purchasing.md](purchasing.md#purchase-approval-workflows--amount-limits).
+**Interactions:** Approval limits are LCY — multi-currency clients see limits applied to converted amounts ([finance.md](finance.md#currencies-and-exchange-rate-handling)). Credit memo approvals complement [Exact Cost Reversing](#sales--receivables-setup--key-toggles) as return controls. Purchase-side approvals share the same Approval User Setup — configure both at once, see [purchasing.md](purchasing.md#purchase-approval-workflows--amount-limits).
 
 **Add-on impact:** Aptean F&B trade-management deductions and rebates change what "commissionable revenue" means; align commission reporting with the trade ledger — see [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -226,7 +226,7 @@ Discount hierarchy to explain to the client: **unit price** (best price wins amo
 - Should the system *block* shipment/invoice until the prepayment is settled (Check Prepmt. when Posting)?
 - One deposit per order or staged prepayments?
 
-**Interactions:** Requires prepayment G/L accounts and possibly separate VAT product posting groups for 100% cases — coordinate with [posting groups](finance.md#posting-groups) and [VAT setup](finance.md#vat-posting-setup); unrealized VAT regimes add setup. Prepayment invoices post through the normal number series — reserve dedicated series. Purchase-side twin: [purchasing.md — Prepayments](purchasing.md#prepayments-on-purchase).
+**Interactions:** Requires prepayment G/L accounts and possibly separate VAT product posting groups for 100% cases — coordinate with [posting groups](finance.md#customer-and-vendor-posting-groups) and [VAT setup](finance.md#vat-posting-setup); unrealized VAT regimes add setup. Prepayment invoices post through the normal number series — reserve dedicated series. Purchase-side twin: [purchasing.md — Prepayments](purchasing.md#prepayments-on-purchase).
 
 **Add-on impact:** None known.
 
@@ -254,9 +254,9 @@ Discount hierarchy to explain to the client: **unit price** (best price wins amo
 **Required client info:**
 - Which group entities trade with each other, on which system, and at what volume?
 - Transfer-pricing rules (who sets IC prices — a dedicated IC price list?).
-- Consolidation approach and IC elimination requirements (see [finance.md](finance.md#consolidation--intercompany)).
+- Consolidation approach and IC elimination requirements (see [finance.md](general-setup.md#company-structure-one-company-vs-many)).
 
-**Interactions:** IC COA/dimension mapping depends on [chart of accounts and dimension design](finance.md#dimensions) being stable in both companies first. IC customers still need posting groups from [templates](#customer-templates--customer-master-data-governance) — use a dedicated IC segment.
+**Interactions:** IC COA/dimension mapping depends on [chart of accounts and dimension design](general-setup.md#dimensions-architecture-global-vs-shortcut) being stable in both companies first. IC customers still need posting groups from [templates](#customer-templates--customer-master-data-governance) — use a dedicated IC segment.
 
 **Add-on impact:** None known specific to IC; verify Aptean F&B document extensions survive the IC document transfer if both entities run it — see [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
 

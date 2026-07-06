@@ -4,7 +4,7 @@
 > **Last reviewed:** 2026-07
 > **Maintainer note:** Update this file when the vendor releases functional changes to this area.
 
-Inventory covers everything on the item master and the company-wide costing engine: how items are identified, costed, tracked, replenished and counted. It is in scope for virtually every BC client that holds stock — even service-heavy clients usually carry some parts. The decisions here are among the most irreversible in the whole system: costing method and base unit of measure lock in once the first item ledger entry posts. Get these right in the design workshop, not during UAT. Physical handling (locations, bins, picks) lives in [warehouse.md](warehouse.md); the G/L side of inventory value lives in [finance.md](finance.md#inventory-posting-setup).
+Inventory covers everything on the item master and the company-wide costing engine: how items are identified, costed, tracked, replenished and counted. It is in scope for virtually every BC client that holds stock — even service-heavy clients usually carry some parts. The decisions here are among the most irreversible in the whole system: costing method and base unit of measure lock in once the first item ledger entry posts. Get these right in the design workshop, not during UAT. Physical handling (locations, bins, picks) lives in [warehouse.md](warehouse.md); the G/L side of inventory value lives in [finance.md](finance.md#inventory-posting-groups-and-inventory-posting-setup).
 
 ---
 
@@ -19,7 +19,7 @@ Inventory covers everything on the item master and the company-wide costing engi
 |---|---|---|
 | **Automatic Cost Posting = On** (default) | Almost all SMB clients; G/L inventory value is always current and reconciles without ritual | Very high transaction volumes where per-posting G/L writes hurt performance — then post via the *Post Inventory Cost to G/L* batch job on the job queue |
 | **Automatic Cost Posting = Off** + scheduled batch job | High-volume clients; controlled month-end process with a finance team that understands the reconciliation | Small clients with no job-queue discipline — the G/L drifts from the inventory subledger and nobody notices until year-end |
-| **Expected Cost Posting to G/L = On** | Clients who receive/ship well before invoicing and want interim accruals visible in the G/L (accrual-strict finance teams, audit requirements) | Clients who invoice same-day; it adds interim accounts to maintain in [Inventory Posting Setup](finance.md#inventory-posting-setup) and confuses weaker finance teams |
+| **Expected Cost Posting to G/L = On** | Clients who receive/ship well before invoicing and want interim accruals visible in the G/L (accrual-strict finance teams, audit requirements) | Clients who invoice same-day; it adds interim accounts to maintain in [Inventory Posting Setup](finance.md#inventory-posting-groups-and-inventory-posting-setup) and confuses weaker finance teams |
 | **Automatic Cost Adjustment = Always** (default) | New and low-volume clients: unit costs, COGS and profit stats always correct at posting time | Growing transaction volume — adjustment at posting time slows the system down |
 | **Automatic Cost Adjustment = Month/Quarter (time-window)** | Mid-size clients: late item charges within the window still auto-adjust; older ones wait for the batch job | Clients who never schedule *Adjust Cost – Item Entries* — anything outside the window silently stays unadjusted |
 | **Automatic Cost Adjustment = Never** + scheduled *Adjust Cost – Item Entries* | High-volume clients with a nightly job queue | Anyone without the job queue set up — margins will be wrong all month |
@@ -31,7 +31,7 @@ Inventory covers everything on the item master and the company-wide costing engi
 - Is there anyone who will own a job queue, or must everything be automatic?
 - For Average items: should the same item cost differently per warehouse?
 
-**Interactions:** Expected Cost Posting requires interim accounts in [Inventory Posting Setup and General Posting Setup](finance.md#inventory-posting-setup). Cost adjustment timing directly determines when [item charges](#item-charges-landed-costs) land in COGS. Average settings only matter for items using the Average [costing method](#costing-method-per-item).
+**Interactions:** Expected Cost Posting requires interim accounts in [Inventory Posting Setup and General Posting Setup](finance.md#inventory-posting-groups-and-inventory-posting-setup). Cost adjustment timing directly determines when [item charges](#item-charges-landed-costs) land in COGS. Average settings only matter for items using the Average [costing method](#costing-method-per-item).
 
 **Add-on impact:** Aptean Food & Beverage adds heavy item-cost machinery (catch weight, commodity pricing) that assumes disciplined cost adjustment — see [Aptean F&B overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -54,7 +54,7 @@ Inventory covers everything on the item master and the company-wide costing engi
 |---|---|---|
 | **FIFO** | Stable product costs; shelf-life goods (oldest sold first); the safe default for distribution | Highly volatile purchase prices where average smoothing is wanted |
 | **Average** | Volatile costs; bulk/commingled goods (chemicals, liquids, grain) that can't be differentiated | Clients who want entry-level cost traceability per receipt; note the average-cost-period settings then matter |
-| **Standard** | Repetitive manufacturing wanting variance analysis; cost-control culture with staff to maintain standards | Clients without the discipline to maintain and roll up standard costs — stale standards produce garbage variances. See [manufacturing.md](manufacturing.md#standard-cost-and-variances) |
+| **Standard** | Repetitive manufacturing wanting variance analysis; cost-control culture with staff to maintain standards | Clients without the discipline to maintain and roll up standard costs — stale standards produce garbage variances. See [manufacturing.md](manufacturing.md#standard-cost-vs-actual-costing-for-manufactured-items) |
 | **Specific** | High-value serialized items (machines, vehicles); regulated goods where the exact unit's cost must follow it | Anything not serial-tracked — requires SN-specific item tracking on inbound *and* outbound |
 | **LIFO** | Rarely; only where the jurisdiction allows it and inventory levels are stable/growing | Disallowed under IFRS and in many countries — check the client's accounting framework first |
 
@@ -65,7 +65,7 @@ Inventory covers everything on the item master and the company-wide costing engi
 - Are any items serialized and high-value?
 - What does the legacy system use, and does the opening balance strategy match?
 
-**Interactions:** Standard cost ties into [manufacturing BOM roll-up](manufacturing.md#standard-cost-and-variances); Specific requires [SN-specific item tracking](#item-tracking-lot--serial--package); Average behaviour is tuned by the [Inventory Setup toggles](#inventory-setup-key-toggles); posted cost reaches the G/L via [inventory posting groups](finance.md#inventory-posting-groups). Lot-tracked items do **not** need Specific costing — item tracking and costing method are independent.
+**Interactions:** Standard cost ties into [manufacturing BOM roll-up](manufacturing.md#standard-cost-vs-actual-costing-for-manufactured-items); Specific requires [SN-specific item tracking](#item-tracking-lot--serial--package); Average behaviour is tuned by the [Inventory Setup toggles](#inventory-setup-key-toggles); posted cost reaches the G/L via [inventory posting groups](finance.md#inventory-posting-groups-and-inventory-posting-setup). Lot-tracked items do **not** need Specific costing — item tracking and costing method are independent.
 
 **Add-on impact:** Aptean F&B clients (catch weight, commodities) almost always land on FIFO or Average; verify Aptean module assumptions in [Aptean F&B overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -96,7 +96,7 @@ Inventory covers everything on the item master and the company-wide costing engi
 - What does the client want to report margin by — category, attribute, brand?
 - Who owns master data creation, and can templates enforce their standards?
 
-**Interactions:** Categories default posting groups — align with [finance posting group design](finance.md#inventory-posting-groups). Variants interact with [Average Cost Calc. Type](#inventory-setup-key-toggles) and can carry their own [SKUs](#stockkeeping-units-skus). Attributes matter for [sales-side catalogue and pricing](sales.md#pricing-and-discounts) but do not drive posting.
+**Interactions:** Categories default posting groups — align with [finance posting group design](finance.md#inventory-posting-groups-and-inventory-posting-setup). Variants interact with [Average Cost Calc. Type](#inventory-setup-key-toggles) and can carry their own [SKUs](#stockkeeping-units-skus). Attributes matter for [sales-side catalogue and pricing](sales.md#sales-pricing-model-price-lists-vs-legacy-sales-prices-discount-hierarchy) but do not drive posting.
 
 **Add-on impact:** Aptean F&B extends the item model substantially (catch weight units, quality attributes) — see [Aptean F&B overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -127,7 +127,7 @@ Inventory covers everything on the item master and the company-wide costing engi
 - Any variable-weight products (meat, cheese, produce)? — standard UoM cannot represent price-per-kg against count-based stock; that needs an add-on
 - Rounding expectations: will fractional base quantities ever be legitimate?
 
-**Interactions:** Base UoM is the unit of [cost](#costing-method-per-item) and of every availability figure the [planning engine](#replenishment--planning-parameters) sees. Warehouse UoM/break-bulk behaviour in directed put-away and pick depends on item UoM setup — see [warehouse.md](warehouse.md#bin-setup-zones-bin-codes-rankings). Sales UoM defaults flow into [sales documents and price lists](sales.md#pricing-and-discounts).
+**Interactions:** Base UoM is the unit of [cost](#costing-method-per-item) and of every availability figure the [planning engine](#replenishment--planning-parameters) sees. Warehouse UoM/break-bulk behaviour in directed put-away and pick depends on item UoM setup — see [warehouse.md](warehouse.md#bin-setup-zones-bin-codes-rankings). Sales UoM defaults flow into [sales documents and price lists](sales.md#sales-pricing-model-price-lists-vs-legacy-sales-prices-discount-hierarchy).
 
 **Add-on impact:** Catch weight (dual UoM: pieces + actual kg) is a flagship Aptean F&B extension — see [Aptean F&B overview](../../addons/aptean-food-beverage/overview.md). Do not fake it with decimal conversions in standard BC.
 
@@ -206,7 +206,7 @@ Inventory covers everything on the item master and the company-wide costing engi
 
 ## Replenishment & planning parameters
 
-**Where:** Item Card / SKU Card **Planning** FastTab (Reordering Policy, Reorder Point, Reorder/Maximum Quantity, Safety Stock, Safety Lead Time, Time Bucket, Rescheduling/Lot Accumulation/Dampener periods, order modifiers); **Requisition Worksheet** and **Planning Worksheet**; MPS/MRP toggles in [Manufacturing Setup](manufacturing.md#manufacturing-setup).
+**Where:** Item Card / SKU Card **Planning** FastTab (Reordering Policy, Reorder Point, Reorder/Maximum Quantity, Safety Stock, Safety Lead Time, Time Bucket, Rescheduling/Lot Accumulation/Dampener periods, order modifiers); **Requisition Worksheet** and **Planning Worksheet**; MPS/MRP toggles in [Manufacturing Setup](manufacturing.md#manufacturing-setup--key-toggles).
 **What it controls:** Whether and how the planning engine proposes purchases, transfers and production: blank policy = not planned; the four policies each imply a different philosophy of when and how much to reorder.
 
 **Options:**
@@ -225,10 +225,10 @@ Safety Stock covers demand variability; Safety Lead Time covers supply timing va
 - Which items are stock-driven vs order-driven? (usually an ABC split)
 - Reliable demand history/forecast, or reorder-point gut feel?
 - Supplier lead times and their variability; MOQs and order multiples per vendor
-- Will manufacturing use MPS with a demand forecast, MRP, or both? (see [manufacturing.md](manufacturing.md#mps-mrp-scope))
+- Will manufacturing use MPS with a demand forecast, MRP, or both? (see [manufacturing.md](manufacturing.md#planning-setup-mps-vs-mrp-parameters-forecasts))
 - Who runs the worksheet, how often, and will they actually review action messages?
 
-**Interactions:** Location-specific parameters require [SKUs](#stockkeeping-units-skus); reorder-point policies clash with reservations (set Reserve = Never on those items) and with forecasts (use Lot-for-Lot instead); planning respects [location and transfer structures](warehouse.md#location-design) and [UoM order multiples](#units-of-measure-design). Components planned for production tie to [manufacturing policy Make-to-Stock/Make-to-Order](manufacturing.md#manufacturing-setup).
+**Interactions:** Location-specific parameters require [SKUs](#stockkeeping-units-skus); reorder-point policies clash with reservations (set Reserve = Never on those items) and with forecasts (use Lot-for-Lot instead); planning respects [location and transfer structures](warehouse.md#location-design) and [UoM order multiples](#units-of-measure-design). Components planned for production tie to [manufacturing policy Make-to-Stock/Make-to-Order](manufacturing.md#manufacturing-setup--key-toggles).
 
 **Add-on impact:** Aptean F&B adds shelf-life-aware planning behaviours — see [Aptean F&B overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -259,7 +259,7 @@ Safety Stock covers demand variability; Safety Lead Time covers supply timing va
 - Allocation basis: amount, weight, volume, or equally?
 - Who processes the freight vendor's invoice, and will they know which receipts to assign to?
 
-**Interactions:** Late charges reach COGS only through [cost adjustment](#inventory-setup-key-toggles) — a Never/short-window setting plus no batch job means landed cost never lands. Charge postings follow [general posting setup](finance.md#general-posting-setup). Direct transfers restrict charge assignment to transfer receipts — see [warehouse.md](warehouse.md#transfer-orders-vs-direct-transfers).
+**Interactions:** Late charges reach COGS only through [cost adjustment](#inventory-setup-key-toggles) — a Never/short-window setting plus no batch job means landed cost never lands. Charge postings follow [general posting setup](finance.md#general-posting-setup-matrix). Direct transfers restrict charge assignment to transfer receipts — see [warehouse.md](warehouse.md#transfer-orders-vs-direct-transfers).
 
 **Add-on impact:** None known specific to Aptean F&B beyond standard usage — see [Aptean F&B overview](../../addons/aptean-food-beverage/overview.md). Dedicated landed-cost ISV apps exist for complex duty/container scenarios.
 
@@ -291,7 +291,7 @@ Safety Stock covers demand variability; Safety Lead Time covers supply timing va
 - Any directed put-away and pick locations (forces the warehouse journal at bin level)?
 - Item tracking density — counting lot/serial stock takes far longer; plan recording layout accordingly
 
-**Interactions:** Which journal you count in depends entirely on the [warehouse complexity level](warehouse.md#the-warehouse-complexity-ladder) — at directed locations you count bins in the warehouse journal and synchronize to item ledger entries. Count adjustments post through the accounts wired in [inventory posting setup](finance.md#inventory-posting-setup). Counting item-tracked stock interacts with [item tracking](#item-tracking-lot--serial--package).
+**Interactions:** Which journal you count in depends entirely on the [warehouse complexity level](warehouse.md#the-warehouse-complexity-ladder) — at directed locations you count bins in the warehouse journal and synchronize to item ledger entries. Count adjustments post through the accounts wired in [inventory posting setup](finance.md#inventory-posting-groups-and-inventory-posting-setup). Counting item-tracked stock interacts with [item tracking](#item-tracking-lot--serial--package).
 
 **Add-on impact:** Aptean F&B and most handheld/WMS ISVs replace paper recordings with scanner-driven counting — see [Aptean F&B overview](../../addons/aptean-food-beverage/overview.md) and [barcode readiness](warehouse.md#barcode--handheld-readiness).
 

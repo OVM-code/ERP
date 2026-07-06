@@ -4,7 +4,7 @@
 > **Last reviewed:** 2026-07
 > **Maintainer note:** Update this file when the vendor releases functional changes to this area.
 
-Warehouse covers the physical handling layer: locations, bins, and the document flows (receipts, put-aways, picks, shipments, movements) between posting an order and touching a box. It is in scope whenever a client stores goods — the real question is *how much* of it to switch on. The single most consequential decision is the complexity level per location: it determines which documents users live in every day, and changing it on a location with open activity and stock is genuinely disruptive. Item master and costing decisions live in [inventory.md](inventory.md); G/L wiring in [finance.md](finance.md#inventory-posting-setup).
+Warehouse covers the physical handling layer: locations, bins, and the document flows (receipts, put-aways, picks, shipments, movements) between posting an order and touching a box. It is in scope whenever a client stores goods — the real question is *how much* of it to switch on. The single most consequential decision is the complexity level per location: it determines which documents users live in every day, and changing it on a location with open activity and stock is genuinely disruptive. Item master and costing decisions live in [inventory.md](inventory.md); G/L wiring in [finance.md](finance.md#inventory-posting-groups-and-inventory-posting-setup).
 
 ---
 
@@ -28,7 +28,7 @@ Warehouse covers the physical handling layer: locations, bins, and the document 
 - Do different sites need different address/document defaults (responsibility centres) or just different stock (locations)?
 - Any site expected to need bins or WMS-grade handling later? (Design its location code now, complexity later)
 
-**Interactions:** Every location × posting-group combination needs a row in [Inventory Posting Setup](finance.md#inventory-posting-setup). Per-location planning needs [SKUs](inventory.md#stockkeeping-units-skus). Each location independently picks a rung on the [complexity ladder](#the-warehouse-complexity-ladder). Transfers between locations: [transfer orders vs direct transfers](#transfer-orders-vs-direct-transfers).
+**Interactions:** Every location × posting-group combination needs a row in [Inventory Posting Setup](finance.md#inventory-posting-groups-and-inventory-posting-setup). Per-location planning needs [SKUs](inventory.md#stockkeeping-units-skus). Each location independently picks a rung on the [complexity ladder](#the-warehouse-complexity-ladder). Transfers between locations: [transfer orders vs direct transfers](#transfer-orders-vs-direct-transfers).
 
 **Add-on impact:** None known beyond standard — see [Aptean F&B overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -62,7 +62,7 @@ Warehouse covers the physical handling layer: locations, bins, and the document 
 - Inventory accuracy today and appetite for master-data upkeep (bin rankings, capacities)?
 - Scanning hardware planned? ([barcode readiness](#barcode--handheld-readiness))
 
-**Interactions:** Level determines everything downstream: [bin setup](#bin-setup-zones-bin-codes-rankings), [which journals adjust stock](#item-journal-vs-warehouse-journal-per-level), [counting method](inventory.md#inventory-counting), production/assembly/project handling fields (Prod. Consumption/Output Whse. Handling — coordinate with [manufacturing.md](manufacturing.md#production-warehouse-handling)), and FEFO picking which also needs [warehouse item tracking](inventory.md#item-tracking-lot--serial--package).
+**Interactions:** Level determines everything downstream: [bin setup](#bin-setup-zones-bin-codes-rankings), [which journals adjust stock](#item-journal-vs-warehouse-journal-per-level), [counting method](inventory.md#inventory-counting), production/assembly/project handling fields (Prod. Consumption/Output Whse. Handling — coordinate with [manufacturing.md](manufacturing.md#flushing-methods-manual-vs-forward-vs-backward-vs-pick)), and FEFO picking which also needs [warehouse item tracking](inventory.md#item-tracking-lot--serial--package).
 
 **Add-on impact:** Aptean F&B and handheld ISVs typically assume level (b) or (c) with bins and add scanning on top; full directed (d) plus ISV verticals needs compatibility checking — see [Aptean F&B overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -95,7 +95,7 @@ Bin coding: mirror the physical walk sequence (aisle-rack-level, e.g. `A-01-3`) 
 - Segregation needs: temperature zones, hazmat, quarantine?
 - Who will own bin master data and bin-content accuracy?
 
-**Interactions:** Bin Mandatory is forced by [Directed Put-away and Pick](#the-warehouse-complexity-ladder) and cannot be enabled while the location has open item ledger entries — sequence it at cutover. FEFO by bin requires warehouse [item tracking](inventory.md#item-tracking-lot--serial--package). Bin-level stock lives in warehouse entries — see [item vs warehouse journal](#item-journal-vs-warehouse-journal-per-level). Production input/output bins coordinate with [manufacturing.md](manufacturing.md#production-warehouse-handling).
+**Interactions:** Bin Mandatory is forced by [Directed Put-away and Pick](#the-warehouse-complexity-ladder) and cannot be enabled while the location has open item ledger entries — sequence it at cutover. FEFO by bin requires warehouse [item tracking](inventory.md#item-tracking-lot--serial--package). Bin-level stock lives in warehouse entries — see [item vs warehouse journal](#item-journal-vs-warehouse-journal-per-level). Production input/output bins coordinate with [manufacturing.md](manufacturing.md#flushing-methods-manual-vs-forward-vs-backward-vs-pick).
 
 **Add-on impact:** Aptean F&B leans on bins/zones for quality-status and temperature segregation — see [Aptean F&B overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -129,7 +129,7 @@ Bin coding: mirror the physical walk sequence (aisle-rack-level, e.g. `A-01-3`) 
 - Are partial receipts/shipments and cross-order consolidation needed?
 - Which flows must block direct posting by office users? (At basic levels the block is training + permissions, not the toggle itself)
 
-**Interactions:** Combinations must be consistent with the location's [ladder level](#the-warehouse-complexity-ladder); production/assembly handling fields must match the [manufacturing design](manufacturing.md#production-warehouse-handling); shipments integrate with [sales order processing and shipping agents](sales.md#order-fulfilment). Transfers respect these toggles too — see [transfer orders](#transfer-orders-vs-direct-transfers).
+**Interactions:** Combinations must be consistent with the location's [ladder level](#the-warehouse-complexity-ladder); production/assembly handling fields must match the [manufacturing design](manufacturing.md#flushing-methods-manual-vs-forward-vs-backward-vs-pick); shipments integrate with [sales order processing and shipping agents](sales.md#order-handling-flow-quote--order--ship--invoice-blanket-orders-drop-shipments-special-orders). Transfers respect these toggles too — see [transfer orders](#transfer-orders-vs-direct-transfers).
 
 **Add-on impact:** Handheld ISVs and Aptean F&B drive their scanner transactions off these documents — the toggle design is effectively the scanner-workflow design; see [Aptean F&B overview](../../addons/aptean-food-beverage/overview.md).
 
@@ -189,7 +189,7 @@ Bin coding: mirror the physical walk sequence (aisle-rack-level, e.g. `A-01-3`) 
 - Who is allowed to make stock corrections, and do they understand the two-step at directed sites?
 - How are opening balances loaded per location type (item journal vs warehouse journal with full tracking fields)?
 
-**Interactions:** Entirely driven by the [complexity ladder](#the-warehouse-complexity-ladder); counting equivalents in [inventory.md — Inventory counting](inventory.md#inventory-counting); adjustment postings hit the accounts from [inventory posting setup](finance.md#inventory-posting-setup); item-tracked adjustments follow [item tracking rules](inventory.md#item-tracking-lot--serial--package).
+**Interactions:** Entirely driven by the [complexity ladder](#the-warehouse-complexity-ladder); counting equivalents in [inventory.md — Inventory counting](inventory.md#inventory-counting); adjustment postings hit the accounts from [inventory posting setup](finance.md#inventory-posting-groups-and-inventory-posting-setup); item-tracked adjustments follow [item tracking rules](inventory.md#item-tracking-lot--serial--package).
 
 **Add-on impact:** None known beyond scanner ISVs surfacing these journals on devices — see [Aptean F&B overview](../../addons/aptean-food-beverage/overview.md).
 
