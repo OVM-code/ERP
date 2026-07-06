@@ -22,13 +22,18 @@ the Copilot Studio agent. Expect ~30 minutes for first setup, minutes for update
    - Ensure **generative orchestration / generative answers** is enabled so the agent
      actually searches the knowledge sources.
 3. **Add knowledge sources:** *Knowledge → Add* → your SharePoint library (or uploaded
-   files). Add ALL of: `knowledge/`, `clients/`, `expertise/`. Without the clients and
+   files). Add ALL of: `knowledge/`, `clients/`, `expertise/`, and `system/update-check-log.md`
+   (needed for the daily freshness throttle — see below). Without the clients and
    expertise folders the agent loses its memory layer.
-4. **Test in the built-in test pane** with a real question, e.g. *"Client X, food
+4. **Optional — enable web grounding** so the freshness check in step 3 of the workflow
+   can actually reach Microsoft Learn / vendor release notes: *Knowledge → Add → Public
+   websites*, or enable the built-in web search capability if your tenant allows it.
+   Without this, the agent will skip freshness checks and say so.
+5. **Test in the built-in test pane** with a real question, e.g. *"Client X, food
    distributor with Aptean lot management — what are my options for warehouse
    complexity level and what do you recommend?"* Check that it cites knowledge files
    and lessons.
-5. **Publish** to the channels you want (Teams is the usual one: *Channels →
+6. **Publish** to the channels you want (Teams is the usual one: *Channels →
    Microsoft Teams → Publish*).
 
 ## Keeping it in sync (the maintenance loop)
@@ -39,6 +44,7 @@ the Copilot Studio agent. Expect ~30 minutes for first setup, minutes for update
 | New SDR or intake created during a Copilot Studio chat | The agent outputs it as a copy-paste block → save it in the repo (`clients/<client>/decisions/`) → commit → copy to SharePoint. |
 | New lesson learned | Same: save in `expertise/lessons-learned.md`, commit, copy to SharePoint. |
 | `system/instructions.md` changed | Regenerate `copilot-studio/agent-instructions.md` (condensed, ≤8,000 chars) and re-paste into the agent's Instructions field. |
+| Freshness check produced a log row / knowledge edit during a Copilot Studio chat | The agent hands back a log row and a proposed edit as copy-paste text (it can't write files) → apply both in the repo, commit, copy to SharePoint. |
 
 Git remains the audit trail: commit every change here first, then sync outward.
 
@@ -51,6 +57,14 @@ Git remains the audit trail: commit every change here first, then sync outward.
   knowledge files are written with self-contained decision blocks so this works, but
   very long cross-file reasoning is stronger on Claude.
 - Instructions are capped (8,000 chars) — hence the condensed copy.
+- The daily freshness throttle relies on the agent both reading *and adding to*
+  `update-check-log.md`. Since it can't write files, it hands you the log row to add
+  yourself — if you skip pasting it back, the agent will re-run the freshness check on
+  the next question instead of once a day. Harmless (just an extra search), not a
+  correctness issue.
+- The freshness check itself needs web/search grounding enabled (step 4 above) — without
+  it, Copilot Studio can only react to what the consultant tells it, same as the
+  baseline reactive behaviour.
 
 ## Cost note
 

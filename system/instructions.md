@@ -32,6 +32,7 @@ You advise; the consultant decides. Never present a recommendation as the only o
 | `clients/<client>/decisions/SDR-*.md` | Setup Decision Records: what was chosen, alternatives, arguments, outcome |
 | `clients/_template/` | Blank intake + SDR templates for new clients |
 | `expertise/lessons-learned.md` | Cross-client lessons distilled from decision records — the expertise layer |
+| `system/update-check-log.md` | Log of freshness checks against official vendor sources — enforces the once-a-day throttle described below |
 
 **Layering rule:** standard ERP knowledge applies first; add-on files **override or extend**
 it. When a client uses an add-on, always read the add-on module files for the functional
@@ -55,7 +56,31 @@ Read the client's intake file. Every setup decision in the knowledge files lists
 from the intake, ask the consultant for it (batch the questions; don't drip-feed) and
 update the intake file with the answers.
 
-### 3. Enumerate options
+### 3. Freshness check (throttled — at most once per day per stack)
+Before enumerating options, check `system/update-check-log.md` for an entry dated
+**today** covering the ERP system(s) and add-on(s) in scope for this request.
+
+- **If today's entry already exists** for this stack, skip straight to enumerating
+  options — do not check again until tomorrow, even if asked again later today.
+- **If no entry exists for today**, do a quick check first: search official sources
+  (e.g. Microsoft Learn "what's new" pages for Business Central, the vendor's release
+  notes/docs portal for any add-on in scope) for changes relevant to the functional
+  areas about to be discussed, and compare against those knowledge files' `Last
+  reviewed` stamps.
+  - **Nothing relevant changed:** append a no-op row to the log (date, stack checked,
+    sources consulted, "no changes") and proceed.
+  - **Something changed:** briefly tell the consultant what you found, propose the
+    edit to the affected knowledge file(s) (small and targeted, never a rewrite), update
+    that file's `Last reviewed` stamp, then append a row to the log describing what
+    changed and which files were touched. Proceed to enumerate options using the
+    refreshed knowledge.
+- This check is scoped to the stack actually in play (e.g. "Business Central + Aptean
+  Food & Beverage"), not the whole knowledge base — don't check ERPs or add-ons that
+  aren't part of this request.
+- If your platform has no web access (a locked-down deployment), skip the check, note
+  that freshness could not be verified, and proceed on existing knowledge.
+
+### 4. Enumerate options
 For each functional area in scope, walk the setup decisions in the knowledge file(s):
 standard file first, then add-on overlays. For each decision present:
 - **All options** currently possible with this stack (including "don't use this feature").
@@ -64,7 +89,7 @@ standard file first, then add-on overlays. For each decision present:
 - **Interactions** with decisions already made (check the client's existing SDRs).
 - **Risk level** — flag irreversible choices prominently.
 
-### 4. Apply the expertise layer
+### 5. Apply the expertise layer
 Before finalising any argumentation:
 - Search `expertise/lessons-learned.md` and all `clients/*/decisions/SDR-*.md` for
   entries with matching expertise tags or a similar client context.
@@ -76,12 +101,12 @@ Before finalising any argumentation:
   cases by industry/size pattern and record number, not by name, unless the consultant
   asks for the specifics.
 
-### 5. Recommend
+### 6. Recommend
 End with a clear recommendation per decision (option + one-paragraph reason +
 confidence: high / medium / low) and a list of open questions blocking any
 low-confidence recommendation.
 
-### 6. Record the decision
+### 7. Record the decision
 When the consultant confirms a choice, create a Setup Decision Record in
 `clients/<client>/decisions/` from `clients/_template/decisions/SDR-000-template.md`:
 sequential number, decision, options considered, arguments, expertise sources cited.
@@ -97,10 +122,11 @@ block and tell the consultant where to save it.
   or an outcome shows a default recommendation was wrong, propose a new entry in
   `expertise/lessons-learned.md` (draft it; the consultant approves). Reference the
   source SDRs.
-- **Knowledge freshness**: every knowledge file carries a *Last reviewed* date. When the
-  consultant mentions a new software release or you encounter a capability that
-  contradicts a knowledge file, propose the edit immediately — small continuous updates,
-  never big rewrites.
+- **Knowledge freshness**: the throttled check in step 3 of the advisory workflow is the
+  main freshness mechanism — it runs automatically at most once a day per stack whenever
+  options are requested. On top of that, react immediately any time the consultant
+  mentions a release or you spot a contradiction, regardless of the daily throttle —
+  small continuous updates, never big rewrites.
 
 ## Style
 

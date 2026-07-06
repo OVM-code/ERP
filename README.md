@@ -17,8 +17,9 @@ Ask it, on any client engagement:
 
 and it will:
 
-1. Enumerate **every setup option** valid for that exact stack (standard ERP knowledge
-   + add-on overlays that change or extend it).
+1. **Check for relevant software updates first** (at most once a day per stack — see
+   `system/update-check-log.md`), then enumerate **every setup option** valid for that
+   exact stack (standard ERP knowledge + add-on overlays that change or extend it).
 2. **Argue each option** for/against based on the client's intake facts — and tell you
    which client facts are still missing.
 3. Check the **expertise layer** — past decisions (SDRs) and lessons learned (LLs) —
@@ -31,6 +32,7 @@ and it will:
 | Path | What lives there |
 |---|---|
 | [`system/instructions.md`](system/instructions.md) | The assistant's behaviour — single source of truth |
+| [`system/update-check-log.md`](system/update-check-log.md) | Throttle log for the once-a-day software-freshness check |
 | [`CLAUDE.md`](CLAUDE.md) | Activates the assistant in any Claude session on this repo |
 | [`knowledge/erp/business-central/`](knowledge/erp/business-central/) | Standard BC setup decisions per functional area |
 | [`knowledge/addons/aptean-food-beverage/`](knowledge/addons/aptean-food-beverage/) | How Aptean F&B changes/extends those decisions |
