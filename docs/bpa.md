@@ -27,6 +27,12 @@ relevant and enriched with how it will work for them**.
 
 ## The pipeline (what the assistant does)
 
+**Step 0a — Brief.** Before each workshop, generate a briefing pack in
+`bpa/briefings/` (format: `clients/_template/bpa/briefings/README.md`): known facts,
+hypothesis scope per catalog scenario, numbered questions, applicable lessons. Fork
+the industry pack (`bpa/packs/`) as the content starting point when one covers the
+client's vertical — keep the pack attribution line for the reuse metric.
+
 **Step 0 — Collect.** Drop meeting material in `clients/<slug>/bpa/inputs/`, one file
 per meeting (`YYYY-MM-DD-<topic>-<type>.md`). Text only — transcribe recordings first
 (Teams/Copilot/Whisper). Work with what exists: a verbatim transcript, rough notes, or

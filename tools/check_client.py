@@ -128,6 +128,16 @@ def check_designs(client: Path, gap_ids: set[str]) -> None:
         tst = doc_status(f)
         if tst not in ("draft", "in review", "approved"):
             err(f"{f.name}: Status ontbreekt of ongeldig: {tst!r}")
+    # AL scaffolds only from approved TGDs (human gate #3)
+    al_dir = gdir / "al"
+    if al_dir.is_dir():
+        for d in sorted(p for p in al_dir.iterdir() if p.is_dir()):
+            tgd = gdir / f"TGD-{d.name}.md"
+            tst = doc_status(tgd) if tgd.exists() else None
+            if tst != "approved":
+                err(f"gaps/al/{d.name}: scaffold vereist een goedgekeurde TGD-{d.name} (status {tst!r})")
+            else:
+                ok(f"gaps/al/{d.name}: scaffold met goedgekeurde TGD")
     if fgd_status:
         ok(f"gaps: {len(fgd_status)} FGD(s) — statussen {dict(sorted(fgd_status.items()))}")
 
@@ -300,6 +310,8 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("client")
     ap.add_argument("--strict", action="store_true", help="ook waarschuwingen doen falen (exit 2)")
+    ap.add_argument("--log", action="store_true",
+                    help="resultaat toevoegen aan clients/<slug>/checks.log.jsonl (telemetrie)")
     args = ap.parse_args()
     client = Path(args.client).resolve()
     if not client.is_dir():
@@ -321,6 +333,13 @@ def main() -> int:
     check_language(client)
 
     print(f"resultaat: {len(ERRORS)} fout(en), {len(WARNS)} waarschuwing(en)")
+    if args.log:
+        import datetime
+        entry = {"date": datetime.datetime.now().isoformat(timespec="seconds"),
+                 "errors": len(ERRORS), "warnings": len(WARNS),
+                 "detail": ERRORS + WARNS}
+        with open(client / "checks.log.jsonl", "a", encoding="utf-8") as fh:
+            fh.write(json.dumps(entry, ensure_ascii=False) + "\n")
     if ERRORS:
         return 1
     if WARNS and args.strict:

@@ -69,7 +69,9 @@ explicit pipelines + templates + validators — see
 | [`knowledge/_templates/`](knowledge/_templates/) | Templates to add any other ERP system or add-on |
 | [`clients/`](clients/) | One folder per client: intake + Setup Decision Records + BPA workspace |
 | [`bpa/`](bpa/) | BPA system: Cegeka Process Model template + scenario catalog, standard BPMN flows (bilingual), terminology glossary, interactive viewer |
-| [`tools/`](tools/) | `build_bpa.py` · `build_manual.py` · `check_client.py` (quality gates) · `split_bpa_template.py` |
+| [`tools/`](tools/) | `build_bpa.py` · `build_manual.py` · `build_quote.py` · `check_client.py` (quality gates) · `metrics.py` (telemetry) · `split_bpa_template.py` |
+| [`bpa/packs/`](bpa/packs/) · [`pricing/`](pricing/) | Industry content packs · effort baselines for quoting |
+| [`.claude/skills/`](.claude/skills/) | `dynamic-report` · `harvest` · `wave-impact` · `review-system` (human review of any component, tracked in [`system/reviews/`](system/reviews/)) |
 | [`expertise/`](expertise/) | Lessons learned across clients — consulted before every recommendation |
 | [`copilot-studio/`](copilot-studio/) | Instructions + step-by-step guide to run this in Copilot Studio |
 | [`docs/`](docs/) | [Maintenance routine](docs/maintenance.md) · [Adding ERPs/add-ons](docs/adding-an-erp-or-addon.md) |

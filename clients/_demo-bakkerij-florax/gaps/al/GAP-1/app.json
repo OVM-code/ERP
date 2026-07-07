@@ -1,0 +1,16 @@
+{
+  "id": "00000000-0000-0000-0000-00000000f10c",
+  "name": "FLX Webshop Link",
+  "publisher": "Cegeka",
+  "version": "0.1.0.0",
+  "brief": "Webshop integration: orders in, sellable-stock feed out (TGD-GAP-1)",
+  "platform": "24.0.0.0",
+  "application": "24.0.0.0",
+  "runtime": "13.0",
+  "idRanges": [{ "from": 50100, "to": 50149 }],
+  "dependencies": [
+    { "id": "<EDI-framework-app-id>", "name": "Cegeka EDI Framework", "publisher": "Cegeka", "version": "<verify>" },
+    { "id": "<aptean-fnb-app-id>", "name": "Aptean Food and Beverage", "publisher": "Aptean", "version": "<verify>" }
+  ],
+  "features": ["NoImplicitWith"]
+}

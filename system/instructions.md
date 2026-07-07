@@ -173,6 +173,16 @@ Cross-cutting rules for every stage:
 - **Model & cost**: follow `system/model-guide.md` — one pipeline step per pass,
   validators after every step, mechanical work in the Python tools, never read the
   522 KB template source (use `catalog.json` + the split domain files).
+- **Flank systems**: workshop briefings (`clients/_template/bpa/briefings/`) before
+  every meeting; industry packs (`bpa/packs/`) as content starting point; quotes
+  from coverage via `tools/build_quote.py` (baselines in `pricing/`); AL scaffolds
+  from approved TGDs (`gaps/al/`); environment verification probes
+  (`setup/verification.md`); learning packets (`training/packets/`); wave-impact
+  reports (`/wave-impact` skill); milestone harvest (`/harvest` skill); telemetry
+  via `check_client --log` + `tools/metrics.py`.
+- **Human review coverage**: every methodology component is reviewed by a human via
+  the `/review-system` skill; coverage lives in `system/reviews/register.md`. Only
+  reviewer-approved diffs land.
 
 ## The learning loop (keeping the system smart)
 

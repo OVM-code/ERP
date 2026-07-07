@@ -4,9 +4,9 @@
 |---|---|
 | Client / GAP | _demo-bakkerij-florax / GAP-1 |
 | Source FGD | FGD-GAP-1 v1.0 (**approved** on 2026-06-18 by O. Vanmalleghem) |
-| Status | **draft** |
+| Status | **approved** |
 | Target platform | BC24 SaaS (BE localization) · Cegeka EDI framework · Aptean F&B (lot status) |
-| Author / Reviewer | assistant / <architect> |
+| Author / Reviewer | assistant / solution architect (approved 2026-07-01) |
 
 ## 1. Project context for the developer
 

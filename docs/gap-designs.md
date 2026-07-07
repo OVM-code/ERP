@@ -21,6 +21,12 @@ hard human gate between them. Workspace: `clients/<slug>/gaps/` (templates in
    approved and warns when acceptance criteria are unmapped.
 4. **Developer/architect review** of the TGD, then build. The built app lands in
    setup-plan fase 4.
+5. **AL scaffold (optional but default)**: from an `approved` TGD the assistant
+   generates `gaps/al/GAP-x/` — app.json, object skeletons with bilingual captions,
+   event-subscriber signatures with `// VERIFY:` markers, and a test codeunit per
+   TGD test row with `// TODO(TGD §n)` bodies. The architect reviews the scaffold
+   diff before development starts (rules: `clients/_template/gaps/al/README.md`);
+   the validator refuses a scaffold whose TGD is not approved.
 
 ## Statuses (machine-checked, keep these exact tokens)
 

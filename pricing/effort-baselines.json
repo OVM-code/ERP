@@ -1,0 +1,35 @@
+{
+  "description": "Effort baselines for quote generation (tools/build_quote.py). Days are consulting days per scenario, by Invulling. Prefix match: most specific code wins (BS25.202 beats BS25 beats default). CALIBRATE from actuals after every project (harvest step) — these seeds are conservative expert estimates, not measurements.",
+  "version": "seed-1 (2026-07-07) — uncalibrated",
+  "fit_days": {
+    "default":    { "standard": 0.5, "addon": 1.0, "workaround": 1.0 },
+    "BS10":       { "standard": 0.5, "addon": 1.0, "workaround": 1.0 },
+    "BS15":       { "standard": 0.5, "addon": 1.0, "workaround": 1.0 },
+    "BS25":       { "standard": 0.5, "addon": 1.0, "workaround": 1.0 },
+    "BS25.202":   { "standard": 1.0 },
+    "BS25.213":   { "standard": 1.0 },
+    "BS35":       { "standard": 0.5, "addon": 1.0, "workaround": 1.0 },
+    "BS30":       { "standard": 1.0, "addon": 1.5, "workaround": 1.5 },
+    "BS40":       { "standard": 1.0, "addon": 1.5, "workaround": 1.5 },
+    "BS45":       { "standard": 0.5, "addon": 1.5, "workaround": 1.5 },
+    "BS50":       { "standard": 0.5, "addon": 1.0, "workaround": 1.0 },
+    "BS60":       { "standard": 1.0, "addon": 1.5, "workaround": 1.5 },
+    "BS65":       { "standard": 0.5, "addon": 1.0, "workaround": 1.0 },
+    "BS65.253":   { "addon": 2.0 },
+    "BS70":       { "standard": 1.0, "addon": 1.5, "workaround": 1.5 },
+    "BS95.002":   { "standard": 3.0 }
+  },
+  "gap_days": { "S": 3, "M": 8, "L": 20 },
+  "stage_factors": {
+    "description": "Multipliers on the scenario-day subtotal for downstream stages; migration and training also have per-unit adds.",
+    "setup_execution": 0.6,
+    "testing_support": 0.3,
+    "training_per_module_days": 0.75,
+    "migration_per_entity_days": 1.0,
+    "project_management": 0.15
+  },
+  "fixed_days": {
+    "analysis_workshops_per_domain": 1.5,
+    "cutover_support": 3.0
+  }
+}

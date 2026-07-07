@@ -27,6 +27,14 @@ Two artifacts under `clients/<slug>/training/` (templates in
 - The interactive BPA (and later the manual) is the handout: participants click
   through the same flow the trainer demonstrates.
 
+## Learning packets (scale past the trainer)
+
+`training/packets/` — per-module self-study packets generated from the manual
+chapters + session exercises + a self-checking quiz (format:
+`clients/_template/training/packets/README.md`). For absentees, new hires and
+refreshers; regenerated on every manual version bump. Packets never contain new
+content — a missing explanation is a manual review-flag first.
+
 ## Timing in the project
 
 Trajectory drafted right after the setup plan is approved (it needs the same

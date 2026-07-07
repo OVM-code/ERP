@@ -30,6 +30,14 @@ consultant executes in the client's Business Central environments. Workspace:
 - Every scenario code referenced in the plan exists in the catalog.
 - A plan marked `approved` may not contain empty phase tables and TBD dependencies.
 
+## Verification (trust, then verify)
+
+`verification.md` (template in `clients/_template/setup/`) turns every `done` step
+into a machine-executable probe (read-only BC API query or page check) that runs
+before each training block and before cutover — config drift surfaces in a drift
+log instead of in a session. The probe table is written to be executed by a
+read-only verifier agent in H2 without format changes.
+
 ## Boundary (deliberate)
 
 The plan is **consultant-executed**, not auto-applied to the tenant: setup decisions

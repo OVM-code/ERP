@@ -55,6 +55,16 @@ handles them. Read before the first client engagement.
 - English deliverables contain no leftover Dutch glossary terms.
 
 Run it in CI or by hand before every delivery; `--strict` builds fail on warnings.
+Run with `--log` to persist results to `clients/<slug>/checks.log.jsonl` —
+`tools/metrics.py` turns that plus git history into the stage-cycle-time and
+validator-failure KPIs.
+
+## Human review coverage
+
+Every methodology component passes through a human review session
+(`/review-system <component>`); coverage and verdicts are tracked in
+`system/reviews/register.md`. The rule for applied changes: the diff the reviewer
+approved is the diff that lands — no bundled extras.
 
 ## When reality disagrees with the system
 
