@@ -1,0 +1,48 @@
+{
+  "id": "projectbeheer",
+  "domain": 5,
+  "title": "Projectbeheer",
+  "subtitle": "Van projectaanmaak tot afsluiting",
+  "lanes": [
+    { "id": "projectleider", "label": "Projectleider" },
+    { "id": "uitvoering", "label": "Uitvoering" },
+    { "id": "finance", "label": "Finance" }
+  ],
+  "nodes": [
+    { "id": "start", "type": "start", "label": "Project gegund", "lane": "projectleider" },
+    { "id": "project", "type": "task", "label": "Project maken", "lane": "projectleider", "scenario": "BS70.200" },
+    { "id": "wbs", "type": "task", "label": "Projectmasterdata en -structuur beheren", "lane": "projectleider", "scenario": "BS70.264" },
+    { "id": "budget", "type": "task", "label": "Projectbudget beheren", "lane": "projectleider", "scenario": "BS70.203" },
+    { "id": "plan-artikelen", "type": "task", "label": "Artikelen plannen", "lane": "projectleider", "scenario": "BS70.205" },
+    { "id": "plan-resources", "type": "task", "label": "Resources toewijzen en plannen", "lane": "projectleider", "scenario": "BS70.206" },
+    { "id": "reg-artikelen", "type": "task", "label": "Artikelverbruik registreren", "lane": "uitvoering", "scenario": "BS70.208" },
+    { "id": "reg-uren", "type": "task", "label": "Resource-uren registreren", "lane": "uitvoering", "scenario": "BS70.209" },
+    { "id": "reg-onkosten", "type": "task", "label": "Onkosten registreren", "lane": "uitvoering", "scenario": "BS70.210" },
+    { "id": "inkoopfacturen", "type": "task", "label": "Inkoopfacturen koppelen aan project", "lane": "finance", "scenario": "BS70.220" },
+    { "id": "gw-facturatie", "type": "gateway", "label": "Facturatievorm?", "lane": "finance" },
+    { "id": "factuur-vast", "type": "task", "label": "Projectfactuur maken (vaste prijs)", "lane": "finance", "scenario": "BS70.216" },
+    { "id": "factuur-regie", "type": "task", "label": "Projectfactuur maken (in regie)", "lane": "finance", "scenario": "BS70.217" },
+    { "id": "gw-klaar", "type": "gateway", "label": "Project afgerond?", "lane": "projectleider" },
+    { "id": "afsluiten", "type": "task", "label": "Project afsluiten", "lane": "projectleider", "scenario": "BS70.224" },
+    { "id": "end", "type": "end", "label": "Project afgesloten", "lane": "projectleider" }
+  ],
+  "flows": [
+    { "from": "start", "to": "project" },
+    { "from": "project", "to": "wbs" },
+    { "from": "wbs", "to": "budget" },
+    { "from": "budget", "to": "plan-artikelen" },
+    { "from": "plan-artikelen", "to": "plan-resources" },
+    { "from": "plan-resources", "to": "reg-artikelen" },
+    { "from": "reg-artikelen", "to": "reg-uren" },
+    { "from": "reg-uren", "to": "reg-onkosten" },
+    { "from": "reg-onkosten", "to": "inkoopfacturen" },
+    { "from": "inkoopfacturen", "to": "gw-facturatie" },
+    { "from": "gw-facturatie", "to": "factuur-vast", "label": "vaste prijs" },
+    { "from": "gw-facturatie", "to": "factuur-regie", "label": "in regie" },
+    { "from": "factuur-vast", "to": "gw-klaar" },
+    { "from": "factuur-regie", "to": "gw-klaar" },
+    { "from": "gw-klaar", "to": "reg-artikelen", "label": "nee, volgende periode" },
+    { "from": "gw-klaar", "to": "afsluiten", "label": "ja" },
+    { "from": "afsluiten", "to": "end" }
+  ]
+}

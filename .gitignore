@@ -1,0 +1,11 @@
+# Recordings are never committed — transcribe them into clients/*/bpa/inputs/ as text
+*.mp3
+*.mp4
+*.m4a
+*.wav
+*.webm
+*.mov
+
+# OS noise
+.DS_Store
+Thumbs.db

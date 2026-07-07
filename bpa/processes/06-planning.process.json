@@ -1,0 +1,34 @@
+{
+  "id": "planning",
+  "domain": 6,
+  "title": "Planning (MPS/MRP)",
+  "subtitle": "Van prognose tot gefiatteerde voorstellen",
+  "lanes": [
+    { "id": "planning", "label": "Planning" }
+  ],
+  "nodes": [
+    { "id": "start", "type": "start", "label": "Periodieke planningsrun", "lane": "planning" },
+    { "id": "prognose", "type": "task", "label": "Productieprognoses beheren", "lane": "planning", "scenario": "BS30.200" },
+    { "id": "berekenen", "type": "task", "label": "Inkoop- & planningsvoorstellen berekenen", "lane": "planning", "scenario": "BS30.201" },
+    { "id": "beoordelen", "type": "task", "label": "Voorstellen beoordelen en fiatteren", "lane": "planning", "scenario": "BS30.202" },
+    { "id": "split", "type": "gateway-parallel", "label": "", "lane": "planning" },
+    { "id": "inkooporders", "type": "subprocess", "label": "Inkooporders aanmaken", "lane": "planning", "scenario": "BS35.202", "goto": "inkoop" },
+    { "id": "productieorders", "type": "subprocess", "label": "Productieorders aanmaken", "lane": "planning", "scenario": "BS40.200", "goto": "productie" },
+    { "id": "transferorders", "type": "subprocess", "label": "Transferorders aanmaken", "lane": "planning", "scenario": "BS50.208", "goto": "magazijnbeheer" },
+    { "id": "join", "type": "gateway-parallel", "label": "", "lane": "planning" },
+    { "id": "end", "type": "end", "label": "Voorstellen omgezet in orders", "lane": "planning" }
+  ],
+  "flows": [
+    { "from": "start", "to": "prognose" },
+    { "from": "prognose", "to": "berekenen" },
+    { "from": "berekenen", "to": "beoordelen" },
+    { "from": "beoordelen", "to": "split" },
+    { "from": "split", "to": "inkooporders" },
+    { "from": "split", "to": "productieorders" },
+    { "from": "split", "to": "transferorders" },
+    { "from": "inkooporders", "to": "join" },
+    { "from": "productieorders", "to": "join" },
+    { "from": "transferorders", "to": "join" },
+    { "from": "join", "to": "end" }
+  ]
+}

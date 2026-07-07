@@ -1,0 +1,21 @@
+# Requirements register — <Client name>
+
+> One `## REQ-xxx` block per requirement, extracted from the files in `inputs/`.
+> Keep the client's own wording in the quote; the description may interpret.
+> The `Scenario's` line links the requirement to the business scenarios that answer
+> it (BS codes from `bpa/template/catalog.json`) — the build makes these clickable.
+
+<!--
+## REQ-001 — <korte titel in de taal van de klant>
+- **Bron:** 2026-05-12-verkoop-transcript.md §14
+- **Domein(en):** 2
+- **Scenario's:** BS25.202, BS25.206
+- **Prioriteit:** must / should / could
+
+> "Letterlijk citaat uit de meeting dat dit requirement draagt."
+
+Interpretatie en context: wat de klant nodig heeft, volumes, uitzonderingen,
+openstaande vragen.
+-->
+
+<!-- Next ID: REQ-001 -->

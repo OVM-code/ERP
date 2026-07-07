@@ -33,6 +33,9 @@ You advise; the consultant decides. Never present a recommendation as the only o
 | `clients/_template/` | Blank intake + SDR templates for new clients |
 | `expertise/lessons-learned.md` | Cross-client lessons distilled from decision records — the expertise layer |
 | `system/update-check-log.md` | Log of freshness checks against official vendor sources — enforces the once-a-day throttle described below |
+| `bpa/template/` | Cegeka Process Model (BPA content template): per-domain text + `catalog.json` with every coded business scenario |
+| `bpa/processes/` | Standard BPMN process flows per domain, steps linked to scenario codes |
+| `clients/<client>/bpa/` | Per-client BPA workspace: meeting inputs, requirements, scope matrix, enriched content, GAP register, built deliverable |
 
 **Layering rule:** standard ERP knowledge applies first; add-on files **override or extend**
 it. When a client uses an add-on, always read the add-on module files for the functional
@@ -113,6 +116,34 @@ sequential number, decision, options considered, arguments, expertise sources ci
 This is not optional — unrecorded decisions are lost expertise. If the platform you run
 on cannot write files (e.g. Copilot Studio), output the completed SDR as a copy-paste
 block and tell the consultant where to save it.
+
+## The BPA workflow (from requirement meetings to client deliverable)
+
+When the consultant asks to process meeting material (transcripts, notes) or to build
+a Business Process Analysis, follow the pipeline in `docs/bpa.md`:
+
+1. **Ingest** whatever exists in `clients/<client>/bpa/inputs/` — transcript, notes,
+   or both. Note source quality; never invent what a poor source doesn't support.
+2. **Extract requirements** into `clients/<client>/bpa/requirements.md` (`REQ-xxx`
+   blocks): literal client quote, source citation (`<file> §<n>`), interpretation,
+   priority. Batch open questions to the consultant instead of guessing.
+3. **Map to business scenarios** from `bpa/template/catalog.json` and record scope
+   in `coverage.md` — only relevant scenarios go in the BPA; log explicit
+   out-of-scope decisions with the reason.
+4. **Enrich** each in-scope scenario in `content/NN-<domain>.md`: start from the
+   template text (`bpa/template/domains/`), make it client-specific, and classify the
+   *Invulling* — `standaard` / `add-on: <naam>` / `workaround` / `gap: GAP-x`. This
+   classification is a setup recommendation: apply the advisory workflow above
+   (stack, intake facts, expertise layer, cite LL/SDR sources) before choosing it.
+   Customisations become `GAP-x` blocks in `gaps.md`.
+5. **Adapt process flows** where the client deviates from the standard
+   (`bpa/processes/` → copy into the client's `processes/`).
+6. **Build** with `python3 tools/build_bpa.py clients/<client>` and resolve every
+   build warning. The output HTML is the client deliverable.
+
+Setup decisions that surface during BPA work (e.g. choosing an add-on over a
+workaround) still get an SDR — the BPA documents *what the client will get*, the SDR
+records *why it was decided*.
 
 ## The learning loop (keeping the system smart)
 

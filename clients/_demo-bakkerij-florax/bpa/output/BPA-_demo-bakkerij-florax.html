@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Business Process Analyse — Bakkerij Florax (demo)</title>
+<style>
+/* BPA interactive viewer — self-contained, inlined at build time. */
+:root {
+  --accent: #00305e;
+  --accent-soft: #e8eef6;
+  --ink: #14202e;
+  --ink-soft: #4b5a6b;
+  --line: #d7dee7;
+  --bg: #f4f6f9;
+  --card: #ffffff;
+  --fit-standard: #2563eb;
+  --fit-standard-bg: #eff6ff;
+  --fit-addon: #7c3aed;
+  --fit-addon-bg: #f5f3ff;
+  --fit-workaround: #b45309;
+  --fit-workaround-bg: #fffbeb;
+  --fit-gap: #dc2626;
+  --fit-gap-bg: #fef2f2;
+  --fit-none: #8195a9;
+  --fit-none-bg: #f8fafc;
+  --radius: 10px;
+  --shadow: 0 1px 2px rgba(16, 32, 46, .06), 0 4px 14px rgba(16, 32, 46, .08);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font: 15px/1.55 "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+}
+#app { display: flex; flex-direction: column; height: 100vh; }
+
+/* ---------- header ---------- */
+.hdr {
+  background: var(--accent); color: #fff;
+  display: flex; align-items: center; gap: 18px;
+  padding: 10px 22px; flex: none;
+}
+.hdr .brand { font-weight: 700; font-size: 17px; letter-spacing: .2px; white-space: nowrap; }
+.hdr .brand small { display: block; font-weight: 400; font-size: 11.5px; opacity: .75; }
+.hdr nav { display: flex; gap: 4px; margin-left: auto; flex-wrap: wrap; }
+.hdr nav a {
+  color: #fff; text-decoration: none; padding: 7px 13px; border-radius: 7px;
+  font-size: 13.5px; opacity: .82;
+}
+.hdr nav a:hover { background: rgba(255, 255, 255, .12); opacity: 1; }
+.hdr nav a.on { background: rgba(255, 255, 255, .18); opacity: 1; font-weight: 600; }
+
+/* ---------- layout ---------- */
+.main { display: flex; flex: 1; min-height: 0; }
+.side {
+  width: 264px; flex: none; background: var(--card);
+  border-right: 1px solid var(--line);
+  display: flex; flex-direction: column; min-height: 0;
+}
+.side .search { padding: 12px 12px 8px; }
+.side .search input {
+  width: 100%; padding: 8px 11px; border: 1px solid var(--line); border-radius: 8px;
+  font: inherit; font-size: 13.5px; outline: none; background: var(--bg);
+}
+.side .search input:focus { border-color: var(--accent); background: #fff; }
+.side .domlist { overflow-y: auto; padding: 4px 8px 16px; }
+.side .domlist a {
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 8px 10px; border-radius: 8px; text-decoration: none;
+  color: var(--ink); font-size: 13.5px;
+}
+.side .domlist a .n { color: var(--ink-soft); font-size: 11.5px; min-width: 16px; }
+.side .domlist a .cnt {
+  margin-left: auto; font-size: 11px; color: var(--ink-soft);
+  background: var(--bg); border-radius: 20px; padding: 1px 8px;
+}
+.side .domlist a:hover { background: var(--accent-soft); }
+.side .domlist a.on { background: var(--accent); color: #fff; }
+.side .domlist a.on .n, .side .domlist a.on .cnt { color: #dbe6f2; background: rgba(255,255,255,.14); }
+.side .hits { overflow-y: auto; padding: 0 12px 16px; }
+.side .hits .hit {
+  display: block; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px;
+  margin-bottom: 6px; text-decoration: none; color: var(--ink); font-size: 12.5px;
+}
+.side .hits .hit code { color: var(--accent); font-weight: 600; }
+.side .hits .hit:hover { border-color: var(--accent); }
+.side .hits .none { color: var(--ink-soft); font-size: 13px; padding: 8px 4px; }
+
+.content { flex: 1; overflow-y: auto; min-width: 0; padding: 22px 26px 60px; }
+.content > .inner { max-width: 1500px; margin: 0 auto; }
+
+/* ---------- generic ---------- */
+h1.pg { font-size: 21px; margin: 2px 0 2px; }
+.pg-sub { color: var(--ink-soft); font-size: 13.5px; margin: 0 0 18px; }
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 18px 20px; margin-bottom: 18px;
+}
+.chip {
+  display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .3px;
+  border-radius: 20px; padding: 2px 9px; vertical-align: 1px; white-space: nowrap;
+}
+.chip.standard { color: var(--fit-standard); background: var(--fit-standard-bg); border: 1px solid #bfdbfe; }
+.chip.addon { color: var(--fit-addon); background: var(--fit-addon-bg); border: 1px solid #ddd6fe; }
+.chip.workaround { color: var(--fit-workaround); background: var(--fit-workaround-bg); border: 1px solid #fde68a; }
+.chip.gap { color: var(--fit-gap); background: var(--fit-gap-bg); border: 1px solid #fecaca; }
+.chip.none { color: var(--fit-none); background: var(--fit-none-bg); border: 1px solid var(--line); }
+.chip.req { color: var(--accent); background: var(--accent-soft); border: 1px solid #c6d6e8; cursor: pointer; }
+.chip.link { cursor: pointer; }
+code.bs { font: 600 12px/1 ui-monospace, "Cascadia Mono", Consolas, monospace; color: var(--accent); }
+
+/* ---------- diagram ---------- */
+.diagram-card { padding: 10px 12px 12px; overflow: hidden; }
+.diagram-head { display: flex; align-items: center; gap: 12px; padding: 6px 8px 8px; flex-wrap: wrap; }
+.diagram-head .zoom { margin-left: auto; display: flex; gap: 4px; }
+.diagram-head .zoom button {
+  border: 1px solid var(--line); background: #fff; border-radius: 7px; width: 30px; height: 28px;
+  font-size: 15px; cursor: pointer; color: var(--ink-soft);
+}
+.diagram-head .zoom button:hover { border-color: var(--accent); color: var(--accent); }
+.diagram-scroll { overflow: auto; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+svg.bpmn { display: block; }
+svg.bpmn text { font-family: "Segoe UI", system-ui, sans-serif; }
+.bpmn .lane-band-0 { fill: #fbfcfe; }
+.bpmn .lane-band-1 { fill: #f3f6fa; }
+.bpmn .lane-label { fill: var(--ink-soft); font-size: 12px; font-weight: 600; letter-spacing: .4px; }
+.bpmn .flow { stroke: #6b7c8f; stroke-width: 1.6; fill: none; }
+.bpmn .flow-label { font-size: 11px; fill: var(--ink-soft); }
+.bpmn .flow-label-bg { fill: #ffffff; opacity: .92; }
+.bpmn .node { cursor: default; }
+.bpmn .node.clickable { cursor: pointer; }
+.bpmn .node.clickable:hover .shape { filter: brightness(.96); }
+.bpmn .node .title { font-size: 12px; fill: var(--ink); }
+.bpmn .node .code { font-size: 9.5px; font-weight: 700; fill: var(--ink-soft); }
+.bpmn .node.selected .shape { stroke-width: 3; }
+.bpmn .fit-standard .shape { stroke: var(--fit-standard); fill: var(--fit-standard-bg); }
+.bpmn .fit-addon .shape { stroke: var(--fit-addon); fill: var(--fit-addon-bg); }
+.bpmn .fit-workaround .shape { stroke: var(--fit-workaround); fill: var(--fit-workaround-bg); }
+.bpmn .fit-gap .shape { stroke: var(--fit-gap); fill: var(--fit-gap-bg); }
+.bpmn .fit-none .shape { stroke: var(--fit-none); fill: var(--fit-none-bg); stroke-dasharray: 5 3; }
+.bpmn .n-start .shape { stroke: #15803d; fill: #f0fdf4; stroke-width: 2; }
+.bpmn .n-end .shape { stroke: #b91c1c; fill: #fef2f2; stroke-width: 3.5; }
+.bpmn .n-gateway .shape, .bpmn .n-gateway-parallel .shape { stroke: #6b7c8f; fill: #fefce8; stroke-width: 2; }
+.bpmn .sub-mark { stroke: #6b7c8f; stroke-width: 1.6; fill: #fff; }
+.bpmn .evt-label { font-size: 11px; fill: var(--ink-soft); }
+.bpmn .gw-label { font-size: 11px; fill: var(--ink-soft); font-weight: 600; }
+.bpmn .gw-mark { stroke: #6b7c8f; stroke-width: 2.4; }
+
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--ink-soft); padding: 10px 6px 0; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 14px; height: 14px; border-radius: 4px; display: inline-block; border: 2px solid; }
+
+/* ---------- scenario cards under diagram ---------- */
+.scen-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 10px; }
+.scen-card {
+  background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--fit-none);
+  border-radius: 8px; padding: 10px 13px; cursor: pointer;
+}
+.scen-card:hover { box-shadow: var(--shadow); }
+.scen-card.standard { border-left-color: var(--fit-standard); }
+.scen-card.addon { border-left-color: var(--fit-addon); }
+.scen-card.workaround { border-left-color: var(--fit-workaround); }
+.scen-card.gap { border-left-color: var(--fit-gap); }
+.scen-card .t { font-weight: 600; font-size: 13.5px; margin: 2px 0 3px; }
+.scen-card .m { font-size: 11.5px; color: var(--ink-soft); }
+h2.sect { font-size: 15px; margin: 26px 0 10px; color: var(--ink-soft); font-weight: 600; }
+
+/* ---------- doc panel ---------- */
+.panel-wrap { position: fixed; inset: 0; z-index: 40; pointer-events: none; }
+.panel-wrap.open { pointer-events: auto; }
+.panel-wrap .veil { position: absolute; inset: 0; background: rgba(16, 32, 46, .28); opacity: 0; transition: opacity .18s; }
+.panel-wrap.open .veil { opacity: 1; }
+.panel {
+  position: absolute; top: 0; right: 0; bottom: 0; width: min(560px, 92vw);
+  background: #fff; box-shadow: -8px 0 30px rgba(16, 32, 46, .18);
+  transform: translateX(102%); transition: transform .2s ease-out;
+  display: flex; flex-direction: column;
+}
+.panel-wrap.open .panel { transform: none; }
+.panel .p-head { padding: 16px 20px 12px; border-bottom: 1px solid var(--line); }
+.panel .p-head .codes { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 6px; }
+.panel .p-head h2 { margin: 0; font-size: 18px; line-height: 1.3; }
+.panel .p-head .dom { color: var(--ink-soft); font-size: 12.5px; margin-top: 4px; }
+.panel .p-close {
+  position: absolute; top: 12px; right: 14px; border: none; background: var(--bg);
+  border-radius: 8px; width: 32px; height: 32px; font-size: 16px; cursor: pointer; color: var(--ink-soft);
+}
+.panel .p-close:hover { background: var(--accent-soft); color: var(--accent); }
+.panel .p-body { padding: 14px 22px 40px; overflow-y: auto; }
+.panel .p-meta { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 12px; }
+
+/* ---------- markdown body ---------- */
+.md h1, .md h2, .md h3, .md h4 { line-height: 1.3; margin: 1.2em 0 .45em; }
+.md h1 { font-size: 19px; } .md h2 { font-size: 16.5px; } .md h3 { font-size: 14.5px; } .md h4 { font-size: 13.5px; }
+.md p { margin: .55em 0; }
+.md ul, .md ol { margin: .5em 0; padding-left: 1.5em; }
+.md li { margin: .22em 0; }
+.md table { border-collapse: collapse; margin: .8em 0; font-size: 13px; width: 100%; }
+.md th, .md td { border: 1px solid var(--line); padding: 5px 9px; text-align: left; vertical-align: top; }
+.md th { background: var(--bg); }
+.md blockquote { margin: .7em 0; padding: 6px 14px; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 6px 6px 0; }
+.md code { background: var(--bg); border-radius: 4px; padding: 1px 5px; font-size: 12.5px; }
+.md img { max-width: 100%; }
+.md hr { border: none; border-top: 1px solid var(--line); margin: 1.2em 0; }
+
+/* ---------- tables (scope / registers) ---------- */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 14px; }
+.filters button {
+  border: 1px solid var(--line); background: #fff; border-radius: 20px; padding: 5px 13px;
+  font: inherit; font-size: 12.5px; cursor: pointer; color: var(--ink-soft);
+}
+.filters button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+table.reg { border-collapse: collapse; width: 100%; font-size: 13px; background: var(--card); }
+table.reg th, table.reg td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top; }
+table.reg th { background: var(--accent-soft); color: var(--accent); position: sticky; top: -23px; }
+table.reg tr.click { cursor: pointer; }
+table.reg tr.click:hover td { background: var(--accent-soft); }
+table.reg tr.dim td { color: var(--ink-soft); background: #fafbfc; }
+
+.req-card, .gap-card { position: relative; }
+.req-card h3, .gap-card h3 { margin: 0 0 6px; font-size: 15px; }
+.req-card .src { color: var(--ink-soft); font-size: 12.5px; margin-bottom: 8px; }
+.gap-card { border-left: 4px solid var(--fit-gap); }
+
+.empty { color: var(--ink-soft); font-style: italic; padding: 30px 0; text-align: center; }
+
+@media print {
+  .hdr nav, .side, .diagram-head .zoom { display: none !important; }
+  .content { overflow: visible; }
+  .panel-wrap { display: none; }
+}
+
+:root { --accent: #00305e; }
+
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+window.BPA = {"client": {"name": "Bakkerij Florax (demo)", "title": "Business Process Analyse", "period": "workshops mei 2026", "intro_html": "<p>Dit document bevat een overzicht van de processen die voor <strong>Bakkerij Florax<\/strong> beheerd zullen worden in Microsoft Dynamics 365 Business Central, aangevuld met <strong>Aptean Food &amp; Beverage<\/strong> (lot management, expiration management) en <strong>Continia<\/strong> (Document Capture, Document Output). Per business scenario wordt beschreven hoe het proces zal verlopen: met standaardfunctionaliteit, met een add-on, via een workaround of — waar nodig — met maatwerk (zie het GAP-register).<\/p>\n<p>De specifieke zaken die beschreven zijn voor Bakkerij Florax vloeien voort uit de workshops gehouden in <strong>mei 2026<\/strong> met de key-users (verkoop, logistiek, kwaliteit en finance).<\/p>\n<p>Alle in dit document beschreven processen worden in scope genomen van het implementatieproject, tenzij anders aangeduid. Wat niet expliciet beschreven is in dit document zit niet in scope. Moesten er tijdens de implementatie nog extra zaken naar boven komen die niet mee in het projectbudget zijn opgenomen, kunnen deze met een aparte change request behandeld worden.<\/p>\n<h2>Leeswijzer<\/h2>\n<ul>\n<li><strong>Processen<\/strong> — kies links een domein: het procesdiagram toont de stappen in BPMN-notatie. Klik op een stap voor de documentatie van dat scenario.<\/li>\n<li><strong>Kleuren<\/strong> — blauw: standaard Business Central · paars: add-on · oranje: workaround · rood: GAP (maatwerk) · grijs gestippeld: stap zonder uitgewerkte documentatie in deze versie.<\/li>\n<li><strong>Scope<\/strong> — de volledige scopematrix met alle behandelde scenario's, ook wat expliciet buiten scope valt.<\/li>\n<li><strong>Requirements<\/strong> — de requirements uit de workshops, met bronvermelding en gekoppelde scenario's.<\/li>\n<li><strong>GAPs<\/strong> — het maatwerkregister.<\/li>\n<\/ul>\n<blockquote>\n<p>Dit is een <strong>demo-dossier<\/strong> met een fictieve klant, bedoeld om de werking van het<\/p>\n<p>BPA-systeem te tonen. De inhoud is illustratief.<\/p>\n<\/blockquote>", "labels": {}}, "meta": {"model": "Cegeka Process Model 3.01", "version": "0.9 — demo"}, "domains": [{"number": 2, "title": "Verkoop", "intro_html": "<p>Florax verkoopt via drie kanalen: EDI-orders van twee retailketens (±60% van het volume), de eigen webshop en manuele intake (telefoon/mail). Het verkoopproces is daarop ingericht: geautomatiseerde orderintake waar het kan, met kanaalafhankelijke afspraken voor deelleveringen en facturatie. Er is geen offertetraject: prijzen liggen vast in klantprijslijsten en promoafspraken.<\/p>", "process": {"id": "verkoop", "domain": 2, "title": "Verkoop", "subtitle": "Van orderintake (EDI / webshop / manueel) tot betaalde factuur — klantspecifieke stroom Florax", "lanes": [{"id": "verkoop", "label": "Verkoop binnendienst"}, {"id": "magazijn", "label": "Magazijn"}, {"id": "finance", "label": "Finance"}], "nodes": [{"id": "start", "type": "start", "label": "Order ontvangen", "lane": "verkoop"}, {"id": "gw-kanaal", "type": "gateway", "label": "Kanaal?", "lane": "verkoop"}, {"id": "edi-import", "type": "task", "label": "Order automatisch importeren (EDI/webshop)", "lane": "verkoop", "scenario": "BS95.002"}, {"id": "order", "type": "task", "label": "Verkooporder maken / controleren", "lane": "verkoop", "scenario": "BS25.202"}, {"id": "toezegging", "type": "task", "label": "Leverdatum toetsen (ordertoezegging)", "lane": "verkoop", "scenario": "BS25.328"}, {"id": "reserveren", "type": "task", "label": "Voorraad reserveren (FEFO)", "lane": "verkoop", "scenario": "BS25.204"}, {"id": "verzenden", "type": "subprocess", "label": "Order picken en verzenden", "lane": "magazijn", "scenario": "BS25.205", "goto": "magazijnbeheer"}, {"id": "gw-volledig", "type": "gateway", "label": "Volledig geleverd?", "lane": "magazijn"}, {"id": "gw-retail", "type": "gateway", "label": "Retailklant?", "lane": "magazijn"}, {"id": "annuleren", "type": "task", "label": "Restant annuleren + keten verwittigen", "lane": "verkoop", "scenario": "BS25.207"}, {"id": "backorder", "type": "task", "label": "Backorder aanhouden en naleveren", "lane": "magazijn", "scenario": "BS25.206"}, {"id": "factuur", "type": "task", "label": "Factureren (verzamel wekelijks / per levering)", "lane": "finance", "scenario": "BS25.213"}, {"id": "factuur-boeken", "type": "task", "label": "Verkoopfactuur boeken + Peppol/EDI verzenden", "lane": "finance", "scenario": "BS25.214"}, {"id": "gw-retour", "type": "gateway", "label": "Kwaliteitsklacht?", "lane": "finance"}, {"id": "retour", "type": "task", "label": "Verkoopretourorder maken", "lane": "finance", "scenario": "BS25.219"}, {"id": "creditnota", "type": "task", "label": "Verkoopcreditnota maken", "lane": "finance", "scenario": "BS25.220"}, {"id": "end", "type": "end", "label": "Order afgehandeld", "lane": "finance"}], "flows": [{"from": "start", "to": "gw-kanaal"}, {"from": "gw-kanaal", "to": "edi-import", "label": "EDI / webshop"}, {"from": "edi-import", "to": "order"}, {"from": "gw-kanaal", "to": "order", "label": "telefoon / mail"}, {"from": "order", "to": "toezegging"}, {"from": "toezegging", "to": "reserveren"}, {"from": "reserveren", "to": "verzenden"}, {"from": "verzenden", "to": "gw-volledig"}, {"from": "gw-volledig", "to": "gw-retail", "label": "nee"}, {"from": "gw-retail", "to": "annuleren", "label": "ja"}, {"from": "annuleren", "to": "factuur"}, {"from": "gw-retail", "to": "backorder", "label": "nee"}, {"from": "backorder", "to": "verzenden", "label": "nalevering"}, {"from": "gw-volledig", "to": "factuur", "label": "ja"}, {"from": "factuur", "to": "factuur-boeken"}, {"from": "factuur-boeken", "to": "gw-retour"}, {"from": "gw-retour", "to": "retour", "label": "ja"}, {"from": "retour", "to": "creditnota"}, {"from": "creditnota", "to": "end"}, {"from": "gw-retour", "to": "end", "label": "nee"}]}, "scenarios": ["BS25.101", "BS25.202", "BS25.328", "BS25.206", "BS25.213"]}, {"number": 4, "title": "Voorraad", "intro_html": "<p>Volledige lottracering met THT-bewaking is voor Florax niet onderhandelbaar (IFS-certificering, FAVV-recalltest 2×/jaar). De voorraadinrichting steunt op de Aptean Food &amp; Beverage-laag bovenop standaard Business Central: lot management voor tracering en expiration management voor THT/FEFO. Waardering gebeurt volgens FIFO.<\/p>", "process": {"id": "voorraad", "domain": 4, "title": "Voorraad", "subtitle": "Artikelbeheer, correcties en kwaliteit", "lanes": [{"id": "voorraadbeheer", "label": "Voorraadbeheer"}, {"id": "kwaliteit", "label": "Kwaliteit"}], "nodes": [{"id": "start", "type": "start", "label": "Nieuw artikel of voorraadgebeurtenis", "lane": "voorraadbeheer"}, {"id": "artikel", "type": "task", "label": "Artikel beheren", "lane": "voorraadbeheer", "scenario": "BS50.100"}, {"id": "sku", "type": "task", "label": "Stockkeeping units beheren", "lane": "voorraadbeheer", "scenario": "BS50.101"}, {"id": "traceringscode", "type": "task", "label": "Artikeltraceringscode toekennen", "lane": "voorraadbeheer", "scenario": "BS50.104"}, {"id": "gw-gebeurtenis", "type": "gateway", "label": "Welke gebeurtenis?", "lane": "voorraadbeheer"}, {"id": "corrigeren", "type": "task", "label": "Voorraad corrigeren", "lane": "voorraadbeheer", "scenario": "BS50.200"}, {"id": "inventarisatie", "type": "task", "label": "Inventarisatie uitvoeren", "lane": "voorraadbeheer", "scenario": "BS50.201"}, {"id": "blokkeren", "type": "task", "label": "Artikel/lot blokkeren", "lane": "kwaliteit", "scenario": "BS45.200"}, {"id": "lot", "type": "task", "label": "Lot management & traceability", "lane": "kwaliteit", "scenario": "BS45.904"}, {"id": "ncr", "type": "task", "label": "Non-conformance registreren", "lane": "kwaliteit", "scenario": "BS45.905"}, {"id": "gw-vrijgave", "type": "gateway", "label": "Lot vrijgegeven?", "lane": "kwaliteit"}, {"id": "end", "type": "end", "label": "Voorraad correct en beschikbaar", "lane": "voorraadbeheer"}], "flows": [{"from": "start", "to": "artikel"}, {"from": "artikel", "to": "sku"}, {"from": "sku", "to": "traceringscode"}, {"from": "traceringscode", "to": "gw-gebeurtenis"}, {"from": "gw-gebeurtenis", "to": "corrigeren", "label": "afwijking"}, {"from": "gw-gebeurtenis", "to": "inventarisatie", "label": "telling"}, {"from": "gw-gebeurtenis", "to": "blokkeren", "label": "kwaliteitsissue"}, {"from": "blokkeren", "to": "lot"}, {"from": "lot", "to": "ncr"}, {"from": "ncr", "to": "gw-vrijgave"}, {"from": "gw-vrijgave", "to": "end", "label": "ja"}, {"from": "gw-vrijgave", "to": "corrigeren", "label": "nee, afboeken"}, {"from": "corrigeren", "to": "end"}, {"from": "inventarisatie", "to": "end"}]}, "scenarios": ["BS50.100", "BS50.104", "BS45.904", "BS45.902", "BS45.200"]}, {"number": 10, "title": "Finance", "intro_html": "<p>De financiële processen volgen standaard Business Central (Belgische lokalisatie: CODA, Intervat, Intrastat). De grootste verandering zit in de crediteurenstroom: de ±250 papieren inkoopfacturen per maand worden digitaal verwerkt en goedgekeurd via Continia Document Capture (zie domein 15).<\/p>", "process": {"id": "finance", "domain": 10, "title": "Finance", "subtitle": "Crediteuren, debiteuren en periodieke afsluiting", "lanes": [{"id": "crediteuren", "label": "Crediteuren"}, {"id": "debiteuren", "label": "Debiteuren"}, {"id": "boekhouding", "label": "Boekhouding"}], "nodes": [{"id": "start", "type": "start", "label": "Financiële verwerking", "lane": "boekhouding"}, {"id": "split", "type": "gateway-parallel", "label": "", "lane": "boekhouding"}, {"id": "ap-factuur", "type": "task", "label": "Inkoopfacturen registreren", "lane": "crediteuren", "scenario": "BS65.200"}, {"id": "ap-goedkeuren", "type": "task", "label": "Inkoopfactuur goedkeuren", "lane": "crediteuren", "scenario": "BS65.203"}, {"id": "ap-boeken", "type": "task", "label": "Inkoopfacturen boeken", "lane": "crediteuren", "scenario": "BS65.204"}, {"id": "ap-betalen", "type": "task", "label": "Leveranciersbetalingen uitvoeren", "lane": "crediteuren", "scenario": "BS65.207"}, {"id": "ar-factuur", "type": "task", "label": "Manuele verkoopfacturen registreren", "lane": "debiteuren", "scenario": "BS65.209"}, {"id": "ar-opvolgen", "type": "task", "label": "Openstaande vorderingen opvolgen", "lane": "debiteuren", "scenario": "BS65.213"}, {"id": "ar-aanmanen", "type": "task", "label": "Aanmaningen beheren", "lane": "debiteuren", "scenario": "BS65.214"}, {"id": "bank", "type": "task", "label": "Dagafschriften verwerken en boeken", "lane": "boekhouding", "scenario": "BS65.219"}, {"id": "divers", "type": "task", "label": "Diverse boekingen registreren", "lane": "boekhouding", "scenario": "BS65.216"}, {"id": "btw", "type": "task", "label": "Periodieke BTW-aangifte aanmaken", "lane": "boekhouding", "scenario": "BS65.222"}, {"id": "join", "type": "gateway-parallel", "label": "", "lane": "boekhouding"}, {"id": "rapporten", "type": "task", "label": "Financiële rapporten aanmaken", "lane": "boekhouding", "scenario": "BS65.218"}, {"id": "afsluiten", "type": "task", "label": "Boekjaar/periode afsluiten", "lane": "boekhouding", "scenario": "BS65.234"}, {"id": "end", "type": "end", "label": "Periode afgesloten", "lane": "boekhouding"}], "flows": [{"from": "start", "to": "split"}, {"from": "split", "to": "ap-factuur"}, {"from": "ap-factuur", "to": "ap-goedkeuren"}, {"from": "ap-goedkeuren", "to": "ap-boeken"}, {"from": "ap-boeken", "to": "ap-betalen"}, {"from": "ap-betalen", "to": "join"}, {"from": "split", "to": "ar-factuur"}, {"from": "ar-factuur", "to": "ar-opvolgen"}, {"from": "ar-opvolgen", "to": "ar-aanmanen"}, {"from": "ar-aanmanen", "to": "join"}, {"from": "split", "to": "bank"}, {"from": "bank", "to": "divers"}, {"from": "divers", "to": "btw"}, {"from": "btw", "to": "join"}, {"from": "join", "to": "rapporten"}, {"from": "rapporten", "to": "afsluiten"}, {"from": "afsluiten", "to": "end"}]}, "scenarios": ["BS65.200", "BS65.204"]}, {"number": 12, "title": "Interfaces", "intro_html": "<p>Florax koppelt Business Central met de twee retailketens (EDI) en met de eigen webshop. Beide lopen over het EDI/integratieframework, maar de webshopkoppeling vraagt maatwerkmapping in twee richtingen.<\/p>", "process": null, "scenarios": ["BS95.002"]}, {"number": 15, "title": "Continia", "intro_html": "<p>Continia Document Capture digitaliseert de crediteurenstroom; Document Output verzorgt de elektronische facturatie via Peppol.<\/p>", "process": null, "scenarios": ["BS65.253", "BS65.254", "BS65.256"]}], "scenarios": {"BS25.101": {"code": "BS25.101", "title": "Beheren verkoopprijzen", "section": "2.2.2", "domain": 2, "fit": "standard", "addon": null, "gap": null, "requirements": ["REQ-004"], "html": "<p>Per klant(groep) wordt een verkoopprijslijst aangelegd in Business Central. De promoperiodes die vandaag in Excel beheerd worden, worden datumbegrensde prijslijstregels: een actieprijs met begin- en einddatum die tijdens de promoperiode automatisch voorrang krijgt op de basisprijs. Bij het ingeven of importeren van een order bepaalt BC de geldige prijs op orderdatum — de foutgevoelige manuele opzoeking vervalt.<\/p>\n<p>Prijslijsten worden beheerd door de verkoopbinnendienst; een goedkeuringsdatum en status (concept/actief) voorkomen dat onafgewerkte prijzen gebruikt worden.<\/p>"}, "BS25.202": {"code": "BS25.202", "title": "Verkooporders maken", "section": "2.5.1", "domain": 2, "fit": "standard", "addon": null, "gap": null, "requirements": ["REQ-001"], "html": "<p>Alle kanalen monden uit in één en hetzelfde verkooporder in Business Central:<\/p>\n<ul>\n<li><strong>EDI-retail en webshop<\/strong>: orders komen automatisch binnen via het integratieframework (zie BS95.002) en worden als verkooporder aangemaakt met klant, artikelen, aantallen en gevraagde leverdatum reeds ingevuld. De binnendienst controleert enkel uitval (onbekend artikel, afwijkende prijs).<\/li>\n<li><strong>Telefoon/mail<\/strong>: manuele ingave door de binnendienst; klantgegevens, leveradres en prijzen worden automatisch uit de klantenfiche en prijslijsten overgenomen.<\/li>\n<\/ul>\n<p>Na volledige ingave wordt het order vrijgegeven richting magazijn. Er is geen interne goedkeuringsflow op verkooporders: prijscontrole gebeurt vooraf via de prijslijsten.<\/p>"}, "BS25.328": {"code": "BS25.328", "title": "Ordertoezegging", "section": "2.5.12", "domain": 2, "fit": "standard", "addon": null, "gap": null, "requirements": ["REQ-003"], "html": "<p>Voor de retailorders met een harde leverdatum gebruikt de binnendienst de standaard ordertoezeggingsfunctionaliteit (order promising): bij het ingeven van de orderregel berekent BC op basis van voorraad en geplande ontvangsten de vroegst haalbare verzenddatum. Regels die de gevraagde leverdatum niet halen, kleuren onmiddellijk af — vóór bevestiging aan de keten, niet pas bij het picken. Zo worden boetes voor gemiste leverdata vermeden.<\/p>"}, "BS25.206": {"code": "BS25.206", "title": "Beheer van backorders", "section": "2.5.5", "domain": 2, "fit": "standard", "addon": null, "gap": null, "requirements": ["REQ-002"], "html": "<p>Het backorderbeleid verschilt per kanaal en wordt gestuurd via het veld <em>Verzendadvies<\/em> op de klantenfiche:<\/p>\n<ul>\n<li><strong>Retailketens<\/strong> — geen backorders: wat bij verzending niet mee kan, wordt op het order geannuleerd zodat het order administratief afgesloten wordt en de keten een correcte pakbon krijgt. De binnendienst verwittigt de keten vóór levering.<\/li>\n<li><strong>Webshop- en telefoonklanten<\/strong> — restsaldo blijft als backorder openstaan en wordt automatisch mee opgenomen in de eerstvolgende picking zodra er voorraad is.<\/li>\n<\/ul>"}, "BS25.213": {"code": "BS25.213", "title": "Verkoopfacturen maken", "section": "2.6.1", "domain": 2, "fit": "standard", "addon": null, "gap": "GAP-2", "requirements": ["REQ-005"], "html": "<p>Facturatie volgt twee ritmes:<\/p>\n<ul>\n<li><strong>Retailketens<\/strong>: wekelijks een verzamelfactuur per keten. De geboekte verzendingen van de week worden via <em>Verzamelfacturen<\/em> (gecombineerde verzendingen) op één verkoopfactuur samengebracht.<\/li>\n<li><strong>Overige klanten<\/strong>: factuur per levering, automatisch aangemaakt bij het boeken van de verzending.<\/li>\n<\/ul>\n<p>Alle verkoopfacturen vertrekken elektronisch via Peppol (zie BS65.256); de retailketens ontvangen daarnaast hun vertrouwde EDI INVOIC-bericht. De specifieke lay-outvereisten van de ketens zijn opgenomen in het GAP-register (GAP-2).<\/p>"}, "BS50.100": {"code": "BS50.100", "title": "Artikelen beheren", "section": "4.2.1", "domain": 4, "fit": "standard", "addon": null, "gap": null, "requirements": [], "html": "<p>Grondstoffen, verpakkingen en eindproducten (diepvriespatisserie) worden als artikelen aangelegd met artikelcategorieën per productgroep. Elk traceerplichtig artikel krijgt een artikeltraceringscode (zie BS50.104) en een houdbaarheidsformule waarmee BC de THT berekent bij productie of ontvangst. Waarderingsmethode: FIFO.<\/p>"}, "BS50.104": {"code": "BS50.104", "title": "Artikeltraceringscodes beheren", "section": "4.2.4", "domain": 4, "fit": "standard", "addon": null, "gap": null, "requirements": ["REQ-007"], "html": "<p>Er worden twee traceringscodes ingericht: <code>LOT-VOLLEDIG<\/code> (lotverplicht bij ontvangst, verbruik, productie en verzending) voor grondstoffen en eindproducten, en <code>GEEN<\/code> voor niet-traceerplichtige hulpstoffen en verpakking zonder voedselcontact. Daarmee is elke voorraadbeweging van traceerplichtige artikelen naar lot herleidbaar — de basis voor de recallvereiste van 4 uur.<\/p>"}, "BS45.904": {"code": "BS45.904", "title": "Lot management", "section": "4.5.4", "domain": 4, "fit": "addon", "addon": "Aptean Food & Beverage", "gap": null, "requirements": ["REQ-007"], "html": "<p>De Aptean-lotmanagementlaag breidt de standaard BC-lottracering uit met de traceringscockpit: vanuit één scherm wordt een lot in beide richtingen getraceerd — van grondstoflot naar alle eindproductloten en afnemers (forward) en van eindproductlot terug naar alle gebruikte grondstofloten en leveranciers (backward). De FAVV-recalltest die vandaag een dag Excel-werk kost, wordt daarmee een rapport van enkele minuten, ruim binnen de 4-uursvereiste.<\/p>\n<p>Lotnummers worden automatisch toegekend volgens een nummerreeks per productiedatum; leverancierslotnummers worden bij ontvangst mee geregistreerd.<\/p>"}, "BS45.902": {"code": "BS45.902", "title": "Expiration management", "section": "4.5.3", "domain": 4, "fit": "addon", "addon": "Aptean Food & Beverage", "gap": null, "requirements": ["REQ-008"], "html": "<p>THT-beheer en uitleverregels:<\/p>\n<ul>\n<li>Elke lot krijgt bij productie/ontvangst automatisch zijn THT op basis van de houdbaarheidsformule van het artikel.<\/li>\n<li>Picken gebeurt <strong>FEFO<\/strong>: het lot met de kortste resthoudbaarheid eerst.<\/li>\n<li>Voor de retailketens geldt de <strong>2/3-resthoudbaarheidsregel<\/strong>: per klant(groep) wordt een minimale resthoudbaarheid ingesteld; loten die daar niet meer aan voldoen, biedt het systeem niet meer aan voor die klant en blijven beschikbaar voor kanalen zonder die eis.<\/li>\n<\/ul>"}, "BS45.200": {"code": "BS45.200", "title": "Artikelen blokkeren", "section": "4.5.1", "domain": 4, "fit": "workaround", "addon": null, "gap": null, "requirements": ["REQ-009"], "html": "<p>Florax heeft geen QC-labomodule in scope. De kwaliteitsvrijgave wordt daarom opgevangen met een afgesproken werkwijze op de standaard lotstatussen (Aptean status management, zie BS10.904):<\/p>\n<ol>\n<li>Elk productielot krijgt bij output automatisch de status <strong>GEBLOKKEERD-QC<\/strong> — het lot is dan niet pickbaar en niet verzendbaar.<\/li>\n<li>Na de labo-uitslag (±4 u) zet de kwaliteitsverantwoordelijke de status digitaal op <strong>VRIJGEGEVEN<\/strong> (of <strong>AFGEKEURD<\/strong>, waarna afboeking of herbestemming volgt).<\/li>\n<li>De statuswijziging wordt gelogd (gebruiker + tijdstip) — dat vervangt het papieren vrijgaveformulier en volstaat voor de IFS-audittrail.<\/li>\n<\/ol>\n<p>De labo-uitslag zelf (meetwaarden) wordt niet in BC geregistreerd; die blijft in het labosysteem. Enkel de beslissing (vrijgave/afkeuring) komt in BC. Als dit later onvoldoende blijkt, is de Aptean QC-module de opstap — dat is dan een change request.<\/p>"}, "BS65.200": {"code": "BS65.200", "title": "Inkoopfacturen maken", "section": "10.3.3", "domain": 10, "fit": "standard", "addon": null, "gap": null, "requirements": ["REQ-010"], "html": "<p>Inkoopfacturen komen binnen via de centrale mailbox of Peppol en worden door Document Capture herkend en als conceptfactuur in BC geregistreerd (variant <em>Inkoopfactuur maken via OCR<\/em>, BC65.200.04 — zie BS65.253). Facturen met een inkooporder worden regel per regel gematcht met de ontvangsten; prijs- of hoeveelheidsafwijkingen buiten de tolerantie gaan automatisch naar de goedkeuringsflow. Kostenfacturen zonder order krijgen hun grootboekrekening via herkenningsregels per leverancier.<\/p>"}, "BS65.204": {"code": "BS65.204", "title": "Inkoopfacturen boeken", "section": "10.3.7", "domain": 10, "fit": "standard", "addon": null, "gap": null, "requirements": ["REQ-010"], "html": "<p>Na goedkeuring (zie BS65.254) wordt de factuur geboekt. De betaaltermijn en skontocondities komen van de leveranciersfiche, zodat kortingen voor snelle betaling — die vandaag verloren gaan door de papieren doorlooptijd van drie weken — gehaald worden. Het originele PDF-document blijft aan de geboekte factuur gekoppeld en is vanuit de boeking raadpleegbaar (bewijsstuk voor de audit).<\/p>"}, "BS95.002": {"code": "BS95.002", "title": "EDI framework", "section": "12.1.1", "domain": 12, "fit": "gap", "addon": null, "gap": "GAP-1", "requirements": ["REQ-001", "REQ-006"], "html": "<p>Het integratieframework verwerkt de inkomende berichten:<\/p>\n<ul>\n<li><strong>Retail-EDI (ORDERS)<\/strong>: de bestaande berichten van beide ketens worden gemapt naar verkooporders. Bestaande flows kunnen per keten gekopieerd en bijgestuurd worden — dit is configuratie binnen het framework.<\/li>\n<li><strong>Webshoporders<\/strong>: de webshop (eigen bouw) levert orders aan in JSON via de centrale webservice; na validatie worden ze automatisch verkooporders.<\/li>\n<li><strong>Uitgaand — voorraadstanden naar de webshop<\/strong>: periodieke export (per kwartier) van beschikbare voorraad per artikel naar de webshop, en EDI INVOIC naar de retailketens.<\/li>\n<\/ul>\n<p>De koppeling met de webshop vraagt maatwerk aan webshopzijde én een specifieke mapping/exportprofiel in BC — omvang en aannames staan in <strong>GAP-1<\/strong>. De foutafhandeling loopt via de inbox-/outboxtransacties van het framework: uitval is zichtbaar, corrigeerbaar en herverwerkbaar zonder tussenkomst van IT.<\/p>"}, "BS65.253": {"code": "BS65.253", "title": "Verwerken binnenkomende facturen met OCR", "section": "15.1.1", "domain": 15, "fit": "addon", "addon": "Continia Document Capture", "gap": null, "requirements": ["REQ-010"], "html": "<p>Inkoopfacturen (PDF via de centrale mailbox, of rechtstreeks via Peppol) worden automatisch geïmporteerd en met OCR herkend: leverancier, factuurnummer, datums, bedragen en BTW. Per leverancier leert het sjabloon bij, zodat de herkenningsgraad na de eerste weken hoog ligt. Na validatie registreert Document Capture het document als niet-geboekte inkoopfactuur in BC; het originele PDF-bestand blijft gekoppeld tot en met de geboekte factuur.<\/p>"}, "BS65.254": {"code": "BS65.254", "title": "Goedkeuring van documenten", "section": "15.1.2", "domain": 15, "fit": "addon", "addon": "Continia Document Capture", "gap": null, "requirements": ["REQ-010"], "html": "<p>De goedkeuringsflow volgt de afgesproken bevoegdheden: de aankoper keurt goed tot €5.000, daarboven gaat de factuur naar de zaakvoerder. Goedkeuren kan in BC zelf of via de <strong>Continia Web Approval Portal<\/strong> in een webbrowser of op de smartphone — daarmee kan de zaakvoerder ook op verplaatsing goedkeuren, met het originele factuurbeeld op het scherm. Opmerkingen, doorsturen en in-wacht-zetten zijn standaard mogelijk; elke stap wordt gelogd.<\/p>"}, "BS65.256": {"code": "BS65.256", "title": "PEPPOL", "section": "15.2.2", "domain": 15, "fit": "addon", "addon": "Continia Document Output", "gap": null, "requirements": ["REQ-005"], "html": "<p>Alle verkoopfacturen en -creditnota's vertrekken als Peppol BIS-bericht; Continia is zelf officiële Peppol service provider, dus er is geen aparte accesspoint-partij nodig. Voor de retailketens blijft daarnaast het bestaande EDI INVOIC-bericht via het integratieframework lopen (zie BS95.002 en GAP-2 voor de lay-outvereisten).<\/p>"}}, "coverage": [{"code": "BS25.101", "title": "Beheren verkoopprijzen", "domain": 2, "scope": true, "fit": "standard", "addon": null, "gap": null, "note": "Prijslijsten + promoperiodes vervangen Excel"}, {"code": "BS25.200", "title": "Verkoopoffertes maken", "domain": 2, "scope": false, "fit": null, "addon": null, "gap": null, "note": "Geen offertetraject: vaste prijslijsten"}, {"code": "BS25.202", "title": "Verkooporders maken", "domain": 2, "scope": true, "fit": "standard", "addon": null, "gap": null, "note": "Drie kanalen, één orderstroom"}, {"code": "BS25.328", "title": "Ordertoezegging", "domain": 2, "scope": true, "fit": "standard", "addon": null, "gap": null, "note": "Haalbaarheid leverdatum retail bij ingave"}, {"code": "BS25.206", "title": "Beheer van backorders", "domain": 2, "scope": true, "fit": "standard", "addon": null, "gap": null, "note": "Kanaalafhankelijk via verzendadvies"}, {"code": "BS25.213", "title": "Verkoopfacturen maken", "domain": 2, "scope": true, "fit": "standard", "addon": null, "gap": null, "note": "Verzamelfactuur retail wekelijks; lay-out zie GAP-2"}, {"code": "BS25.900", "title": "Advanced pricing (Aptean)", "domain": 2, "scope": false, "fit": null, "addon": null, "gap": null, "note": "Standaard prijslijsten volstaan (herbekijken bij bonusafspraken)"}, {"code": "BS50.100", "title": "Artikelen beheren", "domain": 4, "scope": true, "fit": "standard", "addon": null, "gap": null, "note": "FIFO, houdbaarheidsformules"}, {"code": "BS50.104", "title": "Artikeltraceringscodes beheren", "domain": 4, "scope": true, "fit": "standard", "addon": null, "gap": null, "note": "LOT-VOLLEDIG voor traceerplichtige artikelen"}, {"code": "BS40.900", "title": "Catch weight", "domain": 4, "scope": false, "fit": null, "addon": null, "gap": null, "note": "Alles op stuks/dozen — geen variabel gewicht"}, {"code": "BS45.200", "title": "Artikelen blokkeren", "domain": 4, "scope": true, "fit": "workaround", "addon": null, "gap": null, "note": "QC-vrijgave via lotstatussen, geen labomodule"}, {"code": "BS45.902", "title": "Expiration management", "domain": 4, "scope": true, "fit": "addon", "addon": "Aptean Food & Beverage", "gap": null, "note": "FEFO + 2/3-resthoudbaarheidsregel retail"}, {"code": "BS45.904", "title": "Lot management", "domain": 4, "scope": true, "fit": "addon", "addon": "Aptean Food & Beverage", "gap": null, "note": "Traceringscockpit; recall < 4 u"}, {"code": "BS60.202", "title": "Aanmaken van een serviceorder", "domain": 9, "scope": false, "fit": null, "addon": null, "gap": null, "note": "Geen serviceactiviteiten"}, {"code": "BS65.200", "title": "Inkoopfacturen maken", "domain": 10, "scope": true, "fit": "standard", "addon": null, "gap": null, "note": "Via OCR-variant (BC65.200.04)"}, {"code": "BS65.204", "title": "Inkoopfacturen boeken", "domain": 10, "scope": true, "fit": "standard", "addon": null, "gap": null, "note": "Skonto's halen dankzij kortere doorlooptijd"}, {"code": "BS95.002", "title": "EDI framework", "domain": 12, "scope": true, "fit": "gap", "addon": null, "gap": "GAP-1", "note": "Retail-EDI = configuratie; webshop = maatwerk"}, {"code": "BS65.253", "title": "Verwerken binnenkomende facturen met OCR", "domain": 15, "scope": true, "fit": "addon", "addon": "Continia Document Capture", "gap": null, "note": "±250 facturen/maand"}, {"code": "BS65.254", "title": "Goedkeuring van documenten", "domain": 15, "scope": true, "fit": "addon", "addon": "Continia Document Capture", "gap": null, "note": "Web Approval Portal voor zaakvoerder"}, {"code": "BS65.256", "title": "PEPPOL", "domain": 15, "scope": true, "fit": "addon", "addon": "Continia Document Output", "gap": null, "note": "Mandaat vanaf go-live"}], "requirements": [{"id": "REQ-001", "title": "Orderintake via drie kanalen (EDI, webshop, manueel)", "source": "2026-05-12-verkoop-transcript.md §2", "scenarios": ["BS25.202", "BS95.002"], "html": "<blockquote>\n<p>\"De twee retailketens sturen EDI-orders, dat is zowat 60 procent van het volume.<\/p>\n<p>Dan de webshop voor de kleinere afnemers, en de rest komt per telefoon of mail.\"<\/p>\n<\/blockquote>\n<p>EDI-orders van 2 retailketens en webshoporders moeten automatisch verkooporders worden; manuele intake blijft voor telefoon/mail.<\/p>"}, {"id": "REQ-002", "title": "Kanaalafhankelijk backorderbeleid", "source": "2026-05-12-verkoop-transcript.md §4", "scenarios": ["BS25.206"], "html": "<blockquote>\n<p>\"Retail mag nooit een deellevering krijgen zonder verwittiging — wat niet mee kan,<\/p>\n<p>valt af, geen backorder. Voor webshop- en telefoonklanten houden we het saldo aan.\"<\/p>\n<\/blockquote>\n<p>Retailklanten: restant annuleren bij deellevering. Overige klanten: backorder aanhouden en naleveren.<\/p>"}, {"id": "REQ-003", "title": "Leverbetrouwbaarheid retail zichtbaar bij orderingave", "source": "2026-05-12-verkoop-transcript.md §5", "scenarios": ["BS25.328"], "html": "<blockquote>\n<p>\"De retailorders hebben een leverdatum die heilig is. We willen bij het ingeven al<\/p>\n<p>zien of het haalbaar is.\"<\/p>\n<\/blockquote>\n<p>Beschikbaarheids-/datumtoezegging (order promising) bij orderingave.<\/p>"}, {"id": "REQ-004", "title": "Klantprijslijsten met promoperiodes", "source": "2026-05-12-verkoop-transcript.md §7", "scenarios": ["BS25.101"], "html": "<blockquote>\n<p>\"Per klant een prijslijst, en daarboven promoperiodes. Nu in Excel, foutgevoelig.\"<\/p>\n<\/blockquote>\n<p>Klantspecifieke prijslijsten plus datumbegrensde actieprijzen die de basisprijs tijdelijk overschrijven.<\/p>"}, {"id": "REQ-005", "title": "Facturatie: verzamelfactuur retail, Peppol voor iedereen", "source": "2026-05-12-verkoop-transcript.md §8; 2026-05-20-voorraad-finance-notes.md §6", "scenarios": ["BS25.213", "BS65.256"], "html": "<blockquote>\n<p>\"Retail wil wekelijks een verzamelfactuur, de rest factuur per levering. En alles<\/p>\n<p>moet via Peppol kunnen tegen de mandaatdatum.\"<\/p>\n<\/blockquote>\n<p>Wekelijkse verzamelfacturatie per retailketen; overige klanten per levering; alle verkoopfacturen via Peppol, retail daarnaast via EDI INVOIC.<\/p>"}, {"id": "REQ-006", "title": "Webshopkoppeling (orders in, voorraad terug)", "source": "2026-05-12-verkoop-transcript.md §10", "scenarios": ["BS95.002"], "html": "<blockquote>\n<p>\"Orders moeten er automatisch in, en de webshop moet voorraadstanden terugkrijgen.<\/p>\n<p>Dat is voor ons de grootste zorg van het hele project.\"<\/p>\n<\/blockquote>\n<p>Tweerichtingskoppeling met de bestaande (eigen) webshop: inkomende orders, uitgaande voorraadstanden.<\/p>"}, {"id": "REQ-007", "title": "Volledige lottracering met THT, recall binnen 4 uur", "source": "2026-05-20-voorraad-finance-notes.md §1", "scenarios": ["BS45.904", "BS50.104"], "html": "<blockquote>\n<p>\"Elke grondstof- en eindproductbeweging moet naar lot herleidbaar zijn, mét THT.<\/p>\n<p>Recall moet binnen 4 uur een volledige tracering opleveren.\"<\/p>\n<\/blockquote>\n<p>Lottracering end-to-end (IFS + FAVV); tracering in beide richtingen op te vragen.<\/p>"}, {"id": "REQ-008", "title": "FEFO-uitlevering met resthoudbaarheidsregel retail", "source": "2026-05-20-voorraad-finance-notes.md §2", "scenarios": ["BS45.902"], "html": "<blockquote>\n<p>\"Resthoudbaarheid bij levering aan retail minimaal 2/3 van de totale houdbaarheid.<\/p>\n<p>Uitleveren gebeurt FEFO.\"<\/p>\n<\/blockquote>\n<p>THT-bewaking per lot; picken volgens FEFO; blokkeren van loten die de 2/3-resthoudbaarheidsregel voor retail niet meer halen.<\/p>"}, {"id": "REQ-009", "title": "Kwaliteitsvrijgave van productieloten", "source": "2026-05-20-voorraad-finance-notes.md §3", "scenarios": ["BS45.200", "BS10.904"], "html": "<blockquote>\n<p>\"Kwaliteit blokkeert loten na productie tot de labo-uitslag binnen is. Vrijgave nu<\/p>\n<p>op papier.\"<\/p>\n<\/blockquote>\n<p>Loten na productie automatisch geblokkeerd; digitale vrijgave door kwaliteit.<\/p>"}, {"id": "REQ-010", "title": "Digitale verwerking en goedkeuring inkoopfacturen", "source": "2026-05-20-voorraad-finance-notes.md §4–5", "scenarios": ["BS65.253", "BS65.254", "BS65.200", "BS65.204"], "html": "<blockquote>\n<p>\"± 250 inkoopfacturen/maand, vandaag manueel ingetikt en op papier ter goedkeuring<\/p>\n<p>rondgedragen. De zaakvoerder wil goedkeuren vanop verplaatsing.\"<\/p>\n<\/blockquote>\n<p>OCR-verwerking van inkoopfacturen; goedkeuringsflow aankoper ≤ €5.000, daarboven zaakvoerder; goedkeuren via webbrowser/mobiel.<\/p>\n<p>&lt;!-- Next ID: REQ-011 --&gt;<\/p>"}], "gaps": [{"id": "GAP-1", "title": "Webshopkoppeling: orders in, voorraadstanden terug", "scenarios": ["BS95.002"], "html": "<p>De webshop is eigen bouw en blijft behouden. Het EDI/integratieframework dekt de berichtafhandeling (webservice, validatie, inbox/outbox, foutafhandeling), maar er is maatwerk nodig op twee punten:<\/p>\n<ol>\n<li><strong>Inkomend<\/strong> — de webshop levert vandaag geen JSON in de structuur die het framework verwacht; de webshopleverancier bouwt de aanroep van de centrale webservice, en in BC wordt de mapping webshoporder → verkooporder geconfigureerd (klantidentificatie via e-mail/klantnummer, artikelmapping via webshop-SKU).<\/li>\n<li><strong>Uitgaand<\/strong> — een exportprofiel \"beschikbare voorraad per artikel\" dat elk kwartier naar de webshop-API publiceert, inclusief de THT-regel: enkel loten die nog verkoopbaar zijn tellen mee als beschikbaar.<\/li>\n<\/ol>\n<p>Aannames: de webshop kan een REST-endpoint aanbieden voor de voorraadfeed; het bestaande klant- en artikelbestand van de webshop wordt vóór go-live gealigneerd op de BC-nummering.<\/p>"}, {"id": "GAP-2", "title": "Factuurlay-out en EDI INVOIC retailketens", "scenarios": ["BS25.213"], "html": "<p>De twee retailketens stellen eigen eisen aan de wekelijkse verzamelfactuur: eigen referenties (GLN, contractnummer, actiecodes) op regel- én documentniveau, en daarnaast het EDI INVOIC-bericht in het bestaande formaat van elke keten. De standaard factuurlay-out en de standaard Peppol-output dekken dit niet:<\/p>\n<ul>\n<li>aangepaste verzamelfactuurlay-out per keten (dataset-uitbreiding + lay-out), en<\/li>\n<li>twee uitgaande INVOIC-mappings in het integratieframework (per keten één), gevoed vanuit de geboekte verkoopfactuur.<\/li>\n<\/ul>\n<p>&lt;!-- Next ID: GAP-3 --&gt;<\/p>"}]};
+</script>
+<script>
+/* BPA interactive viewer.
+ * Consumes window.BPA (injected at build time by tools/build_bpa.py):
+ *   client   {name, period, title, intro_html, labels{}}
+ *   domains  [{number, title, intro_html, process, scenarios:[codes]}]
+ *   scenarios{ code: {code,title,section,domain,fit,addon,gap,status,requirements:[],html} }
+ *   coverage [{code,title,domain,scope,fit,note}]
+ *   requirements [{id,title,source,html,scenarios:[]}]
+ *   gaps     [{id,title,html,scenarios:[]}]
+ * Fit values: "standard" | "addon" | "workaround" | "gap" | "none".
+ */
+(function () {
+  "use strict";
+  var D = window.BPA;
+  if (!D) { document.getElementById("app").textContent = "Geen BPA-data gevonden."; return; }
+
+  var L = Object.assign({
+    processes: "Processen", scope: "Scope", requirements: "Requirements", gaps: "GAPs",
+    intro: "Inleiding", search: "Zoek scenario of code…", inScope: "in scope",
+    outScope: "buiten scope", legendStandard: "Standaard BC", legendAddon: "Add-on",
+    legendWorkaround: "Workaround", legendGap: "GAP (maatwerk)", legendNone: "Niet gedocumenteerd",
+    otherScenarios: "Alle scenario's in dit domein", noResults: "Geen resultaten",
+    gotoProcess: "Ga naar processtroom", metRequirements: "Gekoppelde requirements",
+    fit: { standard: "Standaard BC", addon: "Add-on", workaround: "Workaround", gap: "GAP", none: "—" },
+    domainDocOnly: "Voor dit domein is geen processtroom gedefinieerd; de scenario's staan hieronder.",
+    scopeCols: ["Code", "Scenario", "Domein", "Scope", "Invulling", "Toelichting"],
+    filterAll: "alle"
+  }, D.client.labels || {});
+
+  var app = document.getElementById("app");
+  var domByNum = {};
+  D.domains.forEach(function (d) { domByNum[d.number] = d; });
+
+  /* ---------------- helpers ---------------- */
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function el(html) {
+    var t = document.createElement("template");
+    t.innerHTML = html.trim();
+    return t.content.firstChild;
+  }
+  function scen(code) { return D.scenarios[code]; }
+  function fitOf(code) {
+    var s = scen(code);
+    return s && s.fit ? s.fit : "none";
+  }
+  function fitChip(fit, addon) {
+    var lbl = fit === "addon" && addon ? L.fit.addon + ": " + addon : (L.fit[fit] || fit);
+    return '<span class="chip ' + esc(fit) + '">' + esc(lbl) + "</span>";
+  }
+  function wrapText(text, max) {
+    var words = String(text).split(/\s+/), lines = [], cur = "";
+    words.forEach(function (w) {
+      if ((cur + " " + w).trim().length > max && cur) { lines.push(cur); cur = w; }
+      else cur = (cur + " " + w).trim();
+    });
+    if (cur) lines.push(cur);
+    return lines;
+  }
+
+  /* ---------------- BPMN layout ---------------- */
+  var NW = 176, NH = 56, GX = 78, ROW = 92, LANE_PAD = 14, CORR = 34, LBL_W = 34, M = 16;
+
+  function shapeHalf(n) {
+    if (n.type === "start" || n.type === "end") return { w: 20, h: 20 };
+    if (n.type.indexOf("gateway") === 0) return { w: 26, h: 26 };
+    return { w: NW / 2, h: NH / 2 };
+  }
+
+  function layoutProcess(p) {
+    var byId = {}, out = {}, incoming = {};
+    p.nodes.forEach(function (n) { byId[n.id] = n; out[n.id] = []; incoming[n.id] = 0; });
+    p.flows.forEach(function (f) { out[f.from].push(f.to); });
+
+    // classify back edges with DFS from start nodes (then any unvisited)
+    var back = {}, state = {}; // 0 unseen, 1 on stack, 2 done
+    function dfs(u) {
+      state[u] = 1;
+      out[u].forEach(function (v) {
+        if (state[v] === 1) back[u + ">" + v] = true;
+        else if (!state[v]) dfs(v);
+      });
+      state[u] = 2;
+    }
+    p.nodes.filter(function (n) { return n.type === "start"; }).forEach(function (n) { if (!state[n.id]) dfs(n.id); });
+    p.nodes.forEach(function (n) { if (!state[n.id]) dfs(n.id); });
+
+    var fwd = p.flows.filter(function (f) { return !back[f.from + ">" + f.to]; });
+    fwd.forEach(function (f) { incoming[f.to]++; });
+
+    // longest-path layering (Kahn)
+    var layer = {}, q = [];
+    p.nodes.forEach(function (n) { layer[n.id] = 0; if (!incoming[n.id]) q.push(n.id); });
+    var order = [], deg = Object.assign({}, incoming);
+    while (q.length) {
+      var u = q.shift(); order.push(u);
+      fwd.forEach(function (f) {
+        if (f.from !== u) return;
+        if (layer[f.to] < layer[u] + 1) layer[f.to] = layer[u] + 1;
+        if (--deg[f.to] === 0) q.push(f.to);
+      });
+    }
+
+    // rows per (lane, layer)
+    var laneIdx = {}, laneRows = {};
+    p.lanes.forEach(function (l, i) { laneIdx[l.id] = i; laneRows[l.id] = 1; });
+    var cellCount = {};
+    var rowOf = {};
+    p.nodes.forEach(function (n) {
+      var key = n.lane + "|" + layer[n.id];
+      rowOf[n.id] = cellCount[key] = (cellCount[key] || 0);
+      cellCount[key]++;
+      if (cellCount[key] > laneRows[n.lane]) laneRows[n.lane] = cellCount[key];
+    });
+
+    var lanes = [], y = M;
+    p.lanes.forEach(function (l) {
+      var h = LANE_PAD * 2 + laneRows[l.id] * ROW + CORR;
+      lanes.push({ id: l.id, label: l.label, y: y, h: h });
+      y += h;
+    });
+    var laneBy = {}; lanes.forEach(function (l) { laneBy[l.id] = l; });
+
+    var maxLayer = 0;
+    p.nodes.forEach(function (n) { if (layer[n.id] > maxLayer) maxLayer = layer[n.id]; });
+    var width = M + LBL_W + (maxLayer + 1) * (NW + GX) - GX + M + 60;
+    var height = y + M;
+
+    var pos = {};
+    p.nodes.forEach(function (n) {
+      var ln = laneBy[n.lane];
+      pos[n.id] = {
+        node: n,
+        cx: M + LBL_W + layer[n.id] * (NW + GX) + NW / 2,
+        cy: ln.y + LANE_PAD + rowOf[n.id] * ROW + ROW / 2 - CORR / 4,
+        layer: layer[n.id]
+      };
+    });
+
+    // route edges
+    var edges = p.flows.map(function (f) {
+      var s = pos[f.from], t = pos[f.to];
+      var sh = shapeHalf(s.node), th = shapeHalf(t.node);
+      var pts, labelAt;
+      var isBack = back[f.from + ">" + f.to] || t.layer <= s.layer;
+      if (!isBack && t.layer - s.layer > 1) {
+        // long edge: route through the node-free corridor at the bottom of the
+        // source lane so it never crosses nodes in the layers it skips
+        var lnS = laneBy[s.node.lane];
+        var corrY = lnS.y + lnS.h - CORR / 2;
+        var xo = s.cx + sh.w, xi = t.cx - th.w;
+        pts = [[xo, s.cy], [xo + GX / 2 - 8, s.cy], [xo + GX / 2 - 8, corrY],
+               [xi - GX / 2 + 8, corrY], [xi - GX / 2 + 8, t.cy], [xi, t.cy]];
+        labelAt = [xo + 8, s.cy - 7];
+      } else if (!isBack) {
+        var x0 = s.cx + sh.w, x1 = t.cx - th.w;
+        if (Math.abs(s.cy - t.cy) < 2) {
+          pts = [[x0, s.cy], [x1, t.cy]];
+        } else {
+          var mx = x1 - GX / 2 + 8;
+          pts = [[x0, s.cy], [mx, s.cy], [mx, t.cy], [x1, t.cy]];
+        }
+        labelAt = [x0 + 8, s.cy - 7];
+      } else {
+        var ln = laneBy[s.node.lane];
+        var cy = ln.y + ln.h - CORR / 2;
+        pts = [[s.cx, s.cy + sh.h], [s.cx, cy], [t.cx, cy], [t.cx, t.cy + th.h]];
+        labelAt = [Math.min(s.cx, t.cx) + 14, cy - 6];
+      }
+      return { flow: f, pts: pts, labelAt: labelAt };
+    });
+
+    return { lanes: lanes, pos: pos, edges: edges, width: width, height: height };
+  }
+
+  /* ---------------- BPMN render ---------------- */
+  function svgNode(pos) {
+    var n = pos.node, cx = pos.cx, cy = pos.cy;
+    var s = scen(n.scenario);
+    var fit = n.scenario ? fitOf(n.scenario) : null;
+    var cls = "node n-" + n.type + (fit ? " fit-" + fit : "") +
+      (n.scenario || n.goto ? " clickable" : "");
+    var g = '<g class="' + cls + '" data-node="' + esc(n.id) + '"' +
+      (n.scenario ? ' data-scenario="' + esc(n.scenario) + '"' : "") +
+      (n.goto ? ' data-goto="' + esc(n.goto) + '"' : "") + ">";
+    var title = n.label || (s ? s.title : n.id);
+
+    if (n.type === "start" || n.type === "end") {
+      g += '<circle class="shape" cx="' + cx + '" cy="' + cy + '" r="20"/>';
+      wrapText(title, 20).slice(0, 2).forEach(function (ln, i) {
+        g += '<text class="evt-label" x="' + cx + '" y="' + (cy + 34 + i * 13) + '" text-anchor="middle">' + esc(ln) + "</text>";
+      });
+    } else if (n.type.indexOf("gateway") === 0) {
+      var h = 26;
+      g += '<path class="shape" d="M' + cx + " " + (cy - h) + " L" + (cx + h) + " " + cy +
+        " L" + cx + " " + (cy + h) + " L" + (cx - h) + " " + cy + ' Z"/>';
+      if (n.type === "gateway-parallel") {
+        g += '<path class="gw-mark" d="M' + (cx - 9) + " " + cy + " H" + (cx + 9) + " M" + cx + " " + (cy - 9) + " V" + (cy + 9) + '"/>';
+      } else {
+        g += '<path class="gw-mark" d="M' + (cx - 7) + " " + (cy - 7) + " L" + (cx + 7) + " " + (cy + 7) +
+          " M" + (cx + 7) + " " + (cy - 7) + " L" + (cx - 7) + " " + (cy + 7) + '"/>';
+      }
+      if (title) {
+        var glines = wrapText(title, 18).slice(0, 2);
+        var gy = cy - h - 8 - (glines.length - 1) * 13;
+        glines.forEach(function (ln, i) {
+          g += '<text class="gw-label" x="' + cx + '" y="' + (gy + i * 13) + '" text-anchor="middle">' + esc(ln) + "</text>";
+        });
+      }
+    } else { // task / subprocess
+      var x = cx - NW / 2, yy = cy - NH / 2;
+      g += '<rect class="shape" x="' + x + '" y="' + yy + '" width="' + NW + '" height="' + NH + '" rx="9" stroke-width="2"/>';
+      if (n.scenario) {
+        g += '<text class="code" x="' + (x + 9) + '" y="' + (yy + 14) + '">' + esc(n.scenario) + "</text>";
+      }
+      var lines = wrapText(title, 26).slice(0, 2);
+      var ty = cy + (n.scenario ? 6 : 0) - (lines.length - 1) * 7;
+      lines.forEach(function (ln, i) {
+        g += '<text class="title" x="' + cx + '" y="' + (ty + i * 15) + '" text-anchor="middle">' + esc(ln) + "</text>";
+      });
+      if (n.type === "subprocess") {
+        var bx = cx - 7, by = yy + NH - 15;
+        g += '<rect class="sub-mark" x="' + bx + '" y="' + by + '" width="14" height="14" rx="2"/>' +
+          '<path class="gw-mark" style="stroke-width:1.6" d="M' + (bx + 3) + " " + (by + 7) + " H" + (bx + 11) +
+          " M" + (bx + 7) + " " + (by + 3) + " V" + (by + 11) + '"/>';
+      }
+    }
+    return g + "</g>";
+  }
+
+  function renderDiagram(p, selected) {
+    var lay = layoutProcess(p);
+    var s = '<svg class="bpmn" viewBox="0 0 ' + lay.width + " " + lay.height + '" width="' + lay.width + '" height="' + lay.height + '">';
+    s += '<defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse">' +
+      '<path d="M0 0 L10 5 L0 10 z" fill="#6b7c8f"/></marker></defs>';
+    // lanes
+    lay.lanes.forEach(function (l, i) {
+      s += '<rect class="lane-band-' + (i % 2) + '" x="' + M + '" y="' + l.y + '" width="' + (lay.width - 2 * M) + '" height="' + l.h + '" stroke="#d7dee7" stroke-width="1" />';
+      s += '<text class="lane-label" transform="translate(' + (M + 20) + " " + (l.y + l.h / 2) + ') rotate(-90)" text-anchor="middle">' + esc(l.label) + "</text>";
+    });
+    // edges
+    lay.edges.forEach(function (e) {
+      var d = e.pts.map(function (pt, i) { return (i ? "L" : "M") + pt[0] + " " + pt[1]; }).join(" ");
+      s += '<path class="flow" d="' + d + '" marker-end="url(#arr)"/>';
+      if (e.flow.label) {
+        var w = e.flow.label.length * 6 + 8;
+        s += '<rect class="flow-label-bg" x="' + (e.labelAt[0] - 3) + '" y="' + (e.labelAt[1] - 10) + '" width="' + w + '" height="14" rx="3"/>' +
+          '<text class="flow-label" x="' + e.labelAt[0] + '" y="' + (e.labelAt[1] + 1) + '">' + esc(e.flow.label) + "</text>";
+      }
+    });
+    // nodes
+    p.nodes.forEach(function (n) {
+      var g = svgNode(lay.pos[n.id]);
+      if (selected && n.scenario === selected) g = g.replace('class="node', 'class="node selected');
+      s += g;
+    });
+    return s + "</svg>";
+  }
+
+  /* ---------------- views ---------------- */
+  function chrome(active) {
+    var tabs = [["#/intro", L.intro], ["#/scope", L.scope], ["#/requirements", L.requirements], ["#/gaps", L.gaps]];
+    var nav = tabs.map(function (t) {
+      return '<a href="' + t[0] + '"' + (active === t[0] ? ' class="on"' : "") + ">" + esc(t[1]) + "</a>";
+    }).join("");
+    var doms = D.domains.map(function (d) {
+      var cnt = d.scenarios.length;
+      return '<a href="#/domain/' + d.number + '" data-dom="' + d.number + '">' +
+        '<span class="n">' + d.number + "</span><span>" + esc(d.title) + "</span>" +
+        (cnt ? '<span class="cnt">' + cnt + "</span>" : "") + "</a>";
+    }).join("");
+    app.innerHTML =
+      '<header class="hdr"><div class="brand">' + esc(D.client.title || "Business Process Analyse") +
+      "<small>" + esc(D.client.name) + (D.client.period ? " · " + esc(D.client.period) : "") + "</small></div>" +
+      "<nav>" + nav + "</nav></header>" +
+      '<div class="main"><aside class="side">' +
+      '<div class="search"><input id="q" type="search" placeholder="' + esc(L.search) + '"></div>' +
+      '<div class="domlist" id="domlist">' + doms + '</div><div class="hits" id="hits" style="display:none"></div>' +
+      '</aside><section class="content"><div class="inner" id="view"></div></section></div>' +
+      '<div class="panel-wrap" id="panelwrap"><div class="veil"></div><div class="panel" id="panel"></div></div>';
+
+    document.getElementById("q").addEventListener("input", onSearch);
+    document.querySelector("#panelwrap .veil").addEventListener("click", closePanel);
+  }
+
+  function onSearch(ev) {
+    var q = ev.target.value.trim().toLowerCase();
+    var hits = document.getElementById("hits"), doms = document.getElementById("domlist");
+    if (q.length < 2) { hits.style.display = "none"; doms.style.display = ""; return; }
+    var res = [];
+    Object.keys(D.scenarios).forEach(function (code) {
+      var s = D.scenarios[code];
+      if (code.toLowerCase().indexOf(q) >= 0 || (s.title || "").toLowerCase().indexOf(q) >= 0) res.push(s);
+    });
+    res = res.slice(0, 40);
+    hits.innerHTML = res.length
+      ? res.map(function (s) {
+        return '<a class="hit" href="#/domain/' + s.domain + "/doc/" + esc(s.code) + '"><code>' + esc(s.code) + "</code> " + esc(s.title) + "</a>";
+      }).join("")
+      : '<div class="none">' + esc(L.noResults) + "</div>";
+    hits.style.display = ""; doms.style.display = "none";
+  }
+
+  function markDomain(num) {
+    document.querySelectorAll("#domlist a").forEach(function (a) {
+      a.classList.toggle("on", a.getAttribute("data-dom") === String(num));
+    });
+  }
+
+  function legend() {
+    return '<div class="legend">' +
+      '<span><i style="border-color:var(--fit-standard);background:var(--fit-standard-bg)"></i>' + esc(L.legendStandard) + "</span>" +
+      '<span><i style="border-color:var(--fit-addon);background:var(--fit-addon-bg)"></i>' + esc(L.legendAddon) + "</span>" +
+      '<span><i style="border-color:var(--fit-workaround);background:var(--fit-workaround-bg)"></i>' + esc(L.legendWorkaround) + "</span>" +
+      '<span><i style="border-color:var(--fit-gap);background:var(--fit-gap-bg)"></i>' + esc(L.legendGap) + "</span>" +
+      '<span><i style="border-color:var(--fit-none);background:var(--fit-none-bg);border-style:dashed"></i>' + esc(L.legendNone) + "</span></div>";
+  }
+
+  function scenCard(code) {
+    var s = scen(code);
+    if (!s) return "";
+    var fit = fitOf(code);
+    return '<div class="scen-card ' + fit + '" data-scenario="' + esc(code) + '">' +
+      '<div class="m"><code class="bs">' + esc(code) + "</code>" + (s.section ? " · " + esc(s.section) : "") + "</div>" +
+      '<div class="t">' + esc(s.title) + "</div>" +
+      '<div class="m">' + fitChip(fit, s.addon) +
+      (s.gap ? ' <span class="chip gap">' + esc(s.gap) + "</span>" : "") + "</div></div>";
+  }
+
+  function viewDomain(num, docCode) {
+    var d = domByNum[num];
+    if (!d) return viewIntro();
+    markDomain(num);
+    var v = document.getElementById("view");
+    var h = '<h1 class="pg">' + d.number + ". " + esc(d.title) + "</h1>";
+    if (d.process) h += '<p class="pg-sub">' + esc(d.process.subtitle || "") + "</p>";
+    if (d.intro_html) h += '<div class="card md">' + d.intro_html + "</div>";
+    if (d.process) {
+      h += '<div class="card diagram-card"><div class="diagram-head">' + legend() +
+        '<div class="zoom"><button data-z="-">−</button><button data-z="0">⤢</button><button data-z="+">+</button></div></div>' +
+        '<div class="diagram-scroll" id="dscroll">' + renderDiagram(d.process, docCode) + "</div></div>";
+    } else if (d.scenarios.length) {
+      h += '<p class="pg-sub">' + esc(L.domainDocOnly) + "</p>";
+    }
+    if (d.scenarios.length) {
+      h += '<h2 class="sect">' + esc(L.otherScenarios) + ' (' + d.scenarios.length + ')</h2><div class="scen-grid">' +
+        d.scenarios.map(scenCard).join("") + "</div>";
+    }
+    if (!d.process && !d.scenarios.length) h += '<div class="empty">—</div>';
+    v.innerHTML = h;
+
+    var zoom = 1, svg = v.querySelector("svg.bpmn");
+    var baseW = svg ? +svg.getAttribute("width") : 0;
+    v.querySelectorAll(".zoom button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var z = b.getAttribute("data-z");
+        zoom = z === "+" ? Math.min(zoom * 1.2, 3) : z === "-" ? Math.max(zoom / 1.2, .4) : 1;
+        if (svg) { svg.setAttribute("width", baseW * zoom); svg.removeAttribute("height"); }
+      });
+    });
+    v.querySelectorAll("[data-scenario]").forEach(function (n) {
+      n.addEventListener("click", function () {
+        location.hash = "#/domain/" + num + "/doc/" + n.getAttribute("data-scenario");
+      });
+    });
+    v.querySelectorAll("svg [data-goto]:not([data-scenario])").forEach(function (n) {
+      n.addEventListener("click", function () {
+        var target = findProcessDomain(n.getAttribute("data-goto"));
+        if (target != null) location.hash = "#/domain/" + target;
+      });
+    });
+    if (docCode) openPanel(docCode, num); else closePanel();
+  }
+
+  function findProcessDomain(pid) {
+    for (var i = 0; i < D.domains.length; i++) {
+      if (D.domains[i].process && D.domains[i].process.id === pid) return D.domains[i].number;
+    }
+    return null;
+  }
+
+  function openPanel(code, domNum) {
+    var s = scen(code);
+    var wrap = document.getElementById("panelwrap"), panel = document.getElementById("panel");
+    if (!s) { closePanel(); return; }
+    var fit = fitOf(code);
+    var d = domByNum[s.domain];
+    var chips = fitChip(fit, s.addon);
+    if (s.gap) chips += ' <span class="chip gap link" data-nav="#/gaps">' + esc(s.gap) + "</span>";
+    (s.requirements || []).forEach(function (r) {
+      chips += ' <span class="chip req" data-nav="#/requirements">' + esc(r) + "</span>";
+    });
+    var goto_ = null;
+    if (d && d.process) {
+      d.process.nodes.some(function (n) { if (n.scenario === code && n.goto) { goto_ = n.goto; return true; } return false; });
+    }
+    panel.innerHTML =
+      '<div class="p-head"><button class="p-close" title="Sluiten">✕</button>' +
+      '<div class="codes"><code class="bs">' + esc(code) + "</code>" + (s.section ? '<span class="chip none">§ ' + esc(s.section) + "</span>" : "") + "</div>" +
+      "<h2>" + esc(s.title) + "</h2>" +
+      '<div class="dom">' + (d ? d.number + ". " + esc(d.title) : "") + "</div></div>" +
+      '<div class="p-body"><div class="p-meta">' + chips + "</div>" +
+      (goto_ != null && findProcessDomain(goto_) != null
+        ? '<p><span class="chip req" data-nav="#/domain/' + findProcessDomain(goto_) + '">↗ ' + esc(L.gotoProcess) + "</span></p>" : "") +
+      '<div class="md">' + (s.html || "<p><em>—</em></p>") + "</div></div>";
+    panel.querySelector(".p-close").addEventListener("click", closePanel);
+    panel.querySelectorAll("[data-nav]").forEach(function (c) {
+      c.addEventListener("click", function () { location.hash = c.getAttribute("data-nav"); });
+    });
+    panel.querySelector(".p-body").scrollTop = 0;
+    wrap.classList.add("open");
+  }
+
+  function closePanel() {
+    document.getElementById("panelwrap").classList.remove("open");
+    var m = location.hash.match(/^#\/domain\/(\d+)\/doc\//);
+    if (m) history.replaceState(null, "", "#/domain/" + m[1]);
+  }
+
+  function viewIntro() {
+    markDomain(null);
+    var v = document.getElementById("view");
+    v.innerHTML = '<h1 class="pg">' + esc(L.intro) + "</h1>" +
+      '<p class="pg-sub">' + esc(D.client.name) + (D.client.period ? " · " + esc(D.client.period) : "") +
+      (D.meta && D.meta.model ? " · " + esc(D.meta.model) : "") + "</p>" +
+      '<div class="card md">' + (D.client.intro_html || "") + "</div>";
+  }
+
+  function viewScope() {
+    markDomain(null);
+    var v = document.getElementById("view");
+    var filters = ["all", "standard", "addon", "workaround", "gap", "out"];
+    var flabel = { all: L.filterAll, standard: L.fit.standard, addon: L.fit.addon, workaround: L.fit.workaround, gap: L.fit.gap, out: L.outScope };
+    var h = '<h1 class="pg">' + esc(L.scope) + '</h1><p class="pg-sub">' +
+      D.coverage.filter(function (c) { return c.scope; }).length + " " + esc(L.inScope) + " · " +
+      D.coverage.filter(function (c) { return !c.scope; }).length + " " + esc(L.outScope) + "</p>" +
+      '<div class="filters">' + filters.map(function (f) {
+        return '<button data-f="' + f + '"' + (f === "all" ? ' class="on"' : "") + ">" + esc(flabel[f]) + "</button>";
+      }).join("") + "</div>" +
+      '<table class="reg"><thead><tr>' + L.scopeCols.map(function (c) { return "<th>" + esc(c) + "</th>"; }).join("") + "</tr></thead><tbody>" +
+      D.coverage.map(function (c) {
+        var s = scen(c.code);
+        var fit = c.scope ? (c.fit || (s && s.fit) || "none") : "out";
+        var dom = domByNum[c.domain];
+        return '<tr class="' + (s ? "click " : "") + (c.scope ? "" : "dim") + '" data-fit="' + fit + '"' +
+          (s ? ' data-scenario="' + esc(c.code) + '" data-dom="' + c.domain + '"' : "") + ">" +
+          '<td><code class="bs">' + esc(c.code) + "</code></td><td>" + esc(c.title) + "</td>" +
+          "<td>" + (dom ? dom.number + ". " + esc(dom.title) : esc(c.domain)) + "</td>" +
+          "<td>" + (c.scope ? esc(L.inScope) : esc(L.outScope)) + "</td>" +
+          "<td>" + (c.scope ? fitChip(c.fit || (s && s.fit) || "none", (s && s.addon) || c.addon) : "—") + "</td>" +
+          "<td>" + esc(c.note || "") + "</td></tr>";
+      }).join("") + "</tbody></table>";
+    v.innerHTML = h;
+    v.querySelectorAll(".filters button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        v.querySelectorAll(".filters button").forEach(function (x) { x.classList.remove("on"); });
+        b.classList.add("on");
+        var f = b.getAttribute("data-f");
+        v.querySelectorAll("tbody tr").forEach(function (tr) {
+          tr.style.display = f === "all" || tr.getAttribute("data-fit") === f ? "" : "none";
+        });
+      });
+    });
+    v.querySelectorAll("tr.click").forEach(function (tr) {
+      tr.addEventListener("click", function () {
+        location.hash = "#/domain/" + tr.getAttribute("data-dom") + "/doc/" + tr.getAttribute("data-scenario");
+      });
+    });
+  }
+
+  function linkedScenChips(codes) {
+    return (codes || []).map(function (c) {
+      var s = scen(c);
+      return s ? '<span class="chip req link" data-nav="#/domain/' + s.domain + "/doc/" + esc(c) + '">' + esc(c) + "</span>" : '<span class="chip none">' + esc(c) + "</span>";
+    }).join(" ");
+  }
+
+  function viewRequirements() {
+    markDomain(null);
+    var v = document.getElementById("view");
+    v.innerHTML = '<h1 class="pg">' + esc(L.requirements) + '</h1><p class="pg-sub">' + D.requirements.length + "</p>" +
+      (D.requirements.length ? D.requirements.map(function (r) {
+        return '<div class="card req-card" id="' + esc(r.id) + '"><h3><code class="bs">' + esc(r.id) + "</code> " + esc(r.title) + "</h3>" +
+          (r.source ? '<div class="src">' + esc(r.source) + "</div>" : "") +
+          '<div class="md">' + (r.html || "") + "</div>" +
+          (r.scenarios && r.scenarios.length ? "<p>" + linkedScenChips(r.scenarios) + "</p>" : "") + "</div>";
+      }).join("") : '<div class="empty">—</div>');
+    bindNav(v);
+  }
+
+  function viewGaps() {
+    markDomain(null);
+    var v = document.getElementById("view");
+    v.innerHTML = '<h1 class="pg">' + esc(L.gaps) + '</h1><p class="pg-sub">' + D.gaps.length + "</p>" +
+      (D.gaps.length ? D.gaps.map(function (g) {
+        return '<div class="card gap-card" id="' + esc(g.id) + '"><h3><code class="bs">' + esc(g.id) + "</code> " + esc(g.title) + "</h3>" +
+          '<div class="md">' + (g.html || "") + "</div>" +
+          (g.scenarios && g.scenarios.length ? "<p>" + linkedScenChips(g.scenarios) + "</p>" : "") + "</div>";
+      }).join("") : '<div class="empty">—</div>');
+    bindNav(v);
+  }
+
+  function bindNav(root) {
+    root.querySelectorAll("[data-nav]").forEach(function (c) {
+      c.addEventListener("click", function () { location.hash = c.getAttribute("data-nav"); });
+    });
+  }
+
+  /* ---------------- router ---------------- */
+  function route() {
+    var h = location.hash || "";
+    var active = "#/intro";
+    var m;
+    if ((m = h.match(/^#\/domain\/(\d+)(?:\/doc\/([A-Za-z0-9.]+))?/))) {
+      active = null;
+      chromeOnce(active);
+      viewDomain(+m[1], m[2] || null);
+      return;
+    }
+    if (h === "#/scope") { chromeOnce(h); viewScope(); return; }
+    if (h === "#/requirements") { chromeOnce(h); viewRequirements(); return; }
+    if (h === "#/gaps") { chromeOnce(h); viewGaps(); return; }
+    chromeOnce("#/intro"); viewIntro();
+  }
+
+  var chromed = null;
+  function chromeOnce(active) {
+    // rebuild header nav highlight cheaply; full chrome only once
+    if (!chromed) { chrome(active); chromed = true; }
+    document.querySelectorAll(".hdr nav a").forEach(function (a) {
+      a.classList.toggle("on", a.getAttribute("href") === active);
+    });
+  }
+
+  window.addEventListener("hashchange", route);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closePanel(); });
+  route();
+})();
+
+</script>
+</body>
+</html>

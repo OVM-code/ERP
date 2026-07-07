@@ -1,0 +1,37 @@
+{
+  "id": "magazijnbeheer",
+  "domain": 8,
+  "title": "Magazijnbeheer",
+  "subtitle": "Van ontvangst tot verzending",
+  "lanes": [
+    { "id": "ontvangst", "label": "Ontvangst" },
+    { "id": "magazijn", "label": "Magazijn" },
+    { "id": "verzending", "label": "Verzending" }
+  ],
+  "nodes": [
+    { "id": "start", "type": "start", "label": "Goederen aangemeld (inkoop/productie/transfer)", "lane": "ontvangst" },
+    { "id": "ontvangen", "type": "task", "label": "Magazijnontvangst maken", "lane": "ontvangst", "scenario": "BS50.202" },
+    { "id": "gw-crossdock", "type": "gateway", "label": "Cross-docking?", "lane": "ontvangst" },
+    { "id": "crossdock", "type": "task", "label": "Cross-dock artikelen", "lane": "ontvangst", "scenario": "BS50.205" },
+    { "id": "opslag", "type": "task", "label": "Voorraadopslag uitvoeren", "lane": "magazijn", "scenario": "BS50.217" },
+    { "id": "verplaatsen", "type": "task", "label": "Artikelen verplaatsen", "lane": "magazijn", "scenario": "BS50.207" },
+    { "id": "herbevoorraden", "type": "task", "label": "Opslaglocaties herbevoorraden", "lane": "magazijn", "scenario": "BS50.216" },
+    { "id": "picken", "type": "task", "label": "Artikelen picken", "lane": "verzending", "scenario": "BS50.213" },
+    { "id": "verzending-maken", "type": "task", "label": "Magazijnverzending maken", "lane": "verzending", "scenario": "BS50.214" },
+    { "id": "verzenden", "type": "task", "label": "Artikelen verzenden", "lane": "verzending", "scenario": "BS50.215" },
+    { "id": "end", "type": "end", "label": "Goederen verzonden", "lane": "verzending" }
+  ],
+  "flows": [
+    { "from": "start", "to": "ontvangen" },
+    { "from": "ontvangen", "to": "gw-crossdock" },
+    { "from": "gw-crossdock", "to": "crossdock", "label": "ja" },
+    { "from": "crossdock", "to": "picken" },
+    { "from": "gw-crossdock", "to": "opslag", "label": "nee" },
+    { "from": "opslag", "to": "verplaatsen" },
+    { "from": "verplaatsen", "to": "herbevoorraden" },
+    { "from": "herbevoorraden", "to": "picken" },
+    { "from": "picken", "to": "verzending-maken" },
+    { "from": "verzending-maken", "to": "verzenden" },
+    { "from": "verzenden", "to": "end" }
+  ]
+}

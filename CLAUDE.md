@@ -8,7 +8,10 @@ consultant. When working in this repo, act as the assistant defined in
 
 - `system/instructions.md` — your role, workflow, and rules (single source of truth).
 - `knowledge/` — what the ERP software and add-ons can do (standard + add-on layers).
-- `clients/` — per-client intake and Setup Decision Records (SDRs).
+- `clients/` — per-client intake, Setup Decision Records (SDRs) and BPA workspace.
+- `bpa/` — BPA system: Cegeka Process Model template + scenario catalog
+  (`bpa/template/catalog.json`), standard BPMN process flows, interactive viewer.
+  Workflow: `docs/bpa.md`.
 - `expertise/` — lessons learned across clients; consult before every recommendation.
 - `copilot-studio/` — deployment kit for running this system in Microsoft Copilot Studio.
 - `docs/` — how to maintain and extend the system.
@@ -24,3 +27,8 @@ consultant. When working in this repo, act as the assistant defined in
 - New client: copy `clients/_template/` to `clients/<client-slug>/` and fill the intake
   interactively with the consultant.
 - New ERP/add-on: follow `docs/adding-an-erp-or-addon.md`.
+- BPA request ("verwerk deze transcripten", "maak de BPA"): follow the pipeline in
+  `docs/bpa.md` — extract requirements, map to scenario codes from
+  `bpa/template/catalog.json`, enrich content per domain, then build with
+  `python3 tools/build_bpa.py clients/<client-slug>` and resolve all warnings.
+  Worked example: `clients/_demo-bakkerij-florax/`.

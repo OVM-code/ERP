@@ -1,0 +1,52 @@
+{
+  "id": "verkoop",
+  "domain": 2,
+  "title": "Verkoop",
+  "subtitle": "Van orderintake (EDI / webshop / manueel) tot betaalde factuur — klantspecifieke stroom Florax",
+  "lanes": [
+    { "id": "verkoop", "label": "Verkoop binnendienst" },
+    { "id": "magazijn", "label": "Magazijn" },
+    { "id": "finance", "label": "Finance" }
+  ],
+  "nodes": [
+    { "id": "start", "type": "start", "label": "Order ontvangen", "lane": "verkoop" },
+    { "id": "gw-kanaal", "type": "gateway", "label": "Kanaal?", "lane": "verkoop" },
+    { "id": "edi-import", "type": "task", "label": "Order automatisch importeren (EDI/webshop)", "lane": "verkoop", "scenario": "BS95.002" },
+    { "id": "order", "type": "task", "label": "Verkooporder maken / controleren", "lane": "verkoop", "scenario": "BS25.202" },
+    { "id": "toezegging", "type": "task", "label": "Leverdatum toetsen (ordertoezegging)", "lane": "verkoop", "scenario": "BS25.328" },
+    { "id": "reserveren", "type": "task", "label": "Voorraad reserveren (FEFO)", "lane": "verkoop", "scenario": "BS25.204" },
+    { "id": "verzenden", "type": "subprocess", "label": "Order picken en verzenden", "lane": "magazijn", "scenario": "BS25.205", "goto": "magazijnbeheer" },
+    { "id": "gw-volledig", "type": "gateway", "label": "Volledig geleverd?", "lane": "magazijn" },
+    { "id": "gw-retail", "type": "gateway", "label": "Retailklant?", "lane": "magazijn" },
+    { "id": "annuleren", "type": "task", "label": "Restant annuleren + keten verwittigen", "lane": "verkoop", "scenario": "BS25.207" },
+    { "id": "backorder", "type": "task", "label": "Backorder aanhouden en naleveren", "lane": "magazijn", "scenario": "BS25.206" },
+    { "id": "factuur", "type": "task", "label": "Factureren (verzamel wekelijks / per levering)", "lane": "finance", "scenario": "BS25.213" },
+    { "id": "factuur-boeken", "type": "task", "label": "Verkoopfactuur boeken + Peppol/EDI verzenden", "lane": "finance", "scenario": "BS25.214" },
+    { "id": "gw-retour", "type": "gateway", "label": "Kwaliteitsklacht?", "lane": "finance" },
+    { "id": "retour", "type": "task", "label": "Verkoopretourorder maken", "lane": "finance", "scenario": "BS25.219" },
+    { "id": "creditnota", "type": "task", "label": "Verkoopcreditnota maken", "lane": "finance", "scenario": "BS25.220" },
+    { "id": "end", "type": "end", "label": "Order afgehandeld", "lane": "finance" }
+  ],
+  "flows": [
+    { "from": "start", "to": "gw-kanaal" },
+    { "from": "gw-kanaal", "to": "edi-import", "label": "EDI / webshop" },
+    { "from": "edi-import", "to": "order" },
+    { "from": "gw-kanaal", "to": "order", "label": "telefoon / mail" },
+    { "from": "order", "to": "toezegging" },
+    { "from": "toezegging", "to": "reserveren" },
+    { "from": "reserveren", "to": "verzenden" },
+    { "from": "verzenden", "to": "gw-volledig" },
+    { "from": "gw-volledig", "to": "gw-retail", "label": "nee" },
+    { "from": "gw-retail", "to": "annuleren", "label": "ja" },
+    { "from": "annuleren", "to": "factuur" },
+    { "from": "gw-retail", "to": "backorder", "label": "nee" },
+    { "from": "backorder", "to": "verzenden", "label": "nalevering" },
+    { "from": "gw-volledig", "to": "factuur", "label": "ja" },
+    { "from": "factuur", "to": "factuur-boeken" },
+    { "from": "factuur-boeken", "to": "gw-retour" },
+    { "from": "gw-retour", "to": "retour", "label": "ja" },
+    { "from": "retour", "to": "creditnota" },
+    { "from": "creditnota", "to": "end" },
+    { "from": "gw-retour", "to": "end", "label": "nee" }
+  ]
+}

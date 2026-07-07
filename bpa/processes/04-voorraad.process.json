@@ -1,0 +1,40 @@
+{
+  "id": "voorraad",
+  "domain": 4,
+  "title": "Voorraad",
+  "subtitle": "Artikelbeheer, correcties en kwaliteit",
+  "lanes": [
+    { "id": "voorraadbeheer", "label": "Voorraadbeheer" },
+    { "id": "kwaliteit", "label": "Kwaliteit" }
+  ],
+  "nodes": [
+    { "id": "start", "type": "start", "label": "Nieuw artikel of voorraadgebeurtenis", "lane": "voorraadbeheer" },
+    { "id": "artikel", "type": "task", "label": "Artikel beheren", "lane": "voorraadbeheer", "scenario": "BS50.100" },
+    { "id": "sku", "type": "task", "label": "Stockkeeping units beheren", "lane": "voorraadbeheer", "scenario": "BS50.101" },
+    { "id": "traceringscode", "type": "task", "label": "Artikeltraceringscode toekennen", "lane": "voorraadbeheer", "scenario": "BS50.104" },
+    { "id": "gw-gebeurtenis", "type": "gateway", "label": "Welke gebeurtenis?", "lane": "voorraadbeheer" },
+    { "id": "corrigeren", "type": "task", "label": "Voorraad corrigeren", "lane": "voorraadbeheer", "scenario": "BS50.200" },
+    { "id": "inventarisatie", "type": "task", "label": "Inventarisatie uitvoeren", "lane": "voorraadbeheer", "scenario": "BS50.201" },
+    { "id": "blokkeren", "type": "task", "label": "Artikel/lot blokkeren", "lane": "kwaliteit", "scenario": "BS45.200" },
+    { "id": "lot", "type": "task", "label": "Lot management & traceability", "lane": "kwaliteit", "scenario": "BS45.904" },
+    { "id": "ncr", "type": "task", "label": "Non-conformance registreren", "lane": "kwaliteit", "scenario": "BS45.905" },
+    { "id": "gw-vrijgave", "type": "gateway", "label": "Lot vrijgegeven?", "lane": "kwaliteit" },
+    { "id": "end", "type": "end", "label": "Voorraad correct en beschikbaar", "lane": "voorraadbeheer" }
+  ],
+  "flows": [
+    { "from": "start", "to": "artikel" },
+    { "from": "artikel", "to": "sku" },
+    { "from": "sku", "to": "traceringscode" },
+    { "from": "traceringscode", "to": "gw-gebeurtenis" },
+    { "from": "gw-gebeurtenis", "to": "corrigeren", "label": "afwijking" },
+    { "from": "gw-gebeurtenis", "to": "inventarisatie", "label": "telling" },
+    { "from": "gw-gebeurtenis", "to": "blokkeren", "label": "kwaliteitsissue" },
+    { "from": "blokkeren", "to": "lot" },
+    { "from": "lot", "to": "ncr" },
+    { "from": "ncr", "to": "gw-vrijgave" },
+    { "from": "gw-vrijgave", "to": "end", "label": "ja" },
+    { "from": "gw-vrijgave", "to": "corrigeren", "label": "nee, afboeken" },
+    { "from": "corrigeren", "to": "end" },
+    { "from": "inventarisatie", "to": "end" }
+  ]
+}

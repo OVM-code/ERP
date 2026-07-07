@@ -1,0 +1,53 @@
+{
+  "id": "verkoop",
+  "domain": 2,
+  "title": "Verkoop",
+  "subtitle": "Van klantvraag tot betaalde factuur",
+  "lanes": [
+    { "id": "verkoop", "label": "Verkoop" },
+    { "id": "magazijn", "label": "Magazijn" },
+    { "id": "finance", "label": "Finance" }
+  ],
+  "nodes": [
+    { "id": "start", "type": "start", "label": "Klantvraag ontvangen", "lane": "verkoop" },
+    { "id": "offerte", "type": "task", "label": "Verkoopofferte maken", "lane": "verkoop", "scenario": "BS25.200" },
+    { "id": "gw-akkoord", "type": "gateway", "label": "Klant akkoord?", "lane": "verkoop" },
+    { "id": "end-verloren", "type": "end", "label": "Offerte verloren", "lane": "verkoop" },
+    { "id": "order", "type": "task", "label": "Verkooporder maken", "lane": "verkoop", "scenario": "BS25.202" },
+    { "id": "gw-goedkeuring", "type": "gateway", "label": "Goedkeuring vereist?", "lane": "verkoop" },
+    { "id": "goedkeuring-vragen", "type": "task", "label": "Goedkeuringsaanvraag verzenden", "lane": "verkoop", "scenario": "BS25.211" },
+    { "id": "goedkeuren", "type": "task", "label": "Verkooporder goedkeuren", "lane": "verkoop", "scenario": "BS25.212" },
+    { "id": "reserveren", "type": "task", "label": "Voorraad reserveren", "lane": "verkoop", "scenario": "BS25.204" },
+    { "id": "verzenden", "type": "subprocess", "label": "Order picken en verzenden", "lane": "magazijn", "scenario": "BS25.205", "goto": "magazijnbeheer" },
+    { "id": "gw-backorder", "type": "gateway", "label": "Volledig geleverd?", "lane": "magazijn" },
+    { "id": "backorder", "type": "task", "label": "Backorder opvolgen", "lane": "magazijn", "scenario": "BS25.206" },
+    { "id": "factuur", "type": "task", "label": "Verkoopfactuur maken", "lane": "finance", "scenario": "BS25.213" },
+    { "id": "factuur-boeken", "type": "task", "label": "Verkoopfactuur boeken", "lane": "finance", "scenario": "BS25.214" },
+    { "id": "gw-retour", "type": "gateway", "label": "Retour gemeld?", "lane": "finance" },
+    { "id": "retour", "type": "task", "label": "Verkoopretourorder maken", "lane": "finance", "scenario": "BS25.219" },
+    { "id": "creditnota", "type": "task", "label": "Verkoopcreditnota maken", "lane": "finance", "scenario": "BS25.220" },
+    { "id": "end", "type": "end", "label": "Order afgehandeld", "lane": "finance" }
+  ],
+  "flows": [
+    { "from": "start", "to": "offerte" },
+    { "from": "offerte", "to": "gw-akkoord" },
+    { "from": "gw-akkoord", "to": "end-verloren", "label": "nee" },
+    { "from": "gw-akkoord", "to": "order", "label": "ja" },
+    { "from": "order", "to": "gw-goedkeuring" },
+    { "from": "gw-goedkeuring", "to": "goedkeuring-vragen", "label": "ja" },
+    { "from": "goedkeuring-vragen", "to": "goedkeuren" },
+    { "from": "goedkeuren", "to": "reserveren" },
+    { "from": "gw-goedkeuring", "to": "reserveren", "label": "nee" },
+    { "from": "reserveren", "to": "verzenden" },
+    { "from": "verzenden", "to": "gw-backorder" },
+    { "from": "gw-backorder", "to": "backorder", "label": "nee" },
+    { "from": "backorder", "to": "verzenden", "label": "restlevering" },
+    { "from": "gw-backorder", "to": "factuur", "label": "ja" },
+    { "from": "factuur", "to": "factuur-boeken" },
+    { "from": "factuur-boeken", "to": "gw-retour" },
+    { "from": "gw-retour", "to": "retour", "label": "ja" },
+    { "from": "retour", "to": "creditnota" },
+    { "from": "creditnota", "to": "end" },
+    { "from": "gw-retour", "to": "end", "label": "nee" }
+  ]
+}

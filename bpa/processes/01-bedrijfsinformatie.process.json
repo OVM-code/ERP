@@ -1,0 +1,40 @@
+{
+  "id": "bedrijfsinformatie",
+  "domain": 1,
+  "title": "Bedrijfsinformatie & relatiebeheer",
+  "subtitle": "Organisatie-masterdata en CRM",
+  "lanes": [
+    { "id": "beheer", "label": "Applicatiebeheer" },
+    { "id": "commercieel", "label": "Commercieel" }
+  ],
+  "nodes": [
+    { "id": "start", "type": "start", "label": "Inrichting / nieuwe relatie", "lane": "beheer" },
+    { "id": "split", "type": "gateway-parallel", "label": "", "lane": "beheer" },
+    { "id": "organisaties", "type": "task", "label": "Organisaties beheren", "lane": "beheer", "scenario": "BS10.001" },
+    { "id": "gebruikers", "type": "task", "label": "Gebruikers beheren", "lane": "beheer", "scenario": "BS95.001" },
+    { "id": "divisies", "type": "task", "label": "Divisies beheren", "lane": "beheer", "scenario": "BS10.002" },
+    { "id": "resources", "type": "task", "label": "Resources beheren", "lane": "beheer", "scenario": "BS10.005" },
+    { "id": "tracering", "type": "task", "label": "Artikeltracering instellen", "lane": "beheer", "scenario": "BS45.201" },
+    { "id": "contacten", "type": "task", "label": "Contacten beheren", "lane": "commercieel", "scenario": "BS15.105" },
+    { "id": "classificeren", "type": "task", "label": "Contacten classificeren", "lane": "commercieel", "scenario": "BS15.201" },
+    { "id": "interacties", "type": "task", "label": "Interacties registreren", "lane": "commercieel", "scenario": "BS15.203" },
+    { "id": "opportuniteiten", "type": "subprocess", "label": "Opportuniteiten beheren", "lane": "commercieel", "scenario": "BS15.207", "goto": "verkoop" },
+    { "id": "join", "type": "gateway-parallel", "label": "", "lane": "beheer" },
+    { "id": "end", "type": "end", "label": "Master data operationeel", "lane": "beheer" }
+  ],
+  "flows": [
+    { "from": "start", "to": "split" },
+    { "from": "split", "to": "organisaties" },
+    { "from": "organisaties", "to": "gebruikers" },
+    { "from": "gebruikers", "to": "divisies" },
+    { "from": "divisies", "to": "resources" },
+    { "from": "resources", "to": "tracering" },
+    { "from": "tracering", "to": "join" },
+    { "from": "split", "to": "contacten" },
+    { "from": "contacten", "to": "classificeren" },
+    { "from": "classificeren", "to": "interacties" },
+    { "from": "interacties", "to": "opportuniteiten" },
+    { "from": "opportuniteiten", "to": "join" },
+    { "from": "join", "to": "end" }
+  ]
+}

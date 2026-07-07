@@ -27,6 +27,17 @@ and it will:
 4. Give a recommendation with confidence level, flagging irreversible choices.
 5. **Record** the confirmed decision as a new SDR, closing the learning loop.
 
+And on top of the advisory loop it produces the **client deliverable**:
+
+> "Here are the transcripts and notes of the requirement workshops. Build the BPA."
+
+The BPA system turns meeting material into a **Business Process Analysis**: an
+interactive HTML file with clickable BPMN process diagrams where every step opens the
+documentation of that business scenario — standard Business Central, add-on (Aptean,
+Continia, …), workaround, or GAP. Built on the Cegeka Process Model template, filtered
+to what is relevant for the client. See [`docs/bpa.md`](docs/bpa.md) and the worked
+demo in [`clients/_demo-bakkerij-florax/`](clients/_demo-bakkerij-florax/).
+
 ## Repository map
 
 | Path | What lives there |
@@ -37,7 +48,9 @@ and it will:
 | [`knowledge/erp/business-central/`](knowledge/erp/business-central/) | Standard BC setup decisions per functional area |
 | [`knowledge/addons/aptean-food-beverage/`](knowledge/addons/aptean-food-beverage/) | How Aptean F&B changes/extends those decisions |
 | [`knowledge/_templates/`](knowledge/_templates/) | Templates to add any other ERP system or add-on |
-| [`clients/`](clients/) | One folder per client: intake + Setup Decision Records |
+| [`clients/`](clients/) | One folder per client: intake + Setup Decision Records + BPA workspace |
+| [`bpa/`](bpa/) | BPA system: Cegeka Process Model template + scenario catalog, standard BPMN flows, interactive viewer |
+| [`tools/`](tools/) | `build_bpa.py` (client BPA → interactive HTML) · `split_bpa_template.py` (template → catalog) |
 | [`expertise/`](expertise/) | Lessons learned across clients — consulted before every recommendation |
 | [`copilot-studio/`](copilot-studio/) | Instructions + step-by-step guide to run this in Copilot Studio |
 | [`docs/`](docs/) | [Maintenance routine](docs/maintenance.md) · [Adding ERPs/add-ons](docs/adding-an-erp-or-addon.md) |

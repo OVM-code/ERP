@@ -1,0 +1,50 @@
+{
+  "id": "inkoop",
+  "domain": 3,
+  "title": "Inkoop",
+  "subtitle": "Van inkoopbehoefte tot geboekte inkoopfactuur",
+  "lanes": [
+    { "id": "inkoop", "label": "Inkoop" },
+    { "id": "magazijn", "label": "Magazijn" },
+    { "id": "finance", "label": "Finance" }
+  ],
+  "nodes": [
+    { "id": "start", "type": "start", "label": "Inkoopbehoefte (MRP-voorstel of manueel)", "lane": "inkoop" },
+    { "id": "gw-offerte", "type": "gateway", "label": "Offerte nodig?", "lane": "inkoop" },
+    { "id": "offerte", "type": "task", "label": "Inkoopofferte aanvragen", "lane": "inkoop", "scenario": "BS35.200" },
+    { "id": "order", "type": "task", "label": "Inkooporder maken", "lane": "inkoop", "scenario": "BS35.202" },
+    { "id": "gw-goedkeuring", "type": "gateway", "label": "Goedkeuring vereist?", "lane": "inkoop" },
+    { "id": "goedkeuring-vragen", "type": "task", "label": "Goedkeuringsaanvraag verzenden", "lane": "inkoop", "scenario": "BS35.209" },
+    { "id": "goedkeuren", "type": "task", "label": "Inkooporder goedkeuren", "lane": "inkoop", "scenario": "BS35.210" },
+    { "id": "ontvangen", "type": "subprocess", "label": "Goederen ontvangen", "lane": "magazijn", "scenario": "BS35.205", "goto": "magazijnbeheer" },
+    { "id": "gw-conform", "type": "gateway", "label": "Levering conform?", "lane": "magazijn" },
+    { "id": "retour", "type": "task", "label": "Inkoopretourorder maken", "lane": "magazijn", "scenario": "BS35.217" },
+    { "id": "gw-backorder", "type": "gateway", "label": "Volledig ontvangen?", "lane": "magazijn" },
+    { "id": "backorder", "type": "task", "label": "Backorder opvolgen", "lane": "inkoop", "scenario": "BS35.206" },
+    { "id": "factuur", "type": "task", "label": "Inkoopfactuur registreren", "lane": "finance", "scenario": "BS65.200" },
+    { "id": "factuur-goedkeuren", "type": "task", "label": "Inkoopfactuur goedkeuren", "lane": "finance", "scenario": "BS65.203" },
+    { "id": "factuur-boeken", "type": "task", "label": "Inkoopfactuur boeken", "lane": "finance", "scenario": "BS65.204" },
+    { "id": "end", "type": "end", "label": "Inkoop afgehandeld", "lane": "finance" }
+  ],
+  "flows": [
+    { "from": "start", "to": "gw-offerte" },
+    { "from": "gw-offerte", "to": "offerte", "label": "ja" },
+    { "from": "offerte", "to": "order" },
+    { "from": "gw-offerte", "to": "order", "label": "nee" },
+    { "from": "order", "to": "gw-goedkeuring" },
+    { "from": "gw-goedkeuring", "to": "goedkeuring-vragen", "label": "ja" },
+    { "from": "goedkeuring-vragen", "to": "goedkeuren" },
+    { "from": "goedkeuren", "to": "ontvangen" },
+    { "from": "gw-goedkeuring", "to": "ontvangen", "label": "nee" },
+    { "from": "ontvangen", "to": "gw-conform" },
+    { "from": "gw-conform", "to": "retour", "label": "nee" },
+    { "from": "retour", "to": "gw-backorder" },
+    { "from": "gw-conform", "to": "gw-backorder", "label": "ja" },
+    { "from": "gw-backorder", "to": "backorder", "label": "nee" },
+    { "from": "backorder", "to": "ontvangen", "label": "restlevering" },
+    { "from": "gw-backorder", "to": "factuur", "label": "ja" },
+    { "from": "factuur", "to": "factuur-goedkeuren" },
+    { "from": "factuur-goedkeuren", "to": "factuur-boeken" },
+    { "from": "factuur-boeken", "to": "end" }
+  ]
+}

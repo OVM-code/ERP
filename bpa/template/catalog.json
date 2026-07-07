@@ -1,0 +1,4193 @@
+{
+  "source": "source-cegeka-process-model-3.01.md",
+  "model": "Cegeka Process Model 3.01",
+  "domains": [
+    {
+      "number": 0,
+      "title": "Voorblad & inhoudsopgave",
+      "file": "domains/00-voorblad-inhoudsopgave.md"
+    },
+    {
+      "number": 0,
+      "title": "Inleiding",
+      "file": "domains/00-inleiding.md"
+    },
+    {
+      "number": 1,
+      "title": "Bedrijfsinformatie",
+      "file": "domains/01-bedrijfsinformatie.md"
+    },
+    {
+      "number": 2,
+      "title": "Verkoop",
+      "file": "domains/02-verkoop.md"
+    },
+    {
+      "number": 3,
+      "title": "Inkoop",
+      "file": "domains/03-inkoop.md"
+    },
+    {
+      "number": 4,
+      "title": "Voorraad",
+      "file": "domains/04-voorraad.md"
+    },
+    {
+      "number": 5,
+      "title": "Projectbeheer",
+      "file": "domains/05-projectbeheer.md"
+    },
+    {
+      "number": 6,
+      "title": "Planning (MPS/MRP)",
+      "file": "domains/06-planning-mps-mrp.md"
+    },
+    {
+      "number": 7,
+      "title": "Productie",
+      "file": "domains/07-productie.md"
+    },
+    {
+      "number": 8,
+      "title": "Magazijnbeheer",
+      "file": "domains/08-magazijnbeheer.md"
+    },
+    {
+      "number": 9,
+      "title": "Service",
+      "file": "domains/09-service.md"
+    },
+    {
+      "number": 10,
+      "title": "Finance",
+      "file": "domains/10-finance.md"
+    },
+    {
+      "number": 11,
+      "title": "Human Resources",
+      "file": "domains/11-human-resources.md"
+    },
+    {
+      "number": 12,
+      "title": "Interfaces",
+      "file": "domains/12-interfaces.md"
+    },
+    {
+      "number": 13,
+      "title": "Cegeka 365 for Business Central",
+      "file": "domains/13-cegeka-365-for-business-central.md"
+    },
+    {
+      "number": 14,
+      "title": "Dynaway Asset Management",
+      "file": "domains/14-dynaway-asset-management.md"
+    },
+    {
+      "number": 15,
+      "title": "Continia",
+      "file": "domains/15-continia.md"
+    },
+    {
+      "number": 16,
+      "title": "Andere Document Lay-outs",
+      "file": "domains/16-andere-document-lay-outs.md"
+    },
+    {
+      "number": 17,
+      "title": "Rapportering",
+      "file": "domains/17-rapportering.md"
+    },
+    {
+      "number": 18,
+      "title": "Architectuur",
+      "file": "domains/18-architectuur.md"
+    },
+    {
+      "number": 19,
+      "title": "GAPS",
+      "file": "domains/19-gaps.md"
+    }
+  ],
+  "scenarios": [
+    {
+      "code": "BS10.001",
+      "title": "Beheer organisaties",
+      "section": "1.1.1",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS95.001",
+      "title": "Gebruikers",
+      "section": "1.1.2",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS10.002",
+      "title": "Divisies beheren",
+      "section": "1.2.1",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS10.009",
+      "title": "Masterdata Synchronisatie",
+      "section": "1.3.1",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BC10.009.01",
+      "title": "Masterdata Sync (IT Integro)",
+      "section": "1.3.1.1",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS10.006",
+      "title": "Verzendprofielen beheren",
+      "section": "1.3.2.1",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS10.005",
+      "title": "Resources beheren",
+      "section": "1.3.3.1",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BC10.005.01",
+      "title": "Beheren resource verkoopprijzen en kosten",
+      "section": "1.3.3.2",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS45.201",
+      "title": "Artikeltracering",
+      "section": "1.3.4",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BC45.201.01",
+      "title": "Sublot management (Aptean)",
+      "section": "1.3.4.1",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS10.900",
+      "title": "Advanced comments (Aptean)",
+      "section": "1.3.5",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS10.901",
+      "title": "Advanced attributes (Aptean)",
+      "section": "1.3.6",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": "aptean"
+    },
+    {
+      "code": "BC10.901.01",
+      "title": "Lot attributen",
+      "section": "1.3.6.1",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BC10.901.02",
+      "title": "Audit trail",
+      "section": "1.3.6.2",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BC10.901.03",
+      "title": "Item attributen",
+      "section": "1.3.6.3",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS10.903",
+      "title": "Filter groups (Aptean)",
+      "section": "1.3.7",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS10.904",
+      "title": "Status management (Aptean)",
+      "section": "1.3.8",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS15.001",
+      "title": "Relatiebeheer instellen",
+      "section": "1.4.1",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS15.105",
+      "title": "Contacten beheren",
+      "section": "1.4.2",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS15.201",
+      "title": "Contacten classificeren",
+      "section": "1.4.3",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS15.202",
+      "title": "Profielvragenlijsten beheren",
+      "section": "1.4.4",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS15.203",
+      "title": "Interacties registeren",
+      "section": "1.4.5",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS15.209",
+      "title": "Verkopers/Inkopers",
+      "section": "1.4.6",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS15.204",
+      "title": "Taken beheren",
+      "section": "1.4.7",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS15.205",
+      "title": "Segmenten beheren",
+      "section": "1.4.8",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS15.206",
+      "title": "Campagnes beheren",
+      "section": "1.4.9",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS15.207",
+      "title": "Opportuniteiten beheren Opportuniteiten kunnen in Dynamics 365 Business Central worden…",
+      "section": "1.4.10",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS15.208",
+      "title": "Outlook integratie",
+      "section": "1.4.11",
+      "domain": 1,
+      "domainTitle": "Bedrijfsinformatie",
+      "addon": null
+    },
+    {
+      "code": "BS25.001",
+      "title": "Verkoop instellen",
+      "section": "2.1.1",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.100",
+      "title": "Beheren klantenfiche",
+      "section": "2.2.1",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.101",
+      "title": "Beheren verkoopprijzen",
+      "section": "2.2.2",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BC25.101.01",
+      "title": "Uitgebreid verkoopprijzenbeheer",
+      "section": "2.2.2.1",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BC25.101.02",
+      "title": "Klantenprijsgroep 'afhaal'",
+      "section": "2.2.2.2",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BC25.101.03",
+      "title": "Einde-periode verkoopvergoedingen beheren",
+      "section": "2.2.2.3",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BC25.101.04",
+      "title": "Afsluiten vorige prijsrecord",
+      "section": "2.2.2.4",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BC25.101.05",
+      "title": "Advanced pricing (Aptean)",
+      "section": "2.2.2.5",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS25.102",
+      "title": "Beheren verkoopregelkortingen",
+      "section": "2.2.3",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.103",
+      "title": "Beheren artikeltoeslag verkoop",
+      "section": "2.2.4",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.104",
+      "title": "Beheren verkoopfactuurkortingen",
+      "section": "2.2.5",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.105",
+      "title": "Beheren verkoopbestellijsten (sales codes)",
+      "section": "2.2.6",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.902",
+      "title": "Artikelasssortiment",
+      "section": "2.2.1",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BC25.902.01",
+      "title": "Customer item catalog (Aptean)",
+      "section": "2.2.1.1",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": "aptean"
+    },
+    {
+      "code": "BC25.902.02",
+      "title": "Klanten assortiment (Cegeka)",
+      "section": "2.2.1.2",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.200",
+      "title": "Verkoopoffertes maken",
+      "section": "2.3.1",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.201",
+      "title": "Verkoopraamcontracten beheren",
+      "section": "2.4.1",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.202",
+      "title": "Verkooporders maken",
+      "section": "2.5.1",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BC25.202.01",
+      "title": "Snelle ingave verkooporders",
+      "section": "2.5.1.1",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BC25.202.02",
+      "title": "Klantenprijsgroep ‘Afhaal’",
+      "section": "2.5.1.2",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BC25.202.03",
+      "title": "Ingave via lengte/breedte/hoogte",
+      "section": "2.5.1.3",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BC25.202.04",
+      "title": "Toevoegen transportkosten",
+      "section": "2.5.1.4",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.202.05",
+      "title": "Call plan (Aptean)",
+      "section": "2.5.1.5",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS25.203",
+      "title": "Doorverzendingen en speciale orders",
+      "section": "2.5.2",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.204",
+      "title": "Reserveer voorraad op een verkooporder",
+      "section": "2.5.3",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.205",
+      "title": "Verkooporder verzenden",
+      "section": "2.5.4",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.206",
+      "title": "Beheer van backorders",
+      "section": "2.5.5",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BC25.206.01",
+      "title": "Backorder management (Aptean)",
+      "section": "2.5.5.1",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": "aptean"
+    },
+    {
+      "code": "BC25.206.02",
+      "title": "Beheer van backorders (Cegeka)",
+      "section": "2.5.5.2",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.207",
+      "title": "Verkooporders annuleren",
+      "section": "2.5.6",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.208",
+      "title": "Verwerk intercompany verkooporders",
+      "section": "2.5.7",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.209",
+      "title": "Productieorders maken vanaf verkooporders",
+      "section": "2.5.8",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.211",
+      "title": "Goedkeuringsaanvraag verzenden",
+      "section": "2.5.9",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.212",
+      "title": "Verkooporder goedkeuren Goedkeurders ontvangen berichten over goedkeuringsaanvragen voor…",
+      "section": "2.5.10",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.237",
+      "title": "Verkoopverzending ongedaan maken…",
+      "section": "2.5.11",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.328",
+      "title": "Ordertoezegging",
+      "section": "2.5.12",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.213",
+      "title": "Verkoopfacturen maken",
+      "section": "2.6.1",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.214",
+      "title": "Verkoopfacturen boeken",
+      "section": "2.6.2",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.215",
+      "title": "Periodieke verkoopfacturen maken",
+      "section": "2.6.3",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BC25.215.01",
+      "title": "Verzamelfacturatie via factuurgroeperingscode (Cegeka)",
+      "section": "2.6.3.1",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.216",
+      "title": "Vooruitbetalingsfacturen maken",
+      "section": "2.6.4",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.219",
+      "title": "Verkoopretourorders maken administratief werk...",
+      "section": "2.7.1",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.220",
+      "title": "Verkoopcreditnota's maken",
+      "section": "2.8.1",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.221",
+      "title": "Vooruitbetalingscreditnota's maken",
+      "section": "2.8.2",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.222",
+      "title": "Subscription management",
+      "section": "2.9",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.801",
+      "title": "Verkooporder Cegeka Lay-out",
+      "section": "2.10.2",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.802",
+      "title": "Verkoopretourorder Microsoft Lay-out.",
+      "section": "2.10.3",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS25.803",
+      "title": "Pro Forma Factuur Cegeka Lay-out",
+      "section": "2.10.4",
+      "domain": 2,
+      "domainTitle": "Verkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.001",
+      "title": "Inkoop instellen",
+      "section": "3.1.1",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.100",
+      "title": "Leveranciers beheren",
+      "section": "3.2.1",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.101",
+      "title": "Inkoopprijzen beheren",
+      "section": "3.2.2",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.102",
+      "title": "Inkoopkortingen beheren",
+      "section": "3.2.3",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.103",
+      "title": "Artikeltoeslagen inkoop beheren",
+      "section": "3.2.4",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.104",
+      "title": "Inkoopfactuurkortingen beheren",
+      "section": "3.2.5",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.105",
+      "title": "Inkoopbestellijsten beheren (purchase codes)",
+      "section": "3.2.6",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.200",
+      "title": "Inkoopoffertes beheren",
+      "section": "3.3.1",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.201",
+      "title": "Inkoopraamcontracten beheren",
+      "section": "3.4.1",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BC35.201.01",
+      "title": "Inkoopraamcontract afroepen vanuit inkooporder (Cegeka)",
+      "section": "3.4.1.1",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.202",
+      "title": "Inkooporders maken",
+      "section": "3.5.1",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BC35.202.01",
+      "title": "Vendor item catalog (Aptean)",
+      "section": "3.5.1.1",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS25.203",
+      "title": "Doorverzendingen en speciale orders",
+      "section": "3.5.2",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.204",
+      "title": "Reserveer voorraad op een inkooporder",
+      "section": "3.5.3",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.205",
+      "title": "Inkooporders ontvangen",
+      "section": "3.5.4",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.206",
+      "title": "Beheer van backorders",
+      "section": "3.5.5",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BC35.206.01",
+      "title": "Beheer van backorders (Cegeka)",
+      "section": "3.5.5.1",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.207",
+      "title": "Inkooporders annuleren",
+      "section": "3.5.6",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.208",
+      "title": "Verwerk Intercompany aankooporders",
+      "section": "3.5.7",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.209",
+      "title": "Goedkeuringsaanvraag verzenden",
+      "section": "3.5.8",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.210",
+      "title": "Inkooporder goedkeuren",
+      "section": "3.5.9",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.235",
+      "title": "Inkoopontvangst ongedaan maken",
+      "section": "3.5.10",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.217",
+      "title": "Inkoopretourorders beheren",
+      "section": "3.6.1",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.800",
+      "title": "Inkoopofferte",
+      "section": "3.7.1",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.801",
+      "title": "Inkooporder",
+      "section": "3.7.2",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS35.802",
+      "title": "Inkoopretourorder",
+      "section": "3.7.3",
+      "domain": 3,
+      "domainTitle": "Inkoop",
+      "addon": null
+    },
+    {
+      "code": "BS50.001",
+      "title": "Voorraad instellen",
+      "section": "4.1.1",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BS50.100",
+      "title": "Artikelen beheren",
+      "section": "4.2.1",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC50.100.01",
+      "title": "verkoopartikelen beheren",
+      "section": "4.2.1.1",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC50.100.02",
+      "title": "inkoopartikelen beheren",
+      "section": "4.2.1.2",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC50.100.03",
+      "title": "Artikelen (service) beheren",
+      "section": "4.2.1.3",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC50.100.04",
+      "title": "Artikelen (niet-voorraad) beheren",
+      "section": "4.2.1.4",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC50.100.05",
+      "title": "Productieartikelen beheren",
+      "section": "4.2.1.5",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC50.100.06",
+      "title": "Assemblageartikelen beheren",
+      "section": "4.2.1.6",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC50.100.07",
+      "title": "Vervangartikelen beheren",
+      "section": "4.2.1.7",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC50.100.08",
+      "title": "Verplicht gebruik eenheden of veelvouden van eenheden per klant",
+      "section": "4.2.1.8",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC50.100.09",
+      "title": "Complementaire artikelen (Cegeka)",
+      "section": "4.2.1.9",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC50.100.10",
+      "title": "Recupel en Bebat beheren (Cegeka)",
+      "section": "4.2.1.10",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC50.100.11",
+      "title": "Valipac en Fostplus beheren (Cegeka)",
+      "section": "4.2.1.11",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BS50.101",
+      "title": "Stockkeeping units (SKU) beheren",
+      "section": "4.2.2",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BS50.102",
+      "title": "Artikelvarianten beheren",
+      "section": "4.2.3",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BS50.104",
+      "title": "Artikeltraceringscodes beheren",
+      "section": "4.2.4",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BS50.115",
+      "title": "Catalogusartikelen beheren",
+      "section": "4.2.5",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BS40.900",
+      "title": "Catch weight (Aptean)",
+      "section": "4.2.6",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS50.200",
+      "title": "Voorraad corrigeren",
+      "section": "4.3.1",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BS50.233",
+      "title": "Corrigeer stock met scanner (tasklet)",
+      "section": "4.3.1.1",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BS50.234",
+      "title": "Stocktelling met scanner (tasklet)",
+      "section": "4.3.1.2",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BS50.201",
+      "title": "Inventarisatie",
+      "section": "4.4.1",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BS45.200",
+      "title": "Artikelen blokkeren",
+      "section": "4.5.1",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC45.200.01",
+      "title": "Artikelen blokkeren op lotniveau productieorder te maken vanuit planningsvoorstel?",
+      "section": "4.5.1.1",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC45.200.02",
+      "title": "Artikelen blokkeren op opslaglocatie",
+      "section": "4.5.1.2",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC45.200.03",
+      "title": "Inspection status (Aptean)",
+      "section": "4.5.1.3",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": "aptean"
+    },
+    {
+      "code": "BC45.200.08",
+      "title": "Levenscyclus artikelen beheren (Cegeka)",
+      "section": "4.5.1.4",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC45.200.04",
+      "title": "Quality Control Plan",
+      "section": "4.5.1.5",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC45.200.05",
+      "title": "Quality Control Action plans",
+      "section": "4.5.1.6",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC45.200.07",
+      "title": "Quality control app (Aptean)",
+      "section": "4.5.1.7",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS45.901",
+      "title": "Compliance documents (Aptean)",
+      "section": "4.5.2",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": "aptean"
+    },
+    {
+      "code": "BC45.901.01",
+      "title": "Document link (Aptean)",
+      "section": "4.5.2.1",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS45.902",
+      "title": "Expiration management (Aptean)",
+      "section": "4.5.3",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS45.904",
+      "title": "Lot management (Aptean)",
+      "section": "4.5.4",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS45.905",
+      "title": "Non conformances",
+      "section": "4.5.5",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BC45.905.01",
+      "title": "Non Conforomances (Aptean)",
+      "section": "4.5.5.1",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": "aptean"
+    },
+    {
+      "code": "BC45.905.02",
+      "title": "Beheren klachten (Cegeka)",
+      "section": "4.5.5.2",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": null
+    },
+    {
+      "code": "BS45.906",
+      "title": "Product specification (Aptean)",
+      "section": "4.5.6",
+      "domain": 4,
+      "domainTitle": "Voorraad",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS70.001",
+      "title": "Projectbeheer instellen",
+      "section": "5.1.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.001.01",
+      "title": "Projectinstellingen (Progressus)",
+      "section": "5.1.1.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.238",
+      "title": "Projectsjablonen (Progressus)",
+      "section": "5.1.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.242",
+      "title": "Projectcontractsjablonen (Progressus)",
+      "section": "5.1.3",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.245",
+      "title": "Budgetinstellingen (Progressus)",
+      "section": "5.1.4",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.248",
+      "title": "Resource instellingen – algemeen",
+      "section": "5.1.5",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.24801",
+      "title": "Resource instellingen – algemeen (Progressus)",
+      "section": "5.1.5.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.249",
+      "title": "Resource instellingen – ivm tijdsregistratie (Progressus)",
+      "section": "5.1.6",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.253",
+      "title": "Resource instellingen – ivm planning (Progressus)",
+      "section": "5.1.7",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.257",
+      "title": "Onkosten instellingen",
+      "section": "5.1.8",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.244",
+      "title": "Dagboeksjabloon-batch instellingen",
+      "section": "5.1.9",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.200",
+      "title": "Projecten maken",
+      "section": "5.2.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.200.01",
+      "title": "Projecten maken – manueel",
+      "section": "5.2.1.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.200.02",
+      "title": "Projecten maken via kopiëren projecttaken",
+      "section": "5.2.1.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.200.03",
+      "title": "Projecten maken - manueel (Progressus)",
+      "section": "5.2.1.3",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BC70.200.04",
+      "title": "Project maken via wizard (Progressus)",
+      "section": "5.2.1.4",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BC70.200.05",
+      "title": "Project maken via Quick Guide (Progressus)",
+      "section": "5.2.1.5",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BC70.200.06",
+      "title": "Project maken o.b.v. project(taak)sjabloon (Progressus)",
+      "section": "5.2.1.6",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.264",
+      "title": "Projectgerelateerde masterdata (Progressus)",
+      "section": "5.2.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BC70.264.01",
+      "title": "Project facturatie-instelling",
+      "section": "5.2.2.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.264.02",
+      "title": "Project(taak) standaard dimensies",
+      "section": "5.2.2.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.264.03",
+      "title": "Project teamleden",
+      "section": "5.2.2.3",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.264.04",
+      "title": "Project contactenlijst",
+      "section": "5.2.2.4",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.264.05",
+      "title": "Project attributenlijst",
+      "section": "5.2.2.5",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.264.06",
+      "title": "Project milestones",
+      "section": "5.2.2.6",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.264.07",
+      "title": "Project machtigingen",
+      "section": "5.2.2.7",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.276",
+      "title": "Resource master data",
+      "section": "5.2.3",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.276.01",
+      "title": "Resource definiëren (Progressus)",
+      "section": "5.2.3.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BC70.276.02",
+      "title": "Resourcesubgroep definiëren (Progressus)",
+      "section": "5.2.3.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.100",
+      "title": "Projectgerelateerde resourceprijzen beheren",
+      "section": "5.2.4",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.100.01",
+      "title": "Project gerelateerde resourceprijzen beheren (Progressus)",
+      "section": "5.2.4.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.272",
+      "title": "Projectgerelateerde resource-kostprijzen beheren",
+      "section": "5.2.5",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.272.01",
+      "title": "Projectgerelateerde resource-kostprijzen beheren",
+      "section": "5.2.5.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.101",
+      "title": "Projectgerelateerde artikelprijzen beheren",
+      "section": "5.2.6",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.104",
+      "title": "Projectgerelateerde artikelkostprijzen beheren",
+      "section": "5.2.7",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.275",
+      "title": "Onkosten definiëren (Progressus)",
+      "section": "5.2.8",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.102",
+      "title": "Projectgerelateerde diverse prijzen beheren",
+      "section": "5.2.9",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.102.01",
+      "title": "Projectgerelateerde diverse kostprijzen beheren",
+      "section": "5.2.9.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.102.02",
+      "title": "Projectgerelateerde onkosten-prijzen beheren (Progressus)",
+      "section": "5.2.9.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BC70.102.03",
+      "title": "Projectgerelateerde onkosten-kostprijzen beheren",
+      "section": "5.2.9.3",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.203",
+      "title": "Projectbudget beheren",
+      "section": "5.3.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.203.01",
+      "title": "Projectbudgetten beheren (Progressus)",
+      "section": "5.3.1.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.288",
+      "title": "Projectbudgetten goedkeuren (Progressus)",
+      "section": "5.3.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.294",
+      "title": "Projectbudget syncen naar boekhouding (Progressus)",
+      "section": "5.3.3",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.295",
+      "title": "Project verkoopofferte maken",
+      "section": "5.4.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.295.01",
+      "title": "Project verkoopofferte maken (Progressus)",
+      "section": "5.4.1.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.296",
+      "title": "Project verkooporderbevestiging maken (Progressus)",
+      "section": "5.5.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.205",
+      "title": "Artikelen voor project plannen",
+      "section": "5.6.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.205.01",
+      "title": "Artikelen voor project plannen (Progressus)",
+      "section": "5.6.1.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.206",
+      "title": "Resources voor project toewijzen en plannen",
+      "section": "5.6.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.206.01",
+      "title": "Resources voor project toewijzen en plannen (Progressus)",
+      "section": "5.6.2.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BC70.206.02",
+      "title": "Projectplanningslijnen beheren via \"budget planning update\"",
+      "section": "5.6.2.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.206.03",
+      "title": "Projectplanning via \"Gantt chart\"",
+      "section": "5.6.2.3",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.299",
+      "title": "Resourceplanning beheren",
+      "section": "5.7",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.299.01",
+      "title": "Resource board beheren via \"importeren budget\"",
+      "section": "5.7.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.299.02",
+      "title": "Resource board beheren via \"wijzigen opdrachttoewijzing\"",
+      "section": "5.7.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.299.03",
+      "title": "Resource board beheren via \"kopiëren",
+      "section": "5.7.3",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.299.04",
+      "title": "Resource board beheren via \"aanpassing datum in",
+      "section": "5.7.4",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.299.05",
+      "title": "Resource board beheren via drag & drop",
+      "section": "5.7.5",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.305",
+      "title": "Opdrachttoewijzing in resource board syncen naar Outlook",
+      "section": "5.8.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.207",
+      "title": "Onkosten voor project plannen",
+      "section": "5.8.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.207.01",
+      "title": "Onkosten voor project plannen (Progressus)",
+      "section": "5.8.2.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.208",
+      "title": "Project verbruiken artikelen •Vanuit projectplanningsregel dan functie",
+      "section": "5.9.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.208.01",
+      "title": "Project verbruiken artikelen (Progressus)",
+      "section": "5.9.1.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.209",
+      "title": "Project verbruiken resources aantal = positief, kost = positief), projectpost (type =",
+      "section": "5.9.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.209.01",
+      "title": "Project verbruiken resources (Progressus) aantal = positief, kost = positief),…",
+      "section": "5.9.2.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.210",
+      "title": "Project verbruiken onkosten vanuit Outlook e-mail. De tijdsregistratie add-in",
+      "section": "5.9.3",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.210.01",
+      "title": "Project verbruiken onkosten (Progressus) gebruik berekenen\"",
+      "section": "5.9.3.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BC70.211.01",
+      "title": "Verbruik artikelen voor project corrigeren (Progressus)",
+      "section": "5.10.1.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.212",
+      "title": "Verbruik resources voor project corrigeren…",
+      "section": "5.10.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.212.01",
+      "title": "Verbruik resources voor project corrigeren (Progressus)",
+      "section": "5.10.2.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.213",
+      "title": "Verbruik onkosten voor project corrigeren",
+      "section": "5.10.3",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.213.01",
+      "title": "Verbruik onkosten voor project corrigeren (Progressus)",
+      "section": "5.10.3.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BC70.214.01",
+      "title": "Project WIP (Progressus)",
+      "section": "5.11.1.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.216",
+      "title": "Projectfacturen maken - vaste prijs verkoopprijs (positief)",
+      "section": "5.12.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.216.01",
+      "title": "Projectfacturen maken - vaste prijs (Progressus) filtering in facturatiebatch kan men ook…",
+      "section": "5.12.1.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.217",
+      "title": "Projectfacturen maken - in regie",
+      "section": "5.12.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.217.01",
+      "title": "Projectfacturen maken - in regie (Progressus)",
+      "section": "5.12.2.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.319",
+      "title": "Projectfacturatie volgens voortgang (meetstaten)",
+      "section": "5.12.3",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.320",
+      "title": "Projectfacturatie volgens %voltooiing (Progressus)",
+      "section": "5.12.4",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.218",
+      "title": "Project-creditnota's maken - vaste prijs",
+      "section": "5.13.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.218.01",
+      "title": "Project-creditnota’s maken – vaste prijs (Progressus)",
+      "section": "5.13.1.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.219",
+      "title": "Project-creditnota's maken - in regie",
+      "section": "5.13.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC70.219.01",
+      "title": "Projectcreditnota’s maken – in regie (Progressus)",
+      "section": "5.13.2.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.321",
+      "title": "Projectcreditnota’s maken – volgens voortgang (Progressus)",
+      "section": "5.13.3",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.322",
+      "title": "Projectcreditnota’s maken - %voltooiing (Progressus)",
+      "section": "5.13.4",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.220",
+      "title": "Inkoopfacturen maken gekoppeld aan projecten",
+      "section": "5.14.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.221",
+      "title": "Inkoopfacturen maken gekoppeld aan projecten (in",
+      "section": "5.14.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.222",
+      "title": "Inkoopcreditnota's maken gekoppeld aan projecten",
+      "section": "5.15.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.223",
+      "title": "Inkoopcreditnota's maken gekoppeld aan projecten",
+      "section": "5.15.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.323",
+      "title": "Projectcontractbudgetten",
+      "section": "5.16.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.324",
+      "title": "Projectcontracten & change order",
+      "section": "5.16.3",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.325",
+      "title": "Projectcontractfacturatie",
+      "section": "5.16.4",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.326",
+      "title": "Projecten & onderaanneming (Progressus) BPA doc uitgeschreven = niet te gebruiken in BPA",
+      "section": "5.17.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": "progressus"
+    },
+    {
+      "code": "BS70.327",
+      "title": "Projecten & subscriptie niet geïmplementeerd",
+      "section": "5.18.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.224",
+      "title": "Projecten afsluiten",
+      "section": "5.19.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.225",
+      "title": "Artikelkosten project bijwerken",
+      "section": "5.20.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.202",
+      "title": "Projecten opstartsituatie openen geschrapt => zit nu al in",
+      "section": "5.21.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.331",
+      "title": "Projectrapportering in Business Central",
+      "section": "5.22.1",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS70.332",
+      "title": "Projectrapportering met Power BI herwerken.",
+      "section": "5.22.2",
+      "domain": 5,
+      "domainTitle": "Projectbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS30.200",
+      "title": "Productieprognoses beheren",
+      "section": "6.1.1",
+      "domain": 6,
+      "domainTitle": "Planning (MPS/MRP)",
+      "addon": null
+    },
+    {
+      "code": "BS30.201",
+      "title": "Inkoop & planningsvoorstellen berekenen",
+      "section": "6.2.1",
+      "domain": 6,
+      "domainTitle": "Planning (MPS/MRP)",
+      "addon": null
+    },
+    {
+      "code": "BC30.201.01",
+      "title": "Inkoopvoorstellen berekenen",
+      "section": "6.2.1.1",
+      "domain": 6,
+      "domainTitle": "Planning (MPS/MRP)",
+      "addon": null
+    },
+    {
+      "code": "BC30.201.02",
+      "title": "Planningsvoorstellen berekenen",
+      "section": "6.2.1.2",
+      "domain": 6,
+      "domainTitle": "Planning (MPS/MRP)",
+      "addon": null
+    },
+    {
+      "code": "BS30.202",
+      "title": "Inkoop/planningsvoorstellen beoordelen en fiatteren",
+      "section": "6.2.2",
+      "domain": 6,
+      "domainTitle": "Planning (MPS/MRP)",
+      "addon": null
+    },
+    {
+      "code": "BC30.202.01",
+      "title": "Ordertracering",
+      "section": "6.2.2.1",
+      "domain": 6,
+      "domainTitle": "Planning (MPS/MRP)",
+      "addon": null
+    },
+    {
+      "code": "BS40.001",
+      "title": "Productie instellen",
+      "section": "7.1.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.100",
+      "title": "Afdelingen/workcenter beheren",
+      "section": "7.2.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.102",
+      "title": "Bewerkingsplaatsen/machines beheren",
+      "section": "7.2.2",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.101",
+      "title": "Capaciteit beheren",
+      "section": "7.2.3",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.110",
+      "title": "Meerdere artikelen produceren in 1 productie order…",
+      "section": "7.2.4",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BC40.110.01",
+      "title": "Productfamilies",
+      "section": "7.2.4.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BC40.110.02",
+      "title": "Co-Products (Aptean)",
+      "section": "7.2.4.2",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": "aptean"
+    },
+    {
+      "code": "BC40.110.03",
+      "title": "Negatief verbruik",
+      "section": "7.2.4.3",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.103",
+      "title": "Productiestuklijsten beheren",
+      "section": "7.2.5",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BC40.103.03",
+      "title": "Productiestuklijst-artikelen vervangen",
+      "section": "7.2.5.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.104",
+      "title": "Bewerkingsplannen beheren",
+      "section": "7.2.6",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BC40.104.03",
+      "title": "Bewerkingsplannen met uitbesteding beheren",
+      "section": "7.2.6.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.107",
+      "title": "Afboekingsmethode artikelen beheren tijdens productie",
+      "section": "7.2.7",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BC40.107.01",
+      "title": "Backflush on lot tracked items (Aptean)",
+      "section": "7.2.7.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": "aptean"
+    },
+    {
+      "code": "BC40.107.02",
+      "title": "Consolidated consumption (Aptean) er meerdere loten zijn met zelfde vervaldatum",
+      "section": "7.2.7.2",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS40.108",
+      "title": "Uitval en afval artikelen beheren",
+      "section": "7.2.8",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.200",
+      "title": "Productieorders maken",
+      "section": "7.3.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.212",
+      "title": "Productieorders plannen",
+      "section": "7.3.2",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BC40.212.01",
+      "title": "Production scheduling (Aptean)",
+      "section": "7.3.2.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": "aptean"
+    },
+    {
+      "code": "BC40.212.02",
+      "title": "Visual Advanced Production Schedular (VAPS)",
+      "section": "7.3.2.2",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.201",
+      "title": "Productieordermaterialen beheren",
+      "section": "7.3.3",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BC40.201.01",
+      "title": "Production scenarios (Aptean)",
+      "section": "7.3.3.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS40.221",
+      "title": "Productiematerialen klaarzetten",
+      "section": "7.3.4",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BC40.211.01",
+      "title": "Picking",
+      "section": "7.3.4.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BC40.211.02",
+      "title": "Consolidated pick (Aptean)",
+      "section": "7.3.4.2",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": "aptean"
+    },
+    {
+      "code": "BC40.211.03",
+      "title": "Over and Under-pick production consumption (Aptean +",
+      "section": "7.3.4.3",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS40.202",
+      "title": "Productieorderbewerkingsplannen beheren",
+      "section": "7.3.5",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.203",
+      "title": "Productieorders herplannen",
+      "section": "7.3.6",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.204",
+      "title": "Productieorders kostprijs bijwerken",
+      "section": "7.3.7",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.205",
+      "title": "Registratie verbruik en output",
+      "section": "7.4.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BC40.205.01",
+      "title": "Registreer verbruik en output (lot tracering)",
+      "section": "7.4.1.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BC40.205.02",
+      "title": "Registreer reële hoeveelheden (registratie)",
+      "section": "7.4.1.2",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BC40.205.03",
+      "title": "Registreer theoretische hoeveelheden",
+      "section": "7.4.1.3",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BC40.205.04",
+      "title": "Shop floor production (Aptean)",
+      "section": "7.4.1.4",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS40.902",
+      "title": "Process Manufacturing (Aptean)",
+      "section": "7.4.2",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": "aptean"
+    },
+    {
+      "code": "BC40.902.01",
+      "title": "Gewicht en opbrengst percentage",
+      "section": "7.4.2.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BC40.902.02",
+      "title": "Unplanned consumption function",
+      "section": "7.4.2.2",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BC40.902.03",
+      "title": "Production variances",
+      "section": "7.4.2.3",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BC40.902.04",
+      "title": "Dimension in consumption posting",
+      "section": "7.4.2.4",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.206",
+      "title": "Uitval boeken",
+      "section": "7.5.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.207",
+      "title": "Capaciteit boeken",
+      "section": "7.6.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS30.209",
+      "title": "Uitbestedingsvoorstellen berekenen",
+      "section": "7.7.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS30.210",
+      "title": "Uitbestedingsvoorstellen beoordelen en fiatteren",
+      "section": "7.7.2",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.208",
+      "title": "Uitbestedingsinkooporders boeken",
+      "section": "7.7.3",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.209",
+      "title": "Productieorders afsluiten",
+      "section": "7.8.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BC40.209.01",
+      "title": "Heropenen van productieorders",
+      "section": "7.8.1.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.218",
+      "title": "Beheer Fin. Master Data Kostprijscalculatie",
+      "section": "7.9.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.219",
+      "title": "Voer kostprijscalculatie uit",
+      "section": "7.9.2",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.220",
+      "title": "Voer kostprijssimulatie uit",
+      "section": "7.9.3",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.002",
+      "title": "Assemblage beheer instellen Assemblage werkt analoog aan productie door gebruik te maken…",
+      "section": "7.10.1",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.109",
+      "title": "Assemblagestuklijsten beheren Voor elke regel wordt de soort ingesteld op artikel of…",
+      "section": "7.10.2",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.111",
+      "title": "Assemblageorders beheren",
+      "section": "7.10.3",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS40.211",
+      "title": "Assemblageorders registreren Het boeken van een assemblageorder resulteert in een…",
+      "section": "7.10.4",
+      "domain": 7,
+      "domainTitle": "Productie",
+      "addon": null
+    },
+    {
+      "code": "BS10.003",
+      "title": "Vestigingen beheren",
+      "section": "8.2.1",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS50.103",
+      "title": "Zones/opslaglocaties/magazijnklasse/opslagsjabloon",
+      "section": "8.3.1",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS50.116",
+      "title": "Magazijnwerknemers instellen",
+      "section": "8.3.2",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS50.202",
+      "title": "Maak magazijnontvangst",
+      "section": "8.4.1",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC50.202.01",
+      "title": "Inkooporders ontvangen op inkooporder",
+      "section": "8.4.1.1",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC50.202.02",
+      "title": "Ontvang goederen (tasklet)",
+      "section": "8.4.1.2",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BS50.217",
+      "title": "Maak voorraadopslag",
+      "section": "8.4.2",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BS50.205",
+      "title": "Cross docking artikelen ontvangen",
+      "section": "8.4.3",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BS50.206",
+      "title": "Artikelen opslaan (put away)",
+      "section": "8.4.4",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BC50.206.01",
+      "title": "Opslag (tasklet)",
+      "section": "8.4.4.1",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BS50.207",
+      "title": "Artikelen verplaatsen",
+      "section": "8.5.1",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC50.207.01",
+      "title": "Verplaats goederen met scanner (tasklet)",
+      "section": "8.5.1.1",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BS50.208",
+      "title": "Transferorders maken",
+      "section": "8.5.2",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BS50.209",
+      "title": "Productieordermaterialen terugzetten",
+      "section": "8.5.3",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BS50.213",
+      "title": "Artikelen picken",
+      "section": "8.6.1",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC50.213.02",
+      "title": "Maak pick voor productieorder aan",
+      "section": "8.6.1.1",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC50.213.03",
+      "title": "Maak voorraadpick aan",
+      "section": "8.6.1.2",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": null
+    },
+    {
+      "code": "BC50.213.04",
+      "title": "Pick goederen met scanner (tasklet)",
+      "section": "8.6.1.3",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BC50.213.05",
+      "title": "Tote picking met scanner",
+      "section": "8.6.1.4",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BS50.214",
+      "title": "Magazijnverzending maken",
+      "section": "8.6.2",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BC50.214.01",
+      "title": "Shop floor logistics (Aptean)",
+      "section": "8.6.2.1",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "aptean"
+    },
+    {
+      "code": "BC50.214.02",
+      "title": "Beheren ritten (Cegeka)",
+      "section": "8.6.2.2",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BS50.214.03",
+      "title": "Transport (Aptean)",
+      "section": "8.6.2.3",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS50.215",
+      "title": "Artikelen verzenden",
+      "section": "8.6.3",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BC50.215.01",
+      "title": "Verzend goederen met scanner (tasklet)",
+      "section": "8.6.3.1",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BC50.215.02",
+      "title": "Tote shipping (tasklet)",
+      "section": "8.6.3.2",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BS50.216",
+      "title": "Herbevoorraden opslaglocaties",
+      "section": "8.7.1",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS50.800",
+      "title": "Verkoopverzending",
+      "section": "8.8.1",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS50.801",
+      "title": "Magazijnverzending/CMR",
+      "section": "8.8.2",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": null
+    },
+    {
+      "code": "BS50.240",
+      "title": "Instellen Tasklet Factory",
+      "section": "8.9.1",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BS50.242",
+      "title": "Pakkettracering tijdens WMS activiteiten",
+      "section": "8.9.3",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BC50.242.01",
+      "title": "Pakkettracering tijdens WMS activiteiten (tasklet)",
+      "section": "8.9.3.1",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BC50.242.02",
+      "title": "Pakkettracering tijdens WMS activiteiten (Cegeka)",
+      "section": "8.9.3.2",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "tasklet"
+    },
+    {
+      "code": "BS50.900",
+      "title": "Advanced warehousing (Aptean)",
+      "section": "8.10",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "aptean"
+    },
+    {
+      "code": "BC50.242.03",
+      "title": "License plating (Aptean)",
+      "section": "8.10.1",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS50.902",
+      "title": "Mobile warehouse registration (Aptean)",
+      "section": "8.10.2",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS50.903",
+      "title": "Over and under delivery (Aptean)",
+      "section": "8.10.3",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS50.905",
+      "title": "Weighbridge Receiving (Aptean)",
+      "section": "8.10.4",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS50.907",
+      "title": "Labeling (Aptean) De labeling extensie maakt het mogelijk om etiketten in te stellen die…",
+      "section": "8.10.5",
+      "domain": 8,
+      "domainTitle": "Magazijnbeheer",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS60.001",
+      "title": "Service management-instellingen",
+      "section": "9.1.1",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.002",
+      "title": "Probleemoplossingen instellen •“Code contractfactuurregeltekst”: hiermee wordt",
+      "section": "9.1.2",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.100",
+      "title": "Beheer serviceartikelen gebruikt.",
+      "section": "9.2.1",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.101",
+      "title": "Serviceartikelcomponenten beheren",
+      "section": "9.2.2",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.102",
+      "title": "Serviceartikelgroepen beheren van serviceartikelen bij een verkoopverzending",
+      "section": "9.2.3",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.103",
+      "title": "Beheer serviceprijsgroepen",
+      "section": "9.2.4",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.104",
+      "title": "Beheer serviceprijsherwaarderingsgroepen",
+      "section": "9.2.5",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.105",
+      "title": "Servicekosten beheren",
+      "section": "9.2.6",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.106",
+      "title": "Standaardservicecodes beheren",
+      "section": "9.2.7",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.107",
+      "title": "Serviceordersoorten beheren",
+      "section": "9.2.8",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.200",
+      "title": "Aanmaken van service offertes",
+      "section": "9.3.1",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.201",
+      "title": "Opvolgen van service offertes",
+      "section": "9.3.2",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.202",
+      "title": "Aanmaken van een serviceorder",
+      "section": "9.4.1",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.203",
+      "title": "Aanmaken van een contract-serviceorder",
+      "section": "9.4.2",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.204",
+      "title": "Registreren verbruik op serviceorders",
+      "section": "9.4.3",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.205",
+      "title": "Serviceverzending boeken",
+      "section": "9.4.4",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.206",
+      "title": "Serviceverzending ongedaan maken",
+      "section": "9.4.5",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.207",
+      "title": "Herstelstatus beheren",
+      "section": "9.4.6",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.222",
+      "title": "Serviceorders archiveren",
+      "section": "9.4.7",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.208",
+      "title": "Resource plannen op serviceorder",
+      "section": "9.5.1",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BC60.208.01",
+      "title": "Resource plannen op serviceorder via servicetaken",
+      "section": "9.5.1.1",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BC60.208.02",
+      "title": "Resource plannen op een serviceorder via planbord",
+      "section": "9.5.1.2",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BC60.208.03",
+      "title": "Resource plannen via DIME scheduler",
+      "section": "9.5.1.3",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.209",
+      "title": "Reserveer voorraad op een serviceorder",
+      "section": "9.5.2",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.210",
+      "title": "Servicefacturen maken",
+      "section": "9.6.1",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.211",
+      "title": "Servicecontractoffertes maken",
+      "section": "9.7.1",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.213",
+      "title": "Servicecontracten maken",
+      "section": "9.8.1",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.214",
+      "title": "Servicecontracten bijwerken",
+      "section": "9.8.2",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.215",
+      "title": "Servicecontracten beëindigen",
+      "section": "9.8.3",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.216",
+      "title": "Vooruitbetaalde servicecontractposten boeken",
+      "section": "9.8.4",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.217",
+      "title": "Servicecontractprijzen bijwerken",
+      "section": "9.8.5",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.619",
+      "title": "Servicecontracten factureren",
+      "section": "9.9.1",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.620",
+      "title": "Servicecontract-creditnota maken",
+      "section": "9.10.1",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS60.621",
+      "title": "Servicecreditnota's maken",
+      "section": "9.10.2",
+      "domain": 9,
+      "domainTitle": "Service",
+      "addon": null
+    },
+    {
+      "code": "BS65.001",
+      "title": "Finance instellen",
+      "section": "10.1.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.009",
+      "title": "Beheer Setup BTW Om tot een correcte BTW aangifte te komen moeten een aantal BTW settings…",
+      "section": "10.1.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.009.01",
+      "title": "Beheer Setup BTW (BE aangifte)",
+      "section": "10.1.2.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.009.02",
+      "title": "Beheer Setup BTW (Buitenlandse aangifte)",
+      "section": "10.1.2.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.012",
+      "title": "Beheer Setup integratie Inventory - Finance In dit scenario wordt de setup beschreven om…",
+      "section": "10.1.3",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.100",
+      "title": "Beheer Boekhoudperiodes",
+      "section": "10.2.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.109",
+      "title": "Beheer Rekeningschema",
+      "section": "10.2.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.101",
+      "title": "Beheer Dimensies",
+      "section": "10.2.3",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.102",
+      "title": "Beheer Vreemde Munt & Wisselkoersen",
+      "section": "10.2.4",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS35.100",
+      "title": "Leveranciers beheren",
+      "section": "10.3.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.105",
+      "title": "Beheer Leveranciers bankrekeningen",
+      "section": "10.3.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.200",
+      "title": "Inkoopfacturen maken",
+      "section": "10.3.3",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.200.01",
+      "title": "Inkoopfactuur maken vanaf inkooporder",
+      "section": "10.3.3.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.200.02",
+      "title": "Inkoopfactuur maken met ophalen ontvangstregels",
+      "section": "10.3.3.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.200.03",
+      "title": "Inkoopfactuur maken (manueel)",
+      "section": "10.3.3.3",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.200.04",
+      "title": "Inkoopfactuur maken via OCR (Document Capture)",
+      "section": "10.3.3.4",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.201",
+      "title": "Inkoopcreditnota's maken",
+      "section": "10.3.4",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.202",
+      "title": "Goedkeuringaanvraag verzenden",
+      "section": "10.3.5",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.203",
+      "title": "Inkoopfactuur goedkeuren voor boeken",
+      "section": "10.3.6",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.204",
+      "title": "Inkoopfacturen boeken",
+      "section": "10.3.7",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.205",
+      "title": "Vooruitbetalingsfacturen maken",
+      "section": "10.3.9",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.207",
+      "title": "Uitvoeren leveranciersbetalingen",
+      "section": "10.3.10",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.208",
+      "title": "Opvolgen openstaande leveranciersfacturen",
+      "section": "10.3.11",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.208.01",
+      "title": "Afpunten openstaande leveranciersposten",
+      "section": "10.3.11.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.208.02",
+      "title": "Blokkeer factuur voor betaling",
+      "section": "10.3.11.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS25.100",
+      "title": "Beheren klant master data",
+      "section": "10.4.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.106",
+      "title": "Beheer Klanten Bankrekeningen",
+      "section": "10.4.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.004",
+      "title": "Beheer Setup Administratiekosten In Business Central is het mogelijk om per…",
+      "section": "10.4.3",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.108",
+      "title": "Beheer Kredietlimieten",
+      "section": "10.4.4",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.209",
+      "title": "Registreer manuele verkoopfactuur",
+      "section": "10.4.5",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.211",
+      "title": "Registreer manuele verkoopcreditnota",
+      "section": "10.4.6",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.007",
+      "title": "Klantendomiciliëring (Direct Debit) In de Belgische localisatie is voorzien dat SEPA…",
+      "section": "10.4.8",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.213",
+      "title": "Opvolgen openstaande klantenvorderingen",
+      "section": "10.4.9",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.214",
+      "title": "Beheer van aanmaningen",
+      "section": "10.4.10",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.215",
+      "title": "Beheer van rentefacturen",
+      "section": "10.4.11",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.216",
+      "title": "Registeren van een diverse boeking",
+      "section": "10.5.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.216.01",
+      "title": "Verwerk divers dagboek",
+      "section": "10.5.1.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.216.02",
+      "title": "Standaarddagboeken ophalen",
+      "section": "10.5.1.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.216.03",
+      "title": "Verwerk periodiek divers dagboek",
+      "section": "10.5.1.3",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.217",
+      "title": "Opladen algemene boekingen",
+      "section": "10.5.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.218",
+      "title": "Financiële rapporten aanmaken",
+      "section": "10.5.3",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.218.01",
+      "title": "Beheer Financiële rapporten",
+      "section": "10.5.3.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.218.02",
+      "title": "Beheer Analyseweergaves",
+      "section": "10.5.3.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.110",
+      "title": "Beheer Banken",
+      "section": "10.6.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.219",
+      "title": "Verwerk en boek financiële dagafschriften",
+      "section": "10.6.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.219.01",
+      "title": "Verwerk en boek financieel dagafschrift (manueel)",
+      "section": "10.6.2.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.219.02",
+      "title": "Verwerk financieel dagafschrift via CODA",
+      "section": "10.6.2.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.220",
+      "title": "Verwerk en boek KAS verrichtingen",
+      "section": "10.6.3",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.221",
+      "title": "Afdrukken dagboeken",
+      "section": "10.7.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.222",
+      "title": "Aanmaken periodieke BTW aangifte",
+      "section": "10.7.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.222.01",
+      "title": "Aanmaken BTW aangifte - België",
+      "section": "10.7.2.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.222.02",
+      "title": "Aanmaken BTW aangifte - Buitenlandse BTW",
+      "section": "10.7.2.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.223",
+      "title": "Aanmaken BTW jaaraangifte (jaarlijkse",
+      "section": "10.7.3",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.224",
+      "title": "Aanmaken BTW Intracommunautaire Listing",
+      "section": "10.7.4",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.225",
+      "title": "Aanmaken INTRASTAT aangifte",
+      "section": "10.7.5",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.226",
+      "title": "Wisselkoersen herwaarderen",
+      "section": "10.7.6",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.227",
+      "title": "Kosten verdelen over dimensies",
+      "section": "10.7.7",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.228",
+      "title": "Kosten verdelen over periodes",
+      "section": "10.7.8",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.229",
+      "title": "Afpunten grootboektransacties",
+      "section": "10.7.9",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.230",
+      "title": "Registreer en Betaal commissies",
+      "section": "10.7.10",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.231",
+      "title": "Voorraadwaardering",
+      "section": "10.7.11",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.231.01",
+      "title": "Bereken en boek voorraadwaarde (geïntegreerd)",
+      "section": "10.7.11.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.231.02",
+      "title": "Bereken voorraadwaarde en boek periodiek door (geïntegreerd)",
+      "section": "10.7.11.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.231.03",
+      "title": "Bereken en boek de voorraadwaarde (manueel)",
+      "section": "10.7.11.3",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.231.04",
+      "title": "Herwaardeer voorraad",
+      "section": "10.7.11.4",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.232",
+      "title": "Boek Intercompany transacties",
+      "section": "10.7.12",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.232.01",
+      "title": "Maak inkoopfactuur uit IC verkoopfacturen",
+      "section": "10.7.12.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.232.02",
+      "title": "Maak verkooporder uit IC inkooporder",
+      "section": "10.7.12.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.232.03",
+      "title": "Boek IC journalen",
+      "section": "10.7.12.3",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.233",
+      "title": "Uitvoeren consolidatie grootboek",
+      "section": "10.7.13",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.234",
+      "title": "Afsluiten boekjaar/Financiële periode",
+      "section": "10.7.14",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.234.01",
+      "title": "Afsluiten periode",
+      "section": "10.7.14.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.234.02",
+      "title": "Afsluiten boekjaar en openen nieuw boekjaar",
+      "section": "10.7.14.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.235",
+      "title": "Afsluiten BTW periode",
+      "section": "10.7.15",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.236",
+      "title": "Maak Vast Actief aan",
+      "section": "10.8.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.237",
+      "title": "Aanschaffen Vast Actief",
+      "section": "10.8.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.237.01",
+      "title": "Koop Vast Actief aan via aankoopfactuur",
+      "section": "10.8.2.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.237.02",
+      "title": "Boek AW via diverse VA verrichting",
+      "section": "10.8.2.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.238",
+      "title": "Schrijf een Vast Actief af",
+      "section": "10.8.3",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.239",
+      "title": "Buitengebruikstelling van een vast actief",
+      "section": "10.8.4",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.239.01",
+      "title": "Stel Vast Actief buiten gebruik via verkoop",
+      "section": "10.8.4.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BC65.239.02",
+      "title": "Stel Vast Actief buiten gebruik via divers journaal",
+      "section": "10.8.4.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.240",
+      "title": "Herwaardeer een vast actief",
+      "section": "10.8.5",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.242",
+      "title": "Registreer onderhoud op Vast Actief",
+      "section": "10.8.6",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.243",
+      "title": "Reclassificeer een vast actief",
+      "section": "10.8.7",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.244",
+      "title": "Maak (grootboek)budget aan",
+      "section": "10.9.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.245",
+      "title": "Controle budget t.o.v. grootboek",
+      "section": "10.9.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.246",
+      "title": "Maak (verkoop/aankoop)budget aan",
+      "section": "10.9.3",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.247",
+      "title": "Controle (verkoop/aankoop)budget t.o.v. werkelijk",
+      "section": "10.9.4",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.111",
+      "title": "Beheer Master Data Cash Flow",
+      "section": "10.10.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.255",
+      "title": "Bereken cashflow",
+      "section": "10.10.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.112",
+      "title": "Beheer Master Data Kostprijsboekhouding",
+      "section": "10.11.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.248",
+      "title": "Wijs kosten toe - Kostprijsboekhouding",
+      "section": "10.11.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.800",
+      "title": "Verkoopfactuur",
+      "section": "10.12.1",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.801",
+      "title": "Verkoopcreditnota",
+      "section": "10.12.2",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.802",
+      "title": "Aanmaningen",
+      "section": "10.12.3",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": null
+    },
+    {
+      "code": "BS65.900",
+      "title": "Excise duty management (Aptean)",
+      "section": "10.13",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS65.901",
+      "title": "Taks process handling (Aptean)",
+      "section": "10.14",
+      "domain": 10,
+      "domainTitle": "Finance",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS75.001",
+      "title": "Personeelsinstellingen",
+      "section": "11.1.1",
+      "domain": 11,
+      "domainTitle": "Human Resources",
+      "addon": null
+    },
+    {
+      "code": "BS75.200",
+      "title": "Werknemers beheren",
+      "section": "11.2.1",
+      "domain": 11,
+      "domainTitle": "Human Resources",
+      "addon": null
+    },
+    {
+      "code": "BS75.201",
+      "title": "Werknemersafwezigheid registreren",
+      "section": "11.3.1",
+      "domain": 11,
+      "domainTitle": "Human Resources",
+      "addon": null
+    },
+    {
+      "code": "BS95.002",
+      "title": "EDI framework Het basisdoel van het framework is om vergaande functionaliteiten te bieden…",
+      "section": "12.1.1",
+      "domain": 12,
+      "domainTitle": "Interfaces",
+      "addon": null
+    },
+    {
+      "code": "BC95.002.01",
+      "title": "EDI inkomende berichten",
+      "section": "12.1.1.1",
+      "domain": 12,
+      "domainTitle": "Interfaces",
+      "addon": null
+    },
+    {
+      "code": "BC95.002.02",
+      "title": "EDI uitgaande berichten",
+      "section": "12.1.1.2",
+      "domain": 12,
+      "domainTitle": "Interfaces",
+      "addon": null
+    },
+    {
+      "code": "BC95.002.03",
+      "title": "[andere EDI integraties]",
+      "section": "12.1.2",
+      "domain": 12,
+      "domainTitle": "Interfaces",
+      "addon": null
+    },
+    {
+      "code": "BS95.003",
+      "title": "Activeer functionaliteiten",
+      "section": "13.1.1.1",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS10.007",
+      "title": "Documentopmerkingen",
+      "section": "13.1.2.1",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS10.008",
+      "title": "CMR afdrukken",
+      "section": "13.1.2.2",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS35.003",
+      "title": "Extra velden inkoopvoorstel",
+      "section": "13.2.1.1",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS35.106",
+      "title": "Commerciële basiskost artikelen beheren",
+      "section": "13.2.2.1",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS35.107",
+      "title": "Verplichte eenheden per leverancier",
+      "section": "13.2.2.2",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS35.108",
+      "title": "Einde periode inkoopkortingen/vergoedingen beheren",
+      "section": "13.2.2.3",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS25.002",
+      "title": "Bron verkooporders",
+      "section": "13.3.1.1",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS25.003",
+      "title": "Verkoopordernummer bij verzendregels ophalen",
+      "section": "13.3.1.2",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS25.004",
+      "title": "Controle commerciële marge",
+      "section": "13.3.1.3",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS25.005",
+      "title": "Fostplus instellen",
+      "section": "13.3.1.4",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS25.101",
+      "title": "Beheren verkoopprijzen",
+      "section": "13.3.2.1",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS25.110",
+      "title": "Standaard verzendcode klant",
+      "section": "13.3.2.2",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS25.111",
+      "title": "Instellen standaard transportkosten klant",
+      "section": "13.3.2.3",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS25.226",
+      "title": "Verkoopcreditnota's maken",
+      "section": "13.3.3.1",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS25.227",
+      "title": "Begin- en einddatum op verkoopraamcontracten",
+      "section": "13.3.4.1",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS25.228",
+      "title": "Maak verkooporder",
+      "section": "13.3.5.1",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS25.231",
+      "title": "Valipac en Fostplus aangifte",
+      "section": "13.3.6.1",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS65.249",
+      "title": "Prodcom aangifte",
+      "section": "13.3.6.2",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS25.903",
+      "title": "Trade management (Aptean)",
+      "section": "13.3.8",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS25.904",
+      "title": "Trading board (Aptean)",
+      "section": "13.3.9",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS50.004",
+      "title": "Lotnummer ingave op document lijn",
+      "section": "13.4.1.1",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS50.005",
+      "title": "Extra velden artikelposten",
+      "section": "13.4.1.2",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS50.006",
+      "title": "Automatisch aanmaken lotnummerinformatiekaart",
+      "section": "13.4.1.3",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS50.235",
+      "title": "Printen labels via Bartender",
+      "section": "13.4.3.1",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS50.111",
+      "title": "Leveringsweek op basis van gevraagde leverdatum",
+      "section": "13.5.1.1",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS50.112",
+      "title": "Voorbereiding inkooporders voor ontvangst",
+      "section": "13.5.2.1",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS50.113",
+      "title": "Voorbereiding verkooporders voor levering",
+      "section": "13.5.3.1",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "cegeka-365"
+    },
+    {
+      "code": "BS55.900",
+      "title": "Packaging (Aptean)",
+      "section": "13.5.4",
+      "domain": 13,
+      "domainTitle": "Cegeka 365 for Business Central",
+      "addon": "aptean"
+    },
+    {
+      "code": "BS65.253",
+      "title": "Verwerken binnenkomende facturen met OCR (DC)",
+      "section": "15.1.1",
+      "domain": 15,
+      "domainTitle": "Continia",
+      "addon": "continia"
+    },
+    {
+      "code": "BS65.254",
+      "title": "Goedkeuring van documenten",
+      "section": "15.1.2",
+      "domain": 15,
+      "domainTitle": "Continia",
+      "addon": "continia"
+    },
+    {
+      "code": "BS65.257",
+      "title": "Het automatisch uitsturen van documenten",
+      "section": "15.2.1",
+      "domain": 15,
+      "domainTitle": "Continia",
+      "addon": "continia"
+    },
+    {
+      "code": "BS65.256",
+      "title": "PEPPOL",
+      "section": "15.2.2",
+      "domain": 15,
+      "domainTitle": "Continia",
+      "addon": "continia"
+    }
+  ]
+}

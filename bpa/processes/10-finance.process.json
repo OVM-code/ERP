@@ -1,0 +1,48 @@
+{
+  "id": "finance",
+  "domain": 10,
+  "title": "Finance",
+  "subtitle": "Crediteuren, debiteuren en periodieke afsluiting",
+  "lanes": [
+    { "id": "crediteuren", "label": "Crediteuren" },
+    { "id": "debiteuren", "label": "Debiteuren" },
+    { "id": "boekhouding", "label": "Boekhouding" }
+  ],
+  "nodes": [
+    { "id": "start", "type": "start", "label": "Financiële verwerking", "lane": "boekhouding" },
+    { "id": "split", "type": "gateway-parallel", "label": "", "lane": "boekhouding" },
+    { "id": "ap-factuur", "type": "task", "label": "Inkoopfacturen registreren", "lane": "crediteuren", "scenario": "BS65.200" },
+    { "id": "ap-goedkeuren", "type": "task", "label": "Inkoopfactuur goedkeuren", "lane": "crediteuren", "scenario": "BS65.203" },
+    { "id": "ap-boeken", "type": "task", "label": "Inkoopfacturen boeken", "lane": "crediteuren", "scenario": "BS65.204" },
+    { "id": "ap-betalen", "type": "task", "label": "Leveranciersbetalingen uitvoeren", "lane": "crediteuren", "scenario": "BS65.207" },
+    { "id": "ar-factuur", "type": "task", "label": "Manuele verkoopfacturen registreren", "lane": "debiteuren", "scenario": "BS65.209" },
+    { "id": "ar-opvolgen", "type": "task", "label": "Openstaande vorderingen opvolgen", "lane": "debiteuren", "scenario": "BS65.213" },
+    { "id": "ar-aanmanen", "type": "task", "label": "Aanmaningen beheren", "lane": "debiteuren", "scenario": "BS65.214" },
+    { "id": "bank", "type": "task", "label": "Dagafschriften verwerken en boeken", "lane": "boekhouding", "scenario": "BS65.219" },
+    { "id": "divers", "type": "task", "label": "Diverse boekingen registreren", "lane": "boekhouding", "scenario": "BS65.216" },
+    { "id": "btw", "type": "task", "label": "Periodieke BTW-aangifte aanmaken", "lane": "boekhouding", "scenario": "BS65.222" },
+    { "id": "join", "type": "gateway-parallel", "label": "", "lane": "boekhouding" },
+    { "id": "rapporten", "type": "task", "label": "Financiële rapporten aanmaken", "lane": "boekhouding", "scenario": "BS65.218" },
+    { "id": "afsluiten", "type": "task", "label": "Boekjaar/periode afsluiten", "lane": "boekhouding", "scenario": "BS65.234" },
+    { "id": "end", "type": "end", "label": "Periode afgesloten", "lane": "boekhouding" }
+  ],
+  "flows": [
+    { "from": "start", "to": "split" },
+    { "from": "split", "to": "ap-factuur" },
+    { "from": "ap-factuur", "to": "ap-goedkeuren" },
+    { "from": "ap-goedkeuren", "to": "ap-boeken" },
+    { "from": "ap-boeken", "to": "ap-betalen" },
+    { "from": "ap-betalen", "to": "join" },
+    { "from": "split", "to": "ar-factuur" },
+    { "from": "ar-factuur", "to": "ar-opvolgen" },
+    { "from": "ar-opvolgen", "to": "ar-aanmanen" },
+    { "from": "ar-aanmanen", "to": "join" },
+    { "from": "split", "to": "bank" },
+    { "from": "bank", "to": "divers" },
+    { "from": "divers", "to": "btw" },
+    { "from": "btw", "to": "join" },
+    { "from": "join", "to": "rapporten" },
+    { "from": "rapporten", "to": "afsluiten" },
+    { "from": "afsluiten", "to": "end" }
+  ]
+}

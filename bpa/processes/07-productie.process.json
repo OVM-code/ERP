@@ -1,0 +1,46 @@
+{
+  "id": "productie",
+  "domain": 7,
+  "title": "Productie",
+  "subtitle": "Van productieorder tot afgesloten order",
+  "lanes": [
+    { "id": "planning", "label": "Productieplanning" },
+    { "id": "werkvloer", "label": "Werkvloer" },
+    { "id": "inkoop", "label": "Inkoop (uitbesteding)" }
+  ],
+  "nodes": [
+    { "id": "start", "type": "start", "label": "Productiebehoefte (planning of verkooporder)", "lane": "planning" },
+    { "id": "order", "type": "task", "label": "Productieorder maken", "lane": "planning", "scenario": "BS40.200" },
+    { "id": "plannen", "type": "task", "label": "Productieorder plannen", "lane": "planning", "scenario": "BS40.212" },
+    { "id": "materialen", "type": "task", "label": "Ordermaterialen beheren", "lane": "planning", "scenario": "BS40.201" },
+    { "id": "gw-uitbesteding", "type": "gateway", "label": "Uitbesteding nodig?", "lane": "planning" },
+    { "id": "uitbesteding-berekenen", "type": "task", "label": "Uitbestedingsvoorstel berekenen", "lane": "inkoop", "scenario": "BS30.209" },
+    { "id": "uitbesteding-boeken", "type": "task", "label": "Uitbestedingsinkooporder boeken", "lane": "inkoop", "scenario": "BS40.208" },
+    { "id": "klaarzetten", "type": "task", "label": "Materialen klaarzetten", "lane": "werkvloer", "scenario": "BS40.211" },
+    { "id": "registreren", "type": "task", "label": "Verbruik en output registreren", "lane": "werkvloer", "scenario": "BS40.205" },
+    { "id": "gw-uitval", "type": "gateway", "label": "Uitval?", "lane": "werkvloer" },
+    { "id": "uitval", "type": "task", "label": "Uitval boeken", "lane": "werkvloer", "scenario": "BS40.206" },
+    { "id": "capaciteit", "type": "task", "label": "Capaciteit boeken", "lane": "werkvloer", "scenario": "BS40.207" },
+    { "id": "kostprijs", "type": "task", "label": "Kostprijs bijwerken", "lane": "planning", "scenario": "BS40.204" },
+    { "id": "afsluiten", "type": "task", "label": "Productieorder afsluiten", "lane": "planning", "scenario": "BS40.209" },
+    { "id": "end", "type": "end", "label": "Order geproduceerd", "lane": "planning" }
+  ],
+  "flows": [
+    { "from": "start", "to": "order" },
+    { "from": "order", "to": "plannen" },
+    { "from": "plannen", "to": "materialen" },
+    { "from": "materialen", "to": "gw-uitbesteding" },
+    { "from": "gw-uitbesteding", "to": "uitbesteding-berekenen", "label": "ja" },
+    { "from": "uitbesteding-berekenen", "to": "uitbesteding-boeken" },
+    { "from": "uitbesteding-boeken", "to": "klaarzetten" },
+    { "from": "gw-uitbesteding", "to": "klaarzetten", "label": "nee" },
+    { "from": "klaarzetten", "to": "registreren" },
+    { "from": "registreren", "to": "gw-uitval" },
+    { "from": "gw-uitval", "to": "uitval", "label": "ja" },
+    { "from": "uitval", "to": "capaciteit" },
+    { "from": "gw-uitval", "to": "capaciteit", "label": "nee" },
+    { "from": "capaciteit", "to": "kostprijs" },
+    { "from": "kostprijs", "to": "afsluiten" },
+    { "from": "afsluiten", "to": "end" }
+  ]
+}
