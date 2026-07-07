@@ -46,8 +46,11 @@ demo artifacts and mechanical quality gates (`tools/check_client.py`):
 |---|---|---|
 | Setup plan | ordered BC configuration workbook from the BPA scope | [`docs/setup.md`](docs/setup.md) |
 | FGD → *human review* → TGD | functional & technical gap designs, buildable by an external developer | [`docs/gap-designs.md`](docs/gap-designs.md) |
+| Migration | client-run after RapidStart training: entity workbooks + consultant checkpoints | [`docs/migration.md`](docs/migration.md) |
+| Test / UAT | key-user acceptance scripts generated from the BPA + FGD criteria; sign-off gate | [`docs/testing.md`](docs/testing.md) |
 | Training | trajectory + per-session prep (environment, demo script, exercises) | [`docs/training.md`](docs/training.md) |
 | User manual | interactive handbook; ungrounded sections auto-flagged for consultant review | [`docs/manual.md`](docs/manual.md) |
+| Aftercare | issue + change-request registers that feed the flywheel; productisation path | [`docs/aftercare.md`](docs/aftercare.md) |
 
 Quality on any Claude model (Fable/Opus/Sonnet) comes from the same mechanism:
 explicit pipelines + templates + validators — see

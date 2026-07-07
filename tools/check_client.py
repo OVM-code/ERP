@@ -173,6 +173,98 @@ def check_training(client: Path, in_scope: set[str]) -> None:
         ok(f"training: trajectory + {n} sessievoorbereiding(en) gecontroleerd")
 
 
+def check_test(client: Path, in_scope: set[str]) -> None:
+    tdir = client / "test"
+    if not tdir.is_dir():
+        return
+    scripts_dir = tdir / "scripts"
+    text_all = ""
+    n_scripts = 0
+    covered: set[str] = set()
+    for f in sorted(scripts_dir.glob("*.md")) if scripts_dir.is_dir() else []:
+        if f.name.lower() == "readme.md":
+            continue
+        t = f.read_text(encoding="utf-8")
+        text_all += t
+        n_scripts += len(re.findall(r"^##\s+TS-", t, re.M))
+        for code in bb.CODE_RE.findall(t):
+            covered.add(code)
+            if code not in in_scope:
+                warn(f"test/{f.name}: {code} is niet in scope van de BPA")
+    missing = sorted(in_scope - covered)
+    plan = tdir / "test-plan.md"
+    st = doc_status(plan) if plan.exists() else None
+    if missing:
+        (err if st == "approved" else warn)(
+            f"test: in-scope scenario's zonder testscript: {', '.join(missing)}")
+    # every approved FGD's acceptance criteria must be referenced by a script
+    for f in sorted((client / "gaps").glob("FGD-GAP-*.md")) if (client / "gaps").is_dir() else []:
+        if doc_status(f) != "approved":
+            continue
+        for ac in sorted(set(re.findall(r"\bAC-\d+\b", f.read_text(encoding="utf-8")))):
+            if ac not in text_all:
+                warn(f"test: {f.stem} {ac} wordt door geen enkel script gedekt")
+    # open high-severity defects block an approved plan
+    defects = tdir / "defects.md"
+    if defects.exists() and st == "approved":
+        dt = defects.read_text(encoding="utf-8")
+        for m in re.finditer(r"^##\s+(DEF-\d+)(.*?)(?=^##\s|\Z)", dt, re.M | re.S):
+            block = m.group(2)
+            if re.search(r"Severity:\*\*\s*hoog", block) and re.search(r"Status:\*\*\s*open", block):
+                err(f"test: {m.group(1)} (severity hoog) staat open terwijl het testplan approved is")
+    if not missing and n_scripts:
+        ok(f"test: {n_scripts} script(s) dekken alle {len(in_scope)} in-scope scenario's (plan: {st})")
+
+
+def check_migration(client: Path) -> None:
+    mdir = client / "migration"
+    plan = mdir / "migration-plan.md"
+    if not plan.exists():
+        return
+    text = plan.read_text(encoding="utf-8")
+    n = 0
+    for m in re.finditer(r"`entities/([\w\-]+\.md)`", text):
+        n += 1
+        wb = mdir / "entities" / m.group(1)
+        if not wb.exists():
+            err(f"migration: workbook entities/{m.group(1)} staat in het plan maar bestaat niet")
+            continue
+        wt = wb.read_text(encoding="utf-8")
+        for section in ("Veldmapping", "Schoningsregels", "Validatiechecklist"):
+            if section not in wt:
+                warn(f"migration/entities/{m.group(1)}: sectie '{section}' ontbreekt")
+    if n == 0:
+        warn("migration: geen entiteiten met workbook-verwijzing in het plan")
+    else:
+        ok(f"migration: {n} entiteit(en) met workbook gecontroleerd (plan: {doc_status(plan)})")
+
+
+def check_aftercare(client: Path) -> None:
+    adir = client / "aftercare"
+    if not adir.is_dir():
+        return
+    crs = adir / "crs.md"
+    if crs.exists():
+        t = crs.read_text(encoding="utf-8")
+        for m in re.finditer(r"^##\s+(CR-\d+)(.*?)(?=^##\s|\Z)", t, re.M | re.S):
+            cid, block = m.group(1), m.group(2)
+            sm = re.search(r"Status:\*\*\s*([a-z ]+)", block)
+            st = sm.group(1).strip() if sm else None
+            if st not in ("requested", "quoted", "approved", "delivered", "rejected"):
+                err(f"aftercare/crs.md: {cid} heeft geen geldig statustoken ({st!r})")
+            if st == "delivered" and not re.search(r"BPA-versie na levering:\*\*\s*\S*\d", block):
+                warn(f"aftercare/crs.md: {cid} is delivered maar zonder BPA-versiebump")
+    issues = adir / "issues.md"
+    if issues.exists():
+        t = issues.read_text(encoding="utf-8")
+        for m in re.finditer(r"^##\s+(ISS-\d+)(.*?)(?=^##\s|\Z)", t, re.M | re.S):
+            iid, block = m.group(1), m.group(2)
+            if re.search(r"Status:\*\*\s*(opgelost|gesloten)", block):
+                if not (bb.CODE_RE.search(block) or "n.v.t." in block):
+                    warn(f"aftercare/issues.md: {iid} is opgelost zonder scenario-/handleidingverwijzing (voedingsregel)")
+    ok("aftercare: registers gecontroleerd")
+
+
 def check_language(client: Path) -> None:
     """English deliverables must not contain Dutch glossary terms."""
     def lang_of(cfg_file: Path) -> str:
@@ -222,7 +314,10 @@ def main() -> int:
     in_scope, gap_ids = bpa_scope(client)
     check_designs(client, gap_ids)
     check_setup(client, in_scope)
+    check_test(client, in_scope)
+    check_migration(client)
     check_training(client, in_scope)
+    check_aftercare(client)
     check_language(client)
 
     print(f"resultaat: {len(ERRORS)} fout(en), {len(WARNS)} waarschuwing(en)")

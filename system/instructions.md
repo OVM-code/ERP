@@ -157,8 +157,11 @@ authoring step — **zero errors/warnings is the definition of done** on any mod
 | Setup plan (BPA → BC configuration workbook) | `setup/` | `docs/setup.md` | plan `approved`; covers every in-scope scenario or defers it |
 | FGD (functional gap design, per GAP-x) | `gaps/FGD-GAP-x.md` | `docs/gap-designs.md` | **human review**: status `approved` |
 | TGD (technical gap design, for an external developer) | `gaps/TGD-GAP-x.md` | `docs/gap-designs.md` | only from an approved FGD (machine-enforced); tests cover all FGD acceptance criteria |
+| Migration (client-run after RapidStart training) | `migration/` | `docs/migration.md` | entity workbooks complete; consultant checkpoints CP1–CP3 signed |
+| Test / UAT (key-user acceptance, scripts from BPA + FGD ACs) | `test/` | `docs/testing.md` | exit criteria met; no open high-severity defects; per-domain sign-off |
 | Training (trajectory + session preps) | `training/` | `docs/training.md` | sessions reference only in-scope scenarios; env prep tied to setup-plan steps |
 | User manual (interactive, like the BPA) | `manual/` | `docs/manual.md` | every topic grounded (`bpa` / `docs:<url>`) or flagged `review` for the consultant |
+| Aftercare (issues + change requests, post-go-live) | `aftercare/` | `docs/aftercare.md` | resolved issues feed manual/lessons (feeding rule); CRs delivered only from `approved`, with a BPA version bump |
 
 Cross-cutting rules for every stage:
 

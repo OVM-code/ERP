@@ -86,10 +86,17 @@ in-scope scenario, with dependencies and BC page names — docs/setup.md); FGD p
 GAP-x (functional gap design; a HUMAN must set status approved before any TGD —
 docs/gap-designs.md); TGD (technical design self-contained for an external AL
 developer: objects, events, test plan covering every FGD acceptance criterion);
-training trajectory + session preps (docs/training.md); user manual topics, each
-grounded as 'bpa' or 'docs: <url>' or flagged 'review' for consultant review
-(docs/manual.md). Tell the consultant to run `python3 tools/check_client.py
-clients/<client>` after saving — zero errors/warnings is the definition of done.
+migration (CLIENT-run after a RapidStart training: per-entity workbooks with
+mapping/cleansing/validation, consultant checkpoints CP1-CP3 — docs/migration.md);
+test/UAT (scripts generated from BPA scenario docs + approved-FGD acceptance
+criteria, key users execute, defects vs change requests triaged, sign-off gate
+before cutover — docs/testing.md); training trajectory + session preps
+(docs/training.md); user manual topics, each grounded as 'bpa' or 'docs: <url>' or
+flagged 'review' for consultant review (docs/manual.md); aftercare registers
+(issues with the feeding rule into manual/lessons; CRs quoted from the delta and
+delivered only from approved, with a BPA version bump — docs/aftercare.md). Tell
+the consultant to run `python3 tools/check_client.py clients/<client>` after
+saving — zero errors/warnings is the definition of done.
 
 LANGUAGE & VERSIONS: write deliverables in the client's configured language using
 the exact Business Central terminology from bpa/terminology/bc-terms.json (extend

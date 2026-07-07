@@ -87,6 +87,9 @@ code { font:12.5px var(--mono); background:var(--accent-soft); border-radius:4px
 .stage .s-sub { font-size:11px; color:var(--ink-3); margin-top:1px; }
 .stage.missing { border-style:dashed; border-color:var(--risk); background:transparent; }
 .stage.missing .s-sub { color:var(--risk); font-weight:600; }
+.stage.upg { border-color:var(--accent); }
+.stage.upg .s-sub { color:var(--accent); font-weight:600; }
+.chip.built { color:var(--accent); background:var(--accent-soft); border:1px solid var(--accent); }
 .stage .badge { position:absolute; top:-9px; right:-7px; background:var(--accent); color:var(--accent-ink);
   font:600 11px var(--mono); border-radius:20px; padding:1px 7px; }
 .flow .arrow { align-self:center; color:var(--ink-3); font-size:15px; }
@@ -190,9 +193,14 @@ table.t td:first-child { white-space:nowrap; }
   delivery chain — and proposes the operating model that converts them into margin,
   capacity and recurring revenue. Every figure below is <strong>directional and adjustable</strong>:
   set your own assumptions and the report recomputes.</p>
-  <p class="stamp">Basis: repo state at branch claude/bpa-documentation-system-qzkhgg · 2026-07-07 · figures = annual, at the assumptions set below</p>
+  <p class="lede" style="margin-top:10px;font-size:14.5px"><strong>Version 2 — corrected and extended.</strong>
+  Three v1 facts were wrong: testing <em>does</em> exist as a stage, migration is client-run after a
+  RapidStart training, and aftercare is live reactive work (issues + change requests). v2 ships
+  assist-kits for all three in the repo — those findings now read <em>built, adopt</em> instead of
+  <em>missing</em>.</p>
+  <p class="stamp">v2 · basis: repo state at branch claude/bpa-documentation-system-qzkhgg · 2026-07-07 · corrections applied: test / migration / aftercare · figures = annual, at the assumptions set below</p>
   <div class="stats">
-    <div class="stat"><div class="v" id="st-total">—</div><div class="l">Total annual opportunity</div><div class="n">efficiency + protected + recurring</div></div>
+    <div class="stat"><div class="v" id="st-total">—</div><div class="l">Total annual opportunity</div><div class="n" id="st-note">—</div></div>
     <div class="stat"><div class="v" id="st-days">—</div><div class="l">Consultant-days freed per project</div><div class="n">across the twelve leaks</div></div>
     <div class="stat"><div class="v" id="st-rec">—</div><div class="l">New recurring revenue / yr</div><div class="n">aftercare subscriptions (L10)</div></div>
     <div class="stat"><div class="v" id="st-cap">—</div><div class="l">Extra project capacity / yr</div><div class="n">same team, freed days ÷ avg project</div></div>
@@ -223,9 +231,10 @@ table.t td:first-child { white-space:nowrap; }
 <section id="pipeline">
   <p class="kicker">Current state</p>
   <h2>The delivery chain, with its leaks pinned on</h2>
-  <p class="sub">Solid stages exist in the methodology today. Dashed stages are <strong>absent from the
-  methodology entirely</strong> — they happen ad hoc on every project, unpriced and unrepeatable.
-  Click a stage to filter the leak register; badges count the leaks it carries.</p>
+  <p class="sub">Every stage now exists. The accent-bordered ones were unassisted in v1 —
+  testing had no generated scripts or coverage gate, client-run migration had no guardrails,
+  aftercare had no registers — and got their assist-kits built in this iteration. Click a stage
+  to filter the leak register; badges count the leaks it carries.</p>
   <div class="card"><div class="flow" id="flow"></div></div>
 </section>
 
@@ -373,7 +382,12 @@ table.t td:first-child { white-space:nowrap; }
   planning-grade, not audit-grade.</p>
   <p class="note">Calibration path: implement L12 (telemetry) in horizon 1, run two projects,
   replace the assumed days-saved with measured deltas, and re-price the roadmap. The report is a
-  living artifact — keep it with the repo and update the leak register as items close.</p>
+  living artifact — keep it with the repo and update the leak register as items close.<br><br>
+  <strong>v2 changelog</strong> — corrected on consultant input: testing exists as a stage (leak
+  reframed to script generation + coverage gates; kit built), data migration is client-run after a
+  RapidStart training (kit with workbooks + checkpoints built), aftercare is live issue/CR work
+  (registers built; productisation layers remain the open opportunity). Findings marked
+  <em>✓ built — adopt</em> count toward the total until adoption is confirmed on a real project.</p>
 </section>
 
 </main>
@@ -399,11 +413,11 @@ var STAGES = [
   { id: "commercial", name: "Commercial", sub: "quote · CRs" },
   { id: "setup", name: "Setup", sub: "BC configuration" },
   { id: "gaps", name: "Gaps", sub: "FGD → TGD → build" },
-  { id: "test", name: "Test / UAT", sub: "missing stage", missing: true },
-  { id: "migration", name: "Data migration", sub: "missing stage", missing: true },
+  { id: "test", name: "Test / UAT", sub: "kit built in v2", upg: true },
+  { id: "migration", name: "Migration", sub: "client-run · kit built in v2", upg: true },
   { id: "training", name: "Training", sub: "trajectory · sessions" },
   { id: "manual", name: "Manual", sub: "interactive handbook" },
-  { id: "aftercare", name: "Aftercare", sub: "missing stage", missing: true },
+  { id: "aftercare", name: "Aftercare", sub: "issues · CRs · registers in v2", upg: true },
   { id: "cross", name: "Cross-cutting", sub: "flywheel · telemetry" }
 ];
 
@@ -430,13 +444,13 @@ var LEAKS = [
     ev: "coverage.md carries scope + fit per scenario and gaps.md carries S/M/L, but no effort baselines exist anywhere; no quote artifact in the client workspace.",
     fix: "Effort baselines per scenario code and GAP size (pricing/effort-baselines.json), calibrated each project from actuals (see metrics). Quote generator: coverage × baselines → priced scope annex that is literally the BPA's scope matrix — what the client signs is what the pipeline builds.",
     first: "Backfill baselines from the last 5 finished projects' time-writing against their scope; generate the next quote both ways and compare." },
-  { id: "L04", t: "Change requests are absorbed, not billed", stage: "commercial", cat: "rev", effort: 1, hz: 1,
+  { id: "L04", t: "Change requests are absorbed, not billed — CR register built; adopt it", stage: "commercial", cat: "rev", effort: 1, hz: 1, st: "addressed",
     val: function (a) { return 1.5 * a.P * a.R; }, days: 1.5,
     formula: "1.5 absorbed days recovered / project × projects × day rate",
     leak: "docs/operations.md defines the CR rule ('new REQ, re-version') but there is no CR workflow — so mid-project asks get done informally and never invoiced. CR leakage is the classic silent margin killer in fixed-bid ERP.",
     ev: "docs/operations.md §Scope: rule exists; clients/_template/ has no CR intake, no delta-quote artifact.",
-    fix: "CR pipeline: intake block (source: mail/steering meeting) → agent drafts the delta (REQ + coverage rows + content diff + FGD if needed) → auto delta-quote from L03 baselines → client approves → merged and re-versioned. Ten minutes from ask to priced answer removes the social friction of billing.",
-    first: "Add crs.md to the template with CR-xxx blocks mirroring the REQ format; wire a validator rule: content changes after BPA v1.0 must cite a CR or a REQ." },
+    fix: "CR pipeline: intake block with the literal quote → agent drafts the delta (REQ + coverage rows + content diff + FGD if needed) → delta-quote from L03 baselines → delivered only from 'approved', with a BPA version bump. Ten minutes from ask to priced answer removes the social friction of billing. <strong>Built in v2</strong>: aftercare/crs.md register with machine-checked statuses (docs/aftercare.md).",
+    first: "Adopt: log every ask from the next steering meeting as a CR-x and quote it the same day; wire the L03 baselines in when they exist." },
   { id: "L05", t: "TGDs stop one step short of code", stage: "gaps", cat: "eff", effort: 2, hz: 2,
     val: function (a) { return 0.75 * a.G * a.P * a.R; },
     formula: "0.75 dev-days saved per GAP × GAPs/project × projects × rate",
@@ -451,20 +465,20 @@ var LEAKS = [
     ev: "docs/setup.md states the consultant-executed boundary; no RapidStart package generation; no environment verification exists.",
     fix: "Two additions that keep human judgement in charge: (1) RapidStart configuration-package generation per plan phase — execute once, promote mechanically; (2) a read-only verification agent (BC API) that diffs actual environment config against the plan and flags drift before every training block and before cutover.",
     first: "Pilot the verifier: read-only API user on FLORAX-TEST equivalent, check 10 plan steps' claims automatically." },
-  { id: "L07", t: "No test stage exists between build and training", stage: "test", cat: "risk", effort: 2, hz: 2,
+  { id: "L07", t: "Testing existed, but scripts were hand-made and coverage unchecked — kit built; adopt it", stage: "test", cat: "risk", effort: 2, hz: 1, st: "addressed",
     val: function (a) { return 1.5 * a.P * a.R; }, days: 1.5,
-    formula: "1.5 days of late-defect rework avoided / project (conservative)",
-    leak: "TGDs carry test plans, but the methodology has no UAT stage: no scripts, no execution record, no acceptance trail. Defects surface in training sessions and hypercare, where fixing them costs multiples and burns the relationship at its most fragile point.",
-    ev: "No test/ workspace in clients/_template/; FGD ACs and scenario docs are never turned into executable acceptance scripts.",
-    fix: "UAT workspace: scripts generated per in-scope scenario (from its BPA content — the doc already says what 'working' means) plus the FGD acceptance criteria; execution tracked per script; agent-run API smoke tests for the mechanical part. Acceptance sign-off becomes gate #4 before cutover.",
-    first: "Generate UAT scripts for the demo client's 16 scenarios as the format pilot; add the check_client rule: every in-scope scenario has a script." },
-  { id: "L08", t: "Data migration is outside the methodology entirely", stage: "migration", cat: "risk", effort: 3, hz: 3,
+    formula: "1.5 days of script-writing + late-defect rework avoided / project",
+    leak: "v1 wrongly called this stage missing — corrected: testing exists in the methodology. The real leak: scripts were authored by hand (so often thin or late), nothing verified that every in-scope scenario and every FGD acceptance criterion was actually covered, and acceptance was a feeling rather than a signed record.",
+    ev: "Corrected + built in v2: clients/_template/test/ (test plan with entry/exit criteria, script format, defect register with defect-vs-CR triage) + docs/testing.md; check_client now enforces scenario and FGD-AC coverage and blocks an approved plan with open high-severity defects. Demo: 9 scripts covering all 16 in-scope scenarios and FGD-GAP-1 AC-1…5.",
+    fix: "Scripts are <strong>generated</strong> from what already exists — the BPA scenario doc states expected behaviour, the approved FGD states the acceptance criteria, the migration workbooks supply real start data. Key users execute rounds R1 (scenario) → R2 (end-to-end chains incl. document output) → R3 (regression + cutover simulation); per-domain sign-off is gate 4 before cutover.",
+    first: "Adopt on the next project: generate the script set the day the BPA is approved; run R1 with key users right after their training module." },
+  { id: "L08", t: "Client-run migration (RapidStart) had no guardrails — kit built; adopt it", stage: "migration", cat: "risk", effort: 2, hz: 1, st: "addressed",
     val: function (a) { return 2 * a.P * a.R; }, days: 2,
-    formula: "2 days of overrun/rework avoided / project (typically far more)",
-    leak: "The intake asks one question about migration scope and then the methodology goes silent — yet migration is a top-2 cause of ERP go-live slips. Every project reinvents mapping sheets and validation, unpriced and unreviewed.",
-    ev: "intake.md §9 ('Data migration scope'); no migration/ workspace, templates, or validator rules anywhere.",
-    fix: "Migration workspace: source-system mapping specs per entity (legacy field → BC field, transformation, owner), cleansing rules, agent-generated validation queries (counts, referential checks, reconciliation to trial balance), trial-load and cutover checklists — same traceability discipline as the rest of the chain.",
-    first: "Template the entity-mapping spec for the four universal entities (customers, vendors, items, open entries) and pilot on the next project." },
+    formula: "2 days of cutover firefighting avoided / project (+ checkpoints become billable)",
+    leak: "v1 wrongly called migration absent — corrected: the model is an initial RapidStart training after which the client migrates its own data. That model is right (cost, ownership), but unguarded it fails predictably: mapping ambiguity, dirty data discovered at cutover, no reconciliation trail — and the consultant firefights for free at the worst moment.",
+    ev: "Corrected + built in v2: clients/_template/migration/ — per-entity workbooks (field mapping from BPA/setup, cleansing rules, self-checking validation incl. reconciliation of open entries to the old books), a RapidStart training prep using the client's own data, and three consultant checkpoints CP1 readiness / CP2 trial review / CP3 cutover sign-off; validator rules; demo has 3 filled workbooks. docs/migration.md.",
+    fix: "Keep the client-run model; the consultant sells <strong>guardrails instead of typing</strong>: agent-generated workbooks, competence-based training on real data, and three billable gates. Trial-loaded data doubles as the test stage's start data. Source-system mapping packs (Exact, Navision, AFAS …) make the second identical migration start at 80%.",
+    first: "Adopt on the next migration: generate the workbooks from the entity scope, run the training with real extracts, invoice CP1–CP3 as fixed review moments." },
   { id: "L09", t: "Training delivery doesn't scale past the trainer", stage: "training", cat: "eff", effort: 1, hz: 2,
     val: function (a) { return 1.5 * a.P * a.R; }, days: 1.5,
     formula: "1.5 delivery/prep days saved / project × projects × rate",
@@ -472,13 +486,13 @@ var LEAKS = [
     ev: "training/ produces trainer-led session preps only; manual topics and exercises are structured but single-use.",
     fix: "Per-role learning packets generated from manual chapters + session exercises (with the self-checking expected results already in the format); quiz generation per module; session logs auto-create manual review flags. Trainer time refocuses on the decision-confirming parts of sessions.",
     first: "Generate the M1 packet from the demo client's manual chapter 2 + S01 exercises; test with one key-user group." },
-  { id: "L10", t: "The relationship ends at go-live — no productised aftercare", stage: "aftercare", cat: "rev", effort: 2, hz: 3,
+  { id: "L10", t: "Aftercare is reactive time-and-material — registers built; productise the foresight", stage: "aftercare", cat: "rev", effort: 2, hz: 3,
     val: function (a) { return a.Aft * a.M * 12; },
     formula: "subscribed clients × monthly fee × 12 — new recurring revenue",
-    leak: "The pipeline produces a uniquely grounded asset — the client's own BPA + manual + setup record — then shelves it. Meanwhile SaaS clients get force-upgraded twice a year and call ad hoc. That is a subscription business nobody is invoicing.",
-    ev: "Pipeline ends at manual/; system/stack-versions.md documents the wave cadence; no aftercare workspace or offering exists.",
-    fix: "Two products from existing assets: (1) a support Q&A agent grounded exclusively in the client's own BPA/manual/setup docs (citations resolve to their documents — the check_client discipline applied to answers); (2) a per-wave release-impact report: diff Microsoft release notes against the client's in-scope scenario codes and flag what changes for them. Both are marginal-cost once built.",
-    first: "Hand-produce one release-impact report for the 2026 wave 2 preview for two clients; price the subscription off their reaction." },
+    leak: "v1 understated this — corrected: aftercare exists and is real work (consultants resolving issues and pushing change requests through). The leak is its shape: reactive, T&M, invisible until the invoice; the resolved issues teach nobody, and the uniquely grounded assets (the client's own BPA + manual + setup record) sit unused while SaaS clients get force-upgraded twice a year.",
+    ev: "Corrected in v2 — layer 1 built: clients/_template/aftercare/ issue + CR registers with the feeding rule (a resolved issue must update the manual, propose a lesson, or flag a test gap) and machine-checked CR statuses. Layers 2–3 open: docs/aftercare.md details the wave impact reports, the doc-grounded Q&A agent and the subscription tiers.",
+    fix: "Three layers (docs/aftercare.md): 1) the registers wired into the flywheel — built; 2) proactive products from existing assets: per-wave release-impact report (diff Microsoft release plans against the client's in-scope scenario codes) and a support Q&A agent grounded exclusively in the client's own documents; 3) subscription tiers (Basis/Plus/Premium) that sell certainty and foresight — T&M stays only for delivering approved CRs.",
+    first: "Hand-produce one release-impact report for the 2026 wave 2 preview for two existing clients; price the subscription off their reaction." },
   { id: "L11", t: "The knowledge flywheel depends on goodwill", stage: "cross", cat: "know", effort: 1, hz: 1,
     val: function (a) { return 0.5 * a.P * a.R; }, days: 0.5,
     formula: "0.5 days better-argued decisions / project (compounding, understated)",
@@ -498,17 +512,19 @@ var LEAKS = [
 /* ---------------- calc + headline ---------------- */
 function leakVal(l) { return l.val(A); }
 function totals() {
-  var t = 0, days = 0, rec = 0;
+  var t = 0, days = 0, rec = 0, built = 0;
   LEAKS.forEach(function (l) {
     var v = leakVal(l); t += v;
     if (l.days) days += l.days;
     if (l.id === "L10") rec += v;
+    if (l.st === "addressed") built += v;
   });
-  return { total: t, days: days, rec: rec, cap: (days * A.P) / A.D };
+  return { total: t, days: days, rec: rec, built: built, cap: (days * A.P) / A.D };
 }
 function renderHeadline() {
   var s = totals();
   document.getElementById("st-total").textContent = fmt(s.total);
+  document.getElementById("st-note").textContent = "of which " + fmt(s.built) + " already systematised in the repo — adoption pending";
   document.getElementById("st-days").textContent = s.days.toFixed(1);
   document.getElementById("st-rec").textContent = fmt(s.rec);
   document.getElementById("st-cap").textContent = "+" + s.cap.toFixed(1);
@@ -522,7 +538,7 @@ function renderFlow() {
     var n = LEAKS.filter(function (l) { return l.stage === s.id; }).length;
     if (i && s.id !== "cross") html += '<span class="arrow" aria-hidden="true">→</span>';
     if (s.id === "cross") html += '<span class="arrow" aria-hidden="true">·</span>';
-    html += '<button class="stage' + (s.missing ? " missing" : "") + '" data-stage="' + s.id + '">' +
+    html += '<button class="stage' + (s.missing ? " missing" : s.upg ? " upg" : "") + '" data-stage="' + s.id + '">' +
       (n ? '<span class="badge">' + n + "</span>" : "") +
       '<span class="s-name">' + s.name + '</span><br><span class="s-sub">' + s.sub + "</span></button>";
   });
@@ -577,6 +593,7 @@ function renderRegister() {
       '<span class="chip ' + l.cat + '"><i></i>' + CATS[l.cat] + "</span>" +
       '<span class="chip plain">' + st.name + "</span>" +
       '<span class="chip plain">effort ' + EFFORT[l.effort] + " · H" + l.hz + "</span>" +
+      (l.st === "addressed" ? '<span class="chip built">✓ built — adopt</span>' : "") +
       '<span class="lv">' + fmt(leakVal(l)) + "/yr</span></summary>" +
       '<div class="l-body">' +
       '<div class="full"><h4>What is leaking</h4><p>' + l.leak + "</p></div>" +
@@ -592,7 +609,7 @@ function renderRegister() {
 function renderLegend() {
   document.getElementById("viz-legend").innerHTML = Object.keys(CATS).map(function (c) {
     return '<span class="chip ' + c + '"><i></i>' + CATS[c] + "</span>";
-  }).join("") + '<span style="margin-left:auto;color:var(--ink-3);font-size:11.5px">bubble = annual value at current assumptions</span>';
+  }).join("") + '<span style="margin-left:auto;color:var(--ink-3);font-size:11.5px">bubble = annual value · faded = kit built in v2, adoption pending</span>';
 }
 function renderScatter() {
   var W = 940, H = 380, mL = 74, mR = 24, mT = 18, mB = 46;
@@ -620,7 +637,8 @@ function renderScatter() {
     var j = (k % 5 - 2) * 52; // wide spread: dot + label clear the next dot
     var cx = xe(l.effort, j), cy = yv(leakVal(l));
     s += '<g class="pt" data-leak="' + l.id + '" tabindex="0" style="cursor:pointer">' +
-      '<circle cx="' + cx + '" cy="' + cy + '" r="8" fill="var(--' + l.cat + ')" stroke="var(--card)" stroke-width="2"/>' +
+      '<circle cx="' + cx + '" cy="' + cy + '" r="8" fill="var(--' + l.cat + ')" stroke="var(--card)" stroke-width="2"' +
+      (l.st === "addressed" ? ' fill-opacity=".38"' : "") + "/>" +
       '<text class="dotl" x="' + (cx + 11) + '" y="' + (cy + 4) + '">' + l.id + "</text></g>";
   });
   s += "</svg>";
@@ -629,7 +647,7 @@ function renderScatter() {
   document.querySelectorAll("#scatter .pt").forEach(function (g) {
     var l = LEAKS.find(function (x) { return x.id === g.getAttribute("data-leak"); });
     function show(ev) {
-      tip.innerHTML = "<b>" + l.id + " · " + l.t + "</b>" + fmt(leakVal(l)) + "/yr · effort " + EFFORT[l.effort] + " · horizon H" + l.hz;
+      tip.innerHTML = "<b>" + l.id + " · " + l.t + "</b>" + fmt(leakVal(l)) + "/yr · effort " + EFFORT[l.effort] + " · H" + l.hz + (l.st === "addressed" ? " · ✓ built" : "");
       tip.style.display = "block";
       var x = (ev.touches ? ev.touches[0] : ev).clientX, y = (ev.touches ? ev.touches[0] : ev).clientY;
       tip.style.left = Math.min(x + 14, window.innerWidth - 300) + "px";
@@ -647,26 +665,26 @@ function renderScatter() {
 
 /* ---------------- roadmap ---------------- */
 var HZ = [
-  { n: 1, t: "Horizon 1 · 0–3 months", s: "Pure repo extensions — measure, reuse, stop the billing leaks",
+  { n: 1, t: "Horizon 1 · 0–3 months", s: "Adopt what v2 built, measure, reuse, stop the billing leaks",
     items: [
+      ["L07", "Adopt the test kit: generate scripts at BPA approval, run R1–R3 on the next project"],
+      ["L08", "Adopt the migration kit: workbooks + RapidStart training + billable checkpoints CP1–CP3"],
+      ["L04", "Adopt the CR register: every ask logged and quoted the same day"],
       ["L12", "Telemetry + persisted validator logs — the calibration basis for everything else"],
       ["L01", "Workshop briefing packs + same-day extraction"],
-      ["L04", "CR pipeline with delta-quotes — first invoice recovered pays for the horizon"],
       ["L02", "First industry pack (anonymise Florax → food-manufacturing)"],
       ["L11", "Milestone harvest agent for SDR outcomes and lessons"]
     ] },
   { n: 2, t: "Horizon 2 · 3–9 months", s: "Execution automation — needs H1's baselines to prove itself",
     items: [
-      ["L03", "Effort baselines + quote generator from coverage"],
+      ["L03", "Effort baselines + quote generator from coverage (CRs and checkpoints feed it)"],
       ["L05", "AL scaffolds from approved TGDs (architect-gated)"],
-      ["L06", "RapidStart generation + environment-verification agent"],
-      ["L07", "UAT stage: generated scripts, acceptance gate before cutover"],
+      ["L06", "RapidStart generation for setup + environment-verification agent"],
       ["L09", "Per-role learning packets from manual + exercises"]
     ] },
-  { n: 3, t: "Horizon 3 · 9–18 months", s: "New stages and recurring revenue — sold on H1–H2 reference clients",
+  { n: 3, t: "Horizon 3 · 9–18 months", s: "Recurring revenue — sold on H1–H2 reference clients",
     items: [
-      ["L08", "Data-migration workspace with validation tooling"],
-      ["L10", "Aftercare products: doc-grounded Q&A agent + per-wave release-impact reports"],
+      ["L10", "Aftercare layers 2–3: per-wave release-impact reports, doc-grounded Q&A agent, subscription tiers"],
       ["—", "Viewer feedback/sign-off layer matured into a client portal"],
       ["—", "Outcome-based pricing pilot: sell the analysis phase fixed-fee at half the elapsed time"]
     ] }
