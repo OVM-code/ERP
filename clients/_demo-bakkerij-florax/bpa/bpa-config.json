@@ -4,5 +4,10 @@
   "period": "workshops mei 2026",
   "version": "0.9 — demo",
   "language": "nl",
-  "accentColor": "#00305e"
+  "accentColor": "#00305e",
+  "stack": {
+    "bc": "BC24 (2024 wave 1), SaaS current",
+    "aptean-fnb": "AppSource current — lot mgmt, expiration mgmt",
+    "continia": "AppSource current — DC + DO"
+  }
 }

@@ -1,53 +1,329 @@
 {
   "id": "verkoop",
   "domain": 2,
-  "title": "Verkoop",
-  "subtitle": "Van klantvraag tot betaalde factuur",
+  "title": {
+    "nl": "Verkoop",
+    "en": "Sales"
+  },
+  "subtitle": {
+    "nl": "Van klantvraag tot betaalde factuur",
+    "en": "From customer request to paid invoice"
+  },
   "lanes": [
-    { "id": "verkoop", "label": "Verkoop" },
-    { "id": "magazijn", "label": "Magazijn" },
-    { "id": "finance", "label": "Finance" }
+    {
+      "id": "verkoop",
+      "label": {
+        "nl": "Verkoop",
+        "en": "Sales"
+      }
+    },
+    {
+      "id": "magazijn",
+      "label": {
+        "nl": "Magazijn",
+        "en": "Warehouse"
+      }
+    },
+    {
+      "id": "finance",
+      "label": {
+        "nl": "Finance",
+        "en": "Finance"
+      }
+    }
   ],
   "nodes": [
-    { "id": "start", "type": "start", "label": "Klantvraag ontvangen", "lane": "verkoop" },
-    { "id": "offerte", "type": "task", "label": "Verkoopofferte maken", "lane": "verkoop", "scenario": "BS25.200" },
-    { "id": "gw-akkoord", "type": "gateway", "label": "Klant akkoord?", "lane": "verkoop" },
-    { "id": "end-verloren", "type": "end", "label": "Offerte verloren", "lane": "verkoop" },
-    { "id": "order", "type": "task", "label": "Verkooporder maken", "lane": "verkoop", "scenario": "BS25.202" },
-    { "id": "gw-goedkeuring", "type": "gateway", "label": "Goedkeuring vereist?", "lane": "verkoop" },
-    { "id": "goedkeuring-vragen", "type": "task", "label": "Goedkeuringsaanvraag verzenden", "lane": "verkoop", "scenario": "BS25.211" },
-    { "id": "goedkeuren", "type": "task", "label": "Verkooporder goedkeuren", "lane": "verkoop", "scenario": "BS25.212" },
-    { "id": "reserveren", "type": "task", "label": "Voorraad reserveren", "lane": "verkoop", "scenario": "BS25.204" },
-    { "id": "verzenden", "type": "subprocess", "label": "Order picken en verzenden", "lane": "magazijn", "scenario": "BS25.205", "goto": "magazijnbeheer" },
-    { "id": "gw-backorder", "type": "gateway", "label": "Volledig geleverd?", "lane": "magazijn" },
-    { "id": "backorder", "type": "task", "label": "Backorder opvolgen", "lane": "magazijn", "scenario": "BS25.206" },
-    { "id": "factuur", "type": "task", "label": "Verkoopfactuur maken", "lane": "finance", "scenario": "BS25.213" },
-    { "id": "factuur-boeken", "type": "task", "label": "Verkoopfactuur boeken", "lane": "finance", "scenario": "BS25.214" },
-    { "id": "gw-retour", "type": "gateway", "label": "Retour gemeld?", "lane": "finance" },
-    { "id": "retour", "type": "task", "label": "Verkoopretourorder maken", "lane": "finance", "scenario": "BS25.219" },
-    { "id": "creditnota", "type": "task", "label": "Verkoopcreditnota maken", "lane": "finance", "scenario": "BS25.220" },
-    { "id": "end", "type": "end", "label": "Order afgehandeld", "lane": "finance" }
+    {
+      "id": "start",
+      "type": "start",
+      "label": {
+        "nl": "Klantvraag ontvangen",
+        "en": "Customer request received"
+      },
+      "lane": "verkoop"
+    },
+    {
+      "id": "offerte",
+      "type": "task",
+      "label": {
+        "nl": "Verkoopofferte maken",
+        "en": "Create sales quote"
+      },
+      "lane": "verkoop",
+      "scenario": "BS25.200"
+    },
+    {
+      "id": "gw-akkoord",
+      "type": "gateway",
+      "label": {
+        "nl": "Klant akkoord?",
+        "en": "Customer accepts?"
+      },
+      "lane": "verkoop"
+    },
+    {
+      "id": "end-verloren",
+      "type": "end",
+      "label": {
+        "nl": "Offerte verloren",
+        "en": "Quote lost"
+      },
+      "lane": "verkoop"
+    },
+    {
+      "id": "order",
+      "type": "task",
+      "label": {
+        "nl": "Verkooporder maken",
+        "en": "Create sales order"
+      },
+      "lane": "verkoop",
+      "scenario": "BS25.202"
+    },
+    {
+      "id": "gw-goedkeuring",
+      "type": "gateway",
+      "label": {
+        "nl": "Goedkeuring vereist?",
+        "en": "Approval required?"
+      },
+      "lane": "verkoop"
+    },
+    {
+      "id": "goedkeuring-vragen",
+      "type": "task",
+      "label": {
+        "nl": "Goedkeuringsaanvraag verzenden",
+        "en": "Send approval request"
+      },
+      "lane": "verkoop",
+      "scenario": "BS25.211"
+    },
+    {
+      "id": "goedkeuren",
+      "type": "task",
+      "label": {
+        "nl": "Verkooporder goedkeuren",
+        "en": "Approve sales order"
+      },
+      "lane": "verkoop",
+      "scenario": "BS25.212"
+    },
+    {
+      "id": "reserveren",
+      "type": "task",
+      "label": {
+        "nl": "Voorraad reserveren",
+        "en": "Reserve inventory"
+      },
+      "lane": "verkoop",
+      "scenario": "BS25.204"
+    },
+    {
+      "id": "verzenden",
+      "type": "subprocess",
+      "label": {
+        "nl": "Order picken en verzenden",
+        "en": "Pick and ship order"
+      },
+      "lane": "magazijn",
+      "scenario": "BS25.205",
+      "goto": "magazijnbeheer"
+    },
+    {
+      "id": "gw-backorder",
+      "type": "gateway",
+      "label": {
+        "nl": "Volledig geleverd?",
+        "en": "Fully shipped?"
+      },
+      "lane": "magazijn"
+    },
+    {
+      "id": "backorder",
+      "type": "task",
+      "label": {
+        "nl": "Backorder opvolgen",
+        "en": "Manage back order"
+      },
+      "lane": "magazijn",
+      "scenario": "BS25.206"
+    },
+    {
+      "id": "factuur",
+      "type": "task",
+      "label": {
+        "nl": "Verkoopfactuur maken",
+        "en": "Create sales invoice"
+      },
+      "lane": "finance",
+      "scenario": "BS25.213"
+    },
+    {
+      "id": "factuur-boeken",
+      "type": "task",
+      "label": {
+        "nl": "Verkoopfactuur boeken",
+        "en": "Post sales invoice"
+      },
+      "lane": "finance",
+      "scenario": "BS25.214"
+    },
+    {
+      "id": "gw-retour",
+      "type": "gateway",
+      "label": {
+        "nl": "Retour gemeld?",
+        "en": "Return reported?"
+      },
+      "lane": "finance"
+    },
+    {
+      "id": "retour",
+      "type": "task",
+      "label": {
+        "nl": "Verkoopretourorder maken",
+        "en": "Create sales return order"
+      },
+      "lane": "finance",
+      "scenario": "BS25.219"
+    },
+    {
+      "id": "creditnota",
+      "type": "task",
+      "label": {
+        "nl": "Verkoopcreditnota maken",
+        "en": "Create sales credit memo"
+      },
+      "lane": "finance",
+      "scenario": "BS25.220"
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "label": {
+        "nl": "Order afgehandeld",
+        "en": "Order completed"
+      },
+      "lane": "finance"
+    }
   ],
   "flows": [
-    { "from": "start", "to": "offerte" },
-    { "from": "offerte", "to": "gw-akkoord" },
-    { "from": "gw-akkoord", "to": "end-verloren", "label": "nee" },
-    { "from": "gw-akkoord", "to": "order", "label": "ja" },
-    { "from": "order", "to": "gw-goedkeuring" },
-    { "from": "gw-goedkeuring", "to": "goedkeuring-vragen", "label": "ja" },
-    { "from": "goedkeuring-vragen", "to": "goedkeuren" },
-    { "from": "goedkeuren", "to": "reserveren" },
-    { "from": "gw-goedkeuring", "to": "reserveren", "label": "nee" },
-    { "from": "reserveren", "to": "verzenden" },
-    { "from": "verzenden", "to": "gw-backorder" },
-    { "from": "gw-backorder", "to": "backorder", "label": "nee" },
-    { "from": "backorder", "to": "verzenden", "label": "restlevering" },
-    { "from": "gw-backorder", "to": "factuur", "label": "ja" },
-    { "from": "factuur", "to": "factuur-boeken" },
-    { "from": "factuur-boeken", "to": "gw-retour" },
-    { "from": "gw-retour", "to": "retour", "label": "ja" },
-    { "from": "retour", "to": "creditnota" },
-    { "from": "creditnota", "to": "end" },
-    { "from": "gw-retour", "to": "end", "label": "nee" }
+    {
+      "from": "start",
+      "to": "offerte"
+    },
+    {
+      "from": "offerte",
+      "to": "gw-akkoord"
+    },
+    {
+      "from": "gw-akkoord",
+      "to": "end-verloren",
+      "label": {
+        "nl": "nee",
+        "en": "no"
+      }
+    },
+    {
+      "from": "gw-akkoord",
+      "to": "order",
+      "label": {
+        "nl": "ja",
+        "en": "yes"
+      }
+    },
+    {
+      "from": "order",
+      "to": "gw-goedkeuring"
+    },
+    {
+      "from": "gw-goedkeuring",
+      "to": "goedkeuring-vragen",
+      "label": {
+        "nl": "ja",
+        "en": "yes"
+      }
+    },
+    {
+      "from": "goedkeuring-vragen",
+      "to": "goedkeuren"
+    },
+    {
+      "from": "goedkeuren",
+      "to": "reserveren"
+    },
+    {
+      "from": "gw-goedkeuring",
+      "to": "reserveren",
+      "label": {
+        "nl": "nee",
+        "en": "no"
+      }
+    },
+    {
+      "from": "reserveren",
+      "to": "verzenden"
+    },
+    {
+      "from": "verzenden",
+      "to": "gw-backorder"
+    },
+    {
+      "from": "gw-backorder",
+      "to": "backorder",
+      "label": {
+        "nl": "nee",
+        "en": "no"
+      }
+    },
+    {
+      "from": "backorder",
+      "to": "verzenden",
+      "label": {
+        "nl": "restlevering",
+        "en": "remaining quantity"
+      }
+    },
+    {
+      "from": "gw-backorder",
+      "to": "factuur",
+      "label": {
+        "nl": "ja",
+        "en": "yes"
+      }
+    },
+    {
+      "from": "factuur",
+      "to": "factuur-boeken"
+    },
+    {
+      "from": "factuur-boeken",
+      "to": "gw-retour"
+    },
+    {
+      "from": "gw-retour",
+      "to": "retour",
+      "label": {
+        "nl": "ja",
+        "en": "yes"
+      }
+    },
+    {
+      "from": "retour",
+      "to": "creditnota"
+    },
+    {
+      "from": "creditnota",
+      "to": "end"
+    },
+    {
+      "from": "gw-retour",
+      "to": "end",
+      "label": {
+        "nl": "nee",
+        "en": "no"
+      }
+    }
   ]
 }

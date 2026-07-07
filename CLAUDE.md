@@ -32,3 +32,12 @@ consultant. When working in this repo, act as the assistant defined in
   `bpa/template/catalog.json`, enrich content per domain, then build with
   `python3 tools/build_bpa.py clients/<client-slug>` and resolve all warnings.
   Worked example: `clients/_demo-bakkerij-florax/`.
+- Downstream stages (setup plan, FGD/TGD, training, manual): see the delivery
+  pipeline table in `system/instructions.md` and the guide per stage in `docs/`.
+  After EVERY authoring step run `python3 tools/check_client.py clients/<slug>` —
+  zero errors/warnings is the definition of done. Never write a TGD unless the FGD
+  status is `approved` (human gate).
+- Language & terms: deliverables in the client's configured language with the exact
+  BC terms from `bpa/terminology/bc-terms.json`. Versions: respect the client's
+  pinned stack (`system/stack-versions.md`). Cost: `system/model-guide.md`; never
+  read the 522 KB template source — use the catalog + split domain files.

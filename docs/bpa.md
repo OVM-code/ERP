@@ -105,6 +105,15 @@ Keep flows at 10–20 nodes; split anything bigger into a `subprocess` + `goto`.
 | `gap: GAP-x` | red | customisation, described in the GAP register |
 | *(no documentation)* | grey dashed | step exists in the flow but not in this BPA version |
 
+## Language
+
+The deliverable follows `language` in `bpa-config.json` (`nl` and `en` built in).
+Viewer chrome and the standard flows switch automatically (flow labels are
+`{"nl": …, "en": …}` objects); client content is authored directly in the client's
+language using the exact BC terms from `bpa/terminology/bc-terms.json`.
+`tools/check_client.py` lints English content for leftover Dutch glossary terms.
+Adding a language: `bpa/terminology/README.md`.
+
 ## Updating the template
 
 When Cegeka ships a new Process Model version: replace

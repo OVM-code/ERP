@@ -13,6 +13,8 @@ of the known formatting quirks in the source document (codes written as "BS 95.0
 scenario titles appearing as bullets or inline paragraphs instead of headings).
 """
 
+from __future__ import annotations
+
 import json
 import re
 import sys

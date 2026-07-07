@@ -1,40 +1,224 @@
 {
   "id": "voorraad",
   "domain": 4,
-  "title": "Voorraad",
-  "subtitle": "Artikelbeheer, correcties en kwaliteit",
+  "title": {
+    "nl": "Voorraad",
+    "en": "Inventory"
+  },
+  "subtitle": {
+    "nl": "Artikelbeheer, correcties en kwaliteit",
+    "en": "Item management, adjustments and quality"
+  },
   "lanes": [
-    { "id": "voorraadbeheer", "label": "Voorraadbeheer" },
-    { "id": "kwaliteit", "label": "Kwaliteit" }
+    {
+      "id": "voorraadbeheer",
+      "label": {
+        "nl": "Voorraadbeheer",
+        "en": "Inventory management"
+      }
+    },
+    {
+      "id": "kwaliteit",
+      "label": {
+        "nl": "Kwaliteit",
+        "en": "Quality"
+      }
+    }
   ],
   "nodes": [
-    { "id": "start", "type": "start", "label": "Nieuw artikel of voorraadgebeurtenis", "lane": "voorraadbeheer" },
-    { "id": "artikel", "type": "task", "label": "Artikel beheren", "lane": "voorraadbeheer", "scenario": "BS50.100" },
-    { "id": "sku", "type": "task", "label": "Stockkeeping units beheren", "lane": "voorraadbeheer", "scenario": "BS50.101" },
-    { "id": "traceringscode", "type": "task", "label": "Artikeltraceringscode toekennen", "lane": "voorraadbeheer", "scenario": "BS50.104" },
-    { "id": "gw-gebeurtenis", "type": "gateway", "label": "Welke gebeurtenis?", "lane": "voorraadbeheer" },
-    { "id": "corrigeren", "type": "task", "label": "Voorraad corrigeren", "lane": "voorraadbeheer", "scenario": "BS50.200" },
-    { "id": "inventarisatie", "type": "task", "label": "Inventarisatie uitvoeren", "lane": "voorraadbeheer", "scenario": "BS50.201" },
-    { "id": "blokkeren", "type": "task", "label": "Artikel/lot blokkeren", "lane": "kwaliteit", "scenario": "BS45.200" },
-    { "id": "lot", "type": "task", "label": "Lot management & traceability", "lane": "kwaliteit", "scenario": "BS45.904" },
-    { "id": "ncr", "type": "task", "label": "Non-conformance registreren", "lane": "kwaliteit", "scenario": "BS45.905" },
-    { "id": "gw-vrijgave", "type": "gateway", "label": "Lot vrijgegeven?", "lane": "kwaliteit" },
-    { "id": "end", "type": "end", "label": "Voorraad correct en beschikbaar", "lane": "voorraadbeheer" }
+    {
+      "id": "start",
+      "type": "start",
+      "label": {
+        "nl": "Nieuw artikel of voorraadgebeurtenis",
+        "en": "New item or inventory event"
+      },
+      "lane": "voorraadbeheer"
+    },
+    {
+      "id": "artikel",
+      "type": "task",
+      "label": {
+        "nl": "Artikel beheren",
+        "en": "Manage item"
+      },
+      "lane": "voorraadbeheer",
+      "scenario": "BS50.100"
+    },
+    {
+      "id": "sku",
+      "type": "task",
+      "label": {
+        "nl": "Stockkeeping units beheren",
+        "en": "Manage stockkeeping units"
+      },
+      "lane": "voorraadbeheer",
+      "scenario": "BS50.101"
+    },
+    {
+      "id": "traceringscode",
+      "type": "task",
+      "label": {
+        "nl": "Artikeltraceringscode toekennen",
+        "en": "Assign item tracking code"
+      },
+      "lane": "voorraadbeheer",
+      "scenario": "BS50.104"
+    },
+    {
+      "id": "gw-gebeurtenis",
+      "type": "gateway",
+      "label": {
+        "nl": "Welke gebeurtenis?",
+        "en": "Which event?"
+      },
+      "lane": "voorraadbeheer"
+    },
+    {
+      "id": "corrigeren",
+      "type": "task",
+      "label": {
+        "nl": "Voorraad corrigeren",
+        "en": "Adjust inventory"
+      },
+      "lane": "voorraadbeheer",
+      "scenario": "BS50.200"
+    },
+    {
+      "id": "inventarisatie",
+      "type": "task",
+      "label": {
+        "nl": "Inventarisatie uitvoeren",
+        "en": "Run physical inventory"
+      },
+      "lane": "voorraadbeheer",
+      "scenario": "BS50.201"
+    },
+    {
+      "id": "blokkeren",
+      "type": "task",
+      "label": {
+        "nl": "Artikel/lot blokkeren",
+        "en": "Block item/lot"
+      },
+      "lane": "kwaliteit",
+      "scenario": "BS45.200"
+    },
+    {
+      "id": "lot",
+      "type": "task",
+      "label": {
+        "nl": "Lot management & traceability",
+        "en": "Lot management & traceability"
+      },
+      "lane": "kwaliteit",
+      "scenario": "BS45.904"
+    },
+    {
+      "id": "ncr",
+      "type": "task",
+      "label": {
+        "nl": "Non-conformance registreren",
+        "en": "Record non-conformance"
+      },
+      "lane": "kwaliteit",
+      "scenario": "BS45.905"
+    },
+    {
+      "id": "gw-vrijgave",
+      "type": "gateway",
+      "label": {
+        "nl": "Lot vrijgegeven?",
+        "en": "Lot released?"
+      },
+      "lane": "kwaliteit"
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "label": {
+        "nl": "Voorraad correct en beschikbaar",
+        "en": "Inventory correct and available"
+      },
+      "lane": "voorraadbeheer"
+    }
   ],
   "flows": [
-    { "from": "start", "to": "artikel" },
-    { "from": "artikel", "to": "sku" },
-    { "from": "sku", "to": "traceringscode" },
-    { "from": "traceringscode", "to": "gw-gebeurtenis" },
-    { "from": "gw-gebeurtenis", "to": "corrigeren", "label": "afwijking" },
-    { "from": "gw-gebeurtenis", "to": "inventarisatie", "label": "telling" },
-    { "from": "gw-gebeurtenis", "to": "blokkeren", "label": "kwaliteitsissue" },
-    { "from": "blokkeren", "to": "lot" },
-    { "from": "lot", "to": "ncr" },
-    { "from": "ncr", "to": "gw-vrijgave" },
-    { "from": "gw-vrijgave", "to": "end", "label": "ja" },
-    { "from": "gw-vrijgave", "to": "corrigeren", "label": "nee, afboeken" },
-    { "from": "corrigeren", "to": "end" },
-    { "from": "inventarisatie", "to": "end" }
+    {
+      "from": "start",
+      "to": "artikel"
+    },
+    {
+      "from": "artikel",
+      "to": "sku"
+    },
+    {
+      "from": "sku",
+      "to": "traceringscode"
+    },
+    {
+      "from": "traceringscode",
+      "to": "gw-gebeurtenis"
+    },
+    {
+      "from": "gw-gebeurtenis",
+      "to": "corrigeren",
+      "label": {
+        "nl": "afwijking",
+        "en": "adjustment"
+      }
+    },
+    {
+      "from": "gw-gebeurtenis",
+      "to": "inventarisatie",
+      "label": {
+        "nl": "telling",
+        "en": "physical count"
+      }
+    },
+    {
+      "from": "gw-gebeurtenis",
+      "to": "blokkeren",
+      "label": {
+        "nl": "kwaliteitsissue",
+        "en": "quality issue"
+      }
+    },
+    {
+      "from": "blokkeren",
+      "to": "lot"
+    },
+    {
+      "from": "lot",
+      "to": "ncr"
+    },
+    {
+      "from": "ncr",
+      "to": "gw-vrijgave"
+    },
+    {
+      "from": "gw-vrijgave",
+      "to": "end",
+      "label": {
+        "nl": "ja",
+        "en": "yes"
+      }
+    },
+    {
+      "from": "gw-vrijgave",
+      "to": "corrigeren",
+      "label": {
+        "nl": "nee, afboeken",
+        "en": "no — write off"
+      }
+    },
+    {
+      "from": "corrigeren",
+      "to": "end"
+    },
+    {
+      "from": "inventarisatie",
+      "to": "end"
+    }
   ]
 }

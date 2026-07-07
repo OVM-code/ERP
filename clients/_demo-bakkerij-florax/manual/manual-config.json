@@ -1,0 +1,9 @@
+{
+  "name": "Bakkerij Florax (demo)",
+  "title": "Gebruikershandleiding",
+  "period": "go-live januari 2027",
+  "version": "0.1 — demo",
+  "language": "nl",
+  "accentColor": "#00305e",
+  "use_bpa_processes": true
+}

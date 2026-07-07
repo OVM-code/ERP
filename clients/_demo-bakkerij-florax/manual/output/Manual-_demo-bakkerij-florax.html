@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gebruikershandleiding — Bakkerij Florax (demo)</title>
+<style>
+/* BPA interactive viewer — self-contained, inlined at build time. */
+:root {
+  --accent: #00305e;
+  --accent-soft: #e8eef6;
+  --ink: #14202e;
+  --ink-soft: #4b5a6b;
+  --line: #d7dee7;
+  --bg: #f4f6f9;
+  --card: #ffffff;
+  --fit-standard: #2563eb;
+  --fit-standard-bg: #eff6ff;
+  --fit-addon: #7c3aed;
+  --fit-addon-bg: #f5f3ff;
+  --fit-workaround: #b45309;
+  --fit-workaround-bg: #fffbeb;
+  --fit-gap: #dc2626;
+  --fit-gap-bg: #fef2f2;
+  --fit-none: #8195a9;
+  --fit-none-bg: #f8fafc;
+  --radius: 10px;
+  --shadow: 0 1px 2px rgba(16, 32, 46, .06), 0 4px 14px rgba(16, 32, 46, .08);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font: 15px/1.55 "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+}
+#app { display: flex; flex-direction: column; height: 100vh; }
+
+/* ---------- header ---------- */
+.hdr {
+  background: var(--accent); color: #fff;
+  display: flex; align-items: center; gap: 18px;
+  padding: 10px 22px; flex: none;
+}
+.hdr .brand { font-weight: 700; font-size: 17px; letter-spacing: .2px; white-space: nowrap; }
+.hdr .brand small { display: block; font-weight: 400; font-size: 11.5px; opacity: .75; }
+.hdr nav { display: flex; gap: 4px; margin-left: auto; flex-wrap: wrap; }
+.hdr nav a {
+  color: #fff; text-decoration: none; padding: 7px 13px; border-radius: 7px;
+  font-size: 13.5px; opacity: .82;
+}
+.hdr nav a:hover { background: rgba(255, 255, 255, .12); opacity: 1; }
+.hdr nav a.on { background: rgba(255, 255, 255, .18); opacity: 1; font-weight: 600; }
+
+/* ---------- layout ---------- */
+.main { display: flex; flex: 1; min-height: 0; }
+.side {
+  width: 264px; flex: none; background: var(--card);
+  border-right: 1px solid var(--line);
+  display: flex; flex-direction: column; min-height: 0;
+}
+.side .search { padding: 12px 12px 8px; }
+.side .search input {
+  width: 100%; padding: 8px 11px; border: 1px solid var(--line); border-radius: 8px;
+  font: inherit; font-size: 13.5px; outline: none; background: var(--bg);
+}
+.side .search input:focus { border-color: var(--accent); background: #fff; }
+.side .domlist { overflow-y: auto; padding: 4px 8px 16px; }
+.side .domlist a {
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 8px 10px; border-radius: 8px; text-decoration: none;
+  color: var(--ink); font-size: 13.5px;
+}
+.side .domlist a .n { color: var(--ink-soft); font-size: 11.5px; min-width: 16px; }
+.side .domlist a .cnt {
+  margin-left: auto; font-size: 11px; color: var(--ink-soft);
+  background: var(--bg); border-radius: 20px; padding: 1px 8px;
+}
+.side .domlist a:hover { background: var(--accent-soft); }
+.side .domlist a.on { background: var(--accent); color: #fff; }
+.side .domlist a.on .n, .side .domlist a.on .cnt { color: #dbe6f2; background: rgba(255,255,255,.14); }
+.side .hits { overflow-y: auto; padding: 0 12px 16px; }
+.side .hits .hit {
+  display: block; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px;
+  margin-bottom: 6px; text-decoration: none; color: var(--ink); font-size: 12.5px;
+}
+.side .hits .hit code { color: var(--accent); font-weight: 600; }
+.side .hits .hit:hover { border-color: var(--accent); }
+.side .hits .none { color: var(--ink-soft); font-size: 13px; padding: 8px 4px; }
+
+.content { flex: 1; overflow-y: auto; min-width: 0; padding: 22px 26px 60px; }
+.content > .inner { max-width: 1500px; margin: 0 auto; }
+
+/* ---------- generic ---------- */
+h1.pg { font-size: 21px; margin: 2px 0 2px; }
+.pg-sub { color: var(--ink-soft); font-size: 13.5px; margin: 0 0 18px; }
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 18px 20px; margin-bottom: 18px;
+}
+.chip {
+  display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .3px;
+  border-radius: 20px; padding: 2px 9px; vertical-align: 1px; white-space: nowrap;
+}
+.chip.standard { color: var(--fit-standard); background: var(--fit-standard-bg); border: 1px solid #bfdbfe; }
+.chip.addon { color: var(--fit-addon); background: var(--fit-addon-bg); border: 1px solid #ddd6fe; }
+.chip.workaround { color: var(--fit-workaround); background: var(--fit-workaround-bg); border: 1px solid #fde68a; }
+.chip.gap { color: var(--fit-gap); background: var(--fit-gap-bg); border: 1px solid #fecaca; }
+.chip.none { color: var(--fit-none); background: var(--fit-none-bg); border: 1px solid var(--line); }
+.chip.req { color: var(--accent); background: var(--accent-soft); border: 1px solid #c6d6e8; cursor: pointer; }
+.chip.link { cursor: pointer; }
+code.bs { font: 600 12px/1 ui-monospace, "Cascadia Mono", Consolas, monospace; color: var(--accent); }
+
+/* ---------- diagram ---------- */
+.diagram-card { padding: 10px 12px 12px; overflow: hidden; }
+.diagram-head { display: flex; align-items: center; gap: 12px; padding: 6px 8px 8px; flex-wrap: wrap; }
+.diagram-head .zoom { margin-left: auto; display: flex; gap: 4px; }
+.diagram-head .zoom button {
+  border: 1px solid var(--line); background: #fff; border-radius: 7px; width: 30px; height: 28px;
+  font-size: 15px; cursor: pointer; color: var(--ink-soft);
+}
+.diagram-head .zoom button:hover { border-color: var(--accent); color: var(--accent); }
+.diagram-scroll { overflow: auto; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+svg.bpmn { display: block; }
+svg.bpmn text { font-family: "Segoe UI", system-ui, sans-serif; }
+.bpmn .lane-band-0 { fill: #fbfcfe; }
+.bpmn .lane-band-1 { fill: #f3f6fa; }
+.bpmn .lane-label { fill: var(--ink-soft); font-size: 12px; font-weight: 600; letter-spacing: .4px; }
+.bpmn .flow { stroke: #6b7c8f; stroke-width: 1.6; fill: none; }
+.bpmn .flow-label { font-size: 11px; fill: var(--ink-soft); }
+.bpmn .flow-label-bg { fill: #ffffff; opacity: .92; }
+.bpmn .node { cursor: default; }
+.bpmn .node.clickable { cursor: pointer; }
+.bpmn .node.clickable:hover .shape { filter: brightness(.96); }
+.bpmn .node .title { font-size: 12px; fill: var(--ink); }
+.bpmn .node .code { font-size: 9.5px; font-weight: 700; fill: var(--ink-soft); }
+.bpmn .node.selected .shape { stroke-width: 3; }
+.bpmn .fit-standard .shape { stroke: var(--fit-standard); fill: var(--fit-standard-bg); }
+.bpmn .fit-addon .shape { stroke: var(--fit-addon); fill: var(--fit-addon-bg); }
+.bpmn .fit-workaround .shape { stroke: var(--fit-workaround); fill: var(--fit-workaround-bg); }
+.bpmn .fit-gap .shape { stroke: var(--fit-gap); fill: var(--fit-gap-bg); }
+.bpmn .fit-none .shape { stroke: var(--fit-none); fill: var(--fit-none-bg); stroke-dasharray: 5 3; }
+.bpmn .n-start .shape { stroke: #15803d; fill: #f0fdf4; stroke-width: 2; }
+.bpmn .n-end .shape { stroke: #b91c1c; fill: #fef2f2; stroke-width: 3.5; }
+.bpmn .n-gateway .shape, .bpmn .n-gateway-parallel .shape { stroke: #6b7c8f; fill: #fefce8; stroke-width: 2; }
+.bpmn .sub-mark { stroke: #6b7c8f; stroke-width: 1.6; fill: #fff; }
+.bpmn .evt-label { font-size: 11px; fill: var(--ink-soft); }
+.bpmn .gw-label { font-size: 11px; fill: var(--ink-soft); font-weight: 600; }
+.bpmn .gw-mark { stroke: #6b7c8f; stroke-width: 2.4; }
+
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--ink-soft); padding: 10px 6px 0; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 14px; height: 14px; border-radius: 4px; display: inline-block; border: 2px solid; }
+
+/* ---------- scenario cards under diagram ---------- */
+.scen-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 10px; }
+.scen-card {
+  background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--fit-none);
+  border-radius: 8px; padding: 10px 13px; cursor: pointer;
+}
+.scen-card:hover { box-shadow: var(--shadow); }
+.scen-card.standard { border-left-color: var(--fit-standard); }
+.scen-card.addon { border-left-color: var(--fit-addon); }
+.scen-card.workaround { border-left-color: var(--fit-workaround); }
+.scen-card.gap { border-left-color: var(--fit-gap); }
+.scen-card .t { font-weight: 600; font-size: 13.5px; margin: 2px 0 3px; }
+.scen-card .m { font-size: 11.5px; color: var(--ink-soft); }
+h2.sect { font-size: 15px; margin: 26px 0 10px; color: var(--ink-soft); font-weight: 600; }
+
+/* ---------- doc panel ---------- */
+.panel-wrap { position: fixed; inset: 0; z-index: 40; pointer-events: none; }
+.panel-wrap.open { pointer-events: auto; }
+.panel-wrap .veil { position: absolute; inset: 0; background: rgba(16, 32, 46, .28); opacity: 0; transition: opacity .18s; }
+.panel-wrap.open .veil { opacity: 1; }
+.panel {
+  position: absolute; top: 0; right: 0; bottom: 0; width: min(560px, 92vw);
+  background: #fff; box-shadow: -8px 0 30px rgba(16, 32, 46, .18);
+  transform: translateX(102%); transition: transform .2s ease-out;
+  display: flex; flex-direction: column;
+}
+.panel-wrap.open .panel { transform: none; }
+.panel .p-head { padding: 16px 20px 12px; border-bottom: 1px solid var(--line); }
+.panel .p-head .codes { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 6px; }
+.panel .p-head h2 { margin: 0; font-size: 18px; line-height: 1.3; }
+.panel .p-head .dom { color: var(--ink-soft); font-size: 12.5px; margin-top: 4px; }
+.panel .p-close {
+  position: absolute; top: 12px; right: 14px; border: none; background: var(--bg);
+  border-radius: 8px; width: 32px; height: 32px; font-size: 16px; cursor: pointer; color: var(--ink-soft);
+}
+.panel .p-close:hover { background: var(--accent-soft); color: var(--accent); }
+.panel .p-body { padding: 14px 22px 40px; overflow-y: auto; }
+.panel .p-meta { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 12px; }
+
+/* ---------- markdown body ---------- */
+.md h1, .md h2, .md h3, .md h4 { line-height: 1.3; margin: 1.2em 0 .45em; }
+.md h1 { font-size: 19px; } .md h2 { font-size: 16.5px; } .md h3 { font-size: 14.5px; } .md h4 { font-size: 13.5px; }
+.md p { margin: .55em 0; }
+.md ul, .md ol { margin: .5em 0; padding-left: 1.5em; }
+.md li { margin: .22em 0; }
+.md table { border-collapse: collapse; margin: .8em 0; font-size: 13px; width: 100%; }
+.md th, .md td { border: 1px solid var(--line); padding: 5px 9px; text-align: left; vertical-align: top; }
+.md th { background: var(--bg); }
+.md blockquote { margin: .7em 0; padding: 6px 14px; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 6px 6px 0; }
+.md code { background: var(--bg); border-radius: 4px; padding: 1px 5px; font-size: 12.5px; }
+.md img { max-width: 100%; }
+.md hr { border: none; border-top: 1px solid var(--line); margin: 1.2em 0; }
+
+/* ---------- tables (scope / registers) ---------- */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 14px; }
+.filters button {
+  border: 1px solid var(--line); background: #fff; border-radius: 20px; padding: 5px 13px;
+  font: inherit; font-size: 12.5px; cursor: pointer; color: var(--ink-soft);
+}
+.filters button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+table.reg { border-collapse: collapse; width: 100%; font-size: 13px; background: var(--card); }
+table.reg th, table.reg td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top; }
+table.reg th { background: var(--accent-soft); color: var(--accent); position: sticky; top: -23px; }
+table.reg tr.click { cursor: pointer; }
+table.reg tr.click:hover td { background: var(--accent-soft); }
+table.reg tr.dim td { color: var(--ink-soft); background: #fafbfc; }
+
+.req-card, .gap-card { position: relative; }
+.req-card h3, .gap-card h3 { margin: 0 0 6px; font-size: 15px; }
+.req-card .src { color: var(--ink-soft); font-size: 12.5px; margin-bottom: 8px; }
+.gap-card { border-left: 4px solid var(--fit-gap); }
+
+.empty { color: var(--ink-soft); font-style: italic; padding: 30px 0; text-align: center; }
+
+@media print {
+  .hdr nav, .side, .diagram-head .zoom { display: none !important; }
+  .content { overflow: visible; }
+  .panel-wrap { display: none; }
+}
+
+:root { --accent: #00305e; }
+
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+window.BPA = {"client": {"name": "Bakkerij Florax (demo)", "title": "Gebruikershandleiding", "period": "go-live januari 2027", "language": "nl", "intro_html": "<p>Deze handleiding beschrijft hoe u werkt met de Business Central-omgeving van <strong>Bakkerij Florax<\/strong>, zoals ingericht tijdens het implementatieproject en behandeld in de trainingssessies.<\/p>\n<ul>\n<li><strong>Processen<\/strong> — kies links een hoofdstuk: het diagram toont uw proces. Klik op een stap voor de werkinstructie.<\/li>\n<li><strong>Kleuren<\/strong> — blauw: gebaseerd op de procesanalyse (BPA) · paars: officiële documentatie (met bronlink) · rood: nog te reviewen door uw consultant.<\/li>\n<li>Versie 0.1 (demo) — hoort bij BC24 met Aptean F&amp;B en Continia.<\/li>\n<\/ul>\n<blockquote>\n<p>Dit is een <strong>demo-document<\/strong> bij een fictieve klant.<\/p>\n<\/blockquote>", "labels": {"intro": "Inleiding", "gaps": "Te reviewen", "search": "Zoek onderwerp of code…", "otherScenarios": "Alle onderwerpen in dit hoofdstuk", "legendStandard": "Gebaseerd op de BPA", "legendAddon": "Officiële documentatie", "legendWorkaround": "Werkafspraak", "legendGap": "Te reviewen door consultant", "legendNone": "Niet uitgewerkt", "domainDocOnly": "Voor dit hoofdstuk is geen processtroom; de onderwerpen staan hieronder.", "fit": {"standard": "Uit de BPA", "addon": "Officiële documentatie", "workaround": "Werkafspraak", "gap": "Te reviewen ⚠", "none": "—"}}}, "meta": {"model": "", "version": "0.1 — demo", "stack": {}, "generated": "2026-07-07"}, "domains": [{"number": 2, "title": "Verkoop", "intro_html": "<p>Zo verwerkt u orders van de drie kanalen (EDI-retail, webshop, telefoon/mail) tot en met de factuur. Het diagram bovenaan is uw proces — klik op een stap.<\/p>", "process": {"id": "verkoop", "domain": 2, "title": "Verkoop", "subtitle": "Van orderintake (EDI / webshop / manueel) tot betaalde factuur — klantspecifieke stroom Florax", "lanes": [{"id": "verkoop", "label": "Verkoop binnendienst"}, {"id": "magazijn", "label": "Magazijn"}, {"id": "finance", "label": "Finance"}], "nodes": [{"id": "start", "type": "start", "label": "Order ontvangen", "lane": "verkoop"}, {"id": "gw-kanaal", "type": "gateway", "label": "Kanaal?", "lane": "verkoop"}, {"id": "edi-import", "type": "task", "label": "Order automatisch importeren (EDI/webshop)", "lane": "verkoop", "scenario": "BS95.002"}, {"id": "order", "type": "task", "label": "Verkooporder maken / controleren", "lane": "verkoop", "scenario": "BS25.202"}, {"id": "toezegging", "type": "task", "label": "Leverdatum toetsen (ordertoezegging)", "lane": "verkoop", "scenario": "BS25.328"}, {"id": "reserveren", "type": "task", "label": "Voorraad reserveren (FEFO)", "lane": "verkoop", "scenario": "BS25.204"}, {"id": "verzenden", "type": "subprocess", "label": "Order picken en verzenden", "lane": "magazijn", "scenario": "BS25.205", "goto": "magazijnbeheer"}, {"id": "gw-volledig", "type": "gateway", "label": "Volledig geleverd?", "lane": "magazijn"}, {"id": "gw-retail", "type": "gateway", "label": "Retailklant?", "lane": "magazijn"}, {"id": "annuleren", "type": "task", "label": "Restant annuleren + keten verwittigen", "lane": "verkoop", "scenario": "BS25.207"}, {"id": "backorder", "type": "task", "label": "Backorder aanhouden en naleveren", "lane": "magazijn", "scenario": "BS25.206"}, {"id": "factuur", "type": "task", "label": "Factureren (verzamel wekelijks / per levering)", "lane": "finance", "scenario": "BS25.213"}, {"id": "factuur-boeken", "type": "task", "label": "Verkoopfactuur boeken + Peppol/EDI verzenden", "lane": "finance", "scenario": "BS25.214"}, {"id": "gw-retour", "type": "gateway", "label": "Kwaliteitsklacht?", "lane": "finance"}, {"id": "retour", "type": "task", "label": "Verkoopretourorder maken", "lane": "finance", "scenario": "BS25.219"}, {"id": "creditnota", "type": "task", "label": "Verkoopcreditnota maken", "lane": "finance", "scenario": "BS25.220"}, {"id": "end", "type": "end", "label": "Order afgehandeld", "lane": "finance"}], "flows": [{"from": "start", "to": "gw-kanaal"}, {"from": "gw-kanaal", "to": "edi-import", "label": "EDI / webshop"}, {"from": "edi-import", "to": "order"}, {"from": "gw-kanaal", "to": "order", "label": "telefoon / mail"}, {"from": "order", "to": "toezegging"}, {"from": "toezegging", "to": "reserveren"}, {"from": "reserveren", "to": "verzenden"}, {"from": "verzenden", "to": "gw-volledig"}, {"from": "gw-volledig", "to": "gw-retail", "label": "nee"}, {"from": "gw-retail", "to": "annuleren", "label": "ja"}, {"from": "annuleren", "to": "factuur"}, {"from": "gw-retail", "to": "backorder", "label": "nee"}, {"from": "backorder", "to": "verzenden", "label": "nalevering"}, {"from": "gw-volledig", "to": "factuur", "label": "ja"}, {"from": "factuur", "to": "factuur-boeken"}, {"from": "factuur-boeken", "to": "gw-retour"}, {"from": "gw-retour", "to": "retour", "label": "ja"}, {"from": "retour", "to": "creditnota"}, {"from": "creditnota", "to": "end"}, {"from": "gw-retour", "to": "end", "label": "nee"}]}, "scenarios": ["BS25.202", "BS25.328", "BS25.206", "MAN-001"]}, {"number": 4, "title": "Voorraad & kwaliteit", "intro_html": "<p>Loten, THT en de kwaliteitsvrijgave — het hart van de traceerbaarheid.<\/p>", "process": {"id": "voorraad", "domain": 4, "title": {"nl": "Voorraad", "en": "Inventory"}, "subtitle": {"nl": "Artikelbeheer, correcties en kwaliteit", "en": "Item management, adjustments and quality"}, "lanes": [{"id": "voorraadbeheer", "label": {"nl": "Voorraadbeheer", "en": "Inventory management"}}, {"id": "kwaliteit", "label": {"nl": "Kwaliteit", "en": "Quality"}}], "nodes": [{"id": "start", "type": "start", "label": {"nl": "Nieuw artikel of voorraadgebeurtenis", "en": "New item or inventory event"}, "lane": "voorraadbeheer"}, {"id": "artikel", "type": "task", "label": {"nl": "Artikel beheren", "en": "Manage item"}, "lane": "voorraadbeheer", "scenario": "BS50.100"}, {"id": "sku", "type": "task", "label": {"nl": "Stockkeeping units beheren", "en": "Manage stockkeeping units"}, "lane": "voorraadbeheer", "scenario": "BS50.101"}, {"id": "traceringscode", "type": "task", "label": {"nl": "Artikeltraceringscode toekennen", "en": "Assign item tracking code"}, "lane": "voorraadbeheer", "scenario": "BS50.104"}, {"id": "gw-gebeurtenis", "type": "gateway", "label": {"nl": "Welke gebeurtenis?", "en": "Which event?"}, "lane": "voorraadbeheer"}, {"id": "corrigeren", "type": "task", "label": {"nl": "Voorraad corrigeren", "en": "Adjust inventory"}, "lane": "voorraadbeheer", "scenario": "BS50.200"}, {"id": "inventarisatie", "type": "task", "label": {"nl": "Inventarisatie uitvoeren", "en": "Run physical inventory"}, "lane": "voorraadbeheer", "scenario": "BS50.201"}, {"id": "blokkeren", "type": "task", "label": {"nl": "Artikel/lot blokkeren", "en": "Block item/lot"}, "lane": "kwaliteit", "scenario": "BS45.200"}, {"id": "lot", "type": "task", "label": {"nl": "Lot management & traceability", "en": "Lot management & traceability"}, "lane": "kwaliteit", "scenario": "BS45.904"}, {"id": "ncr", "type": "task", "label": {"nl": "Non-conformance registreren", "en": "Record non-conformance"}, "lane": "kwaliteit", "scenario": "BS45.905"}, {"id": "gw-vrijgave", "type": "gateway", "label": {"nl": "Lot vrijgegeven?", "en": "Lot released?"}, "lane": "kwaliteit"}, {"id": "end", "type": "end", "label": {"nl": "Voorraad correct en beschikbaar", "en": "Inventory correct and available"}, "lane": "voorraadbeheer"}], "flows": [{"from": "start", "to": "artikel"}, {"from": "artikel", "to": "sku"}, {"from": "sku", "to": "traceringscode"}, {"from": "traceringscode", "to": "gw-gebeurtenis"}, {"from": "gw-gebeurtenis", "to": "corrigeren", "label": {"nl": "afwijking", "en": "adjustment"}}, {"from": "gw-gebeurtenis", "to": "inventarisatie", "label": {"nl": "telling", "en": "physical count"}}, {"from": "gw-gebeurtenis", "to": "blokkeren", "label": {"nl": "kwaliteitsissue", "en": "quality issue"}}, {"from": "blokkeren", "to": "lot"}, {"from": "lot", "to": "ncr"}, {"from": "ncr", "to": "gw-vrijgave"}, {"from": "gw-vrijgave", "to": "end", "label": {"nl": "ja", "en": "yes"}}, {"from": "gw-vrijgave", "to": "corrigeren", "label": {"nl": "nee, afboeken", "en": "no — write off"}}, {"from": "corrigeren", "to": "end"}, {"from": "inventarisatie", "to": "end"}]}, "scenarios": ["BS45.904", "BS45.200", "MAN-002"]}], "scenarios": {"BS25.202": {"code": "BS25.202", "title": "Een verkooporder ingeven (telefoon/mail)", "section": "2.5.1", "domain": 2, "fit": "standard", "addon": null, "gap": null, "requirements": [], "html": "<ol>\n<li>Kies <strong>Verkooporders<\/strong> en dan <strong>Nieuw<\/strong>.<\/li>\n<li>Kies de klant in <strong>Klantnr.<\/strong> — adres, betalingscondities en prijslijst worden automatisch ingevuld vanuit de klantenfiche.<\/li>\n<li>Vul de <strong>verzochte leverdatum<\/strong> in. Orders na 14:00 kunnen ten vroegste overmorgen geleverd worden.<\/li>\n<li>Voeg per regel het artikel en het aantal toe; de prijs volgt uit de prijslijst (promoprijzen krijgen automatisch voorrang tijdens de actieperiode).<\/li>\n<li>Controleer via <strong>Ordertoezegging<\/strong> of de leverdatum haalbaar is (zie BS25.328).<\/li>\n<li>Kies <strong>Vrijgeven<\/strong>. Het order verschijnt bij het magazijn voor picking.<\/li>\n<\/ol>\n<p>EDI- en webshoporders komen automatisch binnen — u controleert alleen de uitvallijst (zie hoofdstuk 12 van de BPA voor de foutafhandeling).<\/p>"}, "BS25.328": {"code": "BS25.328", "title": "Leverdatum controleren (ordertoezegging)", "section": "2.5.12", "domain": 2, "fit": "addon", "addon": null, "gap": null, "requirements": [], "html": "<ol>\n<li>Open het verkooporder en kies <strong>Order<\/strong> &gt; <strong>Ordertoezegging<\/strong>.<\/li>\n<li>BC berekent per regel de vroegst haalbare verzenddatum op basis van voorraad en geplande ontvangsten.<\/li>\n<li>Rood gemarkeerde regels halen de gevraagde datum niet: pas de datum aan of overleg met het magazijn — <strong>vóór<\/strong> u bevestigt aan een retailketen (boeteclausule!).<\/li>\n<\/ol>\n<blockquote>\n<p>Gebaseerd op officiële documentatie: https://learn.microsoft.com/en-us/dynamics365/business-central/sales-how-to-calculate-order-promising-dates<\/p>\n<\/blockquote>"}, "BS25.206": {"code": "BS25.206", "title": "Backorders opvolgen", "section": "2.5.5", "domain": 2, "fit": "standard", "addon": null, "gap": null, "requirements": [], "html": "<p>Het beleid verschilt per kanaal en is vooraf ingesteld — u hoeft alleen te weten:<\/p>\n<ul>\n<li><strong>Retailketens:<\/strong> geen backorders. Wat niet mee kan, wordt bij verzending automatisch geannuleerd; verwittig de keten vóór de levering.<\/li>\n<li><strong>Webshop/telefoon:<\/strong> het restant blijft openstaan en wordt automatisch mee gepickt zodra er voorraad is. Openstaande backorders vindt u via <strong>Verkooporders<\/strong> met filter <em>Volledig verzonden = Nee<\/em>.<\/li>\n<\/ul>"}, "MAN-001": {"code": "MAN-001", "title": "Aanmelden en het rolcentrum", "section": null, "domain": 2, "fit": "gap", "addon": null, "gap": "MAN-001", "requirements": [], "html": "<ol>\n<li>Ga naar businesscentral.dynamics.com en meld aan met uw Florax-account.<\/li>\n<li>Uw startscherm (rolcentrum) toont de taken van uw rol; via het zoekicoon (of Alt+Q) vindt u elke pagina.<\/li>\n<li>Persoonlijke instellingen: tandwiel &gt; <strong>Mijn instellingen<\/strong> (taal, bedrijf).<\/li>\n<\/ol>"}, "BS45.904": {"code": "BS45.904", "title": "Een lot traceren (recall-opvraging)", "section": "4.5.4", "domain": 4, "fit": "standard", "addon": null, "gap": null, "requirements": [], "html": "<ol>\n<li>Open de <strong>traceringscockpit<\/strong> (Aptean) en geef het lotnummer in.<\/li>\n<li>Kies <strong>Backward<\/strong> om alle grondstofloten en leveranciers te zien, <strong>Forward<\/strong> om alle eindproductloten en afnemers te zien.<\/li>\n<li>Druk het traceringsrapport af — dit is het document voor de FAVV-recalltest (doel: volledige tracering binnen 4 uur; reken op minuten).<\/li>\n<\/ol>"}, "BS45.200": {"code": "BS45.200", "title": "Een productielot vrijgeven of afkeuren", "section": "4.5.1", "domain": 4, "fit": "standard", "addon": null, "gap": null, "requirements": [], "html": "<ol>\n<li>Na productie staat elk lot automatisch op <strong>GEBLOKKEERD-QC<\/strong> — het kan niet gepickt of verzonden worden.<\/li>\n<li>Zodra de labo-uitslag binnen is (±4u): open het lot en zet de status op <strong>VRIJGEGEVEN<\/strong> (of <strong>AFGEKEURD<\/strong>; overleg dan met productie over herbestemming of afboeking).<\/li>\n<li>Uw naam en het tijdstip worden automatisch gelogd — dit vervangt het papieren vrijgaveformulier voor de IFS-audit.<\/li>\n<\/ol>"}, "MAN-002": {"code": "MAN-002", "title": "Voorraad tellen met de jaarinventaris", "section": null, "domain": 4, "fit": "gap", "addon": null, "gap": "MAN-002", "requirements": [], "html": "<p>Conceptwerkwijze op basis van standaard BC: inventarisatieopdracht aanmaken, tellijsten per zone afdrukken, tellingen ingeven, verschillen laten goedkeuren en boeken.<\/p>"}}, "coverage": [], "requirements": [], "gaps": [{"id": "MAN-001", "title": "Aanmelden en het rolcentrum", "scenarios": ["MAN-001"], "html": "<p>schermafbeeldingen en de juiste rolcentrumnamen per gebruikersgroep toevoegen na de definitieve rolinrichting.<\/p>"}, {"id": "MAN-002", "title": "Voorraad tellen met de jaarinventaris", "scenarios": ["MAN-002"], "html": "<p>telprocedure afstemmen met de magazijnverantwoordelijke (frequentie, teams, tellijsten per zone) — nog niet besproken in de workshops.<\/p>"}]};
+</script>
+<script>
+/* BPA interactive viewer.
+ * Consumes window.BPA (injected at build time by tools/build_bpa.py):
+ *   client   {name, period, title, intro_html, labels{}}
+ *   domains  [{number, title, intro_html, process, scenarios:[codes]}]
+ *   scenarios{ code: {code,title,section,domain,fit,addon,gap,status,requirements:[],html} }
+ *   coverage [{code,title,domain,scope,fit,note}]
+ *   requirements [{id,title,source,html,scenarios:[]}]
+ *   gaps     [{id,title,html,scenarios:[]}]
+ * Fit values: "standard" | "addon" | "workaround" | "gap" | "none".
+ */
+(function () {
+  "use strict";
+  var D = window.BPA;
+  if (!D) { document.getElementById("app").textContent = "Geen BPA-data gevonden."; return; }
+
+  // Built-in language packs. Add a language: add a key here (and translate the
+  // process-flow labels); per-client overrides go in bpa-config.json "labels".
+  var LANGS = {
+    nl: {
+      processes: "Processen", scope: "Scope", requirements: "Requirements", gaps: "GAPs",
+      intro: "Inleiding", search: "Zoek scenario of code…", inScope: "in scope",
+      outScope: "buiten scope", legendStandard: "Standaard BC", legendAddon: "Add-on",
+      legendWorkaround: "Workaround", legendGap: "GAP (maatwerk)", legendNone: "Niet gedocumenteerd",
+      otherScenarios: "Alle scenario's in dit domein", noResults: "Geen resultaten",
+      gotoProcess: "Ga naar processtroom", metRequirements: "Gekoppelde requirements",
+      fit: { standard: "Standaard BC", addon: "Add-on", workaround: "Workaround", gap: "GAP", none: "—" },
+      domainDocOnly: "Voor dit domein is geen processtroom gedefinieerd; de scenario's staan hieronder.",
+      scopeCols: ["Code", "Scenario", "Domein", "Scope", "Invulling", "Toelichting"],
+      filterAll: "alle", generated: "opgemaakt"
+    },
+    en: {
+      processes: "Processes", scope: "Scope", requirements: "Requirements", gaps: "GAPs",
+      intro: "Introduction", search: "Search scenario or code…", inScope: "in scope",
+      outScope: "out of scope", legendStandard: "Standard BC", legendAddon: "Add-on",
+      legendWorkaround: "Workaround", legendGap: "GAP (customisation)", legendNone: "Not documented",
+      otherScenarios: "All scenarios in this domain", noResults: "No results",
+      gotoProcess: "Go to process flow", metRequirements: "Linked requirements",
+      fit: { standard: "Standard BC", addon: "Add-on", workaround: "Workaround", gap: "GAP", none: "—" },
+      domainDocOnly: "No process flow is defined for this domain; its scenarios are listed below.",
+      scopeCols: ["Code", "Scenario", "Domain", "Scope", "Coverage", "Notes"],
+      filterAll: "all", generated: "generated"
+    }
+  };
+  var lang = D.client.language || "nl";
+  var L = Object.assign({}, LANGS.nl, LANGS[lang] || {}, D.client.labels || {});
+  L.fit = Object.assign({}, LANGS.nl.fit, (LANGS[lang] || {}).fit || {}, (D.client.labels || {}).fit || {});
+
+  // Process-flow labels may be plain strings or {nl: "...", en: "..."} objects.
+  function lbl(v) {
+    if (v && typeof v === "object") return v[lang] || v.nl || v.en || "";
+    return v || "";
+  }
+
+  var app = document.getElementById("app");
+  var domByNum = {};
+  D.domains.forEach(function (d) { domByNum[d.number] = d; });
+
+  /* ---------------- helpers ---------------- */
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function el(html) {
+    var t = document.createElement("template");
+    t.innerHTML = html.trim();
+    return t.content.firstChild;
+  }
+  function scen(code) { return D.scenarios[code]; }
+  function fitOf(code) {
+    var s = scen(code);
+    return s && s.fit ? s.fit : "none";
+  }
+  function fitChip(fit, addon) {
+    var lbl = fit === "addon" && addon ? L.fit.addon + ": " + addon : (L.fit[fit] || fit);
+    return '<span class="chip ' + esc(fit) + '">' + esc(lbl) + "</span>";
+  }
+  function wrapText(text, max) {
+    var words = String(text).split(/\s+/), lines = [], cur = "";
+    words.forEach(function (w) {
+      if ((cur + " " + w).trim().length > max && cur) { lines.push(cur); cur = w; }
+      else cur = (cur + " " + w).trim();
+    });
+    if (cur) lines.push(cur);
+    return lines;
+  }
+
+  /* ---------------- BPMN layout ---------------- */
+  var NW = 176, NH = 56, GX = 78, ROW = 92, LANE_PAD = 14, CORR = 34, LBL_W = 34, M = 16;
+
+  function shapeHalf(n) {
+    if (n.type === "start" || n.type === "end") return { w: 20, h: 20 };
+    if (n.type.indexOf("gateway") === 0) return { w: 26, h: 26 };
+    return { w: NW / 2, h: NH / 2 };
+  }
+
+  function layoutProcess(p) {
+    var byId = {}, out = {}, incoming = {};
+    p.nodes.forEach(function (n) { byId[n.id] = n; out[n.id] = []; incoming[n.id] = 0; });
+    p.flows.forEach(function (f) { out[f.from].push(f.to); });
+
+    // classify back edges with DFS from start nodes (then any unvisited)
+    var back = {}, state = {}; // 0 unseen, 1 on stack, 2 done
+    function dfs(u) {
+      state[u] = 1;
+      out[u].forEach(function (v) {
+        if (state[v] === 1) back[u + ">" + v] = true;
+        else if (!state[v]) dfs(v);
+      });
+      state[u] = 2;
+    }
+    p.nodes.filter(function (n) { return n.type === "start"; }).forEach(function (n) { if (!state[n.id]) dfs(n.id); });
+    p.nodes.forEach(function (n) { if (!state[n.id]) dfs(n.id); });
+
+    var fwd = p.flows.filter(function (f) { return !back[f.from + ">" + f.to]; });
+    fwd.forEach(function (f) { incoming[f.to]++; });
+
+    // longest-path layering (Kahn)
+    var layer = {}, q = [];
+    p.nodes.forEach(function (n) { layer[n.id] = 0; if (!incoming[n.id]) q.push(n.id); });
+    var order = [], deg = Object.assign({}, incoming);
+    while (q.length) {
+      var u = q.shift(); order.push(u);
+      fwd.forEach(function (f) {
+        if (f.from !== u) return;
+        if (layer[f.to] < layer[u] + 1) layer[f.to] = layer[u] + 1;
+        if (--deg[f.to] === 0) q.push(f.to);
+      });
+    }
+
+    // rows per (lane, layer)
+    var laneIdx = {}, laneRows = {};
+    p.lanes.forEach(function (l, i) { laneIdx[l.id] = i; laneRows[l.id] = 1; });
+    var cellCount = {};
+    var rowOf = {};
+    p.nodes.forEach(function (n) {
+      var key = n.lane + "|" + layer[n.id];
+      rowOf[n.id] = cellCount[key] = (cellCount[key] || 0);
+      cellCount[key]++;
+      if (cellCount[key] > laneRows[n.lane]) laneRows[n.lane] = cellCount[key];
+    });
+
+    var lanes = [], y = M;
+    p.lanes.forEach(function (l) {
+      var h = LANE_PAD * 2 + laneRows[l.id] * ROW + CORR;
+      lanes.push({ id: l.id, label: l.label, y: y, h: h });
+      y += h;
+    });
+    var laneBy = {}; lanes.forEach(function (l) { laneBy[l.id] = l; });
+
+    var maxLayer = 0;
+    p.nodes.forEach(function (n) { if (layer[n.id] > maxLayer) maxLayer = layer[n.id]; });
+    var width = M + LBL_W + (maxLayer + 1) * (NW + GX) - GX + M + 60;
+    var height = y + M;
+
+    var pos = {};
+    p.nodes.forEach(function (n) {
+      var ln = laneBy[n.lane];
+      pos[n.id] = {
+        node: n,
+        cx: M + LBL_W + layer[n.id] * (NW + GX) + NW / 2,
+        cy: ln.y + LANE_PAD + rowOf[n.id] * ROW + ROW / 2 - CORR / 4,
+        layer: layer[n.id]
+      };
+    });
+
+    // route edges
+    var edges = p.flows.map(function (f) {
+      var s = pos[f.from], t = pos[f.to];
+      var sh = shapeHalf(s.node), th = shapeHalf(t.node);
+      var pts, labelAt;
+      var isBack = back[f.from + ">" + f.to] || t.layer <= s.layer;
+      if (!isBack && t.layer - s.layer > 1) {
+        // long edge: route through the node-free corridor at the bottom of the
+        // source lane so it never crosses nodes in the layers it skips
+        var lnS = laneBy[s.node.lane];
+        var corrY = lnS.y + lnS.h - CORR / 2;
+        var xo = s.cx + sh.w, xi = t.cx - th.w;
+        pts = [[xo, s.cy], [xo + GX / 2 - 8, s.cy], [xo + GX / 2 - 8, corrY],
+               [xi - GX / 2 + 8, corrY], [xi - GX / 2 + 8, t.cy], [xi, t.cy]];
+        labelAt = [xo + 8, s.cy - 7];
+      } else if (!isBack) {
+        var x0 = s.cx + sh.w, x1 = t.cx - th.w;
+        if (Math.abs(s.cy - t.cy) < 2) {
+          pts = [[x0, s.cy], [x1, t.cy]];
+        } else {
+          var mx = x1 - GX / 2 + 8;
+          pts = [[x0, s.cy], [mx, s.cy], [mx, t.cy], [x1, t.cy]];
+        }
+        labelAt = [x0 + 8, s.cy - 7];
+      } else {
+        var ln = laneBy[s.node.lane];
+        var cy = ln.y + ln.h - CORR / 2;
+        pts = [[s.cx, s.cy + sh.h], [s.cx, cy], [t.cx, cy], [t.cx, t.cy + th.h]];
+        labelAt = [Math.min(s.cx, t.cx) + 14, cy - 6];
+      }
+      return { flow: f, pts: pts, labelAt: labelAt };
+    });
+
+    return { lanes: lanes, pos: pos, edges: edges, width: width, height: height };
+  }
+
+  /* ---------------- BPMN render ---------------- */
+  function svgNode(pos) {
+    var n = pos.node, cx = pos.cx, cy = pos.cy;
+    var s = scen(n.scenario);
+    var fit = n.scenario ? fitOf(n.scenario) : null;
+    var cls = "node n-" + n.type + (fit ? " fit-" + fit : "") +
+      (n.scenario || n.goto ? " clickable" : "");
+    var g = '<g class="' + cls + '" data-node="' + esc(n.id) + '"' +
+      (n.scenario ? ' data-scenario="' + esc(n.scenario) + '"' : "") +
+      (n.goto ? ' data-goto="' + esc(n.goto) + '"' : "") + ">";
+    var title = lbl(n.label) || (s ? s.title : n.id);
+
+    if (n.type === "start" || n.type === "end") {
+      g += '<circle class="shape" cx="' + cx + '" cy="' + cy + '" r="20"/>';
+      wrapText(title, 20).slice(0, 2).forEach(function (ln, i) {
+        g += '<text class="evt-label" x="' + cx + '" y="' + (cy + 34 + i * 13) + '" text-anchor="middle">' + esc(ln) + "</text>";
+      });
+    } else if (n.type.indexOf("gateway") === 0) {
+      var h = 26;
+      g += '<path class="shape" d="M' + cx + " " + (cy - h) + " L" + (cx + h) + " " + cy +
+        " L" + cx + " " + (cy + h) + " L" + (cx - h) + " " + cy + ' Z"/>';
+      if (n.type === "gateway-parallel") {
+        g += '<path class="gw-mark" d="M' + (cx - 9) + " " + cy + " H" + (cx + 9) + " M" + cx + " " + (cy - 9) + " V" + (cy + 9) + '"/>';
+      } else {
+        g += '<path class="gw-mark" d="M' + (cx - 7) + " " + (cy - 7) + " L" + (cx + 7) + " " + (cy + 7) +
+          " M" + (cx + 7) + " " + (cy - 7) + " L" + (cx - 7) + " " + (cy + 7) + '"/>';
+      }
+      if (title) {
+        var glines = wrapText(title, 18).slice(0, 2);
+        var gy = cy - h - 8 - (glines.length - 1) * 13;
+        glines.forEach(function (ln, i) {
+          g += '<text class="gw-label" x="' + cx + '" y="' + (gy + i * 13) + '" text-anchor="middle">' + esc(ln) + "</text>";
+        });
+      }
+    } else { // task / subprocess
+      var x = cx - NW / 2, yy = cy - NH / 2;
+      g += '<rect class="shape" x="' + x + '" y="' + yy + '" width="' + NW + '" height="' + NH + '" rx="9" stroke-width="2"/>';
+      if (n.scenario) {
+        g += '<text class="code" x="' + (x + 9) + '" y="' + (yy + 14) + '">' + esc(n.scenario) + "</text>";
+      }
+      var lines = wrapText(title, 26).slice(0, 2);
+      var ty = cy + (n.scenario ? 6 : 0) - (lines.length - 1) * 7;
+      lines.forEach(function (ln, i) {
+        g += '<text class="title" x="' + cx + '" y="' + (ty + i * 15) + '" text-anchor="middle">' + esc(ln) + "</text>";
+      });
+      if (n.type === "subprocess") {
+        var bx = cx - 7, by = yy + NH - 15;
+        g += '<rect class="sub-mark" x="' + bx + '" y="' + by + '" width="14" height="14" rx="2"/>' +
+          '<path class="gw-mark" style="stroke-width:1.6" d="M' + (bx + 3) + " " + (by + 7) + " H" + (bx + 11) +
+          " M" + (bx + 7) + " " + (by + 3) + " V" + (by + 11) + '"/>';
+      }
+    }
+    return g + "</g>";
+  }
+
+  function renderDiagram(p, selected) {
+    var lay = layoutProcess(p);
+    var s = '<svg class="bpmn" viewBox="0 0 ' + lay.width + " " + lay.height + '" width="' + lay.width + '" height="' + lay.height + '">';
+    s += '<defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse">' +
+      '<path d="M0 0 L10 5 L0 10 z" fill="#6b7c8f"/></marker></defs>';
+    // lanes
+    lay.lanes.forEach(function (l, i) {
+      s += '<rect class="lane-band-' + (i % 2) + '" x="' + M + '" y="' + l.y + '" width="' + (lay.width - 2 * M) + '" height="' + l.h + '" stroke="#d7dee7" stroke-width="1" />';
+      s += '<text class="lane-label" transform="translate(' + (M + 20) + " " + (l.y + l.h / 2) + ') rotate(-90)" text-anchor="middle">' + esc(lbl(l.label)) + "</text>";
+    });
+    // edges
+    lay.edges.forEach(function (e) {
+      var d = e.pts.map(function (pt, i) { return (i ? "L" : "M") + pt[0] + " " + pt[1]; }).join(" ");
+      s += '<path class="flow" d="' + d + '" marker-end="url(#arr)"/>';
+      var flabel = lbl(e.flow.label);
+      if (flabel) {
+        var w = flabel.length * 6 + 8;
+        s += '<rect class="flow-label-bg" x="' + (e.labelAt[0] - 3) + '" y="' + (e.labelAt[1] - 10) + '" width="' + w + '" height="14" rx="3"/>' +
+          '<text class="flow-label" x="' + e.labelAt[0] + '" y="' + (e.labelAt[1] + 1) + '">' + esc(flabel) + "</text>";
+      }
+    });
+    // nodes
+    p.nodes.forEach(function (n) {
+      var g = svgNode(lay.pos[n.id]);
+      if (selected && n.scenario === selected) g = g.replace('class="node', 'class="node selected');
+      s += g;
+    });
+    return s + "</svg>";
+  }
+
+  /* ---------------- views ---------------- */
+  function chrome(active) {
+    var tabs = [["#/intro", L.intro]];
+    if (D.coverage.length) tabs.push(["#/scope", L.scope]);
+    if (D.requirements.length) tabs.push(["#/requirements", L.requirements]);
+    if (D.gaps.length) tabs.push(["#/gaps", L.gaps]);
+    var nav = tabs.map(function (t) {
+      return '<a href="' + t[0] + '"' + (active === t[0] ? ' class="on"' : "") + ">" + esc(t[1]) + "</a>";
+    }).join("");
+    var doms = D.domains.map(function (d) {
+      var cnt = d.scenarios.length;
+      return '<a href="#/domain/' + d.number + '" data-dom="' + d.number + '">' +
+        '<span class="n">' + d.number + "</span><span>" + esc(d.title) + "</span>" +
+        (cnt ? '<span class="cnt">' + cnt + "</span>" : "") + "</a>";
+    }).join("");
+    app.innerHTML =
+      '<header class="hdr"><div class="brand">' + esc(D.client.title || "Business Process Analyse") +
+      "<small>" + esc(D.client.name) + (D.client.period ? " · " + esc(D.client.period) : "") + "</small></div>" +
+      "<nav>" + nav + "</nav></header>" +
+      '<div class="main"><aside class="side">' +
+      '<div class="search"><input id="q" type="search" placeholder="' + esc(L.search) + '"></div>' +
+      '<div class="domlist" id="domlist">' + doms + '</div><div class="hits" id="hits" style="display:none"></div>' +
+      '</aside><section class="content"><div class="inner" id="view"></div></section></div>' +
+      '<div class="panel-wrap" id="panelwrap"><div class="veil"></div><div class="panel" id="panel"></div></div>';
+
+    document.getElementById("q").addEventListener("input", onSearch);
+    document.querySelector("#panelwrap .veil").addEventListener("click", closePanel);
+  }
+
+  function onSearch(ev) {
+    var q = ev.target.value.trim().toLowerCase();
+    var hits = document.getElementById("hits"), doms = document.getElementById("domlist");
+    if (q.length < 2) { hits.style.display = "none"; doms.style.display = ""; return; }
+    var res = [];
+    Object.keys(D.scenarios).forEach(function (code) {
+      var s = D.scenarios[code];
+      if (code.toLowerCase().indexOf(q) >= 0 || (s.title || "").toLowerCase().indexOf(q) >= 0) res.push(s);
+    });
+    res = res.slice(0, 40);
+    hits.innerHTML = res.length
+      ? res.map(function (s) {
+        return '<a class="hit" href="#/domain/' + s.domain + "/doc/" + esc(s.code) + '"><code>' + esc(s.code) + "</code> " + esc(s.title) + "</a>";
+      }).join("")
+      : '<div class="none">' + esc(L.noResults) + "</div>";
+    hits.style.display = ""; doms.style.display = "none";
+  }
+
+  function markDomain(num) {
+    document.querySelectorAll("#domlist a").forEach(function (a) {
+      a.classList.toggle("on", a.getAttribute("data-dom") === String(num));
+    });
+  }
+
+  function legend() {
+    return '<div class="legend">' +
+      '<span><i style="border-color:var(--fit-standard);background:var(--fit-standard-bg)"></i>' + esc(L.legendStandard) + "</span>" +
+      '<span><i style="border-color:var(--fit-addon);background:var(--fit-addon-bg)"></i>' + esc(L.legendAddon) + "</span>" +
+      '<span><i style="border-color:var(--fit-workaround);background:var(--fit-workaround-bg)"></i>' + esc(L.legendWorkaround) + "</span>" +
+      '<span><i style="border-color:var(--fit-gap);background:var(--fit-gap-bg)"></i>' + esc(L.legendGap) + "</span>" +
+      '<span><i style="border-color:var(--fit-none);background:var(--fit-none-bg);border-style:dashed"></i>' + esc(L.legendNone) + "</span></div>";
+  }
+
+  function scenCard(code) {
+    var s = scen(code);
+    if (!s) return "";
+    var fit = fitOf(code);
+    return '<div class="scen-card ' + fit + '" data-scenario="' + esc(code) + '">' +
+      '<div class="m"><code class="bs">' + esc(code) + "</code>" + (s.section ? " · " + esc(s.section) : "") + "</div>" +
+      '<div class="t">' + esc(s.title) + "</div>" +
+      '<div class="m">' + fitChip(fit, s.addon) +
+      (s.gap ? ' <span class="chip gap">' + esc(s.gap) + "</span>" : "") + "</div></div>";
+  }
+
+  function viewDomain(num, docCode) {
+    var d = domByNum[num];
+    if (!d) return viewIntro();
+    markDomain(num);
+    var v = document.getElementById("view");
+    var h = '<h1 class="pg">' + d.number + ". " + esc(d.title) + "</h1>";
+    if (d.process) h += '<p class="pg-sub">' + esc(lbl(d.process.subtitle)) + "</p>";
+    if (d.intro_html) h += '<div class="card md">' + d.intro_html + "</div>";
+    if (d.process) {
+      h += '<div class="card diagram-card"><div class="diagram-head">' + legend() +
+        '<div class="zoom"><button data-z="-">−</button><button data-z="0">⤢</button><button data-z="+">+</button></div></div>' +
+        '<div class="diagram-scroll" id="dscroll">' + renderDiagram(d.process, docCode) + "</div></div>";
+    } else if (d.scenarios.length) {
+      h += '<p class="pg-sub">' + esc(L.domainDocOnly) + "</p>";
+    }
+    if (d.scenarios.length) {
+      h += '<h2 class="sect">' + esc(L.otherScenarios) + ' (' + d.scenarios.length + ')</h2><div class="scen-grid">' +
+        d.scenarios.map(scenCard).join("") + "</div>";
+    }
+    if (!d.process && !d.scenarios.length) h += '<div class="empty">—</div>';
+    v.innerHTML = h;
+
+    var zoom = 1, svg = v.querySelector("svg.bpmn");
+    var baseW = svg ? +svg.getAttribute("width") : 0;
+    v.querySelectorAll(".zoom button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var z = b.getAttribute("data-z");
+        zoom = z === "+" ? Math.min(zoom * 1.2, 3) : z === "-" ? Math.max(zoom / 1.2, .4) : 1;
+        if (svg) { svg.setAttribute("width", baseW * zoom); svg.removeAttribute("height"); }
+      });
+    });
+    v.querySelectorAll("[data-scenario]").forEach(function (n) {
+      n.addEventListener("click", function () {
+        location.hash = "#/domain/" + num + "/doc/" + n.getAttribute("data-scenario");
+      });
+    });
+    v.querySelectorAll("svg [data-goto]:not([data-scenario])").forEach(function (n) {
+      n.addEventListener("click", function () {
+        var target = findProcessDomain(n.getAttribute("data-goto"));
+        if (target != null) location.hash = "#/domain/" + target;
+      });
+    });
+    if (docCode) openPanel(docCode, num); else closePanel();
+  }
+
+  function findProcessDomain(pid) {
+    for (var i = 0; i < D.domains.length; i++) {
+      if (D.domains[i].process && D.domains[i].process.id === pid) return D.domains[i].number;
+    }
+    return null;
+  }
+
+  function openPanel(code, domNum) {
+    var s = scen(code);
+    var wrap = document.getElementById("panelwrap"), panel = document.getElementById("panel");
+    if (!s) { closePanel(); return; }
+    var fit = fitOf(code);
+    var d = domByNum[s.domain];
+    var chips = fitChip(fit, s.addon);
+    if (s.gap) chips += ' <span class="chip gap link" data-nav="#/gaps">' + esc(s.gap) + "</span>";
+    (s.requirements || []).forEach(function (r) {
+      chips += ' <span class="chip req" data-nav="#/requirements">' + esc(r) + "</span>";
+    });
+    var goto_ = null;
+    if (d && d.process) {
+      d.process.nodes.some(function (n) { if (n.scenario === code && n.goto) { goto_ = n.goto; return true; } return false; });
+    }
+    panel.innerHTML =
+      '<div class="p-head"><button class="p-close" title="Sluiten">✕</button>' +
+      '<div class="codes"><code class="bs">' + esc(code) + "</code>" + (s.section ? '<span class="chip none">§ ' + esc(s.section) + "</span>" : "") + "</div>" +
+      "<h2>" + esc(s.title) + "</h2>" +
+      '<div class="dom">' + (d ? d.number + ". " + esc(d.title) : "") + "</div></div>" +
+      '<div class="p-body"><div class="p-meta">' + chips + "</div>" +
+      (goto_ != null && findProcessDomain(goto_) != null
+        ? '<p><span class="chip req" data-nav="#/domain/' + findProcessDomain(goto_) + '">↗ ' + esc(L.gotoProcess) + "</span></p>" : "") +
+      '<div class="md">' + (s.html || "<p><em>—</em></p>") + "</div></div>";
+    panel.querySelector(".p-close").addEventListener("click", closePanel);
+    panel.querySelectorAll("[data-nav]").forEach(function (c) {
+      c.addEventListener("click", function () { location.hash = c.getAttribute("data-nav"); });
+    });
+    panel.querySelector(".p-body").scrollTop = 0;
+    wrap.classList.add("open");
+  }
+
+  function closePanel() {
+    document.getElementById("panelwrap").classList.remove("open");
+    var m = location.hash.match(/^#\/domain\/(\d+)\/doc\//);
+    if (m) history.replaceState(null, "", "#/domain/" + m[1]);
+  }
+
+  function viewIntro() {
+    markDomain(null);
+    var v = document.getElementById("view");
+    v.innerHTML = '<h1 class="pg">' + esc(L.intro) + "</h1>" +
+      '<p class="pg-sub">' + esc(D.client.name) + (D.client.period ? " · " + esc(D.client.period) : "") +
+      (D.meta && D.meta.model ? " · " + esc(D.meta.model) : "") +
+      (D.meta && D.meta.version ? " · v" + esc(D.meta.version) : "") +
+      (D.meta && D.meta.generated ? " · " + esc(L.generated) + " " + esc(D.meta.generated) : "") + "</p>" +
+      '<div class="card md">' + (D.client.intro_html || "") + "</div>";
+  }
+
+  function viewScope() {
+    markDomain(null);
+    var v = document.getElementById("view");
+    var filters = ["all", "standard", "addon", "workaround", "gap", "out"];
+    var flabel = { all: L.filterAll, standard: L.fit.standard, addon: L.fit.addon, workaround: L.fit.workaround, gap: L.fit.gap, out: L.outScope };
+    var h = '<h1 class="pg">' + esc(L.scope) + '</h1><p class="pg-sub">' +
+      D.coverage.filter(function (c) { return c.scope; }).length + " " + esc(L.inScope) + " · " +
+      D.coverage.filter(function (c) { return !c.scope; }).length + " " + esc(L.outScope) + "</p>" +
+      '<div class="filters">' + filters.map(function (f) {
+        return '<button data-f="' + f + '"' + (f === "all" ? ' class="on"' : "") + ">" + esc(flabel[f]) + "</button>";
+      }).join("") + "</div>" +
+      '<table class="reg"><thead><tr>' + L.scopeCols.map(function (c) { return "<th>" + esc(c) + "</th>"; }).join("") + "</tr></thead><tbody>" +
+      D.coverage.map(function (c) {
+        var s = scen(c.code);
+        var fit = c.scope ? (c.fit || (s && s.fit) || "none") : "out";
+        var dom = domByNum[c.domain];
+        return '<tr class="' + (s ? "click " : "") + (c.scope ? "" : "dim") + '" data-fit="' + fit + '"' +
+          (s ? ' data-scenario="' + esc(c.code) + '" data-dom="' + c.domain + '"' : "") + ">" +
+          '<td><code class="bs">' + esc(c.code) + "</code></td><td>" + esc(c.title) + "</td>" +
+          "<td>" + (dom ? dom.number + ". " + esc(dom.title) : esc(c.domain)) + "</td>" +
+          "<td>" + (c.scope ? esc(L.inScope) : esc(L.outScope)) + "</td>" +
+          "<td>" + (c.scope ? fitChip(c.fit || (s && s.fit) || "none", (s && s.addon) || c.addon) : "—") + "</td>" +
+          "<td>" + esc(c.note || "") + "</td></tr>";
+      }).join("") + "</tbody></table>";
+    v.innerHTML = h;
+    v.querySelectorAll(".filters button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        v.querySelectorAll(".filters button").forEach(function (x) { x.classList.remove("on"); });
+        b.classList.add("on");
+        var f = b.getAttribute("data-f");
+        v.querySelectorAll("tbody tr").forEach(function (tr) {
+          tr.style.display = f === "all" || tr.getAttribute("data-fit") === f ? "" : "none";
+        });
+      });
+    });
+    v.querySelectorAll("tr.click").forEach(function (tr) {
+      tr.addEventListener("click", function () {
+        location.hash = "#/domain/" + tr.getAttribute("data-dom") + "/doc/" + tr.getAttribute("data-scenario");
+      });
+    });
+  }
+
+  function linkedScenChips(codes) {
+    return (codes || []).map(function (c) {
+      var s = scen(c);
+      return s ? '<span class="chip req link" data-nav="#/domain/' + s.domain + "/doc/" + esc(c) + '">' + esc(c) + "</span>" : '<span class="chip none">' + esc(c) + "</span>";
+    }).join(" ");
+  }
+
+  function viewRequirements() {
+    markDomain(null);
+    var v = document.getElementById("view");
+    v.innerHTML = '<h1 class="pg">' + esc(L.requirements) + '</h1><p class="pg-sub">' + D.requirements.length + "</p>" +
+      (D.requirements.length ? D.requirements.map(function (r) {
+        return '<div class="card req-card" id="' + esc(r.id) + '"><h3><code class="bs">' + esc(r.id) + "</code> " + esc(r.title) + "</h3>" +
+          (r.source ? '<div class="src">' + esc(r.source) + "</div>" : "") +
+          '<div class="md">' + (r.html || "") + "</div>" +
+          (r.scenarios && r.scenarios.length ? "<p>" + linkedScenChips(r.scenarios) + "</p>" : "") + "</div>";
+      }).join("") : '<div class="empty">—</div>');
+    bindNav(v);
+  }
+
+  function viewGaps() {
+    markDomain(null);
+    var v = document.getElementById("view");
+    v.innerHTML = '<h1 class="pg">' + esc(L.gaps) + '</h1><p class="pg-sub">' + D.gaps.length + "</p>" +
+      (D.gaps.length ? D.gaps.map(function (g) {
+        return '<div class="card gap-card" id="' + esc(g.id) + '"><h3><code class="bs">' + esc(g.id) + "</code> " + esc(g.title) + "</h3>" +
+          '<div class="md">' + (g.html || "") + "</div>" +
+          (g.scenarios && g.scenarios.length ? "<p>" + linkedScenChips(g.scenarios) + "</p>" : "") + "</div>";
+      }).join("") : '<div class="empty">—</div>');
+    bindNav(v);
+  }
+
+  function bindNav(root) {
+    root.querySelectorAll("[data-nav]").forEach(function (c) {
+      c.addEventListener("click", function () { location.hash = c.getAttribute("data-nav"); });
+    });
+  }
+
+  /* ---------------- router ---------------- */
+  function route() {
+    var h = location.hash || "";
+    var active = "#/intro";
+    var m;
+    if ((m = h.match(/^#\/domain\/(\d+)(?:\/doc\/([A-Za-z0-9.\-]+))?/))) {
+      active = null;
+      chromeOnce(active);
+      viewDomain(+m[1], m[2] || null);
+      return;
+    }
+    if (h === "#/scope") { chromeOnce(h); viewScope(); return; }
+    if (h === "#/requirements") { chromeOnce(h); viewRequirements(); return; }
+    if (h === "#/gaps") { chromeOnce(h); viewGaps(); return; }
+    chromeOnce("#/intro"); viewIntro();
+  }
+
+  var chromed = null;
+  function chromeOnce(active) {
+    // rebuild header nav highlight cheaply; full chrome only once
+    if (!chromed) { chrome(active); chromed = true; }
+    document.querySelectorAll(".hdr nav a").forEach(function (a) {
+      a.classList.toggle("on", a.getAttribute("href") === active);
+    });
+  }
+
+  window.addEventListener("hashchange", route);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closePanel(); });
+  route();
+})();
+
+</script>
+</body>
+</html>

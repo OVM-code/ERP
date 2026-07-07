@@ -4,5 +4,9 @@
   "period": "<workshopperiode, bv. mei–juni 2026>",
   "version": "0.1",
   "language": "nl",
-  "accentColor": "#00305e"
+  "accentColor": "#00305e",
+  "stack": {
+    "bc": "<e.g. BC24 (2024 wave 1), SaaS current>",
+    "addons": "<exact add-on versions, or 'verify at kickoff'>"
+  }
 }

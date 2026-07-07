@@ -1,34 +1,162 @@
 {
   "id": "planning",
   "domain": 6,
-  "title": "Planning (MPS/MRP)",
-  "subtitle": "Van prognose tot gefiatteerde voorstellen",
+  "title": {
+    "nl": "Planning (MPS/MRP)",
+    "en": "Planning (MPS/MRP)"
+  },
+  "subtitle": {
+    "nl": "Van prognose tot gefiatteerde voorstellen",
+    "en": "From forecast to carried-out worksheets"
+  },
   "lanes": [
-    { "id": "planning", "label": "Planning" }
+    {
+      "id": "planning",
+      "label": {
+        "nl": "Planning",
+        "en": "Planning"
+      }
+    }
   ],
   "nodes": [
-    { "id": "start", "type": "start", "label": "Periodieke planningsrun", "lane": "planning" },
-    { "id": "prognose", "type": "task", "label": "Productieprognoses beheren", "lane": "planning", "scenario": "BS30.200" },
-    { "id": "berekenen", "type": "task", "label": "Inkoop- & planningsvoorstellen berekenen", "lane": "planning", "scenario": "BS30.201" },
-    { "id": "beoordelen", "type": "task", "label": "Voorstellen beoordelen en fiatteren", "lane": "planning", "scenario": "BS30.202" },
-    { "id": "split", "type": "gateway-parallel", "label": "", "lane": "planning" },
-    { "id": "inkooporders", "type": "subprocess", "label": "Inkooporders aanmaken", "lane": "planning", "scenario": "BS35.202", "goto": "inkoop" },
-    { "id": "productieorders", "type": "subprocess", "label": "Productieorders aanmaken", "lane": "planning", "scenario": "BS40.200", "goto": "productie" },
-    { "id": "transferorders", "type": "subprocess", "label": "Transferorders aanmaken", "lane": "planning", "scenario": "BS50.208", "goto": "magazijnbeheer" },
-    { "id": "join", "type": "gateway-parallel", "label": "", "lane": "planning" },
-    { "id": "end", "type": "end", "label": "Voorstellen omgezet in orders", "lane": "planning" }
+    {
+      "id": "start",
+      "type": "start",
+      "label": {
+        "nl": "Periodieke planningsrun",
+        "en": "Periodic planning run"
+      },
+      "lane": "planning"
+    },
+    {
+      "id": "prognose",
+      "type": "task",
+      "label": {
+        "nl": "Productieprognoses beheren",
+        "en": "Manage demand forecasts"
+      },
+      "lane": "planning",
+      "scenario": "BS30.200"
+    },
+    {
+      "id": "berekenen",
+      "type": "task",
+      "label": {
+        "nl": "Inkoop- & planningsvoorstellen berekenen",
+        "en": "Calculate requisition & planning worksheets"
+      },
+      "lane": "planning",
+      "scenario": "BS30.201"
+    },
+    {
+      "id": "beoordelen",
+      "type": "task",
+      "label": {
+        "nl": "Voorstellen beoordelen en fiatteren",
+        "en": "Review and carry out worksheet lines"
+      },
+      "lane": "planning",
+      "scenario": "BS30.202"
+    },
+    {
+      "id": "split",
+      "type": "gateway-parallel",
+      "label": "",
+      "lane": "planning"
+    },
+    {
+      "id": "inkooporders",
+      "type": "subprocess",
+      "label": {
+        "nl": "Inkooporders aanmaken",
+        "en": "Create purchase orders"
+      },
+      "lane": "planning",
+      "scenario": "BS35.202",
+      "goto": "inkoop"
+    },
+    {
+      "id": "productieorders",
+      "type": "subprocess",
+      "label": {
+        "nl": "Productieorders aanmaken",
+        "en": "Create production orders"
+      },
+      "lane": "planning",
+      "scenario": "BS40.200",
+      "goto": "productie"
+    },
+    {
+      "id": "transferorders",
+      "type": "subprocess",
+      "label": {
+        "nl": "Transferorders aanmaken",
+        "en": "Create transfer orders"
+      },
+      "lane": "planning",
+      "scenario": "BS50.208",
+      "goto": "magazijnbeheer"
+    },
+    {
+      "id": "join",
+      "type": "gateway-parallel",
+      "label": "",
+      "lane": "planning"
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "label": {
+        "nl": "Voorstellen omgezet in orders",
+        "en": "Worksheet lines converted to orders"
+      },
+      "lane": "planning"
+    }
   ],
   "flows": [
-    { "from": "start", "to": "prognose" },
-    { "from": "prognose", "to": "berekenen" },
-    { "from": "berekenen", "to": "beoordelen" },
-    { "from": "beoordelen", "to": "split" },
-    { "from": "split", "to": "inkooporders" },
-    { "from": "split", "to": "productieorders" },
-    { "from": "split", "to": "transferorders" },
-    { "from": "inkooporders", "to": "join" },
-    { "from": "productieorders", "to": "join" },
-    { "from": "transferorders", "to": "join" },
-    { "from": "join", "to": "end" }
+    {
+      "from": "start",
+      "to": "prognose"
+    },
+    {
+      "from": "prognose",
+      "to": "berekenen"
+    },
+    {
+      "from": "berekenen",
+      "to": "beoordelen"
+    },
+    {
+      "from": "beoordelen",
+      "to": "split"
+    },
+    {
+      "from": "split",
+      "to": "inkooporders"
+    },
+    {
+      "from": "split",
+      "to": "productieorders"
+    },
+    {
+      "from": "split",
+      "to": "transferorders"
+    },
+    {
+      "from": "inkooporders",
+      "to": "join"
+    },
+    {
+      "from": "productieorders",
+      "to": "join"
+    },
+    {
+      "from": "transferorders",
+      "to": "join"
+    },
+    {
+      "from": "join",
+      "to": "end"
+    }
   ]
 }

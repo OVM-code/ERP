@@ -263,6 +263,8 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("client", help="path to the client folder, e.g. clients/acme-food")
     ap.add_argument("-o", "--output", help="output HTML path (default: <client>/bpa/output/BPA-<slug>.html)")
+    ap.add_argument("--strict", action="store_true", help="exit non-zero if any warning was raised")
+    ap.add_argument("--dry-run", action="store_true", help="validate only, write nothing")
     args = ap.parse_args()
 
     client_dir = Path(args.client).resolve()
@@ -279,8 +281,15 @@ def main() -> int:
     cat_domains = {d["number"]: d["title"] for d in catalog["domains"] if d["number"] > 0}
 
     cfg_path = bpa_dir / "bpa-config.json"
-    cfg = json.loads(cfg_path.read_text(encoding="utf-8")) if cfg_path.exists() else {}
+    cfg = {}
+    if cfg_path.exists():
+        try:
+            cfg = json.loads(cfg_path.read_text(encoding="utf-8-sig"))
+        except json.JSONDecodeError as e:
+            print(f"error: {cfg_path} is geen geldig JSON: {e}", file=sys.stderr)
+            return 1
     client_name = cfg.get("name", slug)
+    language = cfg.get("language", "nl")
 
     # ---- requirements -------------------------------------------------------------
     requirements: list[dict] = []
@@ -288,7 +297,11 @@ def main() -> int:
     if req_path.exists():
         _, blocks = split_blocks(req_path.read_text(encoding="utf-8"),
                                  re.compile(r"^(REQ-\d+)\s*[-–—:]?\s*(.*)$"))
+        seen_req = set()
         for b in blocks:
+            if b["key"] in seen_req:
+                warn(f"requirements.md: {b['key']} komt meermaals voor")
+            seen_req.add(b["key"])
             requirements.append({
                 "id": b["key"],
                 "title": b["title"],
@@ -303,7 +316,11 @@ def main() -> int:
     if gaps_path.exists():
         _, blocks = split_blocks(gaps_path.read_text(encoding="utf-8"),
                                  re.compile(r"^(GAP-\d+)\s*[-–—:]?\s*(.*)$"))
+        seen_gap = set()
         for b in blocks:
+            if b["key"] in seen_gap:
+                warn(f"gaps.md: {b['key']} komt meermaals voor")
+            seen_gap.add(b["key"])
             gaps.append({
                 "id": b["key"],
                 "title": b["title"],
@@ -343,6 +360,8 @@ def main() -> int:
             cat = cat_by_code.get(code)
             if not cat:
                 warn(f"{f.name}: {code} staat niet in de template-catalogus (typfout?)")
+            if code in scenarios:
+                warn(f"{f.name}: {code} is al gedocumenteerd in een ander blok/bestand — laatste wint")
             fit, addon, gap = parse_fit(b["meta"].get("invulling") or b["meta"].get("fit") or "standard")
             if fit == "addon" and not addon and cat and cat.get("addon"):
                 addon = cat["addon"]
@@ -432,15 +451,22 @@ def main() -> int:
     intro_path = bpa_dir / "intro.md"
     intro_html = md_to_html(intro_path.read_text(encoding="utf-8")) if intro_path.exists() else ""
 
+    import datetime
     data = {
         "client": {
             "name": client_name,
             "title": cfg.get("title", "Business Process Analyse"),
             "period": cfg.get("period", ""),
+            "language": language,
             "intro_html": intro_html,
             "labels": cfg.get("labels", {}),
         },
-        "meta": {"model": catalog.get("model", ""), "version": cfg.get("version", "")},
+        "meta": {
+            "model": catalog.get("model", ""),
+            "version": cfg.get("version", ""),
+            "stack": cfg.get("stack", {}),
+            "generated": datetime.date.today().isoformat(),
+        },
         "domains": domains,
         "scenarios": scenarios,
         "coverage": coverage,
@@ -463,15 +489,18 @@ def main() -> int:
                 .replace("/*__BPA_JS__*/", js))
 
     out_path = Path(args.output) if args.output else bpa_dir / "output" / f"BPA-{slug}.html"
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(out_html, encoding="utf-8")
+    if not args.dry_run:
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(out_html, encoding="utf-8")
 
     in_scope = sum(1 for c in coverage if c["scope"])
-    print(f"BPA gebouwd: {out_path}")
+    print(("gecontroleerd (dry-run): " if args.dry_run else "BPA gebouwd: ") + str(out_path))
     print(f"  {len(domains)} domeinen · {len(scenarios)} gedocumenteerde scenario's · "
           f"{in_scope} in scope · {len(requirements)} requirements · {len(gaps)} gaps")
     if WARNINGS:
         print(f"  {len(WARNINGS)} waarschuwing(en) — zie hierboven")
+        if args.strict:
+            return 2
     return 0
 
 

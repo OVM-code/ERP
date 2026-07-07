@@ -35,8 +35,24 @@ The BPA system turns meeting material into a **Business Process Analysis**: an
 interactive HTML file with clickable BPMN process diagrams where every step opens the
 documentation of that business scenario — standard Business Central, add-on (Aptean,
 Continia, …), workaround, or GAP. Built on the Cegeka Process Model template, filtered
-to what is relevant for the client. See [`docs/bpa.md`](docs/bpa.md) and the worked
+to what is relevant for the client, in the client's language (NL/EN built in, more
+addable) with official BC terminology. See [`docs/bpa.md`](docs/bpa.md) and the worked
 demo in [`clients/_demo-bakkerij-florax/`](clients/_demo-bakkerij-florax/).
+
+**And the BPA feeds the whole delivery pipeline** — each stage with templates, docs,
+demo artifacts and mechanical quality gates (`tools/check_client.py`):
+
+| Stage | What it produces | Guide |
+|---|---|---|
+| Setup plan | ordered BC configuration workbook from the BPA scope | [`docs/setup.md`](docs/setup.md) |
+| FGD → *human review* → TGD | functional & technical gap designs, buildable by an external developer | [`docs/gap-designs.md`](docs/gap-designs.md) |
+| Training | trajectory + per-session prep (environment, demo script, exercises) | [`docs/training.md`](docs/training.md) |
+| User manual | interactive handbook; ungrounded sections auto-flagged for consultant review | [`docs/manual.md`](docs/manual.md) |
+
+Quality on any Claude model (Fable/Opus/Sonnet) comes from the same mechanism:
+explicit pipelines + templates + validators — see
+[`system/model-guide.md`](system/model-guide.md) (also covers cost practices) and
+[`docs/operations.md`](docs/operations.md) for running this inside a live project.
 
 ## Repository map
 
@@ -49,8 +65,8 @@ demo in [`clients/_demo-bakkerij-florax/`](clients/_demo-bakkerij-florax/).
 | [`knowledge/addons/aptean-food-beverage/`](knowledge/addons/aptean-food-beverage/) | How Aptean F&B changes/extends those decisions |
 | [`knowledge/_templates/`](knowledge/_templates/) | Templates to add any other ERP system or add-on |
 | [`clients/`](clients/) | One folder per client: intake + Setup Decision Records + BPA workspace |
-| [`bpa/`](bpa/) | BPA system: Cegeka Process Model template + scenario catalog, standard BPMN flows, interactive viewer |
-| [`tools/`](tools/) | `build_bpa.py` (client BPA → interactive HTML) · `split_bpa_template.py` (template → catalog) |
+| [`bpa/`](bpa/) | BPA system: Cegeka Process Model template + scenario catalog, standard BPMN flows (bilingual), terminology glossary, interactive viewer |
+| [`tools/`](tools/) | `build_bpa.py` · `build_manual.py` · `check_client.py` (quality gates) · `split_bpa_template.py` |
 | [`expertise/`](expertise/) | Lessons learned across clients — consulted before every recommendation |
 | [`copilot-studio/`](copilot-studio/) | Instructions + step-by-step guide to run this in Copilot Studio |
 | [`docs/`](docs/) | [Maintenance routine](docs/maintenance.md) · [Adding ERPs/add-ons](docs/adding-an-erp-or-addon.md) |

@@ -13,18 +13,43 @@
   var D = window.BPA;
   if (!D) { document.getElementById("app").textContent = "Geen BPA-data gevonden."; return; }
 
-  var L = Object.assign({
-    processes: "Processen", scope: "Scope", requirements: "Requirements", gaps: "GAPs",
-    intro: "Inleiding", search: "Zoek scenario of code…", inScope: "in scope",
-    outScope: "buiten scope", legendStandard: "Standaard BC", legendAddon: "Add-on",
-    legendWorkaround: "Workaround", legendGap: "GAP (maatwerk)", legendNone: "Niet gedocumenteerd",
-    otherScenarios: "Alle scenario's in dit domein", noResults: "Geen resultaten",
-    gotoProcess: "Ga naar processtroom", metRequirements: "Gekoppelde requirements",
-    fit: { standard: "Standaard BC", addon: "Add-on", workaround: "Workaround", gap: "GAP", none: "—" },
-    domainDocOnly: "Voor dit domein is geen processtroom gedefinieerd; de scenario's staan hieronder.",
-    scopeCols: ["Code", "Scenario", "Domein", "Scope", "Invulling", "Toelichting"],
-    filterAll: "alle"
-  }, D.client.labels || {});
+  // Built-in language packs. Add a language: add a key here (and translate the
+  // process-flow labels); per-client overrides go in bpa-config.json "labels".
+  var LANGS = {
+    nl: {
+      processes: "Processen", scope: "Scope", requirements: "Requirements", gaps: "GAPs",
+      intro: "Inleiding", search: "Zoek scenario of code…", inScope: "in scope",
+      outScope: "buiten scope", legendStandard: "Standaard BC", legendAddon: "Add-on",
+      legendWorkaround: "Workaround", legendGap: "GAP (maatwerk)", legendNone: "Niet gedocumenteerd",
+      otherScenarios: "Alle scenario's in dit domein", noResults: "Geen resultaten",
+      gotoProcess: "Ga naar processtroom", metRequirements: "Gekoppelde requirements",
+      fit: { standard: "Standaard BC", addon: "Add-on", workaround: "Workaround", gap: "GAP", none: "—" },
+      domainDocOnly: "Voor dit domein is geen processtroom gedefinieerd; de scenario's staan hieronder.",
+      scopeCols: ["Code", "Scenario", "Domein", "Scope", "Invulling", "Toelichting"],
+      filterAll: "alle", generated: "opgemaakt"
+    },
+    en: {
+      processes: "Processes", scope: "Scope", requirements: "Requirements", gaps: "GAPs",
+      intro: "Introduction", search: "Search scenario or code…", inScope: "in scope",
+      outScope: "out of scope", legendStandard: "Standard BC", legendAddon: "Add-on",
+      legendWorkaround: "Workaround", legendGap: "GAP (customisation)", legendNone: "Not documented",
+      otherScenarios: "All scenarios in this domain", noResults: "No results",
+      gotoProcess: "Go to process flow", metRequirements: "Linked requirements",
+      fit: { standard: "Standard BC", addon: "Add-on", workaround: "Workaround", gap: "GAP", none: "—" },
+      domainDocOnly: "No process flow is defined for this domain; its scenarios are listed below.",
+      scopeCols: ["Code", "Scenario", "Domain", "Scope", "Coverage", "Notes"],
+      filterAll: "all", generated: "generated"
+    }
+  };
+  var lang = D.client.language || "nl";
+  var L = Object.assign({}, LANGS.nl, LANGS[lang] || {}, D.client.labels || {});
+  L.fit = Object.assign({}, LANGS.nl.fit, (LANGS[lang] || {}).fit || {}, (D.client.labels || {}).fit || {});
+
+  // Process-flow labels may be plain strings or {nl: "...", en: "..."} objects.
+  function lbl(v) {
+    if (v && typeof v === "object") return v[lang] || v.nl || v.en || "";
+    return v || "";
+  }
 
   var app = document.getElementById("app");
   var domByNum = {};
@@ -185,7 +210,7 @@
     var g = '<g class="' + cls + '" data-node="' + esc(n.id) + '"' +
       (n.scenario ? ' data-scenario="' + esc(n.scenario) + '"' : "") +
       (n.goto ? ' data-goto="' + esc(n.goto) + '"' : "") + ">";
-    var title = n.label || (s ? s.title : n.id);
+    var title = lbl(n.label) || (s ? s.title : n.id);
 
     if (n.type === "start" || n.type === "end") {
       g += '<circle class="shape" cx="' + cx + '" cy="' + cy + '" r="20"/>';
@@ -238,16 +263,17 @@
     // lanes
     lay.lanes.forEach(function (l, i) {
       s += '<rect class="lane-band-' + (i % 2) + '" x="' + M + '" y="' + l.y + '" width="' + (lay.width - 2 * M) + '" height="' + l.h + '" stroke="#d7dee7" stroke-width="1" />';
-      s += '<text class="lane-label" transform="translate(' + (M + 20) + " " + (l.y + l.h / 2) + ') rotate(-90)" text-anchor="middle">' + esc(l.label) + "</text>";
+      s += '<text class="lane-label" transform="translate(' + (M + 20) + " " + (l.y + l.h / 2) + ') rotate(-90)" text-anchor="middle">' + esc(lbl(l.label)) + "</text>";
     });
     // edges
     lay.edges.forEach(function (e) {
       var d = e.pts.map(function (pt, i) { return (i ? "L" : "M") + pt[0] + " " + pt[1]; }).join(" ");
       s += '<path class="flow" d="' + d + '" marker-end="url(#arr)"/>';
-      if (e.flow.label) {
-        var w = e.flow.label.length * 6 + 8;
+      var flabel = lbl(e.flow.label);
+      if (flabel) {
+        var w = flabel.length * 6 + 8;
         s += '<rect class="flow-label-bg" x="' + (e.labelAt[0] - 3) + '" y="' + (e.labelAt[1] - 10) + '" width="' + w + '" height="14" rx="3"/>' +
-          '<text class="flow-label" x="' + e.labelAt[0] + '" y="' + (e.labelAt[1] + 1) + '">' + esc(e.flow.label) + "</text>";
+          '<text class="flow-label" x="' + e.labelAt[0] + '" y="' + (e.labelAt[1] + 1) + '">' + esc(flabel) + "</text>";
       }
     });
     // nodes
@@ -261,7 +287,10 @@
 
   /* ---------------- views ---------------- */
   function chrome(active) {
-    var tabs = [["#/intro", L.intro], ["#/scope", L.scope], ["#/requirements", L.requirements], ["#/gaps", L.gaps]];
+    var tabs = [["#/intro", L.intro]];
+    if (D.coverage.length) tabs.push(["#/scope", L.scope]);
+    if (D.requirements.length) tabs.push(["#/requirements", L.requirements]);
+    if (D.gaps.length) tabs.push(["#/gaps", L.gaps]);
     var nav = tabs.map(function (t) {
       return '<a href="' + t[0] + '"' + (active === t[0] ? ' class="on"' : "") + ">" + esc(t[1]) + "</a>";
     }).join("");
@@ -335,7 +364,7 @@
     markDomain(num);
     var v = document.getElementById("view");
     var h = '<h1 class="pg">' + d.number + ". " + esc(d.title) + "</h1>";
-    if (d.process) h += '<p class="pg-sub">' + esc(d.process.subtitle || "") + "</p>";
+    if (d.process) h += '<p class="pg-sub">' + esc(lbl(d.process.subtitle)) + "</p>";
     if (d.intro_html) h += '<div class="card md">' + d.intro_html + "</div>";
     if (d.process) {
       h += '<div class="card diagram-card"><div class="diagram-head">' + legend() +
@@ -424,7 +453,9 @@
     var v = document.getElementById("view");
     v.innerHTML = '<h1 class="pg">' + esc(L.intro) + "</h1>" +
       '<p class="pg-sub">' + esc(D.client.name) + (D.client.period ? " · " + esc(D.client.period) : "") +
-      (D.meta && D.meta.model ? " · " + esc(D.meta.model) : "") + "</p>" +
+      (D.meta && D.meta.model ? " · " + esc(D.meta.model) : "") +
+      (D.meta && D.meta.version ? " · v" + esc(D.meta.version) : "") +
+      (D.meta && D.meta.generated ? " · " + esc(L.generated) + " " + esc(D.meta.generated) : "") + "</p>" +
       '<div class="card md">' + (D.client.intro_html || "") + "</div>";
   }
 
@@ -513,7 +544,7 @@
     var h = location.hash || "";
     var active = "#/intro";
     var m;
-    if ((m = h.match(/^#\/domain\/(\d+)(?:\/doc\/([A-Za-z0-9.]+))?/))) {
+    if ((m = h.match(/^#\/domain\/(\d+)(?:\/doc\/([A-Za-z0-9.\-]+))?/))) {
       active = null;
       chromeOnce(active);
       viewDomain(+m[1], m[2] || null);

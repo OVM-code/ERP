@@ -1,42 +1,237 @@
 {
   "id": "service",
   "domain": 9,
-  "title": "Service",
-  "subtitle": "Van servicemelding tot servicefactuur",
+  "title": {
+    "nl": "Service",
+    "en": "Service"
+  },
+  "subtitle": {
+    "nl": "Van servicemelding tot servicefactuur",
+    "en": "From service request to service invoice"
+  },
   "lanes": [
-    { "id": "servicedesk", "label": "Servicedesk" },
-    { "id": "techniek", "label": "Techniek" },
-    { "id": "finance", "label": "Finance" }
+    {
+      "id": "servicedesk",
+      "label": {
+        "nl": "Servicedesk",
+        "en": "Service desk"
+      }
+    },
+    {
+      "id": "techniek",
+      "label": {
+        "nl": "Techniek",
+        "en": "Field service"
+      }
+    },
+    {
+      "id": "finance",
+      "label": {
+        "nl": "Finance",
+        "en": "Finance"
+      }
+    }
   ],
   "nodes": [
-    { "id": "start", "type": "start", "label": "Servicemelding klant", "lane": "servicedesk" },
-    { "id": "gw-contract", "type": "gateway", "label": "Onder servicecontract?", "lane": "servicedesk" },
-    { "id": "contract-order", "type": "task", "label": "Contract-serviceorder maken", "lane": "servicedesk", "scenario": "BS60.203" },
-    { "id": "order", "type": "task", "label": "Serviceorder maken", "lane": "servicedesk", "scenario": "BS60.202" },
-    { "id": "plannen", "type": "task", "label": "Resource plannen op serviceorder", "lane": "servicedesk", "scenario": "BS60.208" },
-    { "id": "reserveren", "type": "task", "label": "Voorraad reserveren", "lane": "servicedesk", "scenario": "BS60.209" },
-    { "id": "verbruik", "type": "task", "label": "Verbruik registreren", "lane": "techniek", "scenario": "BS60.204" },
-    { "id": "herstelstatus", "type": "task", "label": "Herstelstatus beheren", "lane": "techniek", "scenario": "BS60.207" },
-    { "id": "verzending", "type": "task", "label": "Serviceverzending boeken", "lane": "techniek", "scenario": "BS60.205" },
-    { "id": "gw-facturatie", "type": "gateway", "label": "Facturabel?", "lane": "finance" },
-    { "id": "factuur", "type": "task", "label": "Servicefactuur maken", "lane": "finance", "scenario": "BS60.210" },
-    { "id": "contract-facturatie", "type": "task", "label": "Servicecontract factureren (periodiek)", "lane": "finance", "scenario": "BS60.619" },
-    { "id": "end", "type": "end", "label": "Service afgehandeld", "lane": "finance" }
+    {
+      "id": "start",
+      "type": "start",
+      "label": {
+        "nl": "Servicemelding klant",
+        "en": "Customer service request"
+      },
+      "lane": "servicedesk"
+    },
+    {
+      "id": "gw-contract",
+      "type": "gateway",
+      "label": {
+        "nl": "Onder servicecontract?",
+        "en": "Under service contract?"
+      },
+      "lane": "servicedesk"
+    },
+    {
+      "id": "contract-order",
+      "type": "task",
+      "label": {
+        "nl": "Contract-serviceorder maken",
+        "en": "Create contract service order"
+      },
+      "lane": "servicedesk",
+      "scenario": "BS60.203"
+    },
+    {
+      "id": "order",
+      "type": "task",
+      "label": {
+        "nl": "Serviceorder maken",
+        "en": "Create service order"
+      },
+      "lane": "servicedesk",
+      "scenario": "BS60.202"
+    },
+    {
+      "id": "plannen",
+      "type": "task",
+      "label": {
+        "nl": "Resource plannen op serviceorder",
+        "en": "Allocate resource to service order"
+      },
+      "lane": "servicedesk",
+      "scenario": "BS60.208"
+    },
+    {
+      "id": "reserveren",
+      "type": "task",
+      "label": {
+        "nl": "Voorraad reserveren",
+        "en": "Reserve inventory"
+      },
+      "lane": "servicedesk",
+      "scenario": "BS60.209"
+    },
+    {
+      "id": "verbruik",
+      "type": "task",
+      "label": {
+        "nl": "Verbruik registreren",
+        "en": "Post usage"
+      },
+      "lane": "techniek",
+      "scenario": "BS60.204"
+    },
+    {
+      "id": "herstelstatus",
+      "type": "task",
+      "label": {
+        "nl": "Herstelstatus beheren",
+        "en": "Manage repair status"
+      },
+      "lane": "techniek",
+      "scenario": "BS60.207"
+    },
+    {
+      "id": "verzending",
+      "type": "task",
+      "label": {
+        "nl": "Serviceverzending boeken",
+        "en": "Post service shipment"
+      },
+      "lane": "techniek",
+      "scenario": "BS60.205"
+    },
+    {
+      "id": "gw-facturatie",
+      "type": "gateway",
+      "label": {
+        "nl": "Facturabel?",
+        "en": "Billable?"
+      },
+      "lane": "finance"
+    },
+    {
+      "id": "factuur",
+      "type": "task",
+      "label": {
+        "nl": "Servicefactuur maken",
+        "en": "Create service invoice"
+      },
+      "lane": "finance",
+      "scenario": "BS60.210"
+    },
+    {
+      "id": "contract-facturatie",
+      "type": "task",
+      "label": {
+        "nl": "Servicecontract factureren (periodiek)",
+        "en": "Invoice service contract (periodic)"
+      },
+      "lane": "finance",
+      "scenario": "BS60.619"
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "label": {
+        "nl": "Service afgehandeld",
+        "en": "Service completed"
+      },
+      "lane": "finance"
+    }
   ],
   "flows": [
-    { "from": "start", "to": "gw-contract" },
-    { "from": "gw-contract", "to": "contract-order", "label": "ja" },
-    { "from": "gw-contract", "to": "order", "label": "nee" },
-    { "from": "contract-order", "to": "plannen" },
-    { "from": "order", "to": "plannen" },
-    { "from": "plannen", "to": "reserveren" },
-    { "from": "reserveren", "to": "verbruik" },
-    { "from": "verbruik", "to": "herstelstatus" },
-    { "from": "herstelstatus", "to": "verzending" },
-    { "from": "verzending", "to": "gw-facturatie" },
-    { "from": "gw-facturatie", "to": "factuur", "label": "per order" },
-    { "from": "gw-facturatie", "to": "contract-facturatie", "label": "via contract" },
-    { "from": "factuur", "to": "end" },
-    { "from": "contract-facturatie", "to": "end" }
+    {
+      "from": "start",
+      "to": "gw-contract"
+    },
+    {
+      "from": "gw-contract",
+      "to": "contract-order",
+      "label": {
+        "nl": "ja",
+        "en": "yes"
+      }
+    },
+    {
+      "from": "gw-contract",
+      "to": "order",
+      "label": {
+        "nl": "nee",
+        "en": "no"
+      }
+    },
+    {
+      "from": "contract-order",
+      "to": "plannen"
+    },
+    {
+      "from": "order",
+      "to": "plannen"
+    },
+    {
+      "from": "plannen",
+      "to": "reserveren"
+    },
+    {
+      "from": "reserveren",
+      "to": "verbruik"
+    },
+    {
+      "from": "verbruik",
+      "to": "herstelstatus"
+    },
+    {
+      "from": "herstelstatus",
+      "to": "verzending"
+    },
+    {
+      "from": "verzending",
+      "to": "gw-facturatie"
+    },
+    {
+      "from": "gw-facturatie",
+      "to": "factuur",
+      "label": {
+        "nl": "per order",
+        "en": "per order"
+      }
+    },
+    {
+      "from": "gw-facturatie",
+      "to": "contract-facturatie",
+      "label": {
+        "nl": "via contract",
+        "en": "via contract"
+      }
+    },
+    {
+      "from": "factuur",
+      "to": "end"
+    },
+    {
+      "from": "contract-facturatie",
+      "to": "end"
+    }
   ]
 }

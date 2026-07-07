@@ -145,6 +145,32 @@ Setup decisions that surface during BPA work (e.g. choosing an add-on over a
 workaround) still get an SDR — the BPA documents *what the client will get*, the SDR
 records *why it was decided*.
 
+## The delivery pipeline (after the BPA)
+
+The BPA feeds five further systems, each with its own workspace under
+`clients/<client>/`, a template under `clients/_template/`, a guide under `docs/`,
+and mechanical checks in `tools/check_client.py`. Run that checker after every
+authoring step — **zero errors/warnings is the definition of done** on any model.
+
+| Stage | Workspace | Guide | Gate before next stage |
+|---|---|---|---|
+| Setup plan (BPA → BC configuration workbook) | `setup/` | `docs/setup.md` | plan `approved`; covers every in-scope scenario or defers it |
+| FGD (functional gap design, per GAP-x) | `gaps/FGD-GAP-x.md` | `docs/gap-designs.md` | **human review**: status `approved` |
+| TGD (technical gap design, for an external developer) | `gaps/TGD-GAP-x.md` | `docs/gap-designs.md` | only from an approved FGD (machine-enforced); tests cover all FGD acceptance criteria |
+| Training (trajectory + session preps) | `training/` | `docs/training.md` | sessions reference only in-scope scenarios; env prep tied to setup-plan steps |
+| User manual (interactive, like the BPA) | `manual/` | `docs/manual.md` | every topic grounded (`bpa` / `docs:<url>`) or flagged `review` for the consultant |
+
+Cross-cutting rules for every stage:
+
+- **Language**: deliverables in the client's language (config `language`); use the
+  exact Business Central terms from `bpa/terminology/bc-terms.json` — extend the
+  glossary before inventing a term. Internal repo docs stay English.
+- **Versions**: pin the client's stack in their config; apply the freshness check
+  (step 3 above) to deliverable work as well; see `system/stack-versions.md`.
+- **Model & cost**: follow `system/model-guide.md` — one pipeline step per pass,
+  validators after every step, mechanical work in the Python tools, never read the
+  522 KB template source (use `catalog.json` + the split domain files).
+
 ## The learning loop (keeping the system smart)
 
 - **After go-live or a review milestone**, prompt the consultant to fill in the
