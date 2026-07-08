@@ -322,14 +322,16 @@ table.reg tr.dim td { color: var(--ink-soft); background: #fafbfc; }
 
   #printdoc { font-size: 11.5pt; color: var(--cg-ink); }
 
-  /* running footer on every page (position:fixed repeats per printed page) */
-  .pv-foot {
-    position: fixed; bottom: -14mm; left: 0; right: 0; height: 10mm;
+  /* running header on every page after the cover: the <thead> of .pv-doc is
+   * repeated by the browser at the top of each printed page */
+  table.pv-doc { width: 100%; border-collapse: collapse; }
+  table.pv-doc > * > tr > td { padding: 0; border: none; }
+  .pv-run {
     display: flex; align-items: center; gap: 8px;
     font-size: 8pt; color: var(--ink-soft);
-    border-top: .5pt solid var(--cg-gray-light); padding-top: 2mm;
+    border-bottom: .5pt solid var(--cg-cyan); padding: 0 0 2mm; margin-bottom: 7mm;
   }
-  .pv-foot .logo {
+  .pv-run .logo {
     width: 19mm; height: 4.2mm; margin-left: auto;
     background: var(--cg-logo-dark) no-repeat right center / contain;
   }
@@ -381,12 +383,12 @@ table.reg tr.dim td { color: var(--ink-soft); background: #fafbfc; }
   .pv-scen .chips { margin: 0 0 2mm; }
   .chip { border-radius: 20px; padding: .5mm 2.5mm; font-size: 8pt; }
 
-  .pv-section table, #printdoc table { border-collapse: collapse; width: 100%; font-size: 9.5pt; }
-  .pv-section th, .pv-section td, #printdoc th, #printdoc td {
+  table.pv-table, #printdoc .md table { border-collapse: collapse; width: 100%; font-size: 9.5pt; }
+  .pv-table th, .pv-table td, #printdoc .md th, #printdoc .md td {
     border: .5pt solid var(--cg-gray-light); padding: 1.5mm 2.5mm; text-align: left; vertical-align: top;
   }
-  .pv-section th, #printdoc th { background: var(--cg-cyan-tint); color: var(--cg-ink); }
-  #printdoc tr { page-break-inside: avoid; }
+  .pv-table th, #printdoc .md th { background: var(--cg-cyan-tint); color: var(--cg-ink); }
+  .pv-table tr, #printdoc .md tr { page-break-inside: avoid; }
 
   #printdoc .md h1 { font-size: 13pt; } #printdoc .md h2 { font-size: 12pt; }
   #printdoc .md h3 { font-size: 11pt; } #printdoc .md h4 { font-size: 10.5pt; }
@@ -814,11 +816,6 @@ window.BPA = {"client": {"name": "Bakkerij Florax (demo)", "title": "Gebruikersh
     var doms = D.domains.filter(function (d) { return sel[d.number]; });
     var h = "";
 
-    // running footer (repeats on every printed page)
-    h += '<div class="pv-foot"><span>' + esc(D.client.title) + " — " + esc(D.client.name) +
-      (D.meta && D.meta.version ? " · v" + esc(D.meta.version) : "") +
-      '</span><div class="logo"></div></div>';
-
     // cover
     h += '<div class="pv-cover"><div class="logo"></div>' +
       '<div class="title"><h1>' + esc(D.client.title) + '</h1>' +
@@ -831,6 +828,13 @@ window.BPA = {"client": {"name": "Bakkerij Florax (demo)", "title": "Gebruikersh
       (D.meta && D.meta.model ? "<div><b>" + esc(L.coverModel) + ":</b> " + esc(D.meta.model) + "</div>" : "") +
       "</div>" +
       '<div class="art"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div></div>';
+
+    // everything after the cover lives in a table whose <thead> the browser
+    // repeats at the top of every printed page — the running header
+    h += '<table class="pv-doc"><thead><tr><td><div class="pv-run"><span>' +
+      esc(D.client.title) + " — " + esc(D.client.name) +
+      (D.meta && D.meta.version ? " · v" + esc(D.meta.version) : "") +
+      '</span><div class="logo"></div></div></td></tr></thead><tbody><tr><td>';
 
     // table of contents
     var toc = [];
@@ -866,7 +870,7 @@ window.BPA = {"client": {"name": "Bakkerij Florax (demo)", "title": "Gebruikersh
     // scope matrix (rows limited to the selected domains)
     if (opts.scope) {
       var rows = D.coverage.filter(function (c) { return sel[c.domain]; });
-      h += '<div class="pv-section"><h1>' + esc(L.scope) + "</h1><table><thead><tr>" +
+      h += '<div class="pv-section"><h1>' + esc(L.scope) + '</h1><table class="pv-table"><thead><tr>' +
         L.scopeCols.map(function (c) { return "<th>" + esc(c) + "</th>"; }).join("") + "</tr></thead><tbody>" +
         rows.map(function (c) {
           var s = scen(c.code);
@@ -905,6 +909,7 @@ window.BPA = {"client": {"name": "Bakkerij Florax (demo)", "title": "Gebruikersh
         }).join("") + "</div>";
     }
 
+    h += "</td></tr></tbody></table>";
     document.getElementById("printdoc").innerHTML = h;
   }
 

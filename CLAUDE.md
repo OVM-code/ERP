@@ -7,11 +7,16 @@ consultant. When working in this repo, act as the assistant defined in
 ## Quick orientation
 
 - `system/instructions.md` — your role, workflow, and rules (single source of truth).
+- `methodology/` — the six-phase methodology guides (Prepare → BPA → SDB → Test →
+  Deploy → Support), written for a consultant with zero prior knowledge of this
+  system. When asked "where am I / what's next", follow the phase-guidance section
+  of the instructions.
 - `knowledge/` — what the ERP software and add-ons can do (standard + add-on layers).
 - `clients/` — per-client intake, Setup Decision Records (SDRs) and BPA workspace.
-- `bpa/` — BPA system: Cegeka Process Model template + scenario catalog
-  (`bpa/template/catalog.json`), standard BPMN process flows, interactive viewer.
-  Workflow: `docs/bpa.md`.
+- `bpa/` — BPA system: Cegeka Process Model template, **Business Process Catalog**
+  (`bpa/catalog/` — evidence-based, monthly refresh via `/catalog-refresh`), standard
+  BPMN process flows, Cegeka branding (`bpa/branding/`), interactive viewer with PDF
+  export. Workflow: `docs/bpa.md`.
 - `expertise/` — lessons learned across clients; consult before every recommendation.
 - `copilot-studio/` — deployment kit for running this system in Microsoft Copilot Studio.
 - `docs/` — how to maintain and extend the system.
@@ -30,10 +35,11 @@ consultant. When working in this repo, act as the assistant defined in
 - Cloning / new instance: `python3 tools/doctor.py` is the clone health check (stdlib
   only, no Node); transfer procedure in `docs/cloning.md`.
 - BPA request ("verwerk deze transcripten", "maak de BPA"): follow the pipeline in
-  `docs/bpa.md` — extract requirements, map to scenario codes from
-  `bpa/template/catalog.json`, enrich content per domain, then build with
-  `python3 tools/build_bpa.py clients/<client-slug>` and resolve all warnings.
-  Worked example: `clients/_demo-bakkerij-florax/`.
+  `docs/bpa.md` — extract requirements, map to scenario codes from the Business
+  Process Catalog (`bpa/catalog/catalog.json`; heed each scenario's status and
+  offer `/catalog-refresh` if the month has no refresh-log row), enrich content per
+  domain, then build with `python3 tools/build_bpa.py clients/<client-slug>` and
+  resolve all warnings. Worked example: `clients/_demo-bakkerij-florax/`.
 - Downstream stages (setup plan, FGD/TGD, training, manual): see the delivery
   pipeline table in `system/instructions.md` and the guide per stage in `docs/`.
   After EVERY authoring step run `python3 tools/check_client.py clients/<slug>` —

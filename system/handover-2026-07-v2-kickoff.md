@@ -1,5 +1,13 @@
 # Handover — kicking off v2 (Cegeka branding + PDF export + process catalog)
 
+> **STATUS: COMPLETED (2026-07-08).** All three v2 asks were built, plus the
+> methodology guidance layer (`methodology/`) added to the scope at kickoff.
+> Decisions taken: PDF via print-CSS in the viewer (§3B → option 1); exports
+> respect client scope (§3C); monthly catalog check via month-keyed throttle,
+> no cloud Routine (§3E — must run on a plain Claude subscription); template
+> challenges drafted for `/review-system` (§3D); Cegeka visuals extracted from
+> the uploaded PPT-template PDF (§3A). See `CHANGELOG.md`. Kept for history.
+
 > Written to resume in a **new session** after a model switch (Opus → Sonnet 5)
 > interrupted the v2 request before any work started. Nothing below is built yet —
 > this is a briefing, not a status report on v2 itself.

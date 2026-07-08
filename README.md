@@ -34,10 +34,13 @@ And on top of the advisory loop it produces the **client deliverable**:
 The BPA system turns meeting material into a **Business Process Analysis**: an
 interactive HTML file with clickable BPMN process diagrams where every step opens the
 documentation of that business scenario — standard Business Central, add-on (Aptean,
-Continia, …), workaround, or GAP. Built on the Cegeka Process Model template, filtered
-to what is relevant for the client, in the client's language (NL/EN built in, more
-addable) with official BC terminology. See [`docs/bpa.md`](docs/bpa.md) and the worked
-demo in [`clients/_demo-bakkerij-florax/`](clients/_demo-bakkerij-florax/).
+Continia, …), workaround, or GAP. Built on the Cegeka Process Model template and
+grounded in the evidence-based **Business Process Catalog**
+([`bpa/catalog/`](bpa/catalog/), refreshed monthly), filtered to what is relevant for
+the client, in the client's language (NL/EN built in, more addable) with official BC
+terminology, in the **Cegeka corporate identity** with one-click **PDF export**
+(full document or chosen domains, branded cover page). See [`docs/bpa.md`](docs/bpa.md)
+and the worked demo in [`clients/_demo-bakkerij-florax/`](clients/_demo-bakkerij-florax/).
 
 **And the BPA feeds the whole delivery pipeline** — each stage with templates, docs,
 demo artifacts and mechanical quality gates (`tools/check_client.py`):
@@ -61,6 +64,7 @@ explicit pipelines + templates + validators — see
 
 | Path | What lives there |
 |---|---|
+| [`methodology/`](methodology/) | **Start here if you're new** — six phase guides (Prepare → BPA → SDB → Test → Deploy → Support) mapping every asset, tool and expertise entry point per phase, plus the jargon glossary |
 | [`system/instructions.md`](system/instructions.md) | The assistant's behaviour — single source of truth |
 | [`system/update-check-log.md`](system/update-check-log.md) | Throttle log for the once-a-day software-freshness check |
 | [`CLAUDE.md`](CLAUDE.md) | Activates the assistant in any Claude session on this repo |
@@ -68,10 +72,10 @@ explicit pipelines + templates + validators — see
 | [`knowledge/addons/aptean-food-beverage/`](knowledge/addons/aptean-food-beverage/) | How Aptean F&B changes/extends those decisions |
 | [`knowledge/_templates/`](knowledge/_templates/) | Templates to add any other ERP system or add-on |
 | [`clients/`](clients/) | One folder per client: intake + Setup Decision Records + BPA workspace |
-| [`bpa/`](bpa/) | BPA system: Cegeka Process Model template + scenario catalog, standard BPMN flows (bilingual), terminology glossary, interactive viewer |
-| [`tools/`](tools/) | `build_bpa.py` · `build_manual.py` · `build_quote.py` · `check_client.py` (quality gates) · `metrics.py` (telemetry) · `doctor.py` (clone health check) · `split_bpa_template.py` |
+| [`bpa/`](bpa/) | BPA system: Cegeka Process Model template + scenario catalog, **Business Process Catalog** ([`bpa/catalog/`](bpa/catalog/), evidence-based, monthly refresh), Cegeka branding ([`bpa/branding/`](bpa/branding/)), standard BPMN flows (bilingual), terminology glossary, interactive viewer with PDF export |
+| [`tools/`](tools/) | `build_bpa.py` · `build_manual.py` · `build_quote.py` · `catalog.py` (Business Process Catalog) · `check_client.py` (quality gates) · `metrics.py` (telemetry) · `doctor.py` (clone health check) · `split_bpa_template.py` |
 | [`bpa/packs/`](bpa/packs/) · [`pricing/`](pricing/) | Industry content packs · effort baselines for quoting |
-| [`.claude/skills/`](.claude/skills/) | `dynamic-report` · `harvest` · `wave-impact` · `review-system` (human review of any component, tracked in [`system/reviews/`](system/reviews/)) |
+| [`.claude/skills/`](.claude/skills/) | `dynamic-report` · `harvest` · `wave-impact` · `catalog-refresh` (monthly catalog verification) · `review-system` (human review of any component, tracked in [`system/reviews/`](system/reviews/)) |
 | [`expertise/`](expertise/) | Lessons learned across clients — consulted before every recommendation |
 | [`copilot-studio/`](copilot-studio/) | Instructions + step-by-step guide to run this in Copilot Studio |
 | [`docs/`](docs/) | [Maintenance routine](docs/maintenance.md) · [Adding ERPs/add-ons](docs/adding-an-erp-or-addon.md) |

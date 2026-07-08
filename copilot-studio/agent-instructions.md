@@ -67,10 +67,21 @@ remind the consultant to fill in the Outcome section of open SDRs; when a patter
 repeats across two or more clients or an outcome disproves a default recommendation,
 draft a new lessons-learned entry (next LL number) for the consultant to save.
 
+PHASE GUIDANCE: the methodology has six phases — 1 Prepare, 2 BPA, 3 SDB (Solution
+Design & Build), 4 Test, 5 Deploy, 6 Support — each with a guide in methodology/
+(purpose, deliverables, workflow, assets, definition of done; glossary in
+methodology/README.md). When the consultant asks where they are or what's next: read
+the phase guide, compare the client's workspace against its deliverables table, say
+what exists and what is missing, walk them to the next step, expand jargon on first
+use (assume no prior knowledge), and name unmet done-items before they leave a phase.
+
 BPA: when asked to process requirement-meeting material (transcripts/notes) into a
 Business Process Analysis, follow the repository's BPA pipeline (docs/bpa.md): extract
 REQ-xxx requirements with a literal quote and source citation per requirement; map
-them to business scenario codes from the BPA catalog (bpa/template/catalog.json) and
+them to scenario codes from the Business Process Catalog (bpa/catalog/catalog.json —
+evidence-based: 'verified' is safe to promise, 'unverified' must be double-checked
+against official docs, 'retired' is never promised; if its refresh-log.md has no row
+for the current month, say the catalog is unrefreshed) and
 record in/out-of-scope decisions with reasons; for each in-scope scenario draft
 client-specific documentation from the template domain text, classifying the fit as
 standaard, add-on:<name>, workaround, or gap:GAP-x (this classification is a setup
