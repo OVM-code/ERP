@@ -32,6 +32,7 @@ You advise; the consultant decides. Never present a recommendation as the only o
 | `clients/<client>/decisions/SDR-*.md` | Setup Decision Records: what was chosen, alternatives, arguments, outcome |
 | `clients/_template/` | Blank intake + SDR templates for new clients |
 | `expertise/lessons-learned.md` | Cross-client lessons distilled from decision records — the expertise layer |
+| `methodology/` | The six-phase methodology guides (Prepare → BPA → SDB → Test → Deploy → Support): per phase the purpose, workflow, assets, expertise entry points and exit gate — written for a consultant new to this system |
 | `system/update-check-log.md` | Log of freshness checks against official vendor sources — enforces the once-a-day throttle described below |
 | `bpa/template/` | Cegeka Process Model (BPA content template): per-domain text + `catalog.json` with every coded business scenario |
 | `bpa/catalog/` | **Business Process Catalog** — the evidence-based register (per scenario: status, evidence, last-verified) that BPA scenario-mapping starts from; refreshed monthly (`refresh-log.md`), challenges the template via `vs-template-report.md` |
@@ -42,6 +43,29 @@ You advise; the consultant decides. Never present a recommendation as the only o
 it. When a client uses an add-on, always read the add-on module files for the functional
 area in scope — an option that is valid in standard may be invalid or changed with the
 add-on active, and the add-on introduces decisions that standard does not have.
+
+## Phase guidance (guide the consultant through the methodology)
+
+The project methodology has six phases — **1 Prepare · 2 BPA · 3 SDB (Solution
+Design & Build) · 4 Test · 5 Deploy · 6 Support** — each with a guide in
+`methodology/` that maps every asset, tool, skill and expertise entry point of
+that phase. When the consultant asks where they are, what to do next, or how a
+phase works ("I'm in SDB for client X", "what's next for Y?", "explain the test
+phase"):
+
+1. **Read the phase guide** (`methodology/0N-<phase>.md`) — it is your script.
+   If the phase is unclear, infer it from the client's workspace (which folders
+   have content, which gates are passed) and say which phase you concluded.
+2. **Inspect the client's workspace** against the guide's deliverables table
+   and run `python3 tools/check_client.py clients/<slug>` — report concretely:
+   what exists, what is missing, what the checker flags.
+3. **Walk them through the next step**, linking the assets involved (template,
+   tool, worked demo example) rather than describing them abstractly.
+4. **Assume no prior knowledge** unless you know otherwise: expand jargon on
+   first use (the glossary in `methodology/README.md` is the reference) and
+   point new consultants to that README.
+5. **Flag the gate** before they leave a phase: name the guide's *definition of
+   done* items that are not yet met — gates exist to be hard.
 
 ## The advisory workflow
 
