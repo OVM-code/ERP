@@ -37,6 +37,27 @@ REPO = Path(__file__).resolve().parent.parent
 CATALOG_PATH = REPO / "bpa" / "template" / "catalog.json"
 STD_PROCESSES = REPO / "bpa" / "processes"
 VIEWER = REPO / "bpa" / "viewer"
+BRANDING = REPO / "bpa" / "branding"
+
+
+def branding_css() -> str:
+    """Cegeka design tokens + logo data-URIs, prepended to the viewer CSS so the
+    built HTML stays fully self-contained (see bpa/branding/README.md)."""
+    import base64
+    parts = []
+    tokens = BRANDING / "tokens.css"
+    if tokens.exists():
+        parts.append(tokens.read_text(encoding="utf-8"))
+    logos = []
+    for prop, fname in (("--cg-logo-dark", "cegeka-logo-dark.png"),
+                        ("--cg-logo-white", "cegeka-logo-white.png")):
+        f = BRANDING / fname
+        if f.exists():
+            b64 = base64.b64encode(f.read_bytes()).decode("ascii")
+            logos.append(f'  {prop}: url("data:image/png;base64,{b64}");')
+    if logos:
+        parts.append(":root {\n" + "\n".join(logos) + "\n}")
+    return "\n".join(parts) + ("\n" if parts else "")
 
 CODE_RE = re.compile(r"\bB[SC]\d{2}\.\d{3}(?:\.\d{2})?\b|\bBC\d{2}\.\d{5}\b")
 WARNINGS: list[str] = []
@@ -476,7 +497,7 @@ def main() -> int:
 
     # ---- assemble -------------------------------------------------------------------
     tpl = (VIEWER / "template.html").read_text(encoding="utf-8")
-    css = (VIEWER / "viewer.css").read_text(encoding="utf-8")
+    css = branding_css() + (VIEWER / "viewer.css").read_text(encoding="utf-8")
     js = (VIEWER / "viewer.js").read_text(encoding="utf-8")
     if cfg.get("accentColor"):
         css += f'\n:root {{ --accent: {cfg["accentColor"]}; }}\n'

@@ -26,7 +26,13 @@
       fit: { standard: "Standaard BC", addon: "Add-on", workaround: "Workaround", gap: "GAP", none: "—" },
       domainDocOnly: "Voor dit domein is geen processtroom gedefinieerd; de scenario's staan hieronder.",
       scopeCols: ["Code", "Scenario", "Domein", "Scope", "Invulling", "Toelichting"],
-      filterAll: "alle", generated: "opgemaakt"
+      filterAll: "alle", generated: "opgemaakt",
+      exportBtn: "PDF exporteren", exportTitle: "Exporteer als PDF",
+      exportHint: "Kies wat het document bevat. Het afdrukvenster opent — kies daar ‘Opslaan als PDF’.",
+      exportDomains: "Domeinen", exportParts: "Onderdelen",
+      exportAllNone: "alles / niets", exportGo: "Maak PDF", exportCancel: "Annuleer",
+      toc: "Inhoud", coverClient: "Klant", coverPeriod: "Periode",
+      coverVersion: "Versie", coverDate: "Datum", coverModel: "Procesmodel"
     },
     en: {
       processes: "Processes", scope: "Scope", requirements: "Requirements", gaps: "GAPs",
@@ -38,7 +44,13 @@
       fit: { standard: "Standard BC", addon: "Add-on", workaround: "Workaround", gap: "GAP", none: "—" },
       domainDocOnly: "No process flow is defined for this domain; its scenarios are listed below.",
       scopeCols: ["Code", "Scenario", "Domain", "Scope", "Coverage", "Notes"],
-      filterAll: "all", generated: "generated"
+      filterAll: "all", generated: "generated",
+      exportBtn: "Export PDF", exportTitle: "Export as PDF",
+      exportHint: "Choose what the document contains. The print dialog opens — pick ‘Save as PDF’ there.",
+      exportDomains: "Domains", exportParts: "Sections",
+      exportAllNone: "all / none", exportGo: "Create PDF", exportCancel: "Cancel",
+      toc: "Contents", coverClient: "Client", coverPeriod: "Period",
+      coverVersion: "Version", coverDate: "Date", coverModel: "Process model"
     }
   };
   var lang = D.client.language || "nl";
@@ -301,17 +313,191 @@
         (cnt ? '<span class="cnt">' + cnt + "</span>" : "") + "</a>";
     }).join("");
     app.innerHTML =
-      '<header class="hdr"><div class="brand">' + esc(D.client.title || "Business Process Analyse") +
+      '<header class="hdr"><div class="logo" role="img" aria-label="Cegeka"></div>' +
+      '<div class="brand">' + esc(D.client.title || "Business Process Analyse") +
       "<small>" + esc(D.client.name) + (D.client.period ? " · " + esc(D.client.period) : "") + "</small></div>" +
-      "<nav>" + nav + "</nav></header>" +
+      "<nav>" + nav + '<button class="export" id="exportbtn">⤓ ' + esc(L.exportBtn) + "</button></nav></header>" +
       '<div class="main"><aside class="side">' +
       '<div class="search"><input id="q" type="search" placeholder="' + esc(L.search) + '"></div>' +
       '<div class="domlist" id="domlist">' + doms + '</div><div class="hits" id="hits" style="display:none"></div>' +
       '</aside><section class="content"><div class="inner" id="view"></div></section></div>' +
-      '<div class="panel-wrap" id="panelwrap"><div class="veil"></div><div class="panel" id="panel"></div></div>';
+      '<div class="panel-wrap" id="panelwrap"><div class="veil"></div><div class="panel" id="panel"></div></div>' +
+      '<div class="exp-wrap" id="expwrap"><div class="veil"></div><div class="exp" id="expdlg"></div></div>';
 
     document.getElementById("q").addEventListener("input", onSearch);
     document.querySelector("#panelwrap .veil").addEventListener("click", closePanel);
+    document.getElementById("exportbtn").addEventListener("click", openExport);
+    document.querySelector("#expwrap .veil").addEventListener("click", closeExport);
+  }
+
+  /* ---------------- PDF export (print-CSS) ---------------- */
+  function openExport() {
+    var dlg = document.getElementById("expdlg");
+    var parts = [["intro", L.intro, !!D.client.intro_html]];
+    if (D.coverage.length) parts.push(["scope", L.scope, true]);
+    if (D.requirements.length) parts.push(["requirements", L.requirements, true]);
+    if (D.gaps.length) parts.push(["gaps", L.gaps, true]);
+    dlg.innerHTML =
+      "<h2>" + esc(L.exportTitle) + '</h2><p class="hint">' + esc(L.exportHint) + "</p>" +
+      "<h3>" + esc(L.exportDomains) + ' — <button type="button" class="all" id="exptoggle">' + esc(L.exportAllNone) + "</button></h3>" +
+      '<div class="doms">' + D.domains.map(function (d) {
+        return '<label><input type="checkbox" class="expdom" value="' + d.number + '" checked>' +
+          '<span class="n">' + d.number + "</span><span>" + esc(d.title) + "</span></label>";
+      }).join("") + "</div>" +
+      "<h3>" + esc(L.exportParts) + "</h3>" +
+      parts.map(function (p) {
+        return '<label><input type="checkbox" class="exppart" value="' + p[0] + '"' + (p[2] ? " checked" : " disabled") + ">" +
+          "<span>" + esc(p[1]) + "</span></label>";
+      }).join("") +
+      '<div class="row"><span class="sp"></span>' +
+      '<button type="button" class="cancel" id="expcancel">' + esc(L.exportCancel) + "</button>" +
+      '<button type="button" class="go" id="expgo">' + esc(L.exportGo) + "</button></div>";
+    dlg.querySelector("#expcancel").addEventListener("click", closeExport);
+    dlg.querySelector("#exptoggle").addEventListener("click", function () {
+      var boxes = dlg.querySelectorAll(".expdom");
+      var any = Array.prototype.some.call(boxes, function (b) { return b.checked; });
+      boxes.forEach(function (b) { b.checked = !any; });
+    });
+    dlg.querySelector("#expgo").addEventListener("click", function () {
+      var doms = [];
+      dlg.querySelectorAll(".expdom:checked").forEach(function (b) { doms.push(+b.value); });
+      var opts = {};
+      dlg.querySelectorAll(".exppart:checked").forEach(function (b) { opts[b.value] = true; });
+      if (!doms.length && !Object.keys(opts).length) return;
+      closeExport();
+      buildPrintDoc(doms, opts);
+      document.body.classList.add("printing");
+      // let the print DOM paint before the dialog opens
+      setTimeout(function () { window.print(); }, 60);
+    });
+    document.getElementById("expwrap").classList.add("open");
+  }
+
+  function closeExport() {
+    document.getElementById("expwrap").classList.remove("open");
+  }
+
+  window.addEventListener("afterprint", function () {
+    document.body.classList.remove("printing");
+    document.getElementById("printdoc").innerHTML = "";
+  });
+
+  function printScen(code) {
+    var s = scen(code);
+    if (!s) return "";
+    var fit = fitOf(code);
+    var chips = fitChip(fit, s.addon);
+    if (s.gap) chips += ' <span class="chip gap">' + esc(s.gap) + "</span>";
+    (s.requirements || []).forEach(function (r) {
+      chips += ' <span class="chip req">' + esc(r) + "</span>";
+    });
+    return '<div class="pv-scen"><div class="codes"><code>' + esc(code) + "</code>" +
+      (s.section ? " · § " + esc(s.section) : "") + "</div>" +
+      "<h3>" + esc(s.title) + '</h3><div class="chips">' + chips + "</div>" +
+      '<div class="md">' + (s.html || "") + "</div></div>";
+  }
+
+  function buildPrintDoc(domNums, opts) {
+    var sel = {};
+    domNums.forEach(function (n) { sel[n] = true; });
+    var doms = D.domains.filter(function (d) { return sel[d.number]; });
+    var h = "";
+
+    // cover
+    h += '<div class="pv-cover"><div class="logo"></div>' +
+      '<div class="title"><h1>' + esc(D.client.title) + '</h1>' +
+      '<p class="sub">' + esc(D.client.name) + (D.client.period ? " · " + esc(D.client.period) : "") + "</p></div>" +
+      '<div class="meta">' +
+      "<div><b>" + esc(L.coverClient) + ":</b> " + esc(D.client.name) + "</div>" +
+      (D.client.period ? "<div><b>" + esc(L.coverPeriod) + ":</b> " + esc(D.client.period) + "</div>" : "") +
+      (D.meta && D.meta.version ? "<div><b>" + esc(L.coverVersion) + ":</b> " + esc(D.meta.version) + "</div>" : "") +
+      "<div><b>" + esc(L.coverDate) + ":</b> " + esc((D.meta && D.meta.generated) || "") + "</div>" +
+      (D.meta && D.meta.model ? "<div><b>" + esc(L.coverModel) + ":</b> " + esc(D.meta.model) + "</div>" : "") +
+      "</div>" +
+      '<div class="art"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div></div>';
+
+    // everything after the cover lives in a table whose <thead> the browser
+    // repeats at the top of every printed page — the running header
+    h += '<table class="pv-doc"><thead><tr><td><div class="pv-run"><span>' +
+      esc(D.client.title) + " — " + esc(D.client.name) +
+      (D.meta && D.meta.version ? " · v" + esc(D.meta.version) : "") +
+      '</span><div class="logo"></div></div></td></tr></thead><tbody><tr><td>';
+
+    // table of contents
+    var toc = [];
+    if (opts.intro) toc.push(["", L.intro]);
+    doms.forEach(function (d) { toc.push([d.number + ".", d.title]); });
+    if (opts.scope) toc.push(["", L.scope]);
+    if (opts.requirements) toc.push(["", L.requirements]);
+    if (opts.gaps) toc.push(["", L.gaps]);
+    h += '<div class="pv-toc"><h2>' + esc(L.toc) + "</h2><ol>" + toc.map(function (t) {
+      return '<li><span class="n">' + esc(t[0]) + "</span><span>" + esc(t[1]) + "</span></li>";
+    }).join("") + "</ol></div>";
+
+    if (opts.intro && D.client.intro_html) {
+      h += '<div class="pv-section"><h1>' + esc(L.intro) + '</h1><div class="md">' + D.client.intro_html + "</div></div>";
+    }
+
+    // domains: intro + flow + full scenario documentation
+    doms.forEach(function (d) {
+      h += '<div class="pv-section"><h1><span class="n">' + d.number + ".</span> " + esc(d.title) + "</h1>";
+      if (d.intro_html) h += '<div class="pv-intro md">' + d.intro_html + "</div>";
+      if (d.process) {
+        h += '<div class="pv-diagram">' + renderDiagram(d.process, null) +
+          '<div class="pv-legend">' +
+          '<span><i style="border-color:var(--fit-standard);background:var(--fit-standard-bg)"></i>' + esc(L.legendStandard) + "</span>" +
+          '<span><i style="border-color:var(--fit-addon);background:var(--fit-addon-bg)"></i>' + esc(L.legendAddon) + "</span>" +
+          '<span><i style="border-color:var(--fit-workaround);background:var(--fit-workaround-bg)"></i>' + esc(L.legendWorkaround) + "</span>" +
+          '<span><i style="border-color:var(--fit-gap);background:var(--fit-gap-bg)"></i>' + esc(L.legendGap) + "</span></div></div>";
+      }
+      h += d.scenarios.map(printScen).join("");
+      h += "</div>";
+    });
+
+    // scope matrix (rows limited to the selected domains)
+    if (opts.scope) {
+      var rows = D.coverage.filter(function (c) { return sel[c.domain]; });
+      h += '<div class="pv-section"><h1>' + esc(L.scope) + '</h1><table class="pv-table"><thead><tr>' +
+        L.scopeCols.map(function (c) { return "<th>" + esc(c) + "</th>"; }).join("") + "</tr></thead><tbody>" +
+        rows.map(function (c) {
+          var s = scen(c.code);
+          var dm = domByNum[c.domain];
+          return "<tr><td><code>" + esc(c.code) + "</code></td><td>" + esc(c.title) + "</td>" +
+            "<td>" + (dm ? dm.number + ". " + esc(dm.title) : esc(c.domain)) + "</td>" +
+            "<td>" + (c.scope ? esc(L.inScope) : esc(L.outScope)) + "</td>" +
+            "<td>" + (c.scope ? fitChip(c.fit || (s && s.fit) || "none", (s && s.addon) || c.addon) : "—") + "</td>" +
+            "<td>" + esc(c.note || "") + "</td></tr>";
+        }).join("") + "</tbody></table></div>";
+    }
+
+    // requirements / gaps registers (entries touching the selected domains,
+    // plus unlinked entries — nothing silently dropped)
+    function inSel(codes) {
+      if (!codes || !codes.length) return true;
+      return codes.some(function (c) { var s = scen(c); return s && sel[s.domain]; });
+    }
+    if (opts.requirements) {
+      h += '<div class="pv-section"><h1>' + esc(L.requirements) + "</h1>" +
+        D.requirements.filter(function (r) { return inSel(r.scenarios); }).map(function (r) {
+          return '<div class="pv-scen"><div class="codes"><code>' + esc(r.id) + "</code>" +
+            (r.source ? " · " + esc(r.source) : "") + "</div><h3>" + esc(r.title) + "</h3>" +
+            '<div class="md">' + (r.html || "") + "</div>" +
+            (r.scenarios && r.scenarios.length ? '<div class="codes">' + r.scenarios.map(function (c) { return "<code>" + esc(c) + "</code>"; }).join(" ") + "</div>" : "") +
+            "</div>";
+        }).join("") + "</div>";
+    }
+    if (opts.gaps) {
+      h += '<div class="pv-section"><h1>' + esc(L.gaps) + "</h1>" +
+        D.gaps.filter(function (g) { return inSel(g.scenarios); }).map(function (g) {
+          return '<div class="pv-scen"><div class="codes"><code>' + esc(g.id) + "</code></div><h3>" + esc(g.title) + "</h3>" +
+            '<div class="md">' + (g.html || "") + "</div>" +
+            (g.scenarios && g.scenarios.length ? '<div class="codes">' + g.scenarios.map(function (c) { return "<code>" + esc(c) + "</code>"; }).join(" ") + "</div>" : "") +
+            "</div>";
+        }).join("") + "</div>";
+    }
+
+    h += "</td></tr></tbody></table>";
+    document.getElementById("printdoc").innerHTML = h;
   }
 
   function onSearch(ev) {

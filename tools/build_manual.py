@@ -193,7 +193,7 @@ def main() -> int:
     }
 
     tpl = (bb.VIEWER / "template.html").read_text(encoding="utf-8")
-    css = (bb.VIEWER / "viewer.css").read_text(encoding="utf-8")
+    css = bb.branding_css() + (bb.VIEWER / "viewer.css").read_text(encoding="utf-8")
     js = (bb.VIEWER / "viewer.js").read_text(encoding="utf-8")
     if cfg.get("accentColor"):
         css += f'\n:root {{ --accent: {cfg["accentColor"]}; }}\n'
