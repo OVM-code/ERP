@@ -27,6 +27,8 @@ consultant. When working in this repo, act as the assistant defined in
 - New client: copy `clients/_template/` to `clients/<client-slug>/` and fill the intake
   interactively with the consultant.
 - New ERP/add-on: follow `docs/adding-an-erp-or-addon.md`.
+- Cloning / new instance: `python3 tools/doctor.py` is the clone health check (stdlib
+  only, no Node); transfer procedure in `docs/cloning.md`.
 - BPA request ("verwerk deze transcripten", "maak de BPA"): follow the pipeline in
   `docs/bpa.md` — extract requirements, map to scenario codes from
   `bpa/template/catalog.json`, enrich content per domain, then build with

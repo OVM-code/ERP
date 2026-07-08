@@ -69,7 +69,7 @@ explicit pipelines + templates + validators — see
 | [`knowledge/_templates/`](knowledge/_templates/) | Templates to add any other ERP system or add-on |
 | [`clients/`](clients/) | One folder per client: intake + Setup Decision Records + BPA workspace |
 | [`bpa/`](bpa/) | BPA system: Cegeka Process Model template + scenario catalog, standard BPMN flows (bilingual), terminology glossary, interactive viewer |
-| [`tools/`](tools/) | `build_bpa.py` · `build_manual.py` · `build_quote.py` · `check_client.py` (quality gates) · `metrics.py` (telemetry) · `split_bpa_template.py` |
+| [`tools/`](tools/) | `build_bpa.py` · `build_manual.py` · `build_quote.py` · `check_client.py` (quality gates) · `metrics.py` (telemetry) · `doctor.py` (clone health check) · `split_bpa_template.py` |
 | [`bpa/packs/`](bpa/packs/) · [`pricing/`](pricing/) | Industry content packs · effort baselines for quoting |
 | [`.claude/skills/`](.claude/skills/) | `dynamic-report` · `harvest` · `wave-impact` · `review-system` (human review of any component, tracked in [`system/reviews/`](system/reviews/)) |
 | [`expertise/`](expertise/) | Lessons learned across clients — consulted before every recommendation |
@@ -85,6 +85,9 @@ explicit pipelines + templates + validators — see
   (~30 min one-time). Decision records come back as copy-paste blocks there.
 - **New client:** copy `clients/_template/` → `clients/<client-slug>/`, then let the
   assistant interview you to fill the intake.
+- **Cloning to another GitHub account / new instance:** run `python3 tools/doctor.py`
+  then follow [`docs/cloning.md`](docs/cloning.md). The system is plain files under
+  git — a clone needs only Python 3.8+ to be fully usable.
 
 ## Keeping it alive
 
