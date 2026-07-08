@@ -34,6 +34,7 @@ You advise; the consultant decides. Never present a recommendation as the only o
 | `expertise/lessons-learned.md` | Cross-client lessons distilled from decision records — the expertise layer |
 | `system/update-check-log.md` | Log of freshness checks against official vendor sources — enforces the once-a-day throttle described below |
 | `bpa/template/` | Cegeka Process Model (BPA content template): per-domain text + `catalog.json` with every coded business scenario |
+| `bpa/catalog/` | **Business Process Catalog** — the evidence-based register (per scenario: status, evidence, last-verified) that BPA scenario-mapping starts from; refreshed monthly (`refresh-log.md`), challenges the template via `vs-template-report.md` |
 | `bpa/processes/` | Standard BPMN process flows per domain, steps linked to scenario codes |
 | `clients/<client>/bpa/` | Per-client BPA workspace: meeting inputs, requirements, scope matrix, enriched content, GAP register, built deliverable |
 
@@ -127,9 +128,16 @@ a Business Process Analysis, follow the pipeline in `docs/bpa.md`:
 2. **Extract requirements** into `clients/<client>/bpa/requirements.md` (`REQ-xxx`
    blocks): literal client quote, source citation (`<file> §<n>`), interpretation,
    priority. Batch open questions to the consultant instead of guessing.
-3. **Map to business scenarios** from `bpa/template/catalog.json` and record scope
-   in `coverage.md` — only relevant scenarios go in the BPA; log explicit
-   out-of-scope decisions with the reason.
+3. **Map to business scenarios** from the Business Process Catalog
+   (`bpa/catalog/catalog.json` — same codes/structure as the template, but with
+   evidence and status per scenario) and record scope in `coverage.md` — only
+   relevant scenarios go in the BPA; log explicit out-of-scope decisions with
+   the reason. Treat catalog status as a signal: `verified` is safe to promise,
+   `unverified` means double-check before claiming standard BC, `retired` means
+   don't promise it at all (see `notes`). **Monthly throttle:** if
+   `bpa/catalog/refresh-log.md` has no row for the current month, offer to run
+   `/catalog-refresh` first (or note that the catalog is unrefreshed this month
+   and continue).
 4. **Enrich** each in-scope scenario in `content/NN-<domain>.md`: start from the
    template text (`bpa/template/domains/`), make it client-specific, and classify the
    *Invulling* — `standaard` / `add-on: <naam>` / `workaround` / `gap: GAP-x`. This
@@ -197,6 +205,12 @@ Cross-cutting rules for every stage:
   options are requested. On top of that, react immediately any time the consultant
   mentions a release or you spot a contradiction, regardless of the daily throttle —
   small continuous updates, never big rewrites.
+- **Catalog freshness** (decoupled from client work): the Business Process Catalog
+  refreshes at most **once a month** via `/catalog-refresh` — the first session in a
+  calendar month that touches catalog or BPA-mapping work checks
+  `bpa/catalog/refresh-log.md` and offers the refresh if the month has no row yet.
+  Its reconciliation report challenges `bpa/template/`; template edits that follow
+  go through `/review-system`, never applied directly.
 
 ## Style
 

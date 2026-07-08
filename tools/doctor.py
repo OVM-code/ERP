@@ -47,7 +47,10 @@ def check_paths() -> None:
         "system/instructions.md", "CLAUDE.md", "README.md",
         "copilot-studio/agent-instructions.md",
         "bpa/template/catalog.json", "bpa/terminology/bc-terms.json",
+        "bpa/catalog/catalog.json", "bpa/catalog/refresh-log.md",
+        "bpa/branding/tokens.css", "bpa/branding/cegeka-logo-dark.png",
         "bpa/viewer/template.html", "bpa/viewer/viewer.css", "bpa/viewer/viewer.js",
+        "methodology/README.md",
         "pricing/effort-baselines.json",
         "tools/build_bpa.py", "tools/build_manual.py", "tools/build_quote.py",
         "tools/check_client.py", "tools/split_bpa_template.py", "tools/metrics.py",
@@ -87,6 +90,19 @@ def check_catalog() -> None:
         fail(f"catalog.json ongeldig: {e}"); return
     n = len(cat.get("scenarios", []))
     (ok if n > 100 else warn)(f"catalog: {n} scenario's, {len(cat.get('domains', []))} domeinen")
+
+
+def check_bp_catalog() -> None:
+    """The Business Process Catalog validates via its own tool."""
+    if not (REPO / "bpa" / "catalog" / "catalog.json").exists():
+        return  # check_paths already failed on this
+    r = subprocess.run([sys.executable, str(REPO / "tools" / "catalog.py"), "check"],
+                       capture_output=True, text=True)
+    if r.returncode == 0:
+        ok("business process catalog valide (tools/catalog.py check)")
+    else:
+        tail = (r.stdout + r.stderr).strip().splitlines()[-2:]
+        fail("business process catalog: " + " | ".join(tail))
 
 
 def check_processes() -> None:
@@ -150,8 +166,8 @@ def check_privacy() -> None:
 def main() -> int:
     print("doctor: health check van de ERP-methodologie\n")
     for fn in (check_python, check_paths, check_tools_compile, check_catalog,
-               check_processes, check_copilot_limit, check_skills, check_demo,
-               check_privacy):
+               check_bp_catalog, check_processes, check_copilot_limit, check_skills,
+               check_demo, check_privacy):
         fn()
     print(f"\nresultaat: {len(OK)} ok, {len(WARN)} waarschuwing(en), {len(FAIL)} fout(en)")
     if FAIL:

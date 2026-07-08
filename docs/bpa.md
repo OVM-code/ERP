@@ -19,6 +19,8 @@ relevant and enriched with how it will work for them**.
 | `bpa/template/source-cegeka-process-model-3.01.md` | Verbatim import of the Cegeka BPA template |
 | `bpa/template/domains/NN-*.md` | The template split per domain — the source text when authoring client content |
 | `bpa/template/catalog.json` | Machine-readable index of every domain and BS/BC scenario code (+ add-on flags). Regenerate with `tools/split_bpa_template.py` |
+| `bpa/catalog/` | **Business Process Catalog** — same structure, but evidence-based: per scenario a status (verified/unverified/candidate/retired), evidence trail and last-verified stamp. Scenario-mapping starts here; refreshed monthly (`/catalog-refresh`); its report challenges the template (`bpa/catalog/README.md`) |
+| `bpa/branding/` | Cegeka design tokens + logo assets, inlined into every build (see `bpa/branding/README.md`) |
 | `bpa/processes/*.process.json` | Standard BPMN process flows per domain, steps linked to BS codes |
 | `bpa/viewer/` | The interactive viewer (HTML/CSS/JS), inlined into every build |
 | `tools/build_bpa.py` | Compiles a client's `bpa/` workspace into the deliverable |
@@ -45,9 +47,14 @@ source citation (`<file> §<n>`), the interpretation, and priority. Ask the cons
 about contradictions or gaps between meetings rather than guessing.
 
 **Step 2 — Map to scenarios.** For every requirement, find the business scenarios in
-`bpa/template/catalog.json` that answer it (grep the domain files for context). Record
-scope decisions in `coverage.md` — including what is explicitly **out** of scope and
-why. This is where "only the relevant parts of the template" is decided.
+the Business Process Catalog (`bpa/catalog/catalog.json` — same codes as the template,
+plus evidence and status; grep the template domain files for wording context). Check
+the status before promising anything: `verified` is backed by evidence, `unverified`
+means double-check against official docs first, `retired` means it is no longer
+achievable as claimed. If the catalog has no row for the current month in
+`bpa/catalog/refresh-log.md`, offer `/catalog-refresh` first. Record scope decisions
+in `coverage.md` — including what is explicitly **out** of scope and why. This is
+where "only the relevant parts of the template" is decided.
 
 **Step 3 — Enrich.** For each in-scope scenario, write the client documentation in
 `content/NN-<domain>.md` (`## BSxx.xxx` blocks): start from the template text
@@ -126,4 +133,22 @@ When Cegeka ships a new Process Model version: replace
 `bpa/template/source-cegeka-process-model-3.01.md` (adjust the filename in
 `tools/split_bpa_template.py`), re-run `python3 tools/split_bpa_template.py`, and
 review the catalog diff — client workspaces reference scenarios by code, so renamed or
-renumbered scenarios show up as build warnings on the next build.
+renumbered scenarios show up as build warnings on the next build. Then run
+`python3 tools/catalog.py seed` so the Business Process Catalog syncs to the new
+structure (curated statuses and evidence survive the sync), and
+`python3 tools/catalog.py reconcile` to see what the new template version changed
+against the evidence base.
+
+The reverse direction — evidence challenging the template — runs monthly via
+`/catalog-refresh`: findings land in `bpa/catalog/vs-template-report.md`, and any
+template edits they justify are drafted for human review (`/review-system`).
+
+## PDF export
+
+Every built BPA (and manual) has an **Export PDF** button: pick the domains
+(the picker only offers what is in scope for this client — a deliverable never
+exposes out-of-scope content) and the sections (intro, scope matrix,
+requirements, GAPs), and the viewer composes a print document — Cegeka-branded
+cover page, table of contents, running header, process diagram + full scenario
+documentation per domain — and opens the browser's print dialog: choose *Save
+as PDF*. No dependencies; works offline in any modern browser.
