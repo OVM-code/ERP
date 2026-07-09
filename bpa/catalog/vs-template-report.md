@@ -39,6 +39,11 @@ Geen.
 
 ## C. Niet in de template (kandidaten & retired)
 
+De template-nummering is de master — het kostenmodel (`pricing/effort-baselines.json`)
+en alle klantworkspaces verwijzen op code. **Nieuwe nummers** (candidates) worden pas
+echte template-codes na menselijke goedkeuring via `/review-system`; tot dan moeten ze
+in `system/reviews/register.md` geflagd staan (afgedwongen door `catalog.py check`).
+
 Geen — template en catalogus dekken elkaar volledig.
 
 ## D. Veelgebruikte add-on-scenario's (≥ 2 echte gebruiken)

@@ -25,6 +25,23 @@ different thing:
   from it go through `/review-system` — nothing auto-merges.
 - `refresh-log.md` — month-keyed throttle + audit trail.
 
+## Numbering invariant (cost model!)
+
+The BS/BC scenario numbering of the **original Cegeka BPA template is the
+master**. The cost model (`pricing/effort-baselines.json`) prefix-matches on
+these codes, and every client workspace references scenarios by code — so the
+catalog **never renumbers, never reuses, never invents** template codes:
+
+- `seed` copies codes verbatim from `bpa/template/catalog.json`.
+- A scenario discovered by a refresh that is *not* in the template enters as
+  `status: candidate` with `in_template: false` and **must be flagged for
+  review** in `system/reviews/register.md` — it only gets a real template
+  number when a human approves adding it to the template.
+- `python3 tools/catalog.py check` enforces all of this mechanically: it fails
+  on any code that drifts from the template numbering and on any candidate
+  that isn't registered for review, and warns when the cost model references a
+  code the template doesn't have.
+
 ## Toolchain
 
 ```

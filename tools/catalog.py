@@ -17,6 +17,14 @@ Usage:
 `seed` is idempotent: template structure (titles, sections, domains) is synced,
 but status / evidence / last_verified / notes curated by refreshes are kept.
 
+NUMBERING INVARIANT: the BS/BC scenario numbering of the original Cegeka BPA
+template is the master — the cost model (pricing/effort-baselines.json) and all
+client workspaces key on these codes, so the catalog NEVER renumbers or reuses
+them. New scenarios discovered by a refresh enter only as `status: candidate`
+(in_template: false) and must be flagged in system/reviews/register.md; they get
+a real template number only when a human approves adding them to the template.
+`check` enforces both rules.
+
 Python stdlib only — no dependencies.
 """
 
@@ -252,6 +260,11 @@ def reconcile() -> int:
 
     L.append("## C. Niet in de template (kandidaten & retired)")
     L.append("")
+    L.append("De template-nummering is de master — het kostenmodel (`pricing/effort-baselines.json`)")
+    L.append("en alle klantworkspaces verwijzen op code. **Nieuwe nummers** (candidates) worden pas")
+    L.append("echte template-codes na menselijke goedkeuring via `/review-system`; tot dan moeten ze")
+    L.append("in `system/reviews/register.md` geflagd staan (afgedwongen door `catalog.py check`).")
+    L.append("")
     if candidates or retired:
         L.append("| Code | Scenario | Status | Notities |")
         L.append("|---|---|---|---|")
@@ -282,6 +295,7 @@ def reconcile() -> int:
 # ------------------------------------------------------------------ check
 def check() -> int:
     problems: list[str] = []
+    warnings: list[str] = []
     if not CATALOG.exists():
         print("catalogus ontbreekt — draai: python3 tools/catalog.py seed", file=sys.stderr)
         return 1
@@ -290,8 +304,11 @@ def check() -> int:
     except json.JSONDecodeError as e:
         print(f"catalog.json ongeldig: {e}", file=sys.stderr)
         return 1
+    template = json.loads(TEMPLATE_CATALOG.read_text(encoding="utf-8"))
+    tpl_codes = {s["code"] for s in template["scenarios"]}
     seen = set()
     valid_status = {"unverified", "verified", "stale", "candidate", "retired"}
+    candidates: list[str] = []
     for s in cat.get("scenarios", []):
         code = s.get("code", "?")
         if code in seen:
@@ -303,8 +320,43 @@ def check() -> int:
             problems.append(f"{code}: evidence ontbreekt")
         if s.get("status") == "verified" and not s.get("last_verified"):
             problems.append(f"{code}: verified zonder last_verified")
+        # numbering invariant: template numbering is the master (cost model keys on it)
+        if s.get("in_template") and code not in tpl_codes:
+            problems.append(f"{code}: in_template maar bestaat niet in de template-catalogus — "
+                            "nummering mag nooit afwijken van de template (kostenmodel!)")
+        if not s.get("in_template") and code in tpl_codes:
+            problems.append(f"{code}: in_template=false maar het nummer bestaat in de template — "
+                            "hergebruik van template-nummers is verboden")
+        if s.get("status") == "candidate":
+            candidates.append(code)
+    # every new (candidate) number must be flagged for human review
+    if candidates:
+        register = (REPO / "system" / "reviews" / "register.md")
+        reg_text = register.read_text(encoding="utf-8") if register.exists() else ""
+        for code in candidates:
+            if code not in reg_text:
+                problems.append(f"{code}: candidate (nieuw nummer) maar niet geregistreerd voor "
+                                "review in system/reviews/register.md — nieuwe nummers raken het "
+                                "kostenmodel en vereisen menselijke goedkeuring")
+    # cost model sanity: specific codes in the baselines must exist in the template
+    baselines = REPO / "pricing" / "effort-baselines.json"
+    if baselines.exists():
+        try:
+            fit = json.loads(baselines.read_text(encoding="utf-8")).get("fit_days", {})
+            for key in fit:
+                if key == "default":
+                    continue
+                if "." in key and key not in tpl_codes:
+                    warnings.append(f"kostenmodel: {key} staat in effort-baselines.json maar niet "
+                                    "in de template-catalogus")
+                elif "." not in key and not any(c.startswith(key) for c in tpl_codes):
+                    warnings.append(f"kostenmodel: prefix {key} matcht geen enkele template-code")
+        except json.JSONDecodeError:
+            warnings.append("pricing/effort-baselines.json is geen geldig JSON")
     if not REFRESH_LOG.exists():
         problems.append("bpa/catalog/refresh-log.md ontbreekt")
+    for w in warnings:
+        print(f"  ! {w}", file=sys.stderr)
     if problems:
         for p in problems[:20]:
             print(f"  ✗ {p}", file=sys.stderr)

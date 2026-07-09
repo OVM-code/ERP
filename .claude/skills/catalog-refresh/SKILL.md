@@ -40,7 +40,13 @@ judgement calls benefit from the strongest available (`system/model-guide.md`).
      why + since which release;
    - **missing from the template** (a standard BC process consultants would
      document, found while researching) → add as `status: candidate` with
-     `in_template: false` and the source as evidence.
+     `in_template: false` and the source as evidence. **Numbering rule:** the
+     template numbering is the master (the cost model keys on it) — never
+     reuse or renumber an existing template code. Give the candidate a
+     provisional code in the template's scheme that does not clash, and
+     **register it in `system/reviews/register.md`** in the same session —
+     `catalog.py check` fails on unregistered candidates. It becomes a real
+     template code only after reviewer approval.
    Never mark verified from memory — only from a source you actually consulted.
 
 4. **Update the catalog.** Apply step 3's decisions to
