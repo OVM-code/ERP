@@ -27,6 +27,8 @@
       domainDocOnly: "Voor dit domein is geen processtroom gedefinieerd; de scenario's staan hieronder.",
       scopeCols: ["Code", "Scenario", "Domein", "Scope", "Invulling", "Toelichting"],
       filterAll: "alle", generated: "opgemaakt",
+      catalog: { verified: "Catalogus: geverifieerd", unverified: "Catalogus: nog niet geverifieerd",
+                candidate: "Catalogus: nieuw voorstel", retired: "Catalogus: retired ⚠" },
       exportBtn: "PDF exporteren", exportTitle: "Exporteer als PDF",
       exportHint: "Kies wat het document bevat. Het afdrukvenster opent — kies daar ‘Opslaan als PDF’.",
       exportDomains: "Domeinen", exportParts: "Onderdelen",
@@ -45,6 +47,8 @@
       domainDocOnly: "No process flow is defined for this domain; its scenarios are listed below.",
       scopeCols: ["Code", "Scenario", "Domain", "Scope", "Coverage", "Notes"],
       filterAll: "all", generated: "generated",
+      catalog: { verified: "Catalog: verified", unverified: "Catalog: not yet verified",
+                candidate: "Catalog: new proposal", retired: "Catalog: retired ⚠" },
       exportBtn: "Export PDF", exportTitle: "Export as PDF",
       exportHint: "Choose what the document contains. The print dialog opens — pick ‘Save as PDF’ there.",
       exportDomains: "Domains", exportParts: "Sections",
@@ -86,6 +90,13 @@
   function fitChip(fit, addon) {
     var lbl = fit === "addon" && addon ? L.fit.addon + ": " + addon : (L.fit[fit] || fit);
     return '<span class="chip ' + esc(fit) + '">' + esc(lbl) + "</span>";
+  }
+  function catalogNote(code) {
+    var s = scen(code);
+    if (!s || !s.catalog_status) return "";
+    var label = (L.catalog && L.catalog[s.catalog_status]) || s.catalog_status;
+    var suffix = s.catalog_last_verified ? " · " + esc(s.catalog_last_verified) : "";
+    return '<span class="cat-note cat-' + esc(s.catalog_status) + '">' + esc(label) + suffix + "</span>";
   }
   function wrapText(text, max) {
     var words = String(text).split(/\s+/), lines = [], cur = "";
@@ -391,9 +402,10 @@
     (s.requirements || []).forEach(function (r) {
       chips += ' <span class="chip req">' + esc(r) + "</span>";
     });
+    var cat = catalogNote(code);
     return '<div class="pv-scen"><div class="codes"><code>' + esc(code) + "</code>" +
       (s.section ? " · § " + esc(s.section) : "") + "</div>" +
-      "<h3>" + esc(s.title) + '</h3><div class="chips">' + chips + "</div>" +
+      "<h3>" + esc(s.title) + '</h3><div class="chips">' + chips + (cat ? " " + cat : "") + "</div>" +
       '<div class="md">' + (s.html || "") + "</div></div>";
   }
 
@@ -541,7 +553,8 @@
       '<div class="m"><code class="bs">' + esc(code) + "</code>" + (s.section ? " · " + esc(s.section) : "") + "</div>" +
       '<div class="t">' + esc(s.title) + "</div>" +
       '<div class="m">' + fitChip(fit, s.addon) +
-      (s.gap ? ' <span class="chip gap">' + esc(s.gap) + "</span>" : "") + "</div></div>";
+      (s.gap ? ' <span class="chip gap">' + esc(s.gap) + "</span>" : "") + "</div>" +
+      '<div class="m">' + catalogNote(code) + "</div></div>";
   }
 
   function viewDomain(num, docCode) {
@@ -617,6 +630,7 @@
       "<h2>" + esc(s.title) + "</h2>" +
       '<div class="dom">' + (d ? d.number + ". " + esc(d.title) : "") + "</div></div>" +
       '<div class="p-body"><div class="p-meta">' + chips + "</div>" +
+      '<div class="p-meta">' + catalogNote(code) + "</div>" +
       (goto_ != null && findProcessDomain(goto_) != null
         ? '<p><span class="chip req" data-nav="#/domain/' + findProcessDomain(goto_) + '">↗ ' + esc(L.gotoProcess) + "</span></p>" : "") +
       '<div class="md">' + (s.html || "<p><em>—</em></p>") + "</div></div>";

@@ -34,7 +34,8 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-CATALOG_PATH = REPO / "bpa" / "template" / "catalog.json"
+TEMPLATE_CATALOG_PATH = REPO / "bpa" / "template" / "catalog.json"
+CATALOG_PATH = REPO / "bpa" / "catalog" / "catalog.json"  # evidence-based Business Process Catalog
 STD_PROCESSES = REPO / "bpa" / "processes"
 VIEWER = REPO / "bpa" / "viewer"
 BRANDING = REPO / "bpa" / "branding"
@@ -264,6 +265,18 @@ def parse_coverage(md: str) -> list[dict]:
 
 
 # --------------------------------------------------------------------------- build
+def load_bp_catalog() -> tuple[dict, bool]:
+    """Load the evidence-based Business Process Catalog (bpa/catalog/) — the
+    source scenario-mapping and builds use, per docs/bpa.md. Falls back to the
+    static template catalog (no evidence/status fields) if the catalog hasn't
+    been seeded yet, e.g. python3 tools/catalog.py seed was never run."""
+    if CATALOG_PATH.exists():
+        return json.loads(CATALOG_PATH.read_text(encoding="utf-8")), True
+    warn("bpa/catalog/catalog.json ontbreekt — gebouwd vanaf de statische "
+         "template-catalogus zonder evidence/status (run: python3 tools/catalog.py seed)")
+    return json.loads(TEMPLATE_CATALOG_PATH.read_text(encoding="utf-8")), False
+
+
 def load_processes(client_bpa: Path) -> dict[int, dict]:
     """Client processes win; standard flows are the fallback."""
     procs: dict[int, dict] = {}
@@ -295,7 +308,7 @@ def main() -> int:
         return 1
     slug = client_dir.name
 
-    catalog = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
+    catalog, from_bp_catalog = load_bp_catalog()
     cat_by_code: dict[str, dict] = {}
     for s in catalog["scenarios"]:
         cat_by_code.setdefault(s["code"], s)
@@ -399,7 +412,12 @@ def main() -> int:
                 "gap": gap,
                 "requirements": reqs,
                 "html": md_to_html(b["body"]),
+                "catalog_status": cat.get("status") if cat else None,
+                "catalog_last_verified": cat.get("last_verified") if cat else None,
             }
+            if cat and cat.get("status") == "retired":
+                warn(f"{f.name}: {code} is 'retired' in de Business Process Catalog "
+                     f"({cat.get('notes') or 'geen toelichting'}) — niet als standaard/haalbaar leveren")
             domain_order.setdefault(dom, []).append(code)
 
     # requirements <-> scenarios: make links symmetric
@@ -518,6 +536,15 @@ def main() -> int:
     print(("gecontroleerd (dry-run): " if args.dry_run else "BPA gebouwd: ") + str(out_path))
     print(f"  {len(domains)} domeinen · {len(scenarios)} gedocumenteerde scenario's · "
           f"{in_scope} in scope · {len(requirements)} requirements · {len(gaps)} gaps")
+    cat_counts: dict[str | None, int] = {}
+    for code, s in scenarios.items():
+        st = s.get("catalog_status")
+        cat_counts[st] = cat_counts.get(st, 0) + 1
+    source = "bpa/catalog/catalog.json (evidence-based)" if from_bp_catalog else "bpa/template/catalog.json (fallback, geen evidence)"
+    print(f"  catalogus: {source}")
+    print(f"  {cat_counts.get('verified', 0)} verified · {cat_counts.get('unverified', 0)} unverified · "
+          f"{cat_counts.get('candidate', 0)} candidate · {cat_counts.get('retired', 0)} retired · "
+          f"{cat_counts.get(None, 0)} niet in catalogus")
     if WARNINGS:
         print(f"  {len(WARNINGS)} waarschuwing(en) — zie hierboven")
         if args.strict:

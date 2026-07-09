@@ -76,8 +76,16 @@ python3 tools/build_bpa.py clients/<slug>
 ```
 
 Output: `clients/<slug>/bpa/output/BPA-<slug>.html` — self-contained, offline,
-shareable. The build cross-checks codes against the catalog and warns about: unknown
-BS codes, in-scope scenarios without documentation, references to missing GAP/REQ ids.
+shareable. The build reads scenario metadata from **`bpa/catalog/catalog.json`**
+(the evidence-based Business Process Catalog, not the static template) and prints
+which source it used plus a verified/unverified/candidate/retired breakdown of the
+documented scenarios — confirm the deliverable was actually built against a
+refreshed catalog by checking this line in the build output. It also cross-checks
+codes and warns about: unknown BS codes, in-scope scenarios without documentation,
+references to missing GAP/REQ ids, and any documented scenario the catalog marks
+**retired** (never ship a retired scenario as standard/achievable). The built HTML
+itself shows each scenario's catalog status (scenario cards, doc panel, PDF export)
+so the consultant and the client both see the evidence, not just the assistant.
 Treat warnings as review items, not noise.
 
 ## Process flow format

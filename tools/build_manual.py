@@ -109,7 +109,7 @@ def main() -> int:
     language = cfg.get("language", "nl")
     lab = LABELS.get(language, LABELS["nl"])
 
-    catalog = json.loads(bb.CATALOG_PATH.read_text(encoding="utf-8"))
+    catalog, _ = bb.load_bp_catalog()
     cat_by_code = {}
     for s in catalog["scenarios"]:
         cat_by_code.setdefault(s["code"], s)
