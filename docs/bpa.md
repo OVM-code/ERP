@@ -84,8 +84,10 @@ refreshed catalog by checking this line in the build output. It also cross-check
 codes and warns about: unknown BS codes, in-scope scenarios without documentation,
 references to missing GAP/REQ ids, and any documented scenario the catalog marks
 **retired** (never ship a retired scenario as standard/achievable). The built HTML
-itself shows each scenario's catalog status (scenario cards, doc panel, PDF export)
-so the consultant and the client both see the evidence, not just the assistant.
+itself shows each scenario's catalog status **and its official documentation link**
+(`doc_url` from the catalog — specific page when verified, curated topic page
+otherwise) in the scenario cards, doc panel and PDF export, so the consultant and
+the client both see the evidence and can check any claim at the source.
 Treat warnings as review items, not noise.
 
 ## Process flow format

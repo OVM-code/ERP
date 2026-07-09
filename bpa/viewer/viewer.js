@@ -29,6 +29,7 @@
       filterAll: "alle", generated: "opgemaakt",
       catalog: { verified: "Catalogus: geverifieerd", unverified: "Catalogus: nog niet geverifieerd",
                 candidate: "Catalogus: nieuw voorstel", retired: "Catalogus: retired ⚠" },
+      docLink: "Officiële documentatie", docLinkTopic: "Officiële documentatie (overzicht)",
       exportBtn: "PDF exporteren", exportTitle: "Exporteer als PDF",
       exportHint: "Kies wat het document bevat. Het afdrukvenster opent — kies daar ‘Opslaan als PDF’.",
       exportDomains: "Domeinen", exportParts: "Onderdelen",
@@ -49,6 +50,7 @@
       filterAll: "all", generated: "generated",
       catalog: { verified: "Catalog: verified", unverified: "Catalog: not yet verified",
                 candidate: "Catalog: new proposal", retired: "Catalog: retired ⚠" },
+      docLink: "Official documentation", docLinkTopic: "Official documentation (overview)",
       exportBtn: "Export PDF", exportTitle: "Export as PDF",
       exportHint: "Choose what the document contains. The print dialog opens — pick ‘Save as PDF’ there.",
       exportDomains: "Domains", exportParts: "Sections",
@@ -97,6 +99,15 @@
     var label = (L.catalog && L.catalog[s.catalog_status]) || s.catalog_status;
     var suffix = s.catalog_last_verified ? " · " + esc(s.catalog_last_verified) : "";
     return '<span class="cat-note cat-' + esc(s.catalog_status) + '">' + esc(label) + suffix + "</span>";
+  }
+  function docLink(code, forPrint) {
+    var s = scen(code);
+    if (!s || !s.doc_url) return "";
+    var label = s.doc_url_level === "topic" ? L.docLinkTopic : L.docLink;
+    if (forPrint) {
+      return '<div class="pv-doclink">📖 ' + esc(label) + ": " + esc(s.doc_url) + "</div>";
+    }
+    return '<a class="doc-link" href="' + esc(s.doc_url) + '" target="_blank" rel="noopener">📖 ' + esc(label) + "</a>";
   }
   function wrapText(text, max) {
     var words = String(text).split(/\s+/), lines = [], cur = "";
@@ -406,7 +417,8 @@
     return '<div class="pv-scen"><div class="codes"><code>' + esc(code) + "</code>" +
       (s.section ? " · § " + esc(s.section) : "") + "</div>" +
       "<h3>" + esc(s.title) + '</h3><div class="chips">' + chips + (cat ? " " + cat : "") + "</div>" +
-      '<div class="md">' + (s.html || "") + "</div></div>";
+      '<div class="md">' + (s.html || "") + "</div>" +
+      docLink(code, true) + "</div>";
   }
 
   function buildPrintDoc(domNums, opts) {
@@ -630,7 +642,7 @@
       "<h2>" + esc(s.title) + "</h2>" +
       '<div class="dom">' + (d ? d.number + ". " + esc(d.title) : "") + "</div></div>" +
       '<div class="p-body"><div class="p-meta">' + chips + "</div>" +
-      '<div class="p-meta">' + catalogNote(code) + "</div>" +
+      '<div class="p-meta">' + catalogNote(code) + " " + docLink(code, false) + "</div>" +
       (goto_ != null && findProcessDomain(goto_) != null
         ? '<p><span class="chip req" data-nav="#/domain/' + findProcessDomain(goto_) + '">↗ ' + esc(L.gotoProcess) + "</span></p>" : "") +
       '<div class="md">' + (s.html || "<p><em>—</em></p>") + "</div></div>";

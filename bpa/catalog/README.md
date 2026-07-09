@@ -18,7 +18,17 @@ different thing:
 - `catalog.json` — the catalog. Per scenario: `status` (`unverified` /
   `verified` / `candidate` / `retired`), `evidence` (which client, SDR, lesson
   or official source backs it — demo clients marked, they never verify),
-  `last_verified` (YYYY-MM), `fulfilment` (`standard` / `addon`), `notes`.
+  `last_verified` (YYYY-MM), `fulfilment` (`standard` / `addon`), `notes`,
+  and a **documentation URL** (`doc_url` + `doc_url_level`) so every entry is
+  reviewable against its official source:
+  - `specific` — the exact page a verification consulted (from `docs:` evidence);
+  - `topic` — curated official landing page per domain/add-on from
+    `doc-url-map.json`, assigned mechanically until verification upgrades it;
+  - `none` — no public docs exist (Cegeka-internal layer).
+  The links surface in the built BPA (doc panel + PDF export), so consultant
+  and client can check any claim at the source.
+- `doc-url-map.json` — the curated topic-URL map (per domain and per add-on),
+  applied by `seed`; edit it here to change where unverified scenarios point.
 - `vs-template-report.md` — the **challenge artifact**, regenerated on every
   refresh: template claims without evidence, stale entries, catalog entries the
   template lacks, frequently used add-on scenarios. Template edits that follow

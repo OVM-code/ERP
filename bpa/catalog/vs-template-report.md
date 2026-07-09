@@ -1,6 +1,6 @@
 # Catalogus ↔ template — reconciliatierapport
 
-> Gegenereerd door `python3 tools/catalog.py reconcile` op 2026-07-09 (catalogus v2, 506 scenario's).
+> Gegenereerd door `python3 tools/catalog.py reconcile` op 2026-07-09 (catalogus v3, 506 scenario's).
 > Dit rapport *daagt de template uit*: het toont wat de template claimt zonder bewijs,
 > wat verouderd is en wat er ontbreekt. Wijzigingen aan `bpa/template/` die hieruit
 > volgen lopen via `/review-system` — niets wordt automatisch aangepast.
@@ -14,6 +14,7 @@
 | In catalogus, niet in template (candidates) | 0 | voorstel: toevoegen aan template |
 | Retired (uit template verdwenen / niet meer haalbaar) | 0 | controleren of klanten ze nog gebruiken |
 | Add-on-scenario's met ≥ 2 echte gebruiken | 0 | kandidaat vaste catalogus-kern |
+| Documentatie-URL's: specifiek / topic / geen | 47 / 434 / 25 | topic-URL's worden specifiek bij verificatie |
 
 ## A. Template-claims zonder bewijs
 

@@ -43,6 +43,7 @@ REPO = Path(__file__).resolve().parent.parent
 TEMPLATE_CATALOG = REPO / "bpa" / "template" / "catalog.json"
 CATALOG_DIR = REPO / "bpa" / "catalog"
 CATALOG = CATALOG_DIR / "catalog.json"
+DOC_URL_MAP = CATALOG_DIR / "doc-url-map.json"
 REPORT = CATALOG_DIR / "vs-template-report.md"
 REFRESH_LOG = CATALOG_DIR / "refresh-log.md"
 CLIENTS = REPO / "clients"
@@ -109,6 +110,30 @@ def real_evidence(entry: dict) -> list[str]:
             if not e.startswith("template:") and "(demo)" not in e]
 
 
+def apply_doc_url(entry: dict, docmap: dict) -> None:
+    """Two-tier documentation URL per scenario (review requirement):
+    - 'specific': the exact page a verification actually consulted (from
+      docs:<url> evidence) — always wins, upgrades a topic URL;
+    - 'topic': curated official landing page per add-on/domain from
+      bpa/catalog/doc-url-map.json — every scenario has at least this;
+    - 'none': no official public docs exist (Cegeka-internal layer, GAPs)."""
+    specific = next((e[5:] for e in entry.get("evidence", []) if e.startswith("docs:")), None)
+    if specific:
+        entry["doc_url"] = specific
+        entry["doc_url_level"] = "specific"
+        return
+    if entry.get("doc_url") and entry.get("doc_url_level") == "specific":
+        return  # manually curated specific URL survives
+    url = None
+    addon = entry.get("addon")
+    if addon and docmap.get("addons", {}).get(addon):
+        url = docmap["addons"][addon]
+    if url is None:
+        url = docmap.get("domains", {}).get(str(entry.get("domain")))
+    entry["doc_url"] = url
+    entry["doc_url_level"] = "topic" if url else "none"
+
+
 # ------------------------------------------------------------------ seed
 def seed() -> int:
     template = json.loads(TEMPLATE_CATALOG.read_text(encoding="utf-8"))
@@ -125,6 +150,7 @@ def seed() -> int:
 
     tpl_version = template.get("model", "Cegeka Process Model")
     evidence = harvest_evidence()
+    docmap = json.loads(DOC_URL_MAP.read_text(encoding="utf-8")) if DOC_URL_MAP.exists() else {}
     scenarios: list[dict] = []
 
     for code, t in tpl_by_code.items():
@@ -150,6 +176,7 @@ def seed() -> int:
             e.setdefault("last_verified", None)
             if not e["last_verified"]:
                 e["last_verified"] = datetime.date.today().strftime("%Y-%m")
+        apply_doc_url(e, docmap)
         scenarios.append(e)
 
     # catalog-only entries: keep — they are either candidates (template gaps)
@@ -161,6 +188,7 @@ def seed() -> int:
         if e.get("status") not in ("candidate", "retired"):
             e["status"] = "retired"
             e["notes"] = (e.get("notes", "") + " Niet (meer) in de template.").strip()
+        apply_doc_url(e, docmap)
         scenarios.append(e)
 
     scenarios.sort(key=lambda s: (s.get("domain") or 99, s.get("section") or "zz", s["code"]))
@@ -178,10 +206,14 @@ def seed() -> int:
     CATALOG.write_text(json.dumps(out, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
 
     n_ver = sum(1 for s in scenarios if s["status"] == "verified")
+    urls = {"specific": 0, "topic": 0, "none": 0}
+    for s in scenarios:
+        urls[s.get("doc_url_level") or "none"] = urls.get(s.get("doc_url_level") or "none", 0) + 1
     print(f"catalogus geschreven: {CATALOG.relative_to(REPO)} (v{out['version']})")
     print(f"  {len(scenarios)} scenario's · {n_ver} verified · "
           f"{sum(1 for s in scenarios if s['status'] == 'unverified')} unverified · "
           f"{sum(1 for s in scenarios if not s['in_template'])} niet in template")
+    print(f"  documentatie-URL's: {urls['specific']} specifiek · {urls['topic']} topic · {urls['none']} geen")
     return 0
 
 
@@ -234,6 +266,10 @@ def reconcile() -> int:
     L.append(f"| In catalogus, niet in template (candidates) | {len(candidates)} | voorstel: toevoegen aan template |")
     L.append(f"| Retired (uit template verdwenen / niet meer haalbaar) | {len(retired)} | controleren of klanten ze nog gebruiken |")
     L.append(f"| Add-on-scenario's met ≥ 2 echte gebruiken | {len(frequent_addon)} | kandidaat vaste catalogus-kern |")
+    urls = {"specific": 0, "topic": 0, "none": 0}
+    for s in scen:
+        urls[s.get("doc_url_level") or "none"] = urls.get(s.get("doc_url_level") or "none", 0) + 1
+    L.append(f"| Documentatie-URL's: specifiek / topic / geen | {urls['specific']} / {urls['topic']} / {urls['none']} | topic-URL's worden specifiek bij verificatie |")
     L.append("")
 
     L.append("## A. Template-claims zonder bewijs")
@@ -320,6 +356,9 @@ def check() -> int:
             problems.append(f"{code}: evidence ontbreekt")
         if s.get("status") == "verified" and not s.get("last_verified"):
             problems.append(f"{code}: verified zonder last_verified")
+        if s.get("status") == "verified" and s.get("doc_url_level") != "specific":
+            problems.append(f"{code}: verified maar zonder specifieke documentatie-URL "
+                            "(verificatie vereist een geraadpleegde bron)")
         # numbering invariant: template numbering is the master (cost model keys on it)
         if s.get("in_template") and code not in tpl_codes:
             problems.append(f"{code}: in_template maar bestaat niet in de template-catalogus — "
@@ -362,8 +401,9 @@ def check() -> int:
             print(f"  ✗ {p}", file=sys.stderr)
         print(f"{len(problems)} probleem/problemen", file=sys.stderr)
         return 1
+    n_url = sum(1 for s in cat.get("scenarios", []) if s.get("doc_url"))
     print(f"catalogus ok: {len(seen)} scenario's, versie {cat.get('version')}, "
-          f"bijgewerkt {cat.get('updated')}")
+          f"bijgewerkt {cat.get('updated')} · {n_url}/{len(seen)} met documentatie-URL")
     return 0
 
 

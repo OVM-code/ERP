@@ -180,11 +180,13 @@ svg.bpmn text { font-family: "Segoe UI", system-ui, sans-serif; }
 .scen-card .m { font-size: 11.5px; color: var(--ink-soft); }
 h2.sect { font-size: 15px; margin: 26px 0 10px; color: var(--ink-soft); font-weight: 600; }
 
-/* ---------- Business Process Catalog status note ---------- */
+/* ---------- Business Process Catalog status note + doc link ---------- */
 .cat-note { font-size: 10.5px; color: var(--ink-soft); }
 .cat-note.cat-verified { color: var(--fit-standard); }
 .cat-note.cat-retired { color: var(--fit-gap); font-weight: 600; }
 .cat-note.cat-candidate { color: var(--fit-addon); }
+a.doc-link { font-size: 10.5px; color: var(--accent); text-decoration: none; margin-left: 10px; }
+a.doc-link:hover { text-decoration: underline; }
 
 /* ---------- doc panel ---------- */
 .panel-wrap { position: fixed; inset: 0; z-index: 40; pointer-events: none; }
@@ -352,6 +354,7 @@ table.reg tr.dim td { color: var(--ink-soft); background: #fafbfc; }
   .pv-scen .codes code { font-weight: 700; color: var(--cg-cyan-deep); font-family: ui-monospace, Consolas, monospace; }
   .pv-scen h3 { font-size: 12.5pt; margin: 0 0 2mm; }
   .pv-scen .chips { margin: 0 0 2mm; }
+  .pv-doclink { font-size: 8pt; color: var(--ink-soft); margin-top: 2mm; word-break: break-all; }
   .chip { border-radius: 20px; padding: .5mm 2.5mm; font-size: 8pt; }
 
   table.pv-table, #printdoc .md table { border-collapse: collapse; width: 100%; font-size: 9.5pt; }

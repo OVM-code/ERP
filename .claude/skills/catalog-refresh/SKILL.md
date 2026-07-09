@@ -32,7 +32,8 @@ judgement calls benefit from the strongest available (`system/model-guide.md`).
    (Business Central docs + "what's new" release plans) and, for add-on entries,
    the vendor's release notes. Per entry decide:
    - **confirmed** → `status: verified`, `last_verified: <this month>`, append
-     evidence `docs:<url>`;
+     evidence `docs:<url>` (the next `seed` derives the scenario's specific
+     `doc_url` from it, upgrading the topic-level link);
    - **changed** (renamed, moved, behaves differently) → keep/flag status, write
      the finding in `notes`, and draft the matching `bpa/template/domains/`
      correction (step 6);

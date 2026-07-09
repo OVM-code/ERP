@@ -414,6 +414,8 @@ def main() -> int:
                 "html": md_to_html(b["body"]),
                 "catalog_status": cat.get("status") if cat else None,
                 "catalog_last_verified": cat.get("last_verified") if cat else None,
+                "doc_url": cat.get("doc_url") if cat else None,
+                "doc_url_level": cat.get("doc_url_level") if cat else None,
             }
             if cat and cat.get("status") == "retired":
                 warn(f"{f.name}: {code} is 'retired' in de Business Process Catalog "
