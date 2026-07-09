@@ -5,6 +5,25 @@
 > The `Scenario's` line links the requirement to the business scenarios that answer
 > it (BS codes from `bpa/template/catalog.json`) — the build makes these clickable.
 
+## Gate
+
+> Menselijke poort (zie `docs/gates.md`): de assistent werkt tot hier en stopt.
+> De consultant stuurt bij via **directieven** — hieronder geschreven of in chat
+> gegeven (de assistent registreert ze hier, past ze toe en vinkt af met datum).
+> Daarna keurt de consultant expliciet goed; pas dan begint de volgende stap.
+> Goedkeuren met open directieven kan niet (afgedwongen door `check_client.py`).
+
+| | |
+|---|---|
+| Status | draft <!-- draft / in review / approved --> |
+| Goedgekeurd door | — |
+| Datum | — |
+
+**Directieven**
+
+*(geen open directieven)*
+
+
 <!--
 ## REQ-001 — <korte titel in de taal van de klant>
 - **Bron:** 2026-05-12-verkoop-transcript.md §14

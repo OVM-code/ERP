@@ -28,3 +28,15 @@
 | Datum | Gebeurtenis | Wie | Opmerkingen |
 |---|---|---|---|
 | 2026-09-15 | RapidStart-training gepland | consultant | zie rapidstart-training.md |
+
+## Gate
+
+> Directieven van de consultant: hieronder geschreven of in chat gegeven (de
+> assistent registreert ze hier, past ze toe en vinkt af met datum, bv.
+> `- [x] kolom X toegevoegd (toegepast 2026-07-09)`). De Status in de kop van
+> dit document is de poort; goedkeuren kan alleen zonder open directieven.
+> Regels: `docs/gates.md`.
+
+**Directieven**
+
+*(geen open directieven)*

@@ -2,6 +2,23 @@
 
 > Extracted from the files in `inputs/`. Quotes keep the client's wording.
 
+## Gate
+
+> Menselijke poort (zie `docs/gates.md`): directieven van de consultant worden
+> hier geregistreerd, toegepast en afgevinkt; daarna volgt expliciete goedkeuring.
+
+| | |
+|---|---|
+| Status | approved <!-- draft / in review / approved --> |
+| Goedgekeurd door | S. Willems (consultant, demo) |
+| Datum | 2026-05-21 |
+
+**Directieven**
+
+- [x] REQ-004 prioriteit verhoogd van should naar must — promoafspraken zijn contractueel (toegepast 2026-05-20)
+- [x] REQ-009 gesplitst: THT-bewaking en recall-rapportage zijn aparte requirements (toegepast 2026-05-20)
+
+
 ## REQ-001 — Orderintake via drie kanalen (EDI, webshop, manueel)
 - **Bron:** 2026-05-12-verkoop-transcript.md §2
 - **Domein(en):** 2, 12

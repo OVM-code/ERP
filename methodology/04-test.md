@@ -65,6 +65,8 @@ methodology: **no cutover with open high-severity defects.**
 
 ## Definition of done
 
+- Test gate approved (`test/test-plan.md`, [`docs/gates.md`](../docs/gates.md))
+  — it unlocks training and manual authoring in phase 5.
 - Every in-scope scenario and every FGD acceptance criterion has a script, and
   every script has a result.
 - Exit criteria met; **zero open high-severity defects**; per-domain sign-off

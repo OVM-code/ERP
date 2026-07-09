@@ -1,10 +1,9 @@
-# Scope matrix — <Client name>
+# BPA sign-off — <Client name>
 
-> One row per business scenario that was considered for this client (from
-> `bpa/template/catalog.json`). Scope: `in` / `uit`. Invulling: `standaard`,
-> `add-on: <naam>`, `workaround` of `gap: GAP-x`. Scenarios documented in
-> `content/` are added automatically at build time if missing here — this table
-> is where you also record what is explicitly **out** of scope and why.
+> Gate: consultant + key-users keuren de **gebouwde BPA** goed (open de HTML,
+> klik alles door, exporteer de PDF voor de formele versie). Vanaf deze
+> goedkeuring is de BPA de basis voor het setup plan, de FGD's en de definitieve
+> offerte. Latere wijzigingen = nieuwe directieven + BPA-versiebump.
 
 ## Gate
 
@@ -19,11 +18,8 @@
 | Status | draft <!-- draft / in review / approved --> |
 | Goedgekeurd door | — |
 | Datum | — |
+| BPA-versie | <version uit bpa-config.json> |
 
 **Directieven**
 
 *(geen open directieven)*
-
-
-| Code | Scenario | Domein | Scope | Invulling | Toelichting |
-|---|---|---|---|---|---|

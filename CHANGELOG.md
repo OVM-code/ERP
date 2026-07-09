@@ -1,5 +1,20 @@
 # Changelog
 
+## v2.1 — 2026-07
+
+- **Documentation URLs per scenario** (`doc_url`, two-tier): every catalog entry
+  links to its official documentation — the exact page consulted at verification,
+  or a curated topic page (`bpa/catalog/doc-url-map.json`) until verified. Shown
+  in the BPA deliverable (doc panel + PDF export).
+- **Human gates between every pipeline step** (`docs/gates.md`): a uniform gate
+  block (Status + Directieven) on requirements, scope, BPA sign-off, setup plan,
+  FGD/TGD, migration, test, trajectory and manual sign-off. The consultant's
+  directives reshape step N's output before it feeds step N+1; `check_client.py`
+  enforces order and blocks approval with open directives.
+- BPA/manual builds read the evidence-based catalog (`bpa/catalog/`) and show
+  per-scenario catalog status in the deliverable; template numbering invariant
+  machine-enforced (cost model keys on BS/BC codes).
+
 ## v2 — 2026-07
 
 The "official deliverable" release: Cegeka identity, PDF export, an evidence

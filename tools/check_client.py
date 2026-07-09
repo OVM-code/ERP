@@ -5,6 +5,10 @@ Usage:
     python3 tools/check_client.py clients/<client-slug> [--strict]
 
 Checks every pipeline stage that exists for the client:
+  gates      uniform human gates between every pipeline step (docs/gates.md):
+             requirements -> coverage -> BPA sign-off -> setup -> migration/test
+             -> training/manual -> aftercare; approved output only, no approval
+             with open directives
   BPA        build warnings (dry-run), via tools/build_bpa.py
   gaps/      FGD/TGD status gates: TGD requires its FGD approved; every BPA GAP
              has an FGD; TGD test plan covers all FGD acceptance criteria
@@ -58,6 +62,19 @@ def doc_status(path: Path) -> str | None:
     return m.group(1).strip().lower() if m else None
 
 
+def gate_info(path: Path) -> tuple[str | None, int]:
+    """(status, open directives) of a gated artifact. Status comes from the
+    first `| Status | … |` row; open directives are unchecked `- [ ]` items in
+    the `## Gate` section. Missing file -> (None, 0)."""
+    if not path.exists():
+        return None, 0
+    text = path.read_text(encoding="utf-8")
+    st = doc_status(path)
+    m = re.search(r"^##+\s+Gate\b(.*?)(?=^##\s|\Z)", text, re.M | re.S)
+    open_d = len(re.findall(r"^\s*-\s*\[ \]", m.group(1), re.M)) if m else 0
+    return st, open_d
+
+
 def run_build(script: str, client: Path, label: str) -> None:
     r = subprocess.run([sys.executable, str(REPO / "tools" / script), str(client),
                         "--dry-run", "--strict"], capture_output=True, text=True)
@@ -92,6 +109,80 @@ def bpa_scope(client: Path) -> tuple[set[str], set[str]]:
     if gaps.exists():
         gap_ids = set(re.findall(r"^##\s+(GAP-\d+)", gaps.read_text(encoding="utf-8"), re.M))
     return codes, gap_ids
+
+
+def check_gates(client: Path) -> None:
+    """Uniform human gates between pipeline steps: the output of step N must be
+    APPROVED (gate block: Status + Directieven) before step N+1's artifacts may
+    exist. Approving with open directives is impossible. Guide: docs/gates.md."""
+    bpa = client / "bpa"
+    if not bpa.is_dir():
+        return
+    carriers = {
+        "requirements": bpa / "requirements.md",
+        "coverage": bpa / "coverage.md",
+        "bpa": bpa / "approval.md",
+        "setup": client / "setup" / "setup-plan.md",
+        "migration": client / "migration" / "migration-plan.md",
+        "test": client / "test" / "test-plan.md",
+        "training": client / "training" / "trajectory.md",
+        "manual": client / "manual" / "approval.md",
+    }
+    g = {name: gate_info(p) for name, p in carriers.items()}
+
+    # approving with open directives is a contradiction
+    for name, (st, od) in g.items():
+        if st == "approved" and od:
+            err(f"gate '{name}': status approved maar {od} open directief/directieven — "
+                f"eerst toepassen/afvinken, dan goedkeuren")
+
+    # carriers that exist but have no parseable gate status
+    for name, p in carriers.items():
+        if p.exists() and g[name][0] is None:
+            warn(f"gate '{name}': {p.relative_to(client)} heeft geen gate-blok/Status — geldt als draft")
+
+    def require(prereq: str, what: str) -> None:
+        st = g[prereq][0]
+        if st != "approved":
+            err(f"gate: {what}, maar gate '{prereq}' is niet approved (status: {st or 'ontbreekt'})")
+
+    # step N+1 artifacts present => gate N approved
+    has_reqs = carriers["requirements"].exists() and \
+        re.search(r"^##\s+REQ-\d+", carriers["requirements"].read_text(encoding="utf-8"), re.M)
+    cov_rows = bb.parse_coverage(carriers["coverage"].read_text(encoding="utf-8")) \
+        if carriers["coverage"].exists() else []
+    content_files = [f for f in (bpa / "content").glob("*.md")] if (bpa / "content").is_dir() else []
+    if has_reqs and cov_rows:
+        require("requirements", "coverage.md bevat scope-rijen")
+    if cov_rows and content_files:
+        require("coverage", "content/ bevat scenariodocumentatie")
+    if carriers["setup"].exists():
+        require("bpa", "setup/setup-plan.md bestaat")
+    if (client / "gaps").is_dir() and list((client / "gaps").glob("FGD-GAP-*.md")):
+        require("bpa", "gaps/ bevat FGD's")
+    if carriers["migration"].exists():
+        require("setup", "migration/ is gestart")
+    if carriers["test"].exists():
+        require("setup", "test/ is gestart")
+    if carriers["training"].exists():
+        require("test", "training/ is gestart")
+    chapters = [f for f in (client / "manual" / "chapters").glob("*.md")
+                if f.name.lower() != "readme.md"] if (client / "manual" / "chapters").is_dir() else []
+    if chapters:
+        require("test", "manual/chapters/ bevat hoofdstukken")
+    aftercare_live = False
+    for name in ("issues.md", "crs.md"):
+        p = client / "aftercare" / name
+        if p.exists() and re.search(r"^##\s+(ISS|CR)-\d+", p.read_text(encoding="utf-8"), re.M):
+            aftercare_live = True
+    if aftercare_live:
+        require("manual", "aftercare/ bevat registraties")
+
+    line = " · ".join(f"{n}={st or '—'}" + (f" ({od} open)" if od else "")
+                      for n, (st, od) in g.items() if carriers[n].exists())
+    total_open = sum(od for _, od in g.values())
+    if line:
+        ok(f"gates: {line}" + (f" — {total_open} open directief/directieven" if total_open else ""))
 
 
 def check_designs(client: Path, gap_ids: set[str]) -> None:
@@ -324,6 +415,7 @@ def main() -> int:
     if (client / "manual").is_dir():
         run_build("build_manual.py", client, "manual")
     in_scope, gap_ids = bpa_scope(client)
+    check_gates(client)
     check_designs(client, gap_ids)
     check_setup(client, in_scope)
     check_test(client, in_scope)

@@ -75,3 +75,15 @@ setup-plan step(s) (fase 4) this unlocks.>
 
 <Everything assumed about the environment or data — each item is a question the
 developer would otherwise have to ask.>
+
+## Gate
+
+> Directieven van de consultant: hieronder geschreven of in chat gegeven (de
+> assistent registreert ze hier, past ze toe en vinkt af met datum, bv.
+> `- [x] kolom X toegevoegd (toegepast 2026-07-09)`). De Status in de kop van
+> dit document is de poort; goedkeuren kan alleen zonder open directieven.
+> Regels: `docs/gates.md`.
+
+**Directieven**
+
+*(geen open directieven)*

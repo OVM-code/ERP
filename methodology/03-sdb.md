@@ -91,6 +91,9 @@ zero errors/warnings is the bar on any model.
 
 ## Definition of done
 
+- Gates approved ([`docs/gates.md`](../docs/gates.md)): setup plan (unlocks
+  migration and test), FGD per GAP (unlocks its TGD), TGD (unlocks its AL
+  scaffold), migration plan (unlocks CP sign-offs).
 - Setup plan `approved` and executed; verification probes pass.
 - Every GAP: FGD approved by a human → TGD complete → AL scaffold compiles.
 - Migration: workbooks complete, client trained, CP1–CP3 signed.

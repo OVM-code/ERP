@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | in review |
+| Status | approved |
 | BPA version | 0.9 — demo |
 | Environment | FLORAX-TEST — bedrijf FLORAX |
 | Testers | verkoop (2), magazijn/kwaliteit (2), finance (2) — zie training/trajectory.md |
@@ -33,3 +33,15 @@
 
 | Domein | Key user | Datum | Oordeel | Opmerkingen |
 |---|---|---|---|---|
+
+## Gate
+
+> Directieven van de consultant: hieronder geschreven of in chat gegeven (de
+> assistent registreert ze hier, past ze toe en vinkt af met datum, bv.
+> `- [x] kolom X toegevoegd (toegepast 2026-07-09)`). De Status in de kop van
+> dit document is de poort; goedkeuren kan alleen zonder open directieven.
+> Regels: `docs/gates.md`.
+
+**Directieven**
+
+*(geen open directieven)*

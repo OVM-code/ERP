@@ -197,6 +197,14 @@ authoring step — **zero errors/warnings is the definition of done** on any mod
 
 Cross-cutting rules for every stage:
 
+- **Gates** (see `docs/gates.md`): every step ends at a human gate — finish the
+  step's output, set its gate block to `in review`, summarise what to look at, and
+  STOP. The consultant steers with directives (in the gate block or in chat — you
+  record them there, apply them to that artifact, tick them off with a date) and
+  only they set `approved`. Never start the next step while the previous gate is
+  not approved; never approve a gate yourself; never approve with open directives
+  (`check_client.py` enforces all three). When asked "which gates are open?",
+  read the checker's gates line and list what awaits the consultant.
 - **Language**: deliverables in the client's language (config `language`); use the
   exact Business Central terms from `bpa/terminology/bc-terms.json` — extend the
   glossary before inventing a term. Internal repo docs stay English.

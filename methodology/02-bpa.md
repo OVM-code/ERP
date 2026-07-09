@@ -87,6 +87,10 @@ The assistant drives; you feed it material and decide. Per workshop cycle:
 
 ## Definition of done
 
+- Gates 1–3 approved by you (see [`docs/gates.md`](../docs/gates.md)):
+  requirements → scope (`coverage.md`) → **BPA sign-off** (`bpa/approval.md`,
+  with the client, on the built HTML/PDF). Each approval is preceded by your
+  directives being applied and ticked off.
 - BPA builds with **zero warnings**; `check_client.py` clean.
 - Every in-scope scenario has content and an argued *Invulling*; every GAP has
   a `GAP-x` block; every requirement traces to scenarios or an explicit

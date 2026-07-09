@@ -53,6 +53,12 @@ python3 tools/check_client.py clients/<slug>   # is this phase's work complete a
 python3 tools/doctor.py                        # is the system itself healthy?
 ```
 
+**You are the gate between every step.** Each pipeline step ends at a human
+gate: the assistant produces the output, you steer it with *directives* (in the
+artifact's `## Gate` block or simply in chat), and only your explicit approval
+opens the next step. The checker prints one line with all gate statuses — that
+line is your to-do list. How it works: [`docs/gates.md`](../docs/gates.md).
+
 ## Glossary — the jargon, once
 
 | Term | Meaning |

@@ -1,10 +1,9 @@
-# Scope matrix — <Client name>
+# Manual sign-off — <Client name>
 
-> One row per business scenario that was considered for this client (from
-> `bpa/template/catalog.json`). Scope: `in` / `uit`. Invulling: `standaard`,
-> `add-on: <naam>`, `workaround` of `gap: GAP-x`. Scenarios documented in
-> `content/` are added automatically at build time if missing here — this table
-> is where you also record what is explicitly **out** of scope and why.
+> Gate: de consultant keurt de **gebouwde handleiding** goed vóór overdracht aan
+> de klant: alle `review`-vlaggen weggewerkt, hoofdstukken gegrond (BPA of
+> officiële docs), taal en terminologie gecontroleerd. Pas na deze goedkeuring
+> start de aftercare-registratie voor deze go-live.
 
 ## Gate
 
@@ -23,7 +22,3 @@
 **Directieven**
 
 *(geen open directieven)*
-
-
-| Code | Scenario | Domein | Scope | Invulling | Toelichting |
-|---|---|---|---|---|---|

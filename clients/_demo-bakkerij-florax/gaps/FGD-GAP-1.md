@@ -107,3 +107,15 @@ prijssynchronisatie (webshop behoudt eigen prijzen); B2C-betalingen.
 |---|---|---|---|---|
 | 2026-06-12 | O. Vanmalleghem | 0.2 | wijzigingen gevraagd | reservatieregel voorraadfeed verduidelijken |
 | 2026-06-18 | O. Vanmalleghem | 1.0 | **approved** | |
+
+## Gate
+
+> Directieven van de consultant: hieronder geschreven of in chat gegeven (de
+> assistent registreert ze hier, past ze toe en vinkt af met datum, bv.
+> `- [x] kolom X toegevoegd (toegepast 2026-07-09)`). De Status in de kop van
+> dit document is de poort; goedkeuren kan alleen zonder open directieven.
+> Regels: `docs/gates.md`.
+
+**Directieven**
+
+*(geen open directieven)*

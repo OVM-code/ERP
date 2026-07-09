@@ -4,6 +4,22 @@
 > build automatisch aangevuld; onderstaande tabel bevat de expliciete beslissingen,
 > inclusief wat **buiten scope** valt en waarom.
 
+## Gate
+
+> Menselijke poort (zie `docs/gates.md`): directieven van de consultant worden
+> hier geregistreerd, toegepast en afgevinkt; daarna volgt expliciete goedkeuring.
+
+| | |
+|---|---|
+| Status | approved <!-- draft / in review / approved --> |
+| Goedgekeurd door | S. Willems (consultant, demo) |
+| Datum | 2026-05-28 |
+
+**Directieven**
+
+- [x] BS25.328 (ordertoezegging) alsnog in scope — retailboetes maken dit kritisch (toegepast 2026-05-27)
+
+
 | Code | Scenario | Domein | Scope | Invulling | Toelichting |
 |---|---|---|---|---|---|
 | BS25.101 | Beheren verkoopprijzen | 2 | in | standaard | Prijslijsten + promoperiodes vervangen Excel |

@@ -75,3 +75,15 @@ ketenwijzigingen = configuratie.
 | Datum | Reviewer | Versie | Oordeel | Opmerkingen |
 |---|---|---|---|---|
 | 2026-06-20 | O. Vanmalleghem | 0.2 | in review | wacht op INVOIC-spec keten B (open vraag 1) |
+
+## Gate
+
+> Directieven van de consultant: hieronder geschreven of in chat gegeven (de
+> assistent registreert ze hier, past ze toe en vinkt af met datum, bv.
+> `- [x] kolom X toegevoegd (toegepast 2026-07-09)`). De Status in de kop van
+> dit document is de poort; goedkeuren kan alleen zonder open directieven.
+> Regels: `docs/gates.md`.
+
+**Directieven**
+
+*(geen open directieven)*

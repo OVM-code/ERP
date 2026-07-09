@@ -67,6 +67,9 @@ weeks later: do users work in the system, or around it?
 
 ## Definition of done
 
+- Gates approved ([`docs/gates.md`](../docs/gates.md)): trajectory (unlocks
+  session delivery) and **manual sign-off** (`manual/approval.md` — unlocks
+  aftercare registration).
 - All planned sessions delivered; packets handed out.
 - Manual built with **zero ungrounded topics**; delivered to the client.
 - CP3 signed; cutover checklist complete; first live transactions verified.

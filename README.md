@@ -43,7 +43,11 @@ terminology, in the **Cegeka corporate identity** with one-click **PDF export**
 and the worked demo in [`clients/_demo-bakkerij-florax/`](clients/_demo-bakkerij-florax/).
 
 **And the BPA feeds the whole delivery pipeline** — each stage with templates, docs,
-demo artifacts and mechanical quality gates (`tools/check_client.py`):
+demo artifacts and mechanical quality gates (`tools/check_client.py`). **Between every
+step sits a human gate** ([`docs/gates.md`](docs/gates.md)): the assistant stops, the
+consultant steers the output with directives (in the gate block or simply in chat),
+and only their explicit approval opens the next step — no approval with open
+directives, machine-enforced:
 
 | Stage | What it produces | Guide |
 |---|---|---|
@@ -110,8 +114,9 @@ flowchart TB
 Two rules hold the map together: deliverable numbering follows the **Cegeka
 template's BS/BC scenario codes** everywhere (the cost model in `pricing/` keys
 on them — new codes only enter via reviewed catalog candidates), and **nothing
-ships ungated** — `check_client.py` after every authoring step, a human
-`/review-system` verdict on designs and template changes.
+ships ungated** — a human gate with directives between every pipeline step
+([`docs/gates.md`](docs/gates.md)), `check_client.py` after every authoring
+step, a human `/review-system` verdict on designs and template changes.
 
 ## Repository map
 
