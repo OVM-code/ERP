@@ -5,7 +5,7 @@ Process Analysis**: an interactive HTML deliverable with clickable BPMN process
 diagrams, where every process step opens the documentation of that business scenario.
 
 Full workflow guide: [`docs/bpa.md`](../../../docs/bpa.md) · Scenario catalog:
-[`bpa/template/catalog.json`](../../../bpa/template/catalog.json)
+[`bpa/catalog/catalog.json`](../../../bpa/catalog/catalog.json) (Business Process Catalog — status + doc-URL per scenario)
 
 ## Files
 

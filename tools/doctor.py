@@ -48,6 +48,8 @@ def check_paths() -> None:
         "copilot-studio/agent-instructions.md",
         "bpa/template/catalog.json", "bpa/terminology/bc-terms.json",
         "bpa/catalog/catalog.json", "bpa/catalog/refresh-log.md",
+        "bpa/catalog/doc-url-map.json", "docs/gates.md",
+        "clients/_template/bpa/approval.md", "clients/_template/manual/approval.md",
         "bpa/branding/tokens.css", "bpa/branding/cegeka-logo-dark.png",
         "bpa/viewer/template.html", "bpa/viewer/viewer.css", "bpa/viewer/viewer.js",
         "methodology/README.md",

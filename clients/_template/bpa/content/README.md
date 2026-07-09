@@ -34,7 +34,7 @@ Beschrijf de standaard, waarom die niet volstaat, en verwijs naar het GAP-regist
 ## Rules
 
 - Heading per scenario: `## <BS-code> <titel>` — the code must exist in
-  `bpa/template/catalog.json` (the build warns otherwise).
+  the Business Process Catalog (`bpa/catalog/catalog.json` — the build warns otherwise, and flags scenarios the catalog marks `retired`).
 - `Invulling` is one of: `standaard` | `add-on: <naam>` | `workaround` | `gap: GAP-x`.
   It drives the colour coding of the BPMN step and the scope matrix.
 - Write for the **client**: what will happen in their process, not feature marketing.

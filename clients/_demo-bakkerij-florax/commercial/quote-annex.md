@@ -1,6 +1,6 @@
 # Quote annex — _demo-bakkerij-florax
 
-> Gegenereerd 2026-07-07 uit de BPA-scopematrix × effort-baselines **seed-1 (2026-07-07) — uncalibrated** · dagtarief € 950
+> Gegenereerd 2026-07-09 uit de BPA-scopematrix × effort-baselines **seed-1 (2026-07-07) — uncalibrated** · dagtarief € 950
 > ⚠ Baselines zijn seeds tot ze gekalibreerd zijn met werkelijke uren — dit is een startpunt voor de offerte, geen offerte.
 
 ## Samenvatting

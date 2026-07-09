@@ -3,7 +3,9 @@
 > One `## REQ-xxx` block per requirement, extracted from the files in `inputs/`.
 > Keep the client's own wording in the quote; the description may interpret.
 > The `Scenario's` line links the requirement to the business scenarios that answer
-> it (BS codes from `bpa/template/catalog.json`) — the build makes these clickable.
+> it (BS codes from the Business Process Catalog, `bpa/catalog/catalog.json` —
+> check each scenario's status and documentation URL there) — the build makes
+> these clickable.
 
 ## Gate
 
