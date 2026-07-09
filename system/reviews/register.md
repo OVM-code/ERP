@@ -33,3 +33,4 @@
 
 | Datum | REV | Component | Reviewer | Verdict | Wijzigingen |
 |---|---|---|---|---|---|
+| 2026-07-08 | [REV-001](REV-001-template-edi-classification.md) | bpa/template — BS95.002 EDI-classificatie | — (open) | — | draft: invulling-richtlijn + add-on-flag; uit catalog refresh 2026-07 |

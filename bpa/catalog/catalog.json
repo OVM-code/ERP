@@ -1,5 +1,5 @@
 {
- "version": 1,
+ "version": 2,
  "updated": "2026-07-08",
  "source": "Evidence-based Business Process Catalog — seeded from Cegeka Process Model 3.01 and curated by monthly refreshes (see bpa/catalog/README.md)",
  "model": "Cegeka Process Model 3.01",
@@ -643,12 +643,13 @@
   },
   {
    "code": "BS25.101",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
     "template:Cegeka Process Model 3.01",
-    "client:_demo-bakkerij-florax (demo) · standard"
+    "client:_demo-bakkerij-florax (demo) · standard",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/sales-how-record-sales-price-discount-payment-agreements"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Beheren verkoopprijzen",
    "section": "2.2.2",
@@ -734,11 +735,12 @@
   },
   {
    "code": "BS25.102",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/across-prices-and-discounts"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Beheren verkoopregelkortingen",
    "section": "2.2.3",
@@ -764,11 +766,12 @@
   },
   {
    "code": "BS25.104",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/across-prices-and-discounts"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Beheren verkoopfactuurkortingen",
    "section": "2.2.5",
@@ -794,11 +797,12 @@
   },
   {
    "code": "BS25.200",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/sales-how-make-offers"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Verkoopoffertes maken",
    "section": "2.3.1",
@@ -809,11 +813,12 @@
   },
   {
    "code": "BS25.201",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/sales-how-to-create-blanket-sales-orders"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Verkoopraamcontracten beheren",
    "section": "2.4.1",
@@ -824,12 +829,13 @@
   },
   {
    "code": "BS25.202",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
     "template:Cegeka Process Model 3.01",
-    "client:_demo-bakkerij-florax (demo) · standard"
+    "client:_demo-bakkerij-florax (demo) · standard",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/sales-how-sell-products"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Verkooporders maken",
    "section": "2.5.1",
@@ -915,11 +921,12 @@
   },
   {
    "code": "BS25.212",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/across-how-use-approval-workflows"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Verkooporder goedkeuren Goedkeurders ontvangen berichten over goedkeuringsaanvragen voor…",
    "section": "2.5.10",
@@ -930,11 +937,12 @@
   },
   {
    "code": "BS25.237",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/finance-how-reverse-journal-posting"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Verkoopverzending ongedaan maken…",
    "section": "2.5.11",
@@ -945,12 +953,13 @@
   },
   {
    "code": "BS25.328",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
     "template:Cegeka Process Model 3.01",
-    "client:_demo-bakkerij-florax (demo) · standard"
+    "client:_demo-bakkerij-florax (demo) · standard",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/sales-how-to-calculate-order-promising-dates"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Ordertoezegging",
    "section": "2.5.12",
@@ -961,11 +970,12 @@
   },
   {
    "code": "BS25.203",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/sales-how-drop-shipment"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Doorverzendingen en speciale orders",
    "section": "2.5.2",
@@ -976,11 +986,12 @@
   },
   {
    "code": "BS25.204",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/inventory-how-to-reserve-items"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Reserveer voorraad op een verkooporder",
    "section": "2.5.3",
@@ -991,11 +1002,12 @@
   },
   {
    "code": "BS25.205",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/sales-how-sell-products"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Verkooporder verzenden",
    "section": "2.5.4",
@@ -1006,13 +1018,14 @@
   },
   {
    "code": "BS25.206",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
     "template:Cegeka Process Model 3.01",
-    "client:_demo-bakkerij-florax (demo) · standard"
+    "client:_demo-bakkerij-florax (demo) · standard",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/sales-how-send-partial-shipments"
    ],
-   "last_verified": null,
-   "notes": "",
+   "last_verified": "2026-07",
+   "notes": "Standaard via Verzendadvies + deelleveringen; geen dedicated backorderregister in standaard BC.",
    "title": "Beheer van backorders",
    "section": "2.5.5",
    "domain": 2,
@@ -1052,11 +1065,12 @@
   },
   {
    "code": "BS25.207",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/sales-manage-sales"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Verkooporders annuleren",
    "section": "2.5.6",
@@ -1067,11 +1081,12 @@
   },
   {
    "code": "BS25.208",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/intercompany-how-work-documents-journals"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Verwerk intercompany verkooporders",
    "section": "2.5.7",
@@ -1097,11 +1112,12 @@
   },
   {
    "code": "BS25.211",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/across-how-use-approval-workflows"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Goedkeuringsaanvraag verzenden",
    "section": "2.5.9",
@@ -1112,12 +1128,13 @@
   },
   {
    "code": "BS25.213",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
     "template:Cegeka Process Model 3.01",
-    "client:_demo-bakkerij-florax (demo) · standard"
+    "client:_demo-bakkerij-florax (demo) · standard",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/sales-how-invoice-sales"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Verkoopfacturen maken",
    "section": "2.6.1",
@@ -1128,11 +1145,12 @@
   },
   {
    "code": "BS25.214",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/ui-post-sales"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Verkoopfacturen boeken",
    "section": "2.6.2",
@@ -1143,11 +1161,12 @@
   },
   {
    "code": "BS25.215",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/sales-how-work-standard-lines"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Periodieke verkoopfacturen maken",
    "section": "2.6.3",
@@ -1173,11 +1192,12 @@
   },
   {
    "code": "BS25.216",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/finance-how-to-create-prepayment-invoices"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Vooruitbetalingsfacturen maken",
    "section": "2.6.4",
@@ -1188,11 +1208,12 @@
   },
   {
    "code": "BS25.219",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/sales-how-process-sales-returns-cancellations"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Verkoopretourorders maken administratief werk...",
    "section": "2.7.1",
@@ -1203,11 +1224,12 @@
   },
   {
    "code": "BS25.220",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/sales-how-process-sales-returns-cancellations"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Verkoopcreditnota's maken",
    "section": "2.8.1",
@@ -1233,12 +1255,13 @@
   },
   {
    "code": "BS25.222",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/finance-recurring-invoicing"
    ],
-   "last_verified": null,
-   "notes": "",
+   "last_verified": "2026-07",
+   "notes": "Meerdere standaardroutes: terugkerende verkoopregels (batch), servicecontracten; zie recurring-revenue overzicht.",
    "title": "Subscription management",
    "section": "2.9",
    "domain": 2,
@@ -1638,12 +1661,13 @@
   },
   {
    "code": "BS50.100",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
     "template:Cegeka Process Model 3.01",
-    "client:_demo-bakkerij-florax (demo) · standard"
+    "client:_demo-bakkerij-florax (demo) · standard",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/inventory-how-register-new-items"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Artikelen beheren",
    "section": "4.2.1",
@@ -1819,11 +1843,12 @@
   },
   {
    "code": "BS50.101",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/inventory-how-to-set-up-stockkeeping-units"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Stockkeeping units (SKU) beheren",
    "section": "4.2.2",
@@ -1834,11 +1859,12 @@
   },
   {
    "code": "BS50.102",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/inventory-item-variants"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Artikelvarianten beheren",
    "section": "4.2.3",
@@ -1849,12 +1875,13 @@
   },
   {
    "code": "BS50.104",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
     "template:Cegeka Process Model 3.01",
-    "client:_demo-bakkerij-florax (demo) · standard"
+    "client:_demo-bakkerij-florax (demo) · standard",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/inventory-how-setup-item-tracking"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Artikeltraceringscodes beheren",
    "section": "4.2.4",
@@ -1865,11 +1892,12 @@
   },
   {
    "code": "BS50.115",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/inventory-how-work-nonstock-items"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Catalogusartikelen beheren",
    "section": "4.2.5",
@@ -1895,11 +1923,12 @@
   },
   {
    "code": "BS50.200",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/inventory-how-count-adjust-reclassify"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Voorraad corrigeren",
    "section": "4.3.1",
@@ -1940,11 +1969,12 @@
   },
   {
    "code": "BS50.201",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/inventory-how-count-inventory-with-documents"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Inventarisatie",
    "section": "4.4.1",
@@ -1955,12 +1985,13 @@
   },
   {
    "code": "BS45.200",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
     "template:Cegeka Process Model 3.01",
-    "client:_demo-bakkerij-florax (demo) · workaround"
+    "client:_demo-bakkerij-florax (demo) · workaround",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/inventory-how-block-items"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Artikelen blokkeren",
    "section": "4.5.1",
@@ -3698,11 +3729,12 @@
   },
   {
    "code": "BS30.200",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/production-how-to-create-a-forecast"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Productieprognoses beheren",
    "section": "6.1.1",
@@ -3713,11 +3745,12 @@
   },
   {
    "code": "BS30.201",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/production-how-to-run-mps-and-mrp"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Inkoop & planningsvoorstellen berekenen",
    "section": "6.2.1",
@@ -3728,11 +3761,12 @@
   },
   {
    "code": "BC30.201.01",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/production-about-planning-functionality"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Inkoopvoorstellen berekenen",
    "section": "6.2.1.1",
@@ -3743,11 +3777,12 @@
   },
   {
    "code": "BC30.201.02",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/production-how-to-run-mps-and-mrp"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Planningsvoorstellen berekenen",
    "section": "6.2.1.2",
@@ -3758,11 +3793,12 @@
   },
   {
    "code": "BS30.202",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/production-how-to-run-mps-and-mrp"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Inkoop/planningsvoorstellen beoordelen en fiatteren",
    "section": "6.2.2",
@@ -3773,11 +3809,12 @@
   },
   {
    "code": "BC30.202.01",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/production-how-track-demand-supply"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Ordertracering",
    "section": "6.2.2.1",
@@ -5693,11 +5730,12 @@
   },
   {
    "code": "BS65.009",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/localfunctionality/belgium/belgian-vat"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Beheer Setup BTW Om tot een correcte BTW aangifte te komen moeten een aantal BTW settings…",
    "section": "10.1.2",
@@ -5708,11 +5746,12 @@
   },
   {
    "code": "BC65.009.01",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/localfunctionality/belgium/belgian-vat"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Beheer Setup BTW (BE aangifte)",
    "section": "10.1.2.1",
@@ -5753,11 +5792,12 @@
   },
   {
    "code": "BS65.111",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/finance-cash-flow-overview"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Beheer Master Data Cash Flow",
    "section": "10.10.1",
@@ -5768,11 +5808,12 @@
   },
   {
    "code": "BS65.255",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/finance-cash-flow-overview"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Bereken cashflow",
    "section": "10.10.2",
@@ -6023,12 +6064,13 @@
   },
   {
    "code": "BS65.200",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
     "template:Cegeka Process Model 3.01",
-    "client:_demo-bakkerij-florax (demo) · standard"
+    "client:_demo-bakkerij-florax (demo) · standard",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/purchasing-how-record-purchases"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Inkoopfacturen maken",
    "section": "10.3.3",
@@ -6144,12 +6186,13 @@
   },
   {
    "code": "BS65.204",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
     "template:Cegeka Process Model 3.01",
-    "client:_demo-bakkerij-florax (demo) · standard"
+    "client:_demo-bakkerij-florax (demo) · standard",
+    "docs:https://learn.microsoft.com/dynamics365/business-central/purchasing-how-record-purchases"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Inkoopfacturen boeken",
    "section": "10.3.7",
@@ -7171,7 +7214,7 @@
     "client:_demo-bakkerij-florax (demo) · gap"
    ],
    "last_verified": null,
-   "notes": "",
+   "notes": "Uitdaging aan template: een generiek EDI-framework is GEEN standaard BC-functionaliteit (standaard dekt e-documents/Peppol en API's). Vermoedelijk Cegeka-laag of maatwerk — classificatie in template verifiëren via /review-system (zie system/reviews/register.md, 2026-07).",
    "title": "EDI framework Het basisdoel van het framework is om vergaande functionaliteiten te bieden…",
    "section": "12.1.1",
    "domain": 12,
@@ -7186,7 +7229,7 @@
     "template:Cegeka Process Model 3.01"
    ],
    "last_verified": null,
-   "notes": "",
+   "notes": "Zie BS95.002: EDI-framework is geen standaard BC — classificatie verifiëren.",
    "title": "EDI inkomende berichten",
    "section": "12.1.1.1",
    "domain": 12,
@@ -7201,7 +7244,7 @@
     "template:Cegeka Process Model 3.01"
    ],
    "last_verified": null,
-   "notes": "",
+   "notes": "Zie BS95.002: EDI-framework is geen standaard BC — classificatie verifiëren.",
    "title": "EDI uitgaande berichten",
    "section": "12.1.1.2",
    "domain": 12,
@@ -7216,7 +7259,7 @@
     "template:Cegeka Process Model 3.01"
    ],
    "last_verified": null,
-   "notes": "",
+   "notes": "Zie BS95.002: EDI-framework is geen standaard BC — classificatie verifiëren.",
    "title": "[andere EDI integraties]",
    "section": "12.1.2",
    "domain": 12,
@@ -7646,12 +7689,13 @@
   },
   {
    "code": "BS65.253",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
     "template:Cegeka Process Model 3.01",
-    "client:_demo-bakkerij-florax (demo) · addon"
+    "client:_demo-bakkerij-florax (demo) · addon",
+    "docs:https://docs.continia.com/en-us/continia-document-capture/getting-started/business-functionality/"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Verwerken binnenkomende facturen met OCR (DC)",
    "section": "15.1.1",
@@ -7662,12 +7706,13 @@
   },
   {
    "code": "BS65.254",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
     "template:Cegeka Process Model 3.01",
-    "client:_demo-bakkerij-florax (demo) · addon"
+    "client:_demo-bakkerij-florax (demo) · addon",
+    "docs:https://www.continia.com/solutions/document-capture/"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Goedkeuring van documenten",
    "section": "15.1.2",
@@ -7678,11 +7723,12 @@
   },
   {
    "code": "BS65.257",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
-    "template:Cegeka Process Model 3.01"
+    "template:Cegeka Process Model 3.01",
+    "docs:https://www.continia.com/solutions/document-output/"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "Het automatisch uitsturen van documenten",
    "section": "15.2.1",
@@ -7693,12 +7739,13 @@
   },
   {
    "code": "BS65.256",
-   "status": "unverified",
+   "status": "verified",
    "evidence": [
     "template:Cegeka Process Model 3.01",
-    "client:_demo-bakkerij-florax (demo) · addon"
+    "client:_demo-bakkerij-florax (demo) · addon",
+    "docs:https://docs.continia.com/en-us/continia-document-output/business-functionality/electronic-invoicing/secure-communication-using-continia-delivery-network-and-peppol/"
    ],
-   "last_verified": null,
+   "last_verified": "2026-07",
    "notes": "",
    "title": "PEPPOL",
    "section": "15.2.2",
