@@ -33,7 +33,7 @@ pins their own versions in `clients/<slug>/bpa/bpa-config.json` → `stack`.
 
 | Product | Version(s) covered by knowledge/content | Last verified | Notes |
 |---|---|---|---|
-| Business Central | SaaS, current (release-wave cadence: April & October) | see `update-check-log.md` | terminology follows BC24+ ("Project", "Demand Forecast") |
+| Business Central | SaaS current = **v28, 2026 release wave 1** (updates 28.0–28.3, July 2026) | 2026-07-10 (`update-check-log.md`) | terminology follows BC24+ ("Project", "Demand Forecast"); wave-1-2026 items relevant to our scenarios: requisition-worksheet/item-journal approvals now standard, expense reports + Expense Agent in preview, external storage for document attachments GA |
 | Aptean Food & Beverage ERP | current AppSource release | see `update-check-log.md` | partner-gated docs — verify module behaviour per client licence |
 | Continia Document Capture / Document Output | current AppSource release | see `update-check-log.md` | |
 | Cegeka 365 / EDI framework | per Cegeka release | — | internal product; verify with product team |

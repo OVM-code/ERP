@@ -28,6 +28,7 @@
 | Telemetry (metrics) | tools/metrics.py | — | | |
 | Skills (dynamic-report, harvest, wave-impact, review-system) | .claude/skills/ | — | | |
 | Instructions & Copilot sync | system/instructions.md | — | | |
+| Cloning & health check | docs/cloning.md · tools/doctor.py | — | | |
 
 ## Session log
 
