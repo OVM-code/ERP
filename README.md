@@ -15,6 +15,11 @@ Ask it, on any client engagement:
 > "Client X runs Business Central with Aptean lot management and catch weight. We're
 > designing the warehouse. What are my options and what do you recommend?"
 
+or equally:
+
+> "Client Y runs Odoo Enterprise. We're setting up their finance — chart of accounts,
+> VAT and Peppol. Walk me through the decisions."
+
 and it will:
 
 1. **Check for relevant software updates first** (at most once a day per stack — see
@@ -35,6 +40,7 @@ and it will:
 | [`system/update-check-log.md`](system/update-check-log.md) | Throttle log for the once-a-day software-freshness check |
 | [`CLAUDE.md`](CLAUDE.md) | Activates the assistant in any Claude session on this repo |
 | [`knowledge/erp/business-central/`](knowledge/erp/business-central/) | Standard BC setup decisions per functional area |
+| [`knowledge/erp/odoo/`](knowledge/erp/odoo/) | Standard Odoo setup decisions, same functional areas (Enterprise-first, Community flagged, Belgian localization inline) |
 | [`knowledge/addons/aptean-food-beverage/`](knowledge/addons/aptean-food-beverage/) | How Aptean F&B changes/extends those decisions |
 | [`knowledge/_templates/`](knowledge/_templates/) | Templates to add any other ERP system or add-on |
 | [`clients/`](clients/) | One folder per client: intake + Setup Decision Records |

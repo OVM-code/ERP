@@ -185,6 +185,8 @@ This file covers the core financial setup of a Business Central implementation: 
 - Intra-EU purchases and sales? Services vs goods split (EU Service flag, Intrastat/Service Declaration)?
 - Cash-accounting VAT scheme? Import flows with postponed accounting or customs-agent VAT invoices?
 
+**Belgian localization note:** the BE version ships the VAT statement mapped to the Belgian periodic VAT return boxes, the **Annual Listing of VAT-registered customers** (klantenlisting/listing clients), EC Sales List and Intrastat declarations — review all four with the client's accountant, they are filing obligations, not optional reports. Since 1 January 2026 Belgian B2B invoices must be exchanged as structured e-invoices via Peppol — see [integration posture](general-setup.md#integration-posture-apis-power-platform-e-invoicing); this is a go-live blocker for Belgian clients, not a phase-2 item.
+
 **Interactions:** The localized country version adds fields and statement formats — always configure with the localization, not the generic W1 picture, and validate against the [General Ledger Setup](#general-ledger-setup-key-choices) VAT/localization fields. VAT groups default from [General Posting Setup](#general-posting-setup-matrix) groups if you wire them. Invoice rounding accounts need a VAT Prod. group ([Customer and Vendor Posting Groups](#customer-and-vendor-posting-groups)). VAT entries also carry ACY amounts once an [additional reporting currency](#currencies-and-exchange-rate-handling) is active.
 
 **Add-on impact:** None fundamental — Aptean F&B transactions use standard VAT posting setup; verify new item types get correct VAT Prod. groups — see [Aptean F&B — Overview](../../addons/aptean-food-beverage/overview.md).
@@ -251,6 +253,8 @@ This file covers the core financial setup of a Business Central implementation: 
 - Who reconciles, how often, and do they also do cash application (one role → Payment Reconciliation Journal; split roles → separate flows)?
 
 **Required client info addendum:** collect IBANs/BICs and mandate data early — chasing them at UAT delays payment testing.
+
+**Belgian localization note:** Belgian banks deliver **CODA** statements — the BE version imports CODA directly (including structured communications, OGM/VCS), which makes auto-application unusually reliable in Belgium; prefer CODA over generic CAMT/CSV when the bank offers it, and use structured references on outgoing invoices so incoming payments self-apply.
 
 **Interactions:** Bank Account Posting Groups map to G/L accounts in the [CoA](#chart-of-accounts-design) (Direct Posting off). Foreign-currency bank accounts depend on [Currencies](#currencies-and-exchange-rate-handling). Payment methods carry the Pmt. Export Line Definition — see [Payment terms, payment methods, reminders and finance charges](#payment-terms-payment-methods-reminders-and-finance-charges). The NA worksheet toggle lives in [General Ledger Setup](#general-ledger-setup-key-choices).
 

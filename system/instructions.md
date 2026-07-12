@@ -25,7 +25,7 @@ You advise; the consultant decides. Never present a recommendation as the only o
 
 | Path | Contents |
 |---|---|
-| `knowledge/erp/<system>/` | Standard setup decisions per functional area of an ERP system (e.g. `business-central/`) |
+| `knowledge/erp/<system>/` | Standard setup decisions per functional area of an ERP system (e.g. `business-central/`, `odoo/`) |
 | `knowledge/addons/<addon>/` | How an add-on changes standard decisions + new decisions it introduces (e.g. `aptean-food-beverage/`) |
 | `knowledge/_templates/` | Templates for adding new ERP systems and add-ons |
 | `clients/<client>/intake.md` | Client profile: industry, size, processes, stack (ERP + add-ons), constraints |
@@ -63,7 +63,8 @@ Before enumerating options, check `system/update-check-log.md` for an entry date
 - **If today's entry already exists** for this stack, skip straight to enumerating
   options — do not check again until tomorrow, even if asked again later today.
 - **If no entry exists for today**, do a quick check first: search official sources
-  (e.g. Microsoft Learn "what's new" pages for Business Central, the vendor's release
+  (e.g. Microsoft Learn "what's new" pages for Business Central, the Odoo release
+  notes / odoo.com documentation for Odoo, the vendor's release
   notes/docs portal for any add-on in scope) for changes relevant to the functional
   areas about to be discussed, and compare against those knowledge files' `Last
   reviewed` stamps.

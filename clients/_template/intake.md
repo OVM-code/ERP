@@ -10,7 +10,8 @@
 |---|---|
 | Client (slug used for folder) | |
 | Industry / sub-sector | <e.g. food distribution — fresh produce> |
-| ERP system + version | <e.g. Business Central SaaS, current> |
+| ERP system + version | <e.g. Business Central SaaS, current — or Odoo 19> |
+| Edition & hosting (Odoo: decisive) | <e.g. Odoo Enterprise on Odoo.sh / Community on-premise; BC: SaaS vs on-prem> |
 | Add-ons (exact products + modules licensed) | <e.g. Aptean F&B ERP: lot mgmt, catch weight> |
 | Other ISV apps / integrations | <e.g. EDI provider, WMS scanners, webshop> |
 | Localization / country version | |

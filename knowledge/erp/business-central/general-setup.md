@@ -263,7 +263,7 @@ Sequencing discipline: setup + posting groups first, master data second, open do
 | Standard API v2.0 / custom API pages | Any bespoke or middleware integration; stable, versioned, supported | Screen-scraping-style ODATA on UI pages — brittle across updates |
 | Power Automate for light integrations | Notifications, small syncs, human-in-the-loop steps; low volume | High-volume transactional sync — flows are not middleware; throughput, error handling and ALM suffer |
 | Native connectors (Shopify, banking apps) | Where they exist, prefer them over custom builds | Feature gaps force workarounds worse than a clean custom integration |
-| E-Documents + Peppol access point | Increasingly mandatory (EU e-invoicing mandates rolling in) — assess readiness at every new implementation *now*, even if the mandate is next year | Treating it as "phase 2, someday" for clients in mandate countries |
+| E-Documents + Peppol access point | Increasingly mandatory (EU e-invoicing mandates rolling in; **Belgium: structured B2B e-invoicing via Peppol is mandatory since 1 Jan 2026** — for Belgian clients this is go-live scope, not an option) — assess readiness at every new implementation *now* | Treating it as "phase 2, someday" for clients in mandate countries |
 | ISV middleware/iPaaS | Multiple endpoints, mapping/monitoring needs, no internal dev | Single simple integration — overkill |
 
 **Required client info:**

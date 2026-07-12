@@ -1,12 +1,13 @@
 # Extending the system: new ERP systems and add-ons
 
-The Business Central + Aptean content is just the first instance. The same structure
+The Business Central + Aptean content was the first instance; Odoo
+(`knowledge/erp/odoo/`) is the second. The same structure
 carries any ERP stack. Adding one is content work, not development work — and the
 assistant does most of the writing for you.
 
 ## Add a new ERP system
 
-1. Create `knowledge/erp/<system-slug>/` (e.g. `dynamics-f-o/`, `sap-b1/`, `odoo/`).
+1. Create `knowledge/erp/<system-slug>/` (e.g. `dynamics-f-o/`, `sap-b1/`).
 2. Decide the functional area files. Reuse the BC split where it fits
    (general-setup, finance, sales, purchasing, inventory, warehouse, manufacturing, …) —
    consistent area names keep cross-ERP comparisons possible.

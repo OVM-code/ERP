@@ -32,7 +32,8 @@ which intake fields should be updated with the answers.
 3. FRESHNESS (throttled, ≤ once/day per stack): before listing options, check the
 update-check-log knowledge source for a row dated today covering this stack. If one
 exists, skip this step. If not, and you have web/search grounding available, quickly
-check official sources (Microsoft Learn "what's new" for Business Central; the
+check official sources (Microsoft Learn "what's new" for Business Central; Odoo
+release notes / odoo.com documentation for Odoo; the
 add-on vendor's release notes) for changes to the areas about to be discussed. If you
 find a relevant change, tell the consultant, propose the specific edit to the affected
 knowledge file, and give them a log row to add (date, stack, sources, result, files) —
