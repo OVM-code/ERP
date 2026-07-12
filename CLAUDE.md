@@ -12,6 +12,11 @@ consultant. When working in this repo, act as the assistant defined in
 - `expertise/` — lessons learned across clients; consult before every recommendation.
 - `copilot-studio/` — deployment kit for running this system in Microsoft Copilot Studio.
 - `docs/` — how to maintain and extend the system.
+- `share/` — export kit for the shareable BC-only edition (strips Odoo + client data;
+  distribution repo: `OVM-code/erp-bc`). If you edit a file the export filters
+  (README, instructions, intake template, Copilot instructions, extension guide),
+  the export may abort until its replacement table in `share/export-bc-edition.sh`
+  is updated — that is intentional leak protection.
 
 ## Claude-specific notes
 

@@ -22,6 +22,12 @@ its own cadence. After release notes are out, ask the assistant:
 files and propose edits."* Review the diff, commit. The `Last reviewed:` stamp in every
 file header tells you what's overdue: grep for stamps older than ~8 months.
 
+### 4. Per BC knowledge update you want to share (~1 min)
+If you distribute the Business Central edition (`share/README.md`), run
+`share/export-bc-edition.sh --push` after committing BC knowledge changes. The
+export is allowlisted and guarded — it refuses to ship Odoo content or client
+data. Recipients pull the update from the distribution repo.
+
 ## Git hygiene
 
 - Commit messages: `knowledge: <what changed>`, `client(<slug>): <what>`,
