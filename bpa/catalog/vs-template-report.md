@@ -1,0 +1,53 @@
+# Catalogus ↔ template — reconciliatierapport
+
+> Gegenereerd door `python3 tools/catalog.py reconcile` op 2026-07-09 (catalogus v5, 506 scenario's).
+> Dit rapport *daagt de template uit*: het toont wat de template claimt zonder bewijs,
+> wat verouderd is en wat er ontbreekt. Wijzigingen aan `bpa/template/` die hieruit
+> volgen lopen via `/review-system` — niets wordt automatisch aangepast.
+
+## Samenvatting
+
+| Categorie | Aantal | Actie |
+|---|---|---|
+| Template-claims zonder bewijs (unverified) | 459 | verifiëren bij volgende refresh of eerste klantgebruik |
+| Verified maar > 12 mnd niet herbevestigd (stale) | 0 | herverifiëren tegen actuele BC-release |
+| In catalogus, niet in template (candidates) | 0 | voorstel: toevoegen aan template |
+| Retired (uit template verdwenen / niet meer haalbaar) | 0 | controleren of klanten ze nog gebruiken |
+| Add-on-scenario's met ≥ 2 echte gebruiken | 0 | kandidaat vaste catalogus-kern |
+| Documentatie-URL's: specifiek / topic / geen | 47 / 434 / 25 | topic-URL's worden specifiek bij verificatie |
+
+## A. Template-claims zonder bewijs
+
+Scenario's die alleen op de template-import steunen — geen enkele klant, SDR of
+les bevestigt ze, en geen refresh heeft ze tegen officiële bronnen gecheckt.
+
+- **1. Bedrijfsinformatie** (28): `BS10.001` · `BS95.001` · `BS10.002` · `BS10.009` · `BC10.009.01` · `BS10.006` · `BS10.005` · `BC10.005.01` · `BS45.201` · `BC45.201.01` · `BS10.900` · `BS10.901` · `BC10.901.01` · `BC10.901.02` · `BC10.901.03` · `BS10.903` · `BS10.904` · `BS15.001` · `BS15.207` · `BS15.208` · `BS15.105` · `BS15.201` · `BS15.202` · `BS15.203` · `BS15.209` · `BS15.204` · `BS15.205` · `BS15.206`
+- **2. Verkoop** (25): `BS25.001` · `BS25.801` · `BS25.802` · `BS25.803` · `BS25.100` · `BS25.902` · `BC25.902.01` · `BC25.902.02` · `BC25.101.01` · `BC25.101.02` · `BC25.101.03` · `BC25.101.04` · `BC25.101.05` · `BS25.103` · `BS25.105` · `BC25.202.01` · `BC25.202.02` · `BC25.202.03` · `BC25.202.04` · `BS25.202.05` · `BC25.206.01` · `BC25.206.02` · `BS25.209` · `BC25.215.01` · `BS25.221`
+- **3. Inkoop** (25): `BS35.001` · `BS35.100` · `BS35.101` · `BS35.102` · `BS35.103` · `BS35.104` · `BS35.105` · `BS35.200` · `BS35.201` · `BC35.201.01` · `BS35.202` · `BC35.202.01` · `BS35.235` · `BS35.204` · `BS35.205` · `BS35.206` · `BC35.206.01` · `BS35.207` · `BS35.208` · `BS35.209` · `BS35.210` · `BS35.217` · `BS35.800` · `BS35.801` · `BS35.802`
+- **4. Voorraad** (30): `BS50.001` · `BC50.100.01` · `BC50.100.10` · `BC50.100.11` · `BC50.100.02` · `BC50.100.03` · `BC50.100.04` · `BC50.100.05` · `BC50.100.06` · `BC50.100.07` · `BC50.100.08` · `BC50.100.09` · `BS40.900` · `BS50.233` · `BS50.234` · `BC45.200.01` · `BC45.200.02` · `BC45.200.03` · `BC45.200.08` · `BC45.200.04` · `BC45.200.05` · `BC45.200.07` · `BS45.901` · `BC45.901.01` · `BS45.902` · `BS45.904` · `BS45.905` · `BC45.905.01` · `BC45.905.02` · `BS45.906`
+- **5. Projectbeheer** (100): `BS70.001` · `BC70.001.01` · `BS70.238` · `BS70.242` · `BS70.245` · `BS70.248` · `BC70.24801` · `BS70.249` · `BS70.253` · `BS70.257` · `BS70.244` · `BC70.211.01` · `BS70.212` · `BC70.212.01` · `BS70.213` · `BC70.213.01` · `BC70.214.01` · `BS70.216` · `BC70.216.01` · `BS70.217` · `BC70.217.01` · `BS70.319` · `BS70.320` · `BS70.218` · `BC70.218.01` · `BS70.219` · `BC70.219.01` · `BS70.321` · `BS70.322` · `BS70.220` · `BS70.221` · `BS70.222` · `BS70.223` · `BS70.323` · `BS70.324` · `BS70.325` · `BS70.326` · `BS70.327` · `BS70.224` · `BS70.200` · `BC70.200.01` · `BC70.200.02` · `BC70.200.03` · `BC70.200.04` · `BC70.200.05` · `BC70.200.06` · `BS70.264` · `BC70.264.01` · `BC70.264.02` · `BC70.264.03` · `BC70.264.04` · `BC70.264.05` · `BC70.264.06` · `BC70.264.07` · `BS70.276` · `BC70.276.01` · `BC70.276.02` · `BS70.100` · `BC70.100.01` · `BS70.272` · `BC70.272.01` · `BS70.101` · `BS70.104` · `BS70.275` · `BS70.102` · `BC70.102.01` · `BC70.102.02` · `BC70.102.03` · `BS70.225` · `BS70.202` · `BS70.331` · `BS70.332` · `BS70.203` · `BC70.203.01` · `BS70.288` · `BS70.294` · `BS70.295` · `BC70.295.01` · `BS70.296` · `BS70.205` · `BC70.205.01` · `BS70.206` · `BC70.206.01` · `BC70.206.02` · `BC70.206.03` · `BS70.299` · `BC70.299.01` · `BC70.299.02` · `BC70.299.03` · `BC70.299.04` · `BC70.299.05` · `BS70.305` · `BS70.207` · `BC70.207.01` · `BS70.208` · `BC70.208.01` · `BS70.209` · `BC70.209.01` · `BS70.210` · `BC70.210.01`
+- **7. Productie** (53): `BS40.001` · `BS40.002` · `BS40.109` · `BS40.111` · `BS40.211` · `BS40.100` · `BS40.102` · `BS40.101` · `BS40.110` · `BC40.110.01` · `BC40.110.02` · `BC40.110.03` · `BS40.103` · `BC40.103.03` · `BS40.104` · `BC40.104.03` · `BS40.107` · `BC40.107.01` · `BC40.107.02` · `BS40.108` · `BS40.200` · `BS40.212` · `BC40.212.01` · `BC40.212.02` · `BS40.201` · `BC40.201.01` · `BS40.221` · `BC40.211.01` · `BC40.211.02` · `BC40.211.03` · `BS40.202` · `BS40.203` · `BS40.204` · `BS40.205` · `BC40.205.01` · `BC40.205.02` · `BC40.205.03` · `BC40.205.04` · `BS40.902` · `BC40.902.01` · `BC40.902.02` · `BC40.902.03` · `BC40.902.04` · `BS40.206` · `BS40.207` · `BS30.209` · `BS30.210` · `BS40.208` · `BS40.209` · `BC40.209.01` · `BS40.218` · `BS40.219` · `BS40.220`
+- **8. Magazijnbeheer** (39): `BS50.900` · `BC50.242.03` · `BS50.902` · `BS50.903` · `BS50.905` · `BS50.907` · `BS10.003` · `BS50.103` · `BS50.116` · `BS50.202` · `BC50.202.01` · `BC50.202.02` · `BS50.217` · `BS50.205` · `BS50.206` · `BC50.206.01` · `BS50.207` · `BC50.207.01` · `BS50.208` · `BS50.209` · `BS50.213` · `BC50.213.02` · `BC50.213.03` · `BC50.213.04` · `BC50.213.05` · `BS50.214` · `BC50.214.01` · `BC50.214.02` · `BS50.214.03` · `BS50.215` · `BC50.215.01` · `BC50.215.02` · `BS50.216` · `BS50.800` · `BS50.801` · `BS50.240` · `BS50.242` · `BC50.242.01` · `BC50.242.02`
+- **9. Service** (34): `BS60.001` · `BS60.002` · `BS60.620` · `BS60.621` · `BS60.100` · `BS60.101` · `BS60.102` · `BS60.103` · `BS60.104` · `BS60.105` · `BS60.106` · `BS60.107` · `BS60.200` · `BS60.201` · `BS60.202` · `BS60.203` · `BS60.204` · `BS60.205` · `BS60.206` · `BS60.207` · `BS60.222` · `BS60.208` · `BC60.208.01` · `BC60.208.02` · `BC60.208.03` · `BS60.209` · `BS60.210` · `BS60.211` · `BS60.213` · `BS60.214` · `BS60.215` · `BS60.216` · `BS60.217` · `BS60.619`
+- **10. Finance** (90): `BS65.001` · `BC65.009.02` · `BS65.012` · `BS65.112` · `BS65.248` · `BS65.800` · `BS65.801` · `BS65.802` · `BS65.900` · `BS65.901` · `BS65.100` · `BS65.109` · `BS65.101` · `BS65.102` · `BS65.207` · `BS65.208` · `BC65.208.01` · `BC65.208.02` · `BS65.105` · `BC65.200.01` · `BC65.200.02` · `BC65.200.03` · `BC65.200.04` · `BS65.201` · `BS65.202` · `BS65.203` · `BS65.205` · `BS65.214` · `BS65.215` · `BS65.106` · `BS65.004` · `BS65.108` · `BS65.209` · `BS65.211` · `BS65.007` · `BS65.213` · `BS65.216` · `BC65.216.01` · `BC65.216.02` · `BC65.216.03` · `BS65.217` · `BS65.218` · `BC65.218.01` · `BC65.218.02` · `BS65.110` · `BS65.219` · `BC65.219.01` · `BC65.219.02` · `BS65.220` · `BS65.221` · `BS65.230` · `BS65.231` · `BC65.231.01` · `BC65.231.02` · `BC65.231.03` · `BC65.231.04` · `BS65.232` · `BC65.232.01` · `BC65.232.02` · `BC65.232.03` · `BS65.233` · `BS65.234` · `BC65.234.01` · `BC65.234.02` · `BS65.235` · `BS65.222` · `BC65.222.01` · `BC65.222.02` · `BS65.223` · `BS65.224` · `BS65.225` · `BS65.226` · `BS65.227` · `BS65.228` · `BS65.229` · `BS65.236` · `BS65.237` · `BC65.237.01` · `BC65.237.02` · `BS65.238` · `BS65.239` · `BC65.239.01` · `BC65.239.02` · `BS65.240` · `BS65.242` · `BS65.243` · `BS65.244` · `BS65.245` · `BS65.246` · `BS65.247`
+- **11. Human Resources** (3): `BS75.001` · `BS75.200` · `BS75.201`
+- **12. Interfaces** (4): `BS95.002` · `BC95.002.01` · `BC95.002.02` · `BC95.002.03`
+- **13. Cegeka 365 for Business Central** (28): `BS95.003` · `BS10.007` · `BS10.008` · `BS35.003` · `BS35.106` · `BS35.107` · `BS35.108` · `BS25.002` · `BS25.003` · `BS25.004` · `BS25.005` · `BS25.110` · `BS25.111` · `BS25.226` · `BS25.227` · `BS25.228` · `BS25.231` · `BS65.249` · `BS25.903` · `BS25.904` · `BS50.004` · `BS50.005` · `BS50.006` · `BS50.235` · `BS50.111` · `BS50.112` · `BS50.113` · `BS55.900`
+
+## B. Stale (> 12 maanden niet herbevestigd)
+
+Geen.
+
+## C. Niet in de template (kandidaten & retired)
+
+De template-nummering is de master — het kostenmodel (`pricing/effort-baselines.json`)
+en alle klantworkspaces verwijzen op code. **Nieuwe nummers** (candidates) worden pas
+echte template-codes na menselijke goedkeuring via `/review-system`; tot dan moeten ze
+in `system/reviews/register.md` geflagd staan (afgedwongen door `catalog.py check`).
+
+Geen — template en catalogus dekken elkaar volledig.
+
+## D. Veelgebruikte add-on-scenario's (≥ 2 echte gebruiken)
+
+Nog geen — verschijnt zodra ≥ 2 echte klanten hetzelfde add-on-scenario gebruiken.
+

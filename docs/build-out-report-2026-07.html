@@ -1,0 +1,531 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body><title>Methodology Build-out — Change Report</title>
+<style>
+:root {
+  --paper:#f7f8f6; --card:#ffffff; --ink:#101820; --ink-2:#4d5966; --ink-3:#8a95a1;
+  --line:#dfe4e3; --accent:#0f4c81; --accent-ink:#ffffff; --accent-soft:#e7eef5;
+  --eff:#2a78d6; --rev:#1baf7a; --risk:#eb6834; --know:#4a3aa7;
+  --eff-bg:#e9f1fb; --rev-bg:#e4f6ef; --risk-bg:#fdeee7; --know-bg:#edebf8;
+  --grid:#e6e9e8; --shadow:0 1px 2px rgba(16,24,32,.05), 0 6px 20px rgba(16,24,32,.06);
+  --mono:"Cascadia Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root {
+  --paper:#10151a; --card:#171e25; --ink:#edf1f4; --ink-2:#a7b2bd; --ink-3:#6d7883;
+  --line:#2a333c; --accent:#4a90d9; --accent-ink:#0b1219; --accent-soft:#1b2938;
+  --eff:#3987e5; --rev:#199e70; --risk:#d95926; --know:#9085e9;
+  --eff-bg:#16273c; --rev-bg:#123028; --risk-bg:#33211a; --know-bg:#221f38;
+  --grid:#232c34; --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"] {
+  --paper:#10151a; --card:#171e25; --ink:#edf1f4; --ink-2:#a7b2bd; --ink-3:#6d7883;
+  --line:#2a333c; --accent:#4a90d9; --accent-ink:#0b1219; --accent-soft:#1b2938;
+  --eff:#3987e5; --rev:#199e70; --risk:#d95926; --know:#9085e9;
+  --eff-bg:#16273c; --rev-bg:#123028; --risk-bg:#33211a; --know-bg:#221f38;
+  --grid:#232c34; --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+}
+:root[data-theme="light"] {
+  --paper:#f7f8f6; --card:#ffffff; --ink:#101820; --ink-2:#4d5966; --ink-3:#8a95a1;
+  --line:#dfe4e3; --accent:#0f4c81; --accent-ink:#ffffff; --accent-soft:#e7eef5;
+  --eff:#2a78d6; --rev:#1baf7a; --risk:#eb6834; --know:#4a3aa7;
+  --eff-bg:#e9f1fb; --rev-bg:#e4f6ef; --risk-bg:#fdeee7; --know-bg:#edebf8;
+  --grid:#e6e9e8; --shadow:0 1px 2px rgba(16,24,32,.05), 0 6px 20px rgba(16,24,32,.06);
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--paper); color:var(--ink);
+  font:15px/1.6 "Segoe UI", system-ui, -apple-system, sans-serif; }
+.wrap { display:flex; max-width:1360px; margin:0 auto; gap:36px; padding:0 28px 90px; }
+nav.rail { position:sticky; top:0; align-self:flex-start; width:198px; flex:none;
+  padding:36px 0 24px; display:flex; flex-direction:column; gap:2px; }
+nav.rail .brand { font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-3); margin:0 0 14px 12px; }
+nav.rail a { color:var(--ink-2); text-decoration:none; font-size:13.5px;
+  padding:6px 12px; border-radius:7px; border-left:2px solid transparent; }
+nav.rail a:hover { background:var(--accent-soft); color:var(--ink); }
+nav.rail a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible
+  { outline:2px solid var(--accent); outline-offset:2px; }
+main { flex:1; min-width:0; max-width:1040px; }
+@media (max-width: 900px) { nav.rail { display:none; } .wrap { gap:0; padding:0 16px 60px; } }
+
+header.hero { padding:52px 0 8px; }
+.eyebrow { font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent);
+  font-weight:600; margin:0 0 10px; }
+h1 { font-size:clamp(26px, 3.4vw, 38px); line-height:1.15; margin:0 0 12px;
+  font-weight:650; letter-spacing:-.015em; text-wrap:balance; }
+.hero p.lede { font-size:16.5px; color:var(--ink-2); max-width:64ch; margin:0; }
+.hero .stamp { font:12px var(--mono); color:var(--ink-3); margin-top:14px; }
+
+section { margin-top:56px; scroll-margin-top:24px; }
+h2 { font-size:21px; font-weight:650; letter-spacing:-.01em; margin:0 0 6px; text-wrap:balance; }
+h3 { font-size:15.5px; font-weight:650; margin:1.4em 0 .5em; }
+.kicker { font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3);
+  font-weight:600; margin:0 0 6px; }
+section > p.sub { color:var(--ink-2); max-width:70ch; margin:0 0 20px; }
+p { max-width:72ch; }
+code { font:12.5px var(--mono); background:var(--accent-soft); border-radius:4px; padding:1px 5px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:12px;
+  box-shadow:var(--shadow); padding:20px 22px; }
+
+/* headline stats */
+.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; margin:26px 0 0; }
+.stat { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; }
+.stat .v { font-size:30px; font-weight:650; letter-spacing:-.02em; }
+.stat .l { font-size:12.5px; color:var(--ink-2); margin-top:2px; }
+.stat .n { font-size:11.5px; color:var(--ink-3); margin-top:6px; }
+
+/* assumptions */
+.assump { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px 26px; }
+.assump label { display:block; font-size:13px; color:var(--ink-2); }
+.assump .row { display:flex; align-items:baseline; justify-content:space-between; gap:10px; }
+.assump output { font:600 15px var(--mono); color:var(--ink); font-variant-numeric:tabular-nums; }
+.assump input[type=range] { width:100%; accent-color:var(--accent); margin-top:6px; }
+
+/* pipeline map */
+.flow { display:flex; flex-wrap:wrap; align-items:stretch; gap:8px; }
+.stage { position:relative; border:1.5px solid var(--line); background:var(--card); border-radius:10px;
+  padding:10px 14px 9px; min-width:118px; cursor:pointer; text-align:left; font:inherit; color:var(--ink); }
+.stage:hover { border-color:var(--accent); }
+.stage .s-name { font-size:13.5px; font-weight:600; }
+.stage .s-sub { font-size:11px; color:var(--ink-3); margin-top:1px; }
+.stage.missing { border-style:dashed; border-color:var(--risk); background:transparent; }
+.stage.missing .s-sub { color:var(--risk); font-weight:600; }
+.stage.upg { border-color:var(--accent); }
+.stage.upg .s-sub { color:var(--accent); font-weight:600; }
+.chip.built { color:var(--accent); background:var(--accent-soft); border:1px solid var(--accent); }
+.stage .badge { position:absolute; top:-9px; right:-7px; background:var(--accent); color:var(--accent-ink);
+  font:600 11px var(--mono); border-radius:20px; padding:1px 7px; }
+.flow .arrow { align-self:center; color:var(--ink-3); font-size:15px; }
+
+/* chips + filters */
+.chip { display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:600;
+  border-radius:20px; padding:2px 10px; white-space:nowrap; }
+.chip i { width:8px; height:8px; border-radius:50%; display:inline-block; }
+.chip.eff { color:var(--eff); background:var(--eff-bg); } .chip.eff i { background:var(--eff); }
+.chip.rev { color:var(--rev); background:var(--rev-bg); } .chip.rev i { background:var(--rev); }
+.chip.risk { color:var(--risk); background:var(--risk-bg); } .chip.risk i { background:var(--risk); }
+.chip.know { color:var(--know); background:var(--know-bg); } .chip.know i { background:var(--know); }
+.chip.plain { color:var(--ink-2); background:var(--paper); border:1px solid var(--line); }
+.filters { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 16px; }
+.filters button { font:600 12.5px "Segoe UI", system-ui, sans-serif; border:1px solid var(--line);
+  background:var(--card); color:var(--ink-2); border-radius:20px; padding:5px 14px; cursor:pointer; }
+.filters button.on { background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+.filters .sep { width:1px; background:var(--line); margin:2px 4px; }
+
+/* leak cards */
+.leak { border:1px solid var(--line); border-radius:12px; background:var(--card);
+  box-shadow:var(--shadow); margin-bottom:12px; overflow:hidden; }
+.leak summary { list-style:none; cursor:pointer; padding:14px 18px; display:flex; flex-wrap:wrap;
+  align-items:center; gap:10px 12px; }
+.leak summary::-webkit-details-marker { display:none; }
+.leak summary:hover { background:var(--accent-soft); }
+.leak .lid { font:600 12px var(--mono); color:var(--ink-3); }
+.leak .lt { font-size:15px; font-weight:650; flex:1 1 260px; }
+.leak .lv { font:600 14px var(--mono); font-variant-numeric:tabular-nums; margin-left:auto; }
+.leak .l-body { border-top:1px solid var(--line); padding:16px 20px 18px;
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px 26px; }
+.leak .l-body h4 { margin:0 0 4px; font-size:11.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); }
+.leak .l-body p { margin:0; font-size:13.8px; color:var(--ink-2); max-width:none; }
+.leak .l-body p strong { color:var(--ink); }
+.leak .full { grid-column:1 / -1; }
+
+/* scatter */
+.viz { background:var(--card); border:1px solid var(--line); border-radius:12px;
+  box-shadow:var(--shadow); padding:18px 18px 8px; }
+.viz .legend { display:flex; flex-wrap:wrap; gap:14px; padding:2px 4px 10px; font-size:12.5px; color:var(--ink-2); }
+.viz svg { display:block; width:100%; height:auto; }
+.viz text { font:11.5px "Segoe UI", system-ui, sans-serif; fill:var(--ink-2); }
+.viz .axl { fill:var(--ink-3); font-size:11px; }
+.viz .dotl { font:600 10.5px var(--mono); fill:var(--ink); }
+.viz line, .viz text { pointer-events:none; }
+.tip { position:fixed; z-index:50; pointer-events:none; background:var(--card); color:var(--ink);
+  border:1px solid var(--line); box-shadow:var(--shadow); border-radius:8px; padding:8px 12px;
+  font-size:12.5px; max-width:280px; display:none; }
+.tip b { display:block; }
+
+/* tables */
+table.t { border-collapse:collapse; width:100%; font-size:13.5px; }
+table.t th, table.t td { border-bottom:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top; }
+table.t th { font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); font-weight:600; }
+table.t td:first-child { white-space:nowrap; }
+.t-wrap { overflow-x:auto; }
+
+/* roadmap */
+.horizons { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; }
+.hz { border:1px solid var(--line); border-radius:12px; background:var(--card); box-shadow:var(--shadow); }
+.hz .hz-h { padding:14px 18px 10px; border-bottom:1px solid var(--line); }
+.hz .hz-h .t { font-weight:650; font-size:15px; }
+.hz .hz-h .s { font-size:12px; color:var(--ink-3); }
+.hz .hz-h .v { font:600 13px var(--mono); color:var(--accent); margin-top:4px; }
+.hz ul { list-style:none; margin:0; padding:10px 18px 16px; display:flex; flex-direction:column; gap:9px; }
+.hz li { font-size:13.5px; color:var(--ink-2); padding-left:2px; }
+.hz li b { color:var(--ink); font-weight:600; }
+.hz li .lref { font:600 11px var(--mono); color:var(--accent); cursor:pointer; }
+
+.note { border-left:3px solid var(--accent); background:var(--accent-soft); border-radius:0 10px 10px 0;
+  padding:12px 16px; font-size:13.5px; color:var(--ink-2); max-width:75ch; }
+.grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; }
+@media (prefers-reduced-motion: no-preference) {
+  .leak, .stat, .stage { transition:border-color .12s, background .12s; }
+}
+
+.chip.partial { color:var(--risk); background:var(--risk-bg); border:1px solid var(--risk); }
+.chip.skill { color:var(--know); background:var(--know-bg); border:1px solid var(--know); }
+.bars .row { display:grid; grid-template-columns: 210px 1fr 90px; gap:10px; align-items:center; margin:7px 0; font-size:13px; }
+.bars .bar { height:16px; border-radius:4px 4px 4px 4px; background:var(--accent); min-width:2px; }
+.bars .bar.open { background:var(--ink-3); opacity:.55; }
+.bars .val { font:600 12.5px var(--mono); text-align:right; font-variant-numeric:tabular-nums; }
+.bars .lbl { color:var(--ink-2); }
+ol.ask { padding-left:1.3em; } ol.ask li { margin:.5em 0; max-width:72ch; }
+</style>
+
+<div class="wrap">
+<nav class="rail" aria-label="Sections">
+  <p class="brand">Build-out report</p>
+  <a href="#verdict">Summary</a>
+  <a href="#assumptions">Assumptions</a>
+  <a href="#pipeline">Pipeline now</a>
+  <a href="#register">What was built</a>
+  <a href="#value">Value per change</a>
+  <a href="#adoption">Adoption plan</a>
+  <a href="#governance">Human review</a>
+  <a href="#decisions">Decisions needed</a>
+  <a href="#open">Still open</a>
+  <a href="#method">Method</a>
+</nav>
+<main>
+
+<header class="hero" id="verdict">
+  <p class="eyebrow">ERP delivery methodology · build-out report for management</p>
+  <h1>All twelve leaks now have a system. Adoption is the remaining work.</h1>
+  <p class="lede">Follow-up to the methodology review (v2): every leak it identified has been
+  answered with a working component in the repository — templates, generator tools, validator
+  gates, skills — each demonstrated end-to-end on the demo client and passing the quality gates.
+  This report shows <strong>what was built, what it is worth, what adopting it costs</strong>, and the
+  four decisions we need from you. Figures recompute from the assumptions below.</p>
+  <p class="stamp" id="stamp">basis: branch claude/bpa-documentation-system-qzkhgg · 2026-07-07 · all demo validations green (0 errors, 0 warnings)</p>
+  <div class="stats">
+    <div class="stat"><div class="v">12 / 12</div><div class="l">Leaks with a built system</div><div class="n">10 fully built · 2 partially (agent layers open)</div></div>
+    <div class="stat"><div class="v" id="st-built">—</div><div class="l">Annual value now systematised</div><div class="n">unlocked by adopting, not by building more</div></div>
+    <div class="stat"><div class="v" id="st-open">—</div><div class="l">Value still requiring build work</div><div class="n">aftercare product layers (Q&amp;A agent, portal)</div></div>
+    <div class="stat"><div class="v" id="st-cap">—</div><div class="l">Extra project capacity / yr</div><div class="n">if the efficiency changes are adopted</div></div>
+  </div>
+</header>
+
+<section id="assumptions">
+  <p class="kicker">Calibrate</p>
+  <h2>Assumptions</h2>
+  <p class="sub">Same model as the review; figures are directional until the telemetry
+  (now built — C09) replaces them with measured deltas after two projects.</p>
+  <div class="card assump">
+    <label><span class="row"><span>Projects delivered per year</span><output id="o-P">12</output></span>
+      <input type="range" id="a-P" min="4" max="40" step="1" value="12"></label>
+    <label><span class="row"><span>Blended consultant day rate</span><output id="o-R">€ 950</output></span>
+      <input type="range" id="a-R" min="600" max="1500" step="25" value="950"></label>
+    <label><span class="row"><span>Average GAPs per project</span><output id="o-G">6</output></span>
+      <input type="range" id="a-G" min="0" max="15" step="1" value="6"></label>
+    <label><span class="row"><span>Clients on aftercare subscription</span><output id="o-A">10</output></span>
+      <input type="range" id="a-A" min="0" max="40" step="1" value="10"></label>
+    <label><span class="row"><span>Aftercare subscription / month</span><output id="o-M">€ 1 250</output></span>
+      <input type="range" id="a-M" min="0" max="4000" step="250" value="1250"></label>
+    <label><span class="row"><span>Average consulting days per project</span><output id="o-D">45</output></span>
+      <input type="range" id="a-D" min="20" max="120" step="5" value="45"></label>
+  </div>
+</section>
+
+<section id="pipeline">
+  <p class="kicker">Current state</p>
+  <h2>The pipeline, with its new components pinned on</h2>
+  <p class="sub">Ten stages, each with agent drafting, human gates and machine checks. Badges
+  count the components added in this build-out; click a stage to filter the register.</p>
+  <div class="card"><div class="flow" id="flow"></div></div>
+</section>
+
+<section id="register">
+  <p class="kicker">Changes</p>
+  <h2>What was built — one card per change</h2>
+  <p class="sub">Every card names the files (verifiable in the repo), how it works, what
+  adopting it costs, and its annual value formula. Status: <span class="chip built">✓ built</span>
+  <span class="chip partial">◐ partial</span> <span class="chip skill">⌘ skill</span> (a skill = an
+  assistant capability any consultant can invoke).</p>
+  <div class="filters" id="reg-filters"></div>
+  <div id="reg-list"></div>
+</section>
+
+<section id="value">
+  <p class="kicker">Worth</p>
+  <h2>Annual value per change, at your assumptions</h2>
+  <p class="sub">Solid bars are systematised and waiting on adoption; the faded bar still
+  needs build work (aftercare product layers). The register above is the table view.</p>
+  <div class="viz"><div class="bars" id="bars"></div></div>
+</section>
+
+<section id="adoption">
+  <p class="kicker">Next 30 days</p>
+  <h2>Adoption plan — the value is in usage, not in the repo</h2>
+  <div class="t-wrap card" style="padding:6px 4px;">
+  <table class="t">
+    <thead><tr><th>Week</th><th>Action</th><th>Owner</th><th>Uses</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Pick the pilot project (next new engagement) — it runs the full pipeline including briefings, quote annex, test kit, migration kit</td><td>manager</td><td>C01, C03, C12</td></tr>
+      <tr><td>1–2</td><td>Assign reviewers per component and schedule the first six <code>/review-system</code> sessions (~45 min each)</td><td>manager + seniors</td><td>C10</td></tr>
+      <tr><td>2</td><td>Calibration workshop: seniors sanity-check the effort-baseline seeds against the last 5 projects' actuals</td><td>solution architect</td><td>C03</td></tr>
+      <tr><td>2–3</td><td>Generate the quote annex for the next real quote alongside the manual estimate; compare, keep both on file</td><td>sales + consultant</td><td>C03</td></tr>
+      <tr><td>3</td><td>Hand-produce the first wave-impact report for two existing clients; test the €/month price point</td><td>consultant (aftercare)</td><td>C07</td></tr>
+      <tr><td>4</td><td>First <code>/harvest</code> on a finishing project; first metrics snapshot as baseline</td><td>knowledge curator</td><td>C08, C09</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="governance">
+  <p class="kicker">Control</p>
+  <h2>Every component gets a human review — by design, tracked</h2>
+  <p class="sub" style="margin-bottom:12px">Your requirement, made mechanical: the
+  <code>/review-system</code> skill runs a structured review session on any component (briefing →
+  sharp questions → approved diffs only → logged). Coverage is tracked in
+  <code>system/reviews/register.md</code> — 20 components mapped, 0 reviewed so far. That register is
+  the honest number to manage: the methodology is <em>built</em>; it is not yet <em>reviewed</em>.</p>
+  <div class="note">Review sessions are cheap by construction: the assistant assembles the
+  briefing and the demo example, asks specific closed questions ("does this gate match how you
+  actually triage?"), and only reviewer-approved diffs land. Rejected suggestions are recorded
+  too — that is expertise, and it feeds the lessons layer.</div>
+</section>
+
+<section id="decisions">
+  <p class="kicker">The ask</p>
+  <h2>Four decisions needed from you</h2>
+  <ol class="ask">
+    <li><strong>Pilot project.</strong> Which upcoming engagement runs the full pipeline first? (Determines where telemetry starts measuring.)</li>
+    <li><strong>Knowledge curator.</strong> 0.2–0.4 FTE owning packs, baselines, glossary, reviews register. Without an owner the flywheel decays — name the person.</li>
+    <li><strong>Aftercare pilot.</strong> Approve producing wave-impact reports for two existing clients this quarter and testing the subscription price (recurring revenue case: see slider above).</li>
+    <li><strong>Review capacity.</strong> Commit the senior hours for the review coverage (20 components × ~45 min, spreadable over a quarter) — the gate quality of the whole system rests on it.</li>
+  </ol>
+</section>
+
+<section id="open">
+  <p class="kicker">Honesty</p>
+  <h2>Still open — deliberately</h2>
+  <div class="grid2">
+    <div class="card"><h3 style="margin-top:0">Aftercare product layers (C07 remainder)</h3>
+      <p style="font-size:13.8px;color:var(--ink-2)">The doc-grounded Q&amp;A agent (Copilot Studio deployment
+      of the client's own docs) and subscription packaging need the two pilot reports first — build
+      follows evidence, not the other way around.</p></div>
+    <div class="card"><h3 style="margin-top:0">Client portal / viewer feedback</h3>
+      <p style="font-size:13.8px;color:var(--ink-2)">Digital per-domain sign-off in the deliverables
+      themselves. Valuable, but it platformises the stack — held until the review sessions confirm
+      the deliverable formats are stable.</p></div>
+    <div class="card"><h3 style="margin-top:0">Environment-verification agent (C05 remainder)</h3>
+      <p style="font-size:13.8px;color:var(--ink-2)">The probe tables are machine-executable by design;
+      the scheduled read-only API runner needs a real tenant to develop against — pilot project work.</p></div>
+    <div class="card"><h3 style="margin-top:0">Baseline calibration (C03 remainder)</h3>
+      <p style="font-size:13.8px;color:var(--ink-2)">The seeds are expert estimates and say so on every
+      quote annex. Two harvested projects replace them with measured numbers.</p></div>
+  </div>
+</section>
+
+<section id="method">
+  <p class="kicker">Method</p>
+  <h2>How to read this</h2>
+  <p class="sub" style="margin-bottom:10px">Companion to the methodology review v2 (same
+  assumption model, same repo evidence discipline — every card cites real paths). Value figures
+  are directional seeds; the telemetry built in this round (C09) exists precisely to replace
+  them with measurements. Both reports live in <code>docs/</code> and are updated as items close.</p>
+</section>
+
+</main>
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+(function () {
+"use strict";
+var A = { P: 12, R: 950, G: 6, Aft: 10, M: 1250, D: 45 };
+var fmt = function (n) {
+  if (n >= 1000000) return "€ " + (n / 1000000).toFixed(2) + " m";
+  if (n >= 1000) return "€ " + Math.round(n / 1000) + " k";
+  return "€ " + Math.round(n);
+};
+var ST = { built: ["built", "✓ built"], partial: ["partial", "◐ partial"], skill: ["skill", "⌘ skill"] };
+var STAGES = [
+  { id: "workshops", name: "Workshops", sub: "briefings" },
+  { id: "bpa", name: "BPA", sub: "packs · viewer" },
+  { id: "commercial", name: "Commercial", sub: "quote tool · CRs" },
+  { id: "setup", name: "Setup", sub: "plan · verification" },
+  { id: "gaps", name: "Gaps", sub: "FGD→TGD→AL scaffold" },
+  { id: "migration", name: "Migration", sub: "client-run kit" },
+  { id: "test", name: "Test / UAT", sub: "generated scripts" },
+  { id: "training", name: "Training", sub: "sessions · packets" },
+  { id: "manual", name: "Manual", sub: "grounded how-tos" },
+  { id: "aftercare", name: "Aftercare", sub: "registers · wave reports" },
+  { id: "cross", name: "Cross-cutting", sub: "harvest · telemetry · reviews" }
+];
+
+/* Changes register. leak = review finding it closes; st = built|partial|skill. */
+var CH = [
+  { id: "C01", leak: "L01", t: "Workshop briefing packs + same-day loop", stage: "workshops", st: "built", adopt: "none — generate before the next workshop",
+    val: function (a) { return 2 * a.P * a.R; }, f: "2 senior days saved / project",
+    what: "Per-workshop briefing generated from intake + scenario catalog + industry pack + lessons: known facts, hypothesis scope per scenario, numbered questions, same-day follow-up checklist.",
+    files: "clients/_template/bpa/briefings/ · demo: briefings/2026-05-12-verkoop-briefing.md",
+    how: "Consultant walks in with hypotheses to confirm instead of blank questions; gaps found today are questions next week, not change requests in month six. Transcripts cite question numbers, which sharpens requirement extraction." },
+  { id: "C02", leak: "L02", t: "Industry content packs (first: food-manufacturing)", stage: "bpa", st: "built", adopt: "fork the pack for the next food client",
+    val: function (a) { return 4 * a.P * a.R; }, f: "4 authoring days saved / project",
+    what: "Anonymised, reusable BPA scenario documentation per vertical; new clients fork a pack instead of starting blank. Attribution lines make the reuse ratio measurable; the harvest skill feeds improvements back.",
+    files: "bpa/packs/README.md · bpa/packs/food-manufacturing/ (verkoop + voorraad/kwaliteit)",
+    how: "Fork → replace placeholders with workshop facts → delete what doesn't apply. Pack comments carry the fork questions ('QC-labomodule in scope?') and hard-won lessons (the price-recalc defect is now a pack warning)." },
+  { id: "C03", leak: "L03", t: "Effort baselines + quote generator", stage: "commercial", st: "partial", adopt: "calibration workshop + shadow-quote the next deal",
+    val: function (a) { return 0.02 * a.P * a.D * a.R; }, f: "≈2% of delivery revenue protected from under-quoting",
+    what: "Scenario-level effort baselines (pricing/effort-baselines.json) and tools/build_quote.py: coverage matrix × baselines → a priced quote annex where what the client signs equals what the pipeline builds. Demo output: 16 scenarios + 2 gaps → 71.4 days.",
+    files: "pricing/effort-baselines.json · tools/build_quote.py · demo: commercial/quote-annex.md",
+    how: "Partial because the seeds are uncalibrated expert estimates (the annex says so on every page). The harvest skill updates them from actuals; two projects in, the numbers are measured." },
+  { id: "C04", leak: "L05", t: "AL scaffolds from approved TGDs", stage: "gaps", st: "built", adopt: "architect reviews the demo scaffold format once",
+    val: function (a) { return 0.75 * a.G * a.P * a.R; }, f: "0.75 dev-days saved per GAP",
+    what: "From an approved TGD the assistant generates the app skeleton: app.json with id-range and dependencies, object files with bilingual captions, event-subscriber signatures with VERIFY markers, and a test codeunit per TGD test row.",
+    files: "clients/_template/gaps/al/README.md · demo: gaps/al/GAP-1/ (6 files) · validator: scaffold requires approved TGD",
+    how: "The first 30–40% of gap development becomes a review instead of a build. The scaffold never invents beyond the TGD — open points are TODO(TGD §n) markers, and the human gate (architect merge) is validator-enforced." },
+  { id: "C05", leak: "L06", t: "Environment-verification probes", stage: "setup", st: "partial", adopt: "run the probe pass before the next training block",
+    val: function (a) { return 3 * a.P * a.R; }, f: "3 days of drift-firefighting avoided / project",
+    what: "verification.md turns every 'done' setup step into a concrete read-only probe (BC API query or page check), run before each training block and before cutover, with a drift log.",
+    files: "clients/_template/setup/verification.md · docs/setup.md §Verification",
+    how: "Partial: probes are executed manually until the scheduled read-only API runner is developed against a real tenant (pilot-project work). The probe format is machine-executable from day one, so automation changes nothing for authors." },
+  { id: "C06", leak: "L09", t: "Learning packets per module", stage: "training", st: "built", adopt: "hand the M1 packet to the next absent key user",
+    val: function (a) { return 1.5 * a.P * a.R; }, f: "1.5 delivery/repeat days saved / project",
+    what: "Self-study packets recombining manual topics + session exercises + a self-checking quiz whose answers cite topic codes. For absentees, new hires, refreshers.",
+    files: "clients/_template/training/packets/README.md · demo: training/packets/M1-masterdata-verkoop-packet.md",
+    how: "Packets contain nothing new by rule — a missing explanation is a manual review-flag first, which keeps the manual the single source of truth." },
+  { id: "C07", leak: "L10", t: "Wave-impact reports (aftercare layer 2)", stage: "aftercare", st: "skill", adopt: "produce two pilot reports this quarter (decision #3)",
+    val: function (a) { return a.Aft * a.M * 12; }, f: "subscribed clients × fee × 12 — recurring",
+    what: "/wave-impact skill: diff the Microsoft release plan + add-on notes against THIS client's in-scope scenarios and stack; classify hits as let-op / test / kans / terminologie with owners. The 'kans' section flags GAPs that new standard features could replace.",
+    files: ".claude/skills/wave-impact/ · clients/_template/aftercare/wave-reports/",
+    how: "This is the renewable product on top of the registers built earlier (issues/CRs). The Q&A agent and subscription packaging stay open until the two pilots price the offer — see 'Still open'." },
+  { id: "C08", leak: "L11", t: "Milestone harvest", stage: "cross", st: "skill", adopt: "run on the first finishing project",
+    val: function (a) { return 0.5 * a.P * a.R; }, f: "0.5 days better-argued decisions / project (compounding)",
+    what: "/harvest skill: at each milestone it drafts SDR outcomes, lessons-learned candidates, effort-baseline updates, industry-pack diffs and stale-claim sweeps — the human approves, nothing auto-merges.",
+    files: ".claude/skills/harvest/",
+    how: "Turns the optional chores that make the system compound into one invocable routine with named outputs. This is what keeps packs, baselines and lessons alive without relying on goodwill." },
+  { id: "C09", leak: "L12", t: "Pipeline telemetry", stage: "cross", st: "built", adopt: "add --log to the standard check command",
+    val: function (a) { return 1 * a.P * a.R; }, f: "1 day of review-loop waste removed / project",
+    what: "check_client --log persists every validator run per client; tools/metrics.py reads git history + those logs into stage cycle times, activity and validator-failure trends.",
+    files: "tools/metrics.py · tools/check_client.py --log",
+    how: "The gauges for the gates. Also the calibration source that replaces every assumed number in these reports with a measured one. Client-facing feedback capture in the viewer stays open (see 'Still open')." },
+  { id: "C10", leak: "—", t: "Human review of every component", stage: "cross", st: "skill", adopt: "assign reviewers + schedule sessions (decision #4)",
+    val: function () { return 0; }, f: "risk control — protects everything above",
+    what: "/review-system skill: structured review session on any component (2-minute briefing, sharp closed-first questions, approved-diffs-only application, logged record); system/reviews/register.md tracks coverage of all 20 components.",
+    files: ".claude/skills/review-system/ · system/reviews/register.md",
+    how: "Your requirement made mechanical. The honest number today: 20 components mapped, 0 reviewed — the register is the management dashboard for closing that." },
+  { id: "C11", leak: "—", t: "Report method as a skill", stage: "cross", st: "skill", adopt: "none",
+    val: function () { return 0; }, f: "capability — reports like this one on demand",
+    what: "/dynamic-report skill: the full method behind these reports (evidence discipline, assumption model, palette validation, browser verification, ship-three-ways).",
+    files: ".claude/skills/dynamic-report/",
+    how: "Any consultant can now ask for an assumption-driven report on any analysis and get this quality without this session's context." },
+  { id: "C12", leak: "L04+L07+L08", t: "Earlier this iteration: test, migration & CR kits", stage: "test", st: "built", adopt: "pilot project (decision #1)",
+    val: function (a) { return (1.5 + 1.5 + 2) * a.P * a.R; }, f: "5 days / project across the three kits",
+    what: "Recap of the correction round: UAT kit (generated scripts, coverage gates, sign-off), client-run migration kit (workbooks, RapidStart training, CP1–CP3), aftercare registers with the CR pipeline.",
+    files: "clients/_template/test/ · clients/_template/migration/ · clients/_template/aftercare/ · docs/testing.md · docs/migration.md · docs/aftercare.md",
+    how: "Included so this report is the complete change record of the iteration; details in methodology review v2." }
+];
+
+function val(c) { return c.val(A); }
+
+function renderHeadline() {
+  var built = 0, open_ = 0, days = 0;
+  CH.forEach(function (c) {
+    if (c.id === "C07") { open_ += val(c); return; } // product layers still need build work
+    built += val(c);
+  });
+  [["C01",2],["C02",4],["C05",3],["C06",1.5],["C09",1],["C12",5]].forEach(function (x) { days += x[1]; });
+  days += 0.75 * A.G; // C04 dev days
+  document.getElementById("st-built").textContent = fmt(built);
+  document.getElementById("st-open").textContent = fmt(open_);
+  document.getElementById("st-cap").textContent = "+" + ((days * A.P) / A.D).toFixed(1);
+}
+
+function renderFlow() {
+  var el = document.getElementById("flow"), html = "";
+  STAGES.forEach(function (s, i) {
+    var n = CH.filter(function (c) { return c.stage === s.id; }).length;
+    if (i && s.id !== "cross") html += '<span class="arrow" aria-hidden="true">→</span>';
+    if (s.id === "cross") html += '<span class="arrow" aria-hidden="true">·</span>';
+    html += '<button class="stage upg" data-stage="' + s.id + '">' +
+      (n ? '<span class="badge">' + n + "</span>" : "") +
+      '<span class="s-name">' + s.name + '</span><br><span class="s-sub">' + s.sub + "</span></button>";
+  });
+  el.innerHTML = html;
+  el.querySelectorAll(".stage").forEach(function (b) {
+    b.addEventListener("click", function () {
+      FILTER.stage = b.getAttribute("data-stage"); FILTER.st = "all";
+      renderFilters(); renderRegister();
+      document.getElementById("register").scrollIntoView({ behavior: "smooth" });
+    });
+  });
+}
+
+var FILTER = { st: "all", stage: "all" };
+function renderFilters() {
+  var f = document.getElementById("reg-filters");
+  var html = [["all", "all"], ["built", "✓ built"], ["partial", "◐ partial"], ["skill", "⌘ skill"]]
+    .map(function (x) { return '<button data-st="' + x[0] + '"' + (FILTER.st === x[0] ? ' class="on"' : "") + ">" + x[1] + "</button>"; }).join("");
+  if (FILTER.stage !== "all") {
+    var st = STAGES.find(function (s) { return s.id === FILTER.stage; });
+    html += '<span class="sep"></span><button data-clear="1" class="on">stage: ' + st.name + " ✕</button>";
+  }
+  f.innerHTML = html;
+  f.querySelectorAll("button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      if (b.hasAttribute("data-clear")) FILTER.stage = "all";
+      else FILTER.st = b.getAttribute("data-st");
+      renderFilters(); renderRegister();
+    });
+  });
+}
+
+function renderRegister() {
+  var list = CH.slice();
+  if (FILTER.st !== "all") list = list.filter(function (c) { return c.st === FILTER.st; });
+  if (FILTER.stage !== "all") list = list.filter(function (c) { return c.stage === FILTER.stage; });
+  var open = {};
+  document.querySelectorAll("#reg-list details[open]").forEach(function (d) { open[d.id] = true; });
+  document.getElementById("reg-list").innerHTML = list.map(function (c) {
+    var stg = STAGES.find(function (s) { return s.id === c.stage; });
+    var v = val(c);
+    return '<details class="leak" id="d-' + c.id + '"' + (open["d-" + c.id] ? " open" : "") + ">" +
+      '<summary><span class="lid">' + c.id + (c.leak !== "—" ? " · " + c.leak : "") + '</span><span class="lt">' + c.t + "</span>" +
+      '<span class="chip ' + c.st + '">' + ST[c.st][1] + "</span>" +
+      '<span class="chip plain">' + stg.name + "</span>" +
+      '<span class="lv">' + (v ? fmt(v) + "/yr" : "—") + "</span></summary>" +
+      '<div class="l-body">' +
+      '<div class="full"><h4>What it is</h4><p>' + c.what + "</p></div>" +
+      "<div><h4>In the repo</h4><p>" + c.files + "</p></div>" +
+      "<div><h4>Value formula</h4><p>" + c.f + (v ? " = <strong>" + fmt(v) + "/yr</strong>" : "") + "</p></div>" +
+      '<div class="full"><h4>How it works / status</h4><p>' + c.how + "</p></div>" +
+      '<div class="full"><h4>Adoption cost</h4><p>' + c.adopt + "</p></div>" +
+      "</div></details>";
+  }).join("") || '<p class="sub">No changes match this filter.</p>';
+}
+
+function renderBars() {
+  var rows = CH.filter(function (c) { return val(c) > 0; })
+    .sort(function (a, b) { return val(b) - val(a); });
+  var max = val(rows[0]);
+  document.getElementById("bars").innerHTML = rows.map(function (c) {
+    var v = val(c), w = Math.max(2, (v / max) * 100);
+    var open_ = c.id === "C07";
+    return '<div class="row"><span class="lbl">' + c.id + " · " + c.t.split("—")[0].split("(")[0].trim() + "</span>" +
+      '<span><span class="bar' + (open_ ? " open" : "") + '" style="width:' + w + '%" title="' + fmt(v) + '"></span></span>' +
+      '<span class="val">' + fmt(v) + "</span></div>";
+  }).join("");
+}
+
+var map = { P: "P", R: "R", G: "G", A: "Aft", M: "M", D: "D" };
+Object.keys(map).forEach(function (k) {
+  var input = document.getElementById("a-" + k), out = document.getElementById("o-" + k);
+  input.addEventListener("input", function () {
+    A[map[k]] = +input.value;
+    out.textContent = (k === "R" || k === "M") ? "€ " + (+input.value).toLocaleString("fr-BE") : input.value;
+    renderHeadline(); renderRegister(); renderBars();
+  });
+});
+
+renderHeadline(); renderFlow(); renderFilters(); renderRegister(); renderBars();
+})();
+
+</script>
+</body></html>

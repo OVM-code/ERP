@@ -32,12 +32,40 @@ You advise; the consultant decides. Never present a recommendation as the only o
 | `clients/<client>/decisions/SDR-*.md` | Setup Decision Records: what was chosen, alternatives, arguments, outcome |
 | `clients/_template/` | Blank intake + SDR templates for new clients |
 | `expertise/lessons-learned.md` | Cross-client lessons distilled from decision records — the expertise layer |
+| `methodology/` | The six-phase methodology guides (Prepare → BPA → SDB → Test → Deploy → Support): per phase the purpose, workflow, assets, expertise entry points and exit gate — written for a consultant new to this system |
 | `system/update-check-log.md` | Log of freshness checks against official vendor sources — enforces the once-a-day throttle described below |
+| `bpa/template/` | Cegeka Process Model (BPA content template): per-domain text + `catalog.json` with every coded business scenario |
+| `bpa/catalog/` | **Business Process Catalog** — the evidence-based register (per scenario: status, evidence, last-verified) that BPA scenario-mapping starts from; refreshed monthly (`refresh-log.md`), challenges the template via `vs-template-report.md` |
+| `bpa/processes/` | Standard BPMN process flows per domain, steps linked to scenario codes |
+| `clients/<client>/bpa/` | Per-client BPA workspace: meeting inputs, requirements, scope matrix, enriched content, GAP register, built deliverable |
 
 **Layering rule:** standard ERP knowledge applies first; add-on files **override or extend**
 it. When a client uses an add-on, always read the add-on module files for the functional
 area in scope — an option that is valid in standard may be invalid or changed with the
 add-on active, and the add-on introduces decisions that standard does not have.
+
+## Phase guidance (guide the consultant through the methodology)
+
+The project methodology has six phases — **1 Prepare · 2 BPA · 3 SDB (Solution
+Design & Build) · 4 Test · 5 Deploy · 6 Support** — each with a guide in
+`methodology/` that maps every asset, tool, skill and expertise entry point of
+that phase. When the consultant asks where they are, what to do next, or how a
+phase works ("I'm in SDB for client X", "what's next for Y?", "explain the test
+phase"):
+
+1. **Read the phase guide** (`methodology/0N-<phase>.md`) — it is your script.
+   If the phase is unclear, infer it from the client's workspace (which folders
+   have content, which gates are passed) and say which phase you concluded.
+2. **Inspect the client's workspace** against the guide's deliverables table
+   and run `python3 tools/check_client.py clients/<slug>` — report concretely:
+   what exists, what is missing, what the checker flags.
+3. **Walk them through the next step**, linking the assets involved (template,
+   tool, worked demo example) rather than describing them abstractly.
+4. **Assume no prior knowledge** unless you know otherwise: expand jargon on
+   first use (the glossary in `methodology/README.md` is the reference) and
+   point new consultants to that README.
+5. **Flag the gate** before they leave a phase: name the guide's *definition of
+   done* items that are not yet met — gates exist to be hard.
 
 ## The advisory workflow
 
@@ -114,6 +142,88 @@ This is not optional — unrecorded decisions are lost expertise. If the platfor
 on cannot write files (e.g. Copilot Studio), output the completed SDR as a copy-paste
 block and tell the consultant where to save it.
 
+## The BPA workflow (from requirement meetings to client deliverable)
+
+When the consultant asks to process meeting material (transcripts, notes) or to build
+a Business Process Analysis, follow the pipeline in `docs/bpa.md`:
+
+1. **Ingest** whatever exists in `clients/<client>/bpa/inputs/` — transcript, notes,
+   or both. Note source quality; never invent what a poor source doesn't support.
+2. **Extract requirements** into `clients/<client>/bpa/requirements.md` (`REQ-xxx`
+   blocks): literal client quote, source citation (`<file> §<n>`), interpretation,
+   priority. Batch open questions to the consultant instead of guessing.
+3. **Map to business scenarios** from the Business Process Catalog
+   (`bpa/catalog/catalog.json` — same codes/structure as the template, but with
+   evidence and status per scenario) and record scope in `coverage.md` — only
+   relevant scenarios go in the BPA; log explicit out-of-scope decisions with
+   the reason. Treat catalog status as a signal: `verified` is safe to promise,
+   `unverified` means double-check before claiming standard BC, `retired` means
+   don't promise it at all (see `notes`). **Monthly throttle:** if
+   `bpa/catalog/refresh-log.md` has no row for the current month, offer to run
+   `/catalog-refresh` first (or note that the catalog is unrefreshed this month
+   and continue).
+4. **Enrich** each in-scope scenario in `content/NN-<domain>.md`: start from the
+   template text (`bpa/template/domains/`), make it client-specific, and classify the
+   *Invulling* — `standaard` / `add-on: <naam>` / `workaround` / `gap: GAP-x`. This
+   classification is a setup recommendation: apply the advisory workflow above
+   (stack, intake facts, expertise layer, cite LL/SDR sources) before choosing it.
+   Customisations become `GAP-x` blocks in `gaps.md`.
+5. **Adapt process flows** where the client deviates from the standard
+   (`bpa/processes/` → copy into the client's `processes/`).
+6. **Build** with `python3 tools/build_bpa.py clients/<client>` and resolve every
+   build warning. The output HTML is the client deliverable.
+
+Setup decisions that surface during BPA work (e.g. choosing an add-on over a
+workaround) still get an SDR — the BPA documents *what the client will get*, the SDR
+records *why it was decided*.
+
+## The delivery pipeline (after the BPA)
+
+The BPA feeds five further systems, each with its own workspace under
+`clients/<client>/`, a template under `clients/_template/`, a guide under `docs/`,
+and mechanical checks in `tools/check_client.py`. Run that checker after every
+authoring step — **zero errors/warnings is the definition of done** on any model.
+
+| Stage | Workspace | Guide | Gate before next stage |
+|---|---|---|---|
+| Setup plan (BPA → BC configuration workbook) | `setup/` | `docs/setup.md` | plan `approved`; covers every in-scope scenario or defers it |
+| FGD (functional gap design, per GAP-x) | `gaps/FGD-GAP-x.md` | `docs/gap-designs.md` | **human review**: status `approved` |
+| TGD (technical gap design, for an external developer) | `gaps/TGD-GAP-x.md` | `docs/gap-designs.md` | only from an approved FGD (machine-enforced); tests cover all FGD acceptance criteria |
+| Migration (client-run after RapidStart training) | `migration/` | `docs/migration.md` | entity workbooks complete; consultant checkpoints CP1–CP3 signed |
+| Test / UAT (key-user acceptance, scripts from BPA + FGD ACs) | `test/` | `docs/testing.md` | exit criteria met; no open high-severity defects; per-domain sign-off |
+| Training (trajectory + session preps) | `training/` | `docs/training.md` | sessions reference only in-scope scenarios; env prep tied to setup-plan steps |
+| User manual (interactive, like the BPA) | `manual/` | `docs/manual.md` | every topic grounded (`bpa` / `docs:<url>`) or flagged `review` for the consultant |
+| Aftercare (issues + change requests, post-go-live) | `aftercare/` | `docs/aftercare.md` | resolved issues feed manual/lessons (feeding rule); CRs delivered only from `approved`, with a BPA version bump |
+
+Cross-cutting rules for every stage:
+
+- **Gates** (see `docs/gates.md`): every step ends at a human gate — finish the
+  step's output, set its gate block to `in review`, summarise what to look at, and
+  STOP. The consultant steers with directives (in the gate block or in chat — you
+  record them there, apply them to that artifact, tick them off with a date) and
+  only they set `approved`. Never start the next step while the previous gate is
+  not approved; never approve a gate yourself; never approve with open directives
+  (`check_client.py` enforces all three). When asked "which gates are open?",
+  read the checker's gates line and list what awaits the consultant.
+- **Language**: deliverables in the client's language (config `language`); use the
+  exact Business Central terms from `bpa/terminology/bc-terms.json` — extend the
+  glossary before inventing a term. Internal repo docs stay English.
+- **Versions**: pin the client's stack in their config; apply the freshness check
+  (step 3 above) to deliverable work as well; see `system/stack-versions.md`.
+- **Model & cost**: follow `system/model-guide.md` — one pipeline step per pass,
+  validators after every step, mechanical work in the Python tools, never read the
+  522 KB template source (use `catalog.json` + the split domain files).
+- **Flank systems**: workshop briefings (`clients/_template/bpa/briefings/`) before
+  every meeting; industry packs (`bpa/packs/`) as content starting point; quotes
+  from coverage via `tools/build_quote.py` (baselines in `pricing/`); AL scaffolds
+  from approved TGDs (`gaps/al/`); environment verification probes
+  (`setup/verification.md`); learning packets (`training/packets/`); wave-impact
+  reports (`/wave-impact` skill); milestone harvest (`/harvest` skill); telemetry
+  via `check_client --log` + `tools/metrics.py`.
+- **Human review coverage**: every methodology component is reviewed by a human via
+  the `/review-system` skill; coverage lives in `system/reviews/register.md`. Only
+  reviewer-approved diffs land.
+
 ## The learning loop (keeping the system smart)
 
 - **After go-live or a review milestone**, prompt the consultant to fill in the
@@ -127,6 +237,12 @@ block and tell the consultant where to save it.
   options are requested. On top of that, react immediately any time the consultant
   mentions a release or you spot a contradiction, regardless of the daily throttle —
   small continuous updates, never big rewrites.
+- **Catalog freshness** (decoupled from client work): the Business Process Catalog
+  refreshes at most **once a month** via `/catalog-refresh` — the first session in a
+  calendar month that touches catalog or BPA-mapping work checks
+  `bpa/catalog/refresh-log.md` and offers the refresh if the month has no row yet.
+  Its reconciliation report challenges `bpa/template/`; template edits that follow
+  go through `/review-system`, never applied directly.
 
 ## Style
 

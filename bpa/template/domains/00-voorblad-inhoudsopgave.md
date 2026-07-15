@@ -1,0 +1,513 @@
+# Cegeka — Business Process Analyse (BPA) Template
+
+*Cegeka Process Model 3.01 — standaard BPA-document template voor klant.*
+
+| | |
+|---|---|
+| Bestand | Cegeka Process Model 3.0.docx |
+| Versie | 3.0 / 3.01 |
+| Auteur | Olivia Vanmalleghem |
+| Laatst bijgewerkt | 25/03/2026 |
+| Organisatie | Cegeka Business Solutions NV, Sluisweg 2 bus 9, 9000 Gent, België |
+
+> Placeholders `<KLANT>`, `<periode>`, `<Comments>` zijn merge-velden uit het oorspronkelijke sjabloon en moeten per project ingevuld worden.
+
+## Inhoudsopgave
+
+- Inleiding
+- **1. Bedrijfsinformatie**
+  - 1.1 Algemene bedrijfsinformatie
+    - 1.1.1 BS10.001 Beheer organisaties
+    - 1.1.2 BS95.001 Gebruikers
+  - 1.2 Divisies instellen
+    - 1.2.1 BS10.002 Divisies beheren
+  - 1.3 Algemene bedrijfsfunctionaliteit
+    - 1.3.1 BS10.006 Rapport- en documentparameters
+    - 1.3.2 BS10.005 Resources
+    - 1.3.3 BS45.201 Artikeltracering
+    - 1.3.4 BS10.900 Advanced comments (Aptean)
+    - 1.3.5 BS10.901 Advanced attributes (Aptean)
+    - 1.3.6 BS10.903 Filter groups (Aptean)
+    - 1.3.7 BS10.904 Status management (Aptean)
+  - 1.4 Relatiebeheer
+    - 1.4.1 BS15.001 Relatiebeheer instellen
+    - 1.4.2 BS15.105 Contacten beheren
+    - 1.4.3 BS15.201 Contacten classificeren
+    - 1.4.4 BS15.203 Interacties registeren
+    - 1.4.5 BS15.209 Verkopers/Inkopers
+    - 1.4.6 BS15.204 Taken beheren
+    - 1.4.7 BS15.205 Segmenten beheren
+    - 1.4.8 BS15.206 Campagnes beheren
+    - 1.4.9 BS15.207 Opportuniteiten beheren
+    - 1.4.10 BS15.208 Outlook integratie
+- **2. Verkoop**
+  - 2.1 Verkoop instellen
+    - 2.1.1 BS25.001 Verkoop instellen
+  - 2.2 Verkoop master data
+    - 2.2.1 BS25.100 Beheren klantenfiche
+    - 2.2.2 BS25.101 Beheren verkoopprijzen
+    - 2.2.3 BS25.102 Beheren verkoopregelkortingen
+    - 2.2.4 BS25.103 Beheren artikeltoeslag verkoop
+    - 2.2.5 BS25.104 Beheren verkoopfactuurkortingen
+    - 2.2.6 BS25.105 Beheren verkoopbestellijsten (sales codes)
+  - 2.3 Verkoopoffertes beheren
+    - 2.3.1 BS25.200 Verkoopoffertes maken
+  - 2.4 Verkoopraamcontracten beheren
+    - 2.4.1 BS25.201 Verkoopraamcontracten beheren
+  - 2.5 Verkooporders beheren
+    - 2.5.1 BS25.202 Verkooporders maken
+    - 2.5.2 BS25.203 Doorverzendingen en speciale orders
+    - 2.5.3 BS25.204 Reserveer voorraad op een verkooporder
+    - 2.5.4 BS25.205 Verkooporder verzenden
+    - 2.5.5 BS25.206 Beheer van backorders
+    - 2.5.6 BS25.207 Verkooporders annuleren
+    - 2.5.7 BS25.208 Verwerk intercompany verkooporders
+    - 2.5.8 BS25.209 Productieorders maken vanaf verkooporders
+    - 2.5.9 BS25.211 Goedkeuringsaanvraag verzenden
+    - 2.5.10 BS25.212 Verkooporder goedkeuren
+    - 2.5.11 BS25.237 Verkoopverzending ongedaan maken
+    - 2.5.12 BS25.328 Ordertoezegging
+  - 2.6 Verkoopfacturen beheren
+    - 2.6.1 BS25.213 Verkoopfacturen maken
+    - 2.6.2 BS25.214 Verkoopfacturen boeken
+    - 2.6.3 BS25.215 Periodieke verkoopfacturen maken
+    - 2.6.4 BS25.216 Vooruitbetalingsfacturen maken
+  - 2.7 Verkoopretourorders beheren
+    - 2.7.1 BS25.219 Verkoopretourorders maken
+  - 2.8 Verkoopcreditnota's beheren
+    - 2.8.1 BS25.220 Verkoopcreditnota's maken
+    - 2.8.2 BS25.221 Vooruitbetalingscreditnota's maken
+  - 2.9 BS25.900 Advanced pricing (Aptean)
+  - 2.10 BS25.222 Subscription management
+  - 2.11 Document Lay-outs Verkoop
+    - 2.11.1 BS25.800 Verkoopofferte
+    - 2.11.2 BS25.801 Verkooporder
+    - 2.11.3 BS25.802 Verkoopretourorder
+    - 2.11.4 BS25.803 Pro Forma Factuur
+- **3. Inkoop**
+  - 3.1 Inkoop instellen
+    - 3.1.1 BS35.001 Inkoop instellen
+  - 3.2 Inkoop master data
+    - 3.2.1 BS35.100 Leveranciers beheren
+    - 3.2.2 BS35.101 Inkoopprijzen beheren
+    - 3.2.3 BS35.102 Inkoopkortingen beheren
+    - 3.2.4 BS35.103 Artikeltoeslagen inkoop beheren
+    - 3.2.5 BS35.104 Inkoopfactuurkortingen beheren
+    - 3.2.6 BS35.105 Inkoopbestellijsten beheren (purchase codes)
+  - 3.3 Inkoopoffertes beheren
+    - 3.3.1 BS35.200 Inkoopoffertes beheren
+  - 3.4 Inkoopraamcontracten beheren
+    - 3.4.1 BS35.201 Inkoopraamcontracten beheren
+  - 3.5 Inkooporders beheren
+    - 3.5.1 BS35.202 Inkooporders maken
+    - 3.5.2 BS25.203 Doorverzendingen en speciale orders
+    - 3.5.3 BS35.204 Reserveer voorraad op een inkooporder
+    - 3.5.4 BS35.205 Inkooporders ontvangen
+    - 3.5.5 BS35.206 Beheer van backorders
+    - 3.5.6 BS35.207 Inkooporders annuleren
+    - 3.5.7 BS35.208 Verwerk Intercompany aankooporders
+    - 3.5.8 BS35.209 Goedkeuringsaanvraag verzenden
+    - 3.5.9 BS35.210 Inkooporder goedkeuren
+    - 3.5.10 BS35.235 Inkoopontvangst ongedaan maken
+  - 3.6 Inkoopretourorders beheren
+    - 3.6.1 BS35.217 Inkoopretourorders beheren
+  - 3.7 Document Lay-outs Inkoop
+    - 3.7.1 BS35.800 Inkoopofferte
+    - 3.7.2 BS35.801 Inkooporder
+    - 3.7.3 BS35.802 Inkoopretourorder
+- **4. Voorraad**
+  - 4.1 Voorraad instellen
+    - 4.1.1 BS50.001 Voorraad instellen
+  - 4.2 Artikel master data
+    - 4.2.1 BS50.100 Artikelen beheren
+    - 4.2.2 BS50.101 Stockkeeping units (SKU) beheren
+    - 4.2.3 BS50.102 Artikelvarianten beheren
+    - 4.2.4 BS50.104 Artikeltraceringscodes beheren
+    - 4.2.5 BS50.115 Catalogusartikelen beheren
+    - 4.2.6 BS40.900 Catch weight (Aptean)
+  - 4.3 Voorraad corrigeren
+    - 4.3.1 BS50.200 Voorraad corrigeren
+  - 4.4 Inventarisatie
+    - 4.4.1 BS50.201 Inventarisatie
+  - 4.5 Kwaliteit
+    - 4.5.1 BS45.200 Artikelen blokkeren
+    - 4.5.2 BS45.901 Compliance documents (Aptean)
+    - 4.5.3 BS45.902 Expiration management (Aptean)
+    - 4.5.4 BS45.904 Lot management (Aptean)
+    - 4.5.5 BS45.905 Non conformances
+    - 4.5.6 BS45.906 Product specification (Aptean)
+- **5. Projectbeheer**
+  - 5.1 Project beheer instellen
+    - 5.1.1 BS70.001 Project beheer instellen
+  - 5.2 Project master data
+    - 5.2.1 BS70.100 Resourceprijzen beheren
+    - 5.2.2 BS70.101 Artikelprijzen beheren
+    - 5.2.3 BS70.102 Diverse prijzen beheren
+  - 5.3 Projecten maken
+    - 5.3.1 BS70.200 Projecten maken
+    - 5.3.2 BS70.201 Work breakdown structuur beheren
+    - 5.3.3 BS70.202 Projecten opstartsituatie openen
+  - 5.4 Projectbudgetten beheren
+    - 5.4.1 BS70.203 Projectbudget beheren
+    - 5.4.2 BS70.204 Projectbudget reviseren
+  - 5.5 Projectplanning
+    - 5.5.1 BS70.205 Artikelen voor project plannen
+    - 5.5.2 BS70.206 Resources voor project toewijzen en plannen
+    - 5.5.3 BS70.207 Onkosten voor project plannen
+  - 5.6 Gebruik voor projecten registreren
+    - 5.6.1 BS70.208 Gebruik artikelen voor project registreren
+    - 5.6.2 BS70.209 Gebruik resources voor project registreren
+    - 5.6.3 BS70.210 Gebruik onkosten voor project registreren
+  - 5.7 Gebruik voor projecten corrigeren
+    - 5.7.1 BS70.211 Gebruik artikelen voor project corrigeren
+    - 5.7.2 BS70.212 Gebruik resources voor project corrigeren
+    - 5.7.3 BS70.213 Gebruik onkosten voor project corrigeren
+  - 5.8 Project-OHW berekenen
+    - 5.8.1 BS70.214 Project-OHW berekenen
+    - 5.8.2 BS70.215 Project-OHW boeken
+  - 5.9 Project-verkoopfacturen beheren
+    - 5.9.1 BS70.216 Projectfacturen maken (fixed price)
+    - 5.9.2 BS70.217 Projectfacturen maken (in regie)
+  - 5.10 Project-verkoopcreditnota's beheren
+    - 5.10.1 BS70.218 Project-creditnota's maken (vaste prijs)
+    - 5.10.2 BS70.219 Project-creditnota's maken (in regie)
+  - 5.11 Project-inkoopfacturen beheren
+    - 5.11.1 BS70.220 Inkoopfacturen maken gekoppeld aan projecten (vaste prijs)
+    - 5.11.2 BS70.221 Inkoopfacturen maken gekoppeld aan projecten (in regie)
+  - 5.12 Project-inkoopcreditnota's beheren
+    - 5.12.1 BS70.222 Inkoopcreditnota's maken gekoppeld aan projecten (vaste prijs)
+    - 5.12.2 BS70.223 Inkoopcreditnota's maken gekoppeld aan projecten (in regie)
+  - 5.13 Projecten afsluiten
+    - 5.13.1 BS70.224 Projecten afsluiten
+  - 5.14 Beheer periodieke taken
+    - 5.14.1 BS70.225 Artikelkosten project bijwerken
+    - 5.14.2 BS70.226 Verkoopfactuur project maken
+    - 5.14.3 BS70.227 Project - planningsregel splitsen
+    - 5.14.4 BS70.228 Planningsregeldatums voor project wijzigen
+- **6. Planning (MPS/MRP)**
+  - 6.1 Prognoses beheren
+    - 6.1.1 BS30.200 Productieprognoses beheren
+  - 6.2 Inkoopvoorstellen beheren
+    - 6.2.1 BS30.201 Inkoop & planningsvoostellen berekenen
+    - 6.2.2 BS30.202 Inkoop/planningsvoorstellen beoordelen en fiatteren
+- **7. Productie**
+  - 7.1 Productie instellen
+    - 7.1.1 BS40.001 Productie instellen
+  - 7.2 Productie Master Data
+    - 7.2.1 BS40.100 Afdelingen/workcenter beheren
+    - 7.2.2 BS40.102 Bewerkingsplaatsen/machines beheren
+    - 7.2.3 BS40.101 Capaciteit beheren
+    - 7.2.4 BS40.110 Meerdere artikelen produceren in 1 productie order
+    - 7.2.5 BS40.103 Productiestuklijsten beheren
+    - 7.2.6 BS40.104 Bewerkingsplannen beheren
+    - 7.2.7 BS40.107 Afboekingsmethode artikelen beheren tijdens productie
+    - 7.2.8 BS40.108 Uitval en afval artikelen beheren
+  - 7.3 Productieorders beheren
+    - 7.3.1 BS40.200 Productieorders maken
+    - 7.3.2 BS40.212 Productieorders plannen
+    - 7.3.3 BS40.201 Productieordermaterialen beheren
+    - 7.3.4 BS40.211 Productiematerialen klaarzetten
+    - 7.3.5 BS40.202 Productieorderbewerkingsplannen beheren
+    - 7.3.6 BS40.203 Productieorders herplannen
+    - 7.3.7 BS40.204 Productieorders kostprijs bijwerken
+  - 7.4 Verbruik en output boeken
+    - 7.4.1 BS40.205 Registratie verbruik en output
+    - 7.4.2 BS45.902 Process Manufacturing (Aptean)
+  - 7.5 Uitval boeken
+    - 7.5.1 BS40.206 Uitval boeken
+  - 7.6 Capaciteit boeken
+    - 7.6.1 BS40.207 Capaciteit boeken
+  - 7.7 Uitbesteding beheren
+    - 7.7.1 BS30.209 Uitbestedingsvoorstellen berekenen
+    - 7.7.2 BS30.210 Uitbestedingsvoorstellen beoordelen en fiatteren
+    - 7.7.3 BS40.208 Uitbestedingsinkooporders boeken
+  - 7.8 Productieorders afsluiten
+    - 7.8.1 BS40.209 Productieorders afsluiten
+  - 7.9 Kostprijzenbeheer
+    - 7.9.1 BS40.218 Beheer Fin. Master Data Kostprijscalculatie
+    - 7.9.2 BS40.219 Voer kostprijscalculatie uit
+    - 7.9.3 BS40.220 Voer kostprijssimulatie uit
+  - 7.10 Assemblagebeheer
+    - 7.10.1 BS40.002 Assemblage beheer instellen
+    - 7.10.2 BS40.109 Assemblagestuklijsten beheren
+    - 7.10.3 BS40.002 Assemblageorders beheren
+    - 7.10.4 BS40.211 Assemblageorders registreren
+- **8. Magazijnbeheer**
+  - 8.1 Algemeen overzicht logistieke flows
+  - 8.2 Vestigingen beheren
+    - 8.2.1 BS10.003 Vestigingen beheren
+  - 8.3 Magazijn master data
+    - 8.3.1 BS50.103 Zones/opslaglocaties/magazijnklasse/opslagsjabloon beheren
+    - 8.3.2 BS50.116 Magazijnwerknemers instellen
+  - 8.4 Artikelen ontvangen
+    - 8.4.1 BS50.202 Maak magazijnontvangst
+    - 8.4.2 BS50.217 Maak voorraadopslag
+    - 8.4.3 BS50.205 Cross docking artikelen ontvangen
+    - 8.4.4 Artikelen opslaan
+  - 8.5 Artikelen verplaatsen
+    - 8.5.1 BS50.207 Artikelen verplaatsen
+    - 8.5.2 BS50.208 Transferorders maken
+    - 8.5.3 BS50.209 Productieordermaterialen terugzetten
+  - 8.6 Artikelen verzenden
+    - 8.6.1 BS50.213 Artikelen picken
+    - 8.6.2 BS50.214 Magazijnverzending maken
+    - 8.6.3 BS50.215 Artikelen verzenden
+  - 8.7 Herbevoorraden opslaglocaties
+    - 8.7.1 BS50.216 Herbevoorraden opslaglocaties
+  - 8.8 Document Lay-outs Magazijn
+    - 8.8.1 BS50.800 Verkoopverzending
+    - 8.8.2 BS50.801 Magazijnverzending/CMR
+  - 8.9 Tasklet Factory Mobile WMS
+    - 8.9.1 BS50.240 Instellen Tasklet Factory
+    - 8.9.2 Ontvangen van goederen
+    - 8.9.3 Verzenden van goederen
+    - 8.9.4 Magazijn activiteiten
+    - 8.9.5 BS 50.242 Pakkettracering tijdens WMS activiteiten
+  - 8.10 BS50.900 Advanced warehousing (Aptean)
+    - 8.10.1 BC 50.242.03 License plating (Aptean)
+    - 8.10.2 BS50.902 Mobile warehouse registration (Aptean)
+    - 8.10.3 BS50.903 Over and under delivery (Aptean)
+    - 8.10.4 BS50.905 Weighbridge Receiving (Aptean)
+    - 8.10.5 BS50.907 Labeling (Aptean)
+- **9. Service**
+  - 9.1 Service instellen
+    - 9.1.1 BS60.001 Service-instellingen
+    - 9.1.2 BS60.002 Probleemoplossingen instellen
+  - 9.2 Service Master Data
+    - 9.2.1 BS60.100 Beheer serviceartikelen
+- In de Service-module van Business Central vormen serviceartikelen de kern van het beheer van
+- servicecontracten, onderhoud en reparaties. Een serviceartikel is een geregistreerd object dat
+- door een klant wordt gebruikt en waarvoor het bedrijf serviceactiviteiten uitvoert. Dit kan
+- een fysiek product zijn, zoals een machine, voertuig of apparaat, maar ook een complex
+- systeem dat uit meerdere onderdelen bestaat.
+- Belangrijkste kenmerken van een serviceartikel:
+    - 9.2.2 BS60.101 Serviceartikelcomponenten beheren
+    - 9.2.3 BS60.102 Serviceartikelgroepen beheren
+    - 9.2.4 BS60.103 Beheer serviceprijsgroepen
+    - 9.2.5 BS60.104 Beheer serviceprijsherwaarderingsgroepen
+    - 9.2.6 BS60.105 Servicekosten beheren
+    - 9.2.7 BS60.106 Standaardservicecodes beheren
+    - 9.2.8 BS60.107 Serviceordersoorten beheren
+  - 9.3 Serviceoffertes maken
+    - 9.3.1 BS60.200 Aanmaken van service offertes
+    - 9.3.2 BS60.201 Opvolgen van service offertes
+  - 9.4 Serviceorders beheren
+    - 9.4.1 BS60.202 Aanmaken van een serviceorder
+    - 9.4.2 BS60.203 Aanmaken van een contract-serviceorder
+    - 9.4.3 BS60.204 Registreren verbruik op serviceorders
+    - 9.4.4 BS60.205 Serviceverzending boeken
+    - 9.4.5 BS60.206 Serviceverzending ongedaan maken
+    - 9.4.6 BS60.207 Herstelstatus beheren
+    - 9.4.7 BS60.222 Serviceorders archiveren
+  - 9.5 Service plannen
+    - 9.5.1 BS60.208 Resource plannen op serviceorder
+    - 9.5.2 BS60.209 Reserveer voorraad op een serviceorder
+  - 9.6 Serviceorders factureren
+    - 9.6.1 BS60.210 Servicefacturen maken
+  - 9.7 Servicecontractoffertes maken
+    - 9.7.1 BS60.211 Servicecontractoffertes maken
+    - 9.7.2 BS60.212 Servicecontractoffertes naar contract omzetten
+  - 9.8 Servicecontracten maken
+- BS60.213 Servicecontracten beheren
+    - 9.8.1 BS60.214 Servicecontracten bijwerken
+    - 9.8.2 BS60.215 Servicecontracten beëindigen
+    - 9.8.3 BS60.216 Vooruitbetaalde servicecontractposten boeken
+    - 9.8.4 BS60.217 Servicecontractprijzen bijwerken
+  - 9.9 Servicecontracten factureren
+    - 9.9.1 BS60.619 Servicecontracten factureren
+  - 9.10 Servicecreditnota's beheren
+    - 9.10.1 BS60.620 Servicecontract-creditnota maken
+    - 9.10.2 BS60.621 Servicecreditnota's maken
+- **10. Finance**
+  - 10.1 Finance Instellen
+    - 10.1.1 BS65.001 Finance instellen
+    - 10.1.2 BS65.009 Beheer Setup BTW
+    - 10.1.3 BS65.012 Beheer Setup integratie Inventory - Finance
+  - 10.2 Finance Master Data
+    - 10.2.1 BS65.100 Beheer Boekhoudperiodes
+    - 10.2.2 BS65.109 Beheer Rekeningschema
+    - 10.2.3 BS65.101 Beheer Dimensies
+    - 10.2.4 BS65.102 Beheer Vreemde Munt & Wisselkoersen
+  - 10.3 Beheer leveranciersboekhouding
+    - 10.3.1 BS35.100 Leveranciers beheren
+    - 10.3.2 BS65.105 Beheer Leveranciers bankrekeningen
+    - 10.3.3 BS65.200 Inkoopfacturen maken
+    - 10.3.4 BS65.201 Inkoopcreditnota's maken
+    - 10.3.5 BS65.202 Goedkeuringaanvraag verzenden
+    - 10.3.6 BS65.203 Inkoopfactuur goedkeuren voor boeken
+    - 10.3.7 BS65.204 Inkoopfacturen boeken
+    - 10.3.8 Inkoopfactuur goedkeuren voor betaling
+    - 10.3.9 BS65.205 Vooruitbetalingsfacturen maken
+    - 10.3.10 BS65.207 Uitvoeren leveranciersbetalingen
+    - 10.3.11 BS65.208 Opvolgen openstaande leveranciersfacturen
+  - 10.4 Beheer klantenboekhouding
+    - 10.4.1 BS25.100 Beheren klant master data
+    - 10.4.2 BS65.106 Beheer Klanten Bankrekeningen
+    - 10.4.3 BS65.004 Beheer Setup Administratiekosten
+    - 10.4.4 BS65.108 Beheer Kredietlimieten
+    - 10.4.5 BS65.209 Registreer manuele verkoopfactuur
+    - 10.4.6 BS65.211 Registreer manuele verkoopcreditnota
+    - 10.4.7 Peppol
+    - 10.4.8 BS65.007 Klantendomiciliëring (Direct Debit)
+    - 10.4.9 BS65.213 Opvolgen openstaande klantenvorderingen
+    - 10.4.10 BS65.214 Beheer van aanmaningen
+    - 10.4.11 BS65.215 Beheer van rentefacturen
+  - 10.5 Beheer grootboek
+    - 10.5.1 BS65.216 Registeren van een diverse boeking
+    - 10.5.2 BS65.217 Opladen algemene boekingen
+    - 10.5.3 BS65.218 Financiële rapporten aanmaken
+  - 10.6 Beheer bank transacties
+    - 10.6.1 BS65.110 Beheer Banken
+    - 10.6.2 BS65.219 Verwerk en boek financiële dagafschriften
+    - 10.6.3 BS65.220 Verwerk en boek KAS verrichtingen
+  - 10.7 Beheer periodieke taken
+    - 10.7.1 BS65.221 Afdrukken dagboeken
+    - 10.7.2 BS65.222 Aanmaken periodieke BTW aangifte
+    - 10.7.3 BS65.223 Aanmaken BTW jaaraangifte (jaarlijkse Klantenlisting)
+    - 10.7.4 BS65.224 Aanmaken BTW Intracommunautaire Listing
+    - 10.7.5 BS65.225 Aanmaken INTRASTAT aangifte
+    - 10.7.6 BS65.226 Wisselkoersen herwaarderen
+    - 10.7.7 BS65.227 Kosten verdelen over dimensies
+    - 10.7.8 BS65.228 Kosten verdelen over periodes
+    - 10.7.9 BS65.229 Afpunten grootboektransacties
+    - 10.7.10 BS65.230 Registreer en Betaal commissies
+    - 10.7.11 BS65.231 Voorraadwaardering
+    - 10.7.12 BS65.232 Boek Intercompany transacties
+    - 10.7.13 BS65.233 Uitvoeren consolidatie grootboek
+    - 10.7.14 BS65.234 Afsluiten boekjaar/Financiële periode
+    - 10.7.15 BS65.235 Afsluiten BTW periode
+  - 10.8 Beheer vast actief
+    - 10.8.1 BS65.236 Maak Vast Actief aan
+    - 10.8.2 BS65.237 Aanschaffen Vast Actief
+    - 10.8.3 BS65.238 Schrijf een Vast Actief af
+    - 10.8.4 BS65.239 Buitengebruikstelling van een vast actief
+    - 10.8.5 BS65.240 Herwaardeer een vast actief
+    - 10.8.6 BS65.242 Registreer onderhoud op Vast Actief
+    - 10.8.7 BS65.243 Reclassificeer een vast actief
+  - 10.9 Beheer budgetten
+    - 10.9.1 BS65.244 Maak (grootboek)budget aan
+    - 10.9.2 BS65.245 Controle budget t.o.v. grootboek
+    - 10.9.3 BS65.246 Maak (verkoop/aankoop)budget aan
+    - 10.9.4 BS65.247 Controle (verkoop/aankoop)budget t.o.v. werkelijk
+  - 10.10 Beheer cashflow
+    - 10.10.1 BS65.111 Beheer Master Data Cash Flow
+    - 10.10.2 BS65.255 Bereken cashflow
+  - 10.11 Kostprijsboekhouding
+    - 10.11.1 BS65.112 Beheer Master Data Kostprijsboekhouding
+    - 10.11.2 BS65.248 Wijs kosten toe - Kostprijsboekhouding
+  - 10.12 Document Lay-outs Finance
+    - 10.12.1 BS65.800 Verkoopfactuur
+    - 10.12.2 BS65.801 Verkoopcreditnota
+    - 10.12.3 BS65.802 Aanmaningen
+  - 10.13 BS65.900 Excise duty management (Aptean)
+  - 10.14 BS65.901 Taks process handling (Aptean)
+- **11. Human Resources**
+  - 11.1 Human Resources instellen
+    - 11.1.1 BS75.001 Personeelsinstellingen
+  - 11.2 Werknemers beheren
+    - 11.2.1 BS75.200 Werknemers beheren
+  - 11.3 Werknemersafwezigheid registreren
+    - 11.3.1 BS75.201 Werknemersafwezigheid registreren
+- **12. Cegeka 365 for Business Central**
+  - 12.1 Algemene bedrijfsfunctionaliteit
+    - 12.1.1 Algemene instellingen
+    - 12.1.2 Rapport- en documentparameters
+    - 12.1.3 Data uitwisseling
+  - 12.2 Inkoop
+- Inkoop instellen
+- 12.2.1
+    - 12.2.2 Inkoop master data
+  - 12.3 Verkoop
+    - 12.3.1 Verkoop instellen
+    - 12.3.2 Verkoop master data
+    - 12.3.3 Verkoopcreditnota's beheren
+    - 12.3.4 Verkoopraamcontracten beheren
+    - 12.3.5 Verkooporders beheren
+    - 12.3.6 Beheer periodieke taken
+    - 12.3.7 BS25.901 Call plan (Aptean)
+    - 12.3.8 BS25.902 Customer item catalog (Aptean)
+    - 12.3.9 BS25.903 Trade management (Aptean)
+    - 12.3.10 BS25.904 Trading board (Aptean)
+  - 12.4 Voorraad
+    - 12.4.1 Voorraad instellen
+    - 12.4.2 Artikel Master Data
+    - 12.4.3 Artikeltracering
+  - 12.5 Magazijnbeheer
+    - 12.5.1 Magazijn Master Data
+    - 12.5.2 Artikelen ontvangen
+    - 12.5.3 Artikelen verzenden
+    - 12.5.4 BS55.900 Packaging (Aptean)
+    - 12.5.5 BS55.901 Transport (Aptean)
+  - 12.6 Finance
+- **13. Progressus Advanced Projects**
+  - 13.1 Instellingen
+    - 13.1.1 Project instellingen
+    - 13.1.2 Sjabloon instellingen
+    - 13.1.3 Dagboeksjabloon-batch instellingen
+    - 13.1.4 Budget instellingen
+    - 13.1.5 Resource instellingen
+    - 13.1.6 Onkosten instellingen
+  - 13.2 Project masterdata
+    - 13.2.1 Project maken
+    - 13.2.2 Project gerelateerde masterdata
+    - 13.2.3 Onkosten masterdata
+    - 13.2.4 Resource masterdata
+  - 13.3 Projectbudgetten
+    - 13.3.1 Projectbudgetversies beheren
+    - 13.3.2 Projectbudgetten beheren
+    - 13.3.3 Projectbudgetten goedkeuren
+    - 13.3.4 Projectbudgetten & integratie financieel
+    - 13.3.5 Projectofferte
+    - 13.3.6 Projectorder
+  - 13.4 Projectplanning
+    - 13.4.1 Projectplanning beheren
+    - 13.4.2 Resourceplanning beheren
+    - 13.4.3 Project & integratie Outlook
+  - 13.5 Project verbruiken
+    - 13.5.1 Project verbruiken resources
+    - 13.5.2 Project verbruiken onkosten
+    - 13.5.3 Project verbruiken artikelen
+  - 13.6 Projectfacturatie
+    - 13.6.1 Projectfacturatie in regie
+    - 13.6.2 Projectfacturatie vaste prijs
+    - 13.6.3 Projectfacturatie volgens voortgang
+    - 13.6.4 Projectcreditnota’s
+  - 13.7 Project WIP
+    - 13.7.1 Project WIP
+  - 13.8 Projectcontracten
+    - 13.8.1 Projectcontracten - algemeen
+    - 13.8.2 Projectcontractbudgetten
+    - 13.8.3 Projectcontracten & change order
+    - 13.8.4 Projectcontractfacturatie
+  - 13.9 Projecten & onderaanneming
+    - 13.9.1 Projecten & onderaanneming
+  - 13.10 Projecten & subscriptie
+    - 13.10.1 Projecten & subscriptie
+  - 13.11 Projecten afsluiten
+    - 13.11.1 Projecten afsluiten
+  - 13.12 Projecten & opening situatie
+    - 13.12.1 Projecten & opening situatie
+  - 13.13 Projecten & periodieke taken
+    - 13.13.1 Artikelkosten project bijwerken
+  - 13.14 Projectrapportering
+    - 13.14.1 Projectrapportering in Business Central
+    - 13.14.2 Projectrapportering met Power BI
+- **14. Dynaway Asset Management**
+  - 14.1 General Setup
+    - 14.1.1 Installatie en licentiebeheer
+    - 14.1.2 Vereisten in Business Central
+    - 14.1.3 Begeleide instelling (Assisted Setup)
+    - 14.1.4 Gebruikersbeheer
+- **15. Continia**
+  - 15.1 Document Capture
+    - 15.1.1 BS65.253 Verwerken binnenkomende facturen met OCR (DC)
+    - 15.1.2 BS65.254 Goedkeuring van documenten
+  - 15.2 Document Output
+    - 15.2.1 BS65.255 Het automatisch uitsturen van documenten
+    - 15.2.2 BS65.256 PEPPOL
+- **16. Andere Document Lay-outs**
+  - 16.1 Inkooporder
+  - 16.2 Andere?
+- **17. Rapportering**
+- **18. Architectuur**
+- **19. GAPS**

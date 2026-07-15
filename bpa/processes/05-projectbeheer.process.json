@@ -1,0 +1,279 @@
+{
+  "id": "projectbeheer",
+  "domain": 5,
+  "title": {
+    "nl": "Projectbeheer",
+    "en": "Project management"
+  },
+  "subtitle": {
+    "nl": "Van projectaanmaak tot afsluiting",
+    "en": "From project creation to closure"
+  },
+  "lanes": [
+    {
+      "id": "projectleider",
+      "label": {
+        "nl": "Projectleider",
+        "en": "Project manager"
+      }
+    },
+    {
+      "id": "uitvoering",
+      "label": {
+        "nl": "Uitvoering",
+        "en": "Execution"
+      }
+    },
+    {
+      "id": "finance",
+      "label": {
+        "nl": "Finance",
+        "en": "Finance"
+      }
+    }
+  ],
+  "nodes": [
+    {
+      "id": "start",
+      "type": "start",
+      "label": {
+        "nl": "Project gegund",
+        "en": "Project awarded"
+      },
+      "lane": "projectleider"
+    },
+    {
+      "id": "project",
+      "type": "task",
+      "label": {
+        "nl": "Project maken",
+        "en": "Create project"
+      },
+      "lane": "projectleider",
+      "scenario": "BS70.200"
+    },
+    {
+      "id": "wbs",
+      "type": "task",
+      "label": {
+        "nl": "Projectmasterdata en -structuur beheren",
+        "en": "Manage project master data and structure"
+      },
+      "lane": "projectleider",
+      "scenario": "BS70.264"
+    },
+    {
+      "id": "budget",
+      "type": "task",
+      "label": {
+        "nl": "Projectbudget beheren",
+        "en": "Manage project budget"
+      },
+      "lane": "projectleider",
+      "scenario": "BS70.203"
+    },
+    {
+      "id": "plan-artikelen",
+      "type": "task",
+      "label": {
+        "nl": "Artikelen plannen",
+        "en": "Plan items"
+      },
+      "lane": "projectleider",
+      "scenario": "BS70.205"
+    },
+    {
+      "id": "plan-resources",
+      "type": "task",
+      "label": {
+        "nl": "Resources toewijzen en plannen",
+        "en": "Assign and plan resources"
+      },
+      "lane": "projectleider",
+      "scenario": "BS70.206"
+    },
+    {
+      "id": "reg-artikelen",
+      "type": "task",
+      "label": {
+        "nl": "Artikelverbruik registreren",
+        "en": "Post item usage"
+      },
+      "lane": "uitvoering",
+      "scenario": "BS70.208"
+    },
+    {
+      "id": "reg-uren",
+      "type": "task",
+      "label": {
+        "nl": "Resource-uren registreren",
+        "en": "Post resource hours"
+      },
+      "lane": "uitvoering",
+      "scenario": "BS70.209"
+    },
+    {
+      "id": "reg-onkosten",
+      "type": "task",
+      "label": {
+        "nl": "Onkosten registreren",
+        "en": "Post expenses"
+      },
+      "lane": "uitvoering",
+      "scenario": "BS70.210"
+    },
+    {
+      "id": "inkoopfacturen",
+      "type": "task",
+      "label": {
+        "nl": "Inkoopfacturen koppelen aan project",
+        "en": "Link purchase invoices to project"
+      },
+      "lane": "finance",
+      "scenario": "BS70.220"
+    },
+    {
+      "id": "gw-facturatie",
+      "type": "gateway",
+      "label": {
+        "nl": "Facturatievorm?",
+        "en": "Invoicing method?"
+      },
+      "lane": "finance"
+    },
+    {
+      "id": "factuur-vast",
+      "type": "task",
+      "label": {
+        "nl": "Projectfactuur maken (vaste prijs)",
+        "en": "Create project invoice (fixed price)"
+      },
+      "lane": "finance",
+      "scenario": "BS70.216"
+    },
+    {
+      "id": "factuur-regie",
+      "type": "task",
+      "label": {
+        "nl": "Projectfactuur maken (in regie)",
+        "en": "Create project invoice (time & materials)"
+      },
+      "lane": "finance",
+      "scenario": "BS70.217"
+    },
+    {
+      "id": "gw-klaar",
+      "type": "gateway",
+      "label": {
+        "nl": "Project afgerond?",
+        "en": "Project finished?"
+      },
+      "lane": "projectleider"
+    },
+    {
+      "id": "afsluiten",
+      "type": "task",
+      "label": {
+        "nl": "Project afsluiten",
+        "en": "Close project"
+      },
+      "lane": "projectleider",
+      "scenario": "BS70.224"
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "label": {
+        "nl": "Project afgesloten",
+        "en": "Project closed"
+      },
+      "lane": "projectleider"
+    }
+  ],
+  "flows": [
+    {
+      "from": "start",
+      "to": "project"
+    },
+    {
+      "from": "project",
+      "to": "wbs"
+    },
+    {
+      "from": "wbs",
+      "to": "budget"
+    },
+    {
+      "from": "budget",
+      "to": "plan-artikelen"
+    },
+    {
+      "from": "plan-artikelen",
+      "to": "plan-resources"
+    },
+    {
+      "from": "plan-resources",
+      "to": "reg-artikelen"
+    },
+    {
+      "from": "reg-artikelen",
+      "to": "reg-uren"
+    },
+    {
+      "from": "reg-uren",
+      "to": "reg-onkosten"
+    },
+    {
+      "from": "reg-onkosten",
+      "to": "inkoopfacturen"
+    },
+    {
+      "from": "inkoopfacturen",
+      "to": "gw-facturatie"
+    },
+    {
+      "from": "gw-facturatie",
+      "to": "factuur-vast",
+      "label": {
+        "nl": "vaste prijs",
+        "en": "fixed price"
+      }
+    },
+    {
+      "from": "gw-facturatie",
+      "to": "factuur-regie",
+      "label": {
+        "nl": "in regie",
+        "en": "time & materials"
+      }
+    },
+    {
+      "from": "factuur-vast",
+      "to": "gw-klaar"
+    },
+    {
+      "from": "factuur-regie",
+      "to": "gw-klaar"
+    },
+    {
+      "from": "gw-klaar",
+      "to": "reg-artikelen",
+      "label": {
+        "nl": "nee, volgende periode",
+        "en": "no — next period"
+      }
+    },
+    {
+      "from": "gw-klaar",
+      "to": "afsluiten",
+      "label": {
+        "nl": "ja",
+        "en": "yes"
+      }
+    },
+    {
+      "from": "afsluiten",
+      "to": "end"
+    }
+  ]
+}

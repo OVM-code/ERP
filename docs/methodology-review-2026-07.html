@@ -1,0 +1,724 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body><title>ERP Methodology Review — Value Capture</title>
+<style>
+:root {
+  --paper:#f7f8f6; --card:#ffffff; --ink:#101820; --ink-2:#4d5966; --ink-3:#8a95a1;
+  --line:#dfe4e3; --accent:#0f4c81; --accent-ink:#ffffff; --accent-soft:#e7eef5;
+  --eff:#2a78d6; --rev:#1baf7a; --risk:#eb6834; --know:#4a3aa7;
+  --eff-bg:#e9f1fb; --rev-bg:#e4f6ef; --risk-bg:#fdeee7; --know-bg:#edebf8;
+  --grid:#e6e9e8; --shadow:0 1px 2px rgba(16,24,32,.05), 0 6px 20px rgba(16,24,32,.06);
+  --mono:"Cascadia Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root {
+  --paper:#10151a; --card:#171e25; --ink:#edf1f4; --ink-2:#a7b2bd; --ink-3:#6d7883;
+  --line:#2a333c; --accent:#4a90d9; --accent-ink:#0b1219; --accent-soft:#1b2938;
+  --eff:#3987e5; --rev:#199e70; --risk:#d95926; --know:#9085e9;
+  --eff-bg:#16273c; --rev-bg:#123028; --risk-bg:#33211a; --know-bg:#221f38;
+  --grid:#232c34; --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"] {
+  --paper:#10151a; --card:#171e25; --ink:#edf1f4; --ink-2:#a7b2bd; --ink-3:#6d7883;
+  --line:#2a333c; --accent:#4a90d9; --accent-ink:#0b1219; --accent-soft:#1b2938;
+  --eff:#3987e5; --rev:#199e70; --risk:#d95926; --know:#9085e9;
+  --eff-bg:#16273c; --rev-bg:#123028; --risk-bg:#33211a; --know-bg:#221f38;
+  --grid:#232c34; --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+}
+:root[data-theme="light"] {
+  --paper:#f7f8f6; --card:#ffffff; --ink:#101820; --ink-2:#4d5966; --ink-3:#8a95a1;
+  --line:#dfe4e3; --accent:#0f4c81; --accent-ink:#ffffff; --accent-soft:#e7eef5;
+  --eff:#2a78d6; --rev:#1baf7a; --risk:#eb6834; --know:#4a3aa7;
+  --eff-bg:#e9f1fb; --rev-bg:#e4f6ef; --risk-bg:#fdeee7; --know-bg:#edebf8;
+  --grid:#e6e9e8; --shadow:0 1px 2px rgba(16,24,32,.05), 0 6px 20px rgba(16,24,32,.06);
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--paper); color:var(--ink);
+  font:15px/1.6 "Segoe UI", system-ui, -apple-system, sans-serif; }
+.wrap { display:flex; max-width:1360px; margin:0 auto; gap:36px; padding:0 28px 90px; }
+nav.rail { position:sticky; top:0; align-self:flex-start; width:198px; flex:none;
+  padding:36px 0 24px; display:flex; flex-direction:column; gap:2px; }
+nav.rail .brand { font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-3); margin:0 0 14px 12px; }
+nav.rail a { color:var(--ink-2); text-decoration:none; font-size:13.5px;
+  padding:6px 12px; border-radius:7px; border-left:2px solid transparent; }
+nav.rail a:hover { background:var(--accent-soft); color:var(--ink); }
+nav.rail a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible
+  { outline:2px solid var(--accent); outline-offset:2px; }
+main { flex:1; min-width:0; max-width:1040px; }
+@media (max-width: 900px) { nav.rail { display:none; } .wrap { gap:0; padding:0 16px 60px; } }
+
+header.hero { padding:52px 0 8px; }
+.eyebrow { font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent);
+  font-weight:600; margin:0 0 10px; }
+h1 { font-size:clamp(26px, 3.4vw, 38px); line-height:1.15; margin:0 0 12px;
+  font-weight:650; letter-spacing:-.015em; text-wrap:balance; }
+.hero p.lede { font-size:16.5px; color:var(--ink-2); max-width:64ch; margin:0; }
+.hero .stamp { font:12px var(--mono); color:var(--ink-3); margin-top:14px; }
+
+section { margin-top:56px; scroll-margin-top:24px; }
+h2 { font-size:21px; font-weight:650; letter-spacing:-.01em; margin:0 0 6px; text-wrap:balance; }
+h3 { font-size:15.5px; font-weight:650; margin:1.4em 0 .5em; }
+.kicker { font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3);
+  font-weight:600; margin:0 0 6px; }
+section > p.sub { color:var(--ink-2); max-width:70ch; margin:0 0 20px; }
+p { max-width:72ch; }
+code { font:12.5px var(--mono); background:var(--accent-soft); border-radius:4px; padding:1px 5px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:12px;
+  box-shadow:var(--shadow); padding:20px 22px; }
+
+/* headline stats */
+.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; margin:26px 0 0; }
+.stat { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; }
+.stat .v { font-size:30px; font-weight:650; letter-spacing:-.02em; }
+.stat .l { font-size:12.5px; color:var(--ink-2); margin-top:2px; }
+.stat .n { font-size:11.5px; color:var(--ink-3); margin-top:6px; }
+
+/* assumptions */
+.assump { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px 26px; }
+.assump label { display:block; font-size:13px; color:var(--ink-2); }
+.assump .row { display:flex; align-items:baseline; justify-content:space-between; gap:10px; }
+.assump output { font:600 15px var(--mono); color:var(--ink); font-variant-numeric:tabular-nums; }
+.assump input[type=range] { width:100%; accent-color:var(--accent); margin-top:6px; }
+
+/* pipeline map */
+.flow { display:flex; flex-wrap:wrap; align-items:stretch; gap:8px; }
+.stage { position:relative; border:1.5px solid var(--line); background:var(--card); border-radius:10px;
+  padding:10px 14px 9px; min-width:118px; cursor:pointer; text-align:left; font:inherit; color:var(--ink); }
+.stage:hover { border-color:var(--accent); }
+.stage .s-name { font-size:13.5px; font-weight:600; }
+.stage .s-sub { font-size:11px; color:var(--ink-3); margin-top:1px; }
+.stage.missing { border-style:dashed; border-color:var(--risk); background:transparent; }
+.stage.missing .s-sub { color:var(--risk); font-weight:600; }
+.stage.upg { border-color:var(--accent); }
+.stage.upg .s-sub { color:var(--accent); font-weight:600; }
+.chip.built { color:var(--accent); background:var(--accent-soft); border:1px solid var(--accent); }
+.stage .badge { position:absolute; top:-9px; right:-7px; background:var(--accent); color:var(--accent-ink);
+  font:600 11px var(--mono); border-radius:20px; padding:1px 7px; }
+.flow .arrow { align-self:center; color:var(--ink-3); font-size:15px; }
+
+/* chips + filters */
+.chip { display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:600;
+  border-radius:20px; padding:2px 10px; white-space:nowrap; }
+.chip i { width:8px; height:8px; border-radius:50%; display:inline-block; }
+.chip.eff { color:var(--eff); background:var(--eff-bg); } .chip.eff i { background:var(--eff); }
+.chip.rev { color:var(--rev); background:var(--rev-bg); } .chip.rev i { background:var(--rev); }
+.chip.risk { color:var(--risk); background:var(--risk-bg); } .chip.risk i { background:var(--risk); }
+.chip.know { color:var(--know); background:var(--know-bg); } .chip.know i { background:var(--know); }
+.chip.plain { color:var(--ink-2); background:var(--paper); border:1px solid var(--line); }
+.filters { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 16px; }
+.filters button { font:600 12.5px "Segoe UI", system-ui, sans-serif; border:1px solid var(--line);
+  background:var(--card); color:var(--ink-2); border-radius:20px; padding:5px 14px; cursor:pointer; }
+.filters button.on { background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+.filters .sep { width:1px; background:var(--line); margin:2px 4px; }
+
+/* leak cards */
+.leak { border:1px solid var(--line); border-radius:12px; background:var(--card);
+  box-shadow:var(--shadow); margin-bottom:12px; overflow:hidden; }
+.leak summary { list-style:none; cursor:pointer; padding:14px 18px; display:flex; flex-wrap:wrap;
+  align-items:center; gap:10px 12px; }
+.leak summary::-webkit-details-marker { display:none; }
+.leak summary:hover { background:var(--accent-soft); }
+.leak .lid { font:600 12px var(--mono); color:var(--ink-3); }
+.leak .lt { font-size:15px; font-weight:650; flex:1 1 260px; }
+.leak .lv { font:600 14px var(--mono); font-variant-numeric:tabular-nums; margin-left:auto; }
+.leak .l-body { border-top:1px solid var(--line); padding:16px 20px 18px;
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px 26px; }
+.leak .l-body h4 { margin:0 0 4px; font-size:11.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); }
+.leak .l-body p { margin:0; font-size:13.8px; color:var(--ink-2); max-width:none; }
+.leak .l-body p strong { color:var(--ink); }
+.leak .full { grid-column:1 / -1; }
+
+/* scatter */
+.viz { background:var(--card); border:1px solid var(--line); border-radius:12px;
+  box-shadow:var(--shadow); padding:18px 18px 8px; }
+.viz .legend { display:flex; flex-wrap:wrap; gap:14px; padding:2px 4px 10px; font-size:12.5px; color:var(--ink-2); }
+.viz svg { display:block; width:100%; height:auto; }
+.viz text { font:11.5px "Segoe UI", system-ui, sans-serif; fill:var(--ink-2); }
+.viz .axl { fill:var(--ink-3); font-size:11px; }
+.viz .dotl { font:600 10.5px var(--mono); fill:var(--ink); }
+.viz line, .viz text { pointer-events:none; }
+.tip { position:fixed; z-index:50; pointer-events:none; background:var(--card); color:var(--ink);
+  border:1px solid var(--line); box-shadow:var(--shadow); border-radius:8px; padding:8px 12px;
+  font-size:12.5px; max-width:280px; display:none; }
+.tip b { display:block; }
+
+/* tables */
+table.t { border-collapse:collapse; width:100%; font-size:13.5px; }
+table.t th, table.t td { border-bottom:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top; }
+table.t th { font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); font-weight:600; }
+table.t td:first-child { white-space:nowrap; }
+.t-wrap { overflow-x:auto; }
+
+/* roadmap */
+.horizons { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; }
+.hz { border:1px solid var(--line); border-radius:12px; background:var(--card); box-shadow:var(--shadow); }
+.hz .hz-h { padding:14px 18px 10px; border-bottom:1px solid var(--line); }
+.hz .hz-h .t { font-weight:650; font-size:15px; }
+.hz .hz-h .s { font-size:12px; color:var(--ink-3); }
+.hz .hz-h .v { font:600 13px var(--mono); color:var(--accent); margin-top:4px; }
+.hz ul { list-style:none; margin:0; padding:10px 18px 16px; display:flex; flex-direction:column; gap:9px; }
+.hz li { font-size:13.5px; color:var(--ink-2); padding-left:2px; }
+.hz li b { color:var(--ink); font-weight:600; }
+.hz li .lref { font:600 11px var(--mono); color:var(--accent); cursor:pointer; }
+
+.note { border-left:3px solid var(--accent); background:var(--accent-soft); border-radius:0 10px 10px 0;
+  padding:12px 16px; font-size:13.5px; color:var(--ink-2); max-width:75ch; }
+.grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; }
+@media (prefers-reduced-motion: no-preference) {
+  .leak, .stat, .stage { transition:border-color .12s, background .12s; }
+}
+</style>
+
+<div class="wrap">
+<nav class="rail" aria-label="Sections">
+  <p class="brand">Methodology review</p>
+  <a href="#verdict">Verdict</a>
+  <a href="#assumptions">Assumptions</a>
+  <a href="#pipeline">Pipeline map</a>
+  <a href="#register">Leak register</a>
+  <a href="#matrix">Value vs effort</a>
+  <a href="#model">Operating model</a>
+  <a href="#roadmap">Roadmap</a>
+  <a href="#metrics">Metrics</a>
+  <a href="#keep">What to keep</a>
+  <a href="#method">Method &amp; caveats</a>
+</nav>
+<main>
+
+<header class="hero" id="verdict">
+  <p class="eyebrow">ERP delivery methodology · internal strategy review</p>
+  <h1>The pipeline is built. The margin now sits in what surrounds it.</h1>
+  <p class="lede">The repository already does the hard thing: transcripts → BPA → setup plan →
+  FGD/TGD → training → manual, with terminology, versioning, human gates and mechanical
+  validators. This review finds the value still uncaptured — twelve leaks across the
+  delivery chain — and proposes the operating model that converts them into margin,
+  capacity and recurring revenue. Every figure below is <strong>directional and adjustable</strong>:
+  set your own assumptions and the report recomputes.</p>
+  <p class="lede" style="margin-top:10px;font-size:14.5px"><strong>Version 2 — corrected and extended.</strong>
+  Three v1 facts were wrong: testing <em>does</em> exist as a stage, migration is client-run after a
+  RapidStart training, and aftercare is live reactive work (issues + change requests). v2 ships
+  assist-kits for all three in the repo — those findings now read <em>built, adopt</em> instead of
+  <em>missing</em>.</p>
+  <p class="stamp">v2 · basis: repo state at branch claude/bpa-documentation-system-qzkhgg · 2026-07-07 · corrections applied: test / migration / aftercare · figures = annual, at the assumptions set below</p>
+  <div class="stats">
+    <div class="stat"><div class="v" id="st-total">—</div><div class="l">Total annual opportunity</div><div class="n" id="st-note">—</div></div>
+    <div class="stat"><div class="v" id="st-days">—</div><div class="l">Consultant-days freed per project</div><div class="n">across the twelve leaks</div></div>
+    <div class="stat"><div class="v" id="st-rec">—</div><div class="l">New recurring revenue / yr</div><div class="n">aftercare subscriptions (L10)</div></div>
+    <div class="stat"><div class="v" id="st-cap">—</div><div class="l">Extra project capacity / yr</div><div class="n">same team, freed days ÷ avg project</div></div>
+  </div>
+</header>
+
+<section id="assumptions">
+  <p class="kicker">Calibrate</p>
+  <h2>Assumptions — set them to your practice</h2>
+  <p class="sub">Defaults describe a mid-size BC practice. Every euro figure in this report is a
+  live formula over these five numbers; the per-leak formulas are shown inside each card.</p>
+  <div class="card assump">
+    <label><span class="row"><span>Projects delivered per year</span><output id="o-P">12</output></span>
+      <input type="range" id="a-P" min="4" max="40" step="1" value="12"></label>
+    <label><span class="row"><span>Blended consultant day rate</span><output id="o-R">€ 950</output></span>
+      <input type="range" id="a-R" min="600" max="1500" step="25" value="950"></label>
+    <label><span class="row"><span>Average GAPs per project</span><output id="o-G">6</output></span>
+      <input type="range" id="a-G" min="0" max="15" step="1" value="6"></label>
+    <label><span class="row"><span>Clients on aftercare subscription</span><output id="o-A">10</output></span>
+      <input type="range" id="a-A" min="0" max="40" step="1" value="10"></label>
+    <label><span class="row"><span>Aftercare subscription / month</span><output id="o-M">€ 1 250</output></span>
+      <input type="range" id="a-M" min="0" max="4000" step="250" value="1250"></label>
+    <label><span class="row"><span>Average consulting days per project</span><output id="o-D">45</output></span>
+      <input type="range" id="a-D" min="20" max="120" step="5" value="45"></label>
+  </div>
+</section>
+
+<section id="pipeline">
+  <p class="kicker">Current state</p>
+  <h2>The delivery chain, with its leaks pinned on</h2>
+  <p class="sub">Every stage now exists. The accent-bordered ones were unassisted in v1 —
+  testing had no generated scripts or coverage gate, client-run migration had no guardrails,
+  aftercare had no registers — and got their assist-kits built in this iteration. Click a stage
+  to filter the leak register; badges count the leaks it carries.</p>
+  <div class="card"><div class="flow" id="flow"></div></div>
+</section>
+
+<section id="register">
+  <p class="kicker">Findings</p>
+  <h2>Leak register — where value and money sit on the table</h2>
+  <p class="sub">Twelve leaks in four categories. Each card shows the annual value at your
+  assumptions, the evidence in the repository, the fix, and the first concrete step.
+  Click to expand.</p>
+  <div class="filters" id="reg-filters"></div>
+  <div id="reg-list"></div>
+</section>
+
+<section id="matrix">
+  <p class="kicker">Prioritisation</p>
+  <h2>Value vs effort</h2>
+  <p class="sub">Annual value at current assumptions against implementation effort. The
+  upper-left is free money; the register above is this chart's table view.</p>
+  <div class="viz">
+    <div class="legend" id="viz-legend"></div>
+    <div id="scatter"></div>
+  </div>
+</section>
+
+<section id="model">
+  <p class="kicker">Reorganisation</p>
+  <h2>Target operating model — agents draft, humans decide, machines verify</h2>
+  <p class="sub">The reorganisation is not "add AI": the repo already has agents authoring.
+  It is a <strong>role inversion</strong> — human capital moves from producing documents to the two places
+  where it is irreplaceable and billable: the client room, and the review gate. Everything
+  reviewable gets a draft; everything checkable gets a validator; nothing ships ungated.</p>
+
+  <h3>Per stage</h3>
+  <div class="t-wrap card" style="padding:6px 4px;">
+  <table class="t">
+    <thead><tr><th>Stage</th><th>Agents draft</th><th>Humans decide</th><th>Machines verify</th></tr></thead>
+    <tbody>
+      <tr><td>Workshops</td><td>Briefing pack, hypothesis-BPA, live/same-day extraction</td><td><b>Run the room</b> — trust, trade-offs, scope calls</td><td>Open-question coverage per domain</td></tr>
+      <tr><td>BPA</td><td>Requirements, coverage draft, content from industry packs</td><td>Scope sign-off per domain; fit calls (standard/add-on/workaround/GAP)</td><td><code>build_bpa --strict</code>, terminology lint, traceability chain</td></tr>
+      <tr><td>Commercial</td><td>Quote from coverage × effort baselines; CR delta-quotes</td><td>Pricing strategy, risk premium</td><td>Quote ↔ coverage reconciliation</td></tr>
+      <tr><td>Setup</td><td>Plan, RapidStart packages, environment-verification reports</td><td>Execution judgement on live data; deviations → SDR</td><td>Plan covers scope; config-drift diff</td></tr>
+      <tr><td>Gaps</td><td>FGD draft → TGD draft → AL scaffold + test codeunits</td><td><b>FGD approval</b> (existing gate); architecture review</td><td>Gate enforcement, AC↔test mapping (exists)</td></tr>
+      <tr><td>Test / UAT</td><td>UAT scripts from scenarios + FGD ACs; API smoke tests</td><td>Acceptance with the key users</td><td>Script coverage of in-scope scenarios</td></tr>
+      <tr><td>Migration</td><td>Mapping specs, validation queries, trial-load reports</td><td>Data-quality calls, cutover go/no-go</td><td>Row counts, referential checks, reconciliations</td></tr>
+      <tr><td>Training</td><td>Trajectory, session preps, exercises, e-learning packets</td><td><b>Deliver the sessions</b>; confirm open decisions</td><td>Sessions reference only in-scope scenarios (exists)</td></tr>
+      <tr><td>Manual</td><td>How-tos from BPA + official docs, review-flagged drafts</td><td>Review-flag resolution</td><td>Grounding check per topic (exists)</td></tr>
+      <tr><td>Aftercare</td><td>Doc-grounded Q&amp;A agent; release-wave impact reports</td><td>Escalations; upsell conversations</td><td>Answer citations must resolve to client docs</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Role redesign</h3>
+  <div class="grid2">
+    <div class="card">
+      <h3 style="margin-top:0">Senior consultant → decision maker</h3>
+      <p style="font-size:13.8px;color:var(--ink-2)">Stops writing deliverables. Time moves to
+      workshops, argumentation, the four gates (scope, FGD, cutover, delivery) and client
+      relationships. The billable unit becomes the <b>decision</b>, not the document. Target:
+      ≥60% of senior time client-facing (from ~35% typical).</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Junior consultant → pipeline operator</h3>
+      <p style="font-size:13.8px;color:var(--ink-2)">Runs the agent pipeline per stage, triages
+      validator output, prepares review packets for seniors. Apprenticeship inverts: juniors
+      learn by <b>reviewing drafts against the knowledge base</b> instead of formatting documents —
+      faster route to judgement.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">New: knowledge curator (0.2–0.4 FTE)</h3>
+      <p style="font-size:13.8px;color:var(--ink-2)">Owns the flywheel: industry packs, effort
+      baselines, terminology glossary, lessons-learned promotion, template versions. This is
+      the role that makes project #13 cheaper than project #12 — today that compounding is
+      nobody's job.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Solution architect → gate owner</h3>
+      <p style="font-size:13.8px;color:var(--ink-2)">Owns FGD/TGD approvals and the AL-scaffold
+      review (L05). Also owns the "became standard?" check each release wave — the cheapest
+      customisation is the one you delete because Microsoft shipped it.</p>
+    </div>
+  </div>
+</section>
+
+<section id="roadmap">
+  <p class="kicker">Sequence</p>
+  <h2>Roadmap — three horizons, every item builds on what exists</h2>
+  <p class="sub">Ordered so that each horizon funds the next. Horizon 1 is pure extension of the
+  current repo — no new infrastructure, mostly templates + one tool each.</p>
+  <div class="horizons" id="horizons"></div>
+  <p class="note" style="margin-top:16px">Sequencing logic: measurement and reuse first (they
+  compound and de-risk everything else), execution automation second (needs baselines to prove
+  its worth), productised aftercare last (needs reference clients from horizons 1–2).</p>
+</section>
+
+<section id="metrics">
+  <p class="kicker">Instrumentation</p>
+  <h2>Measure the pipeline itself</h2>
+  <p class="sub">Today the methodology has quality gates but no gauges — you cannot see cycle
+  time, rework, or where review capacity bottlenecks. Six numbers, all computable from what
+  already exists (git history, <code>check_client</code> output, config version fields):</p>
+  <div class="t-wrap card" style="padding:6px 4px;">
+  <table class="t">
+    <thead><tr><th>Metric</th><th>Definition</th><th>Source</th><th>What it steers</th></tr></thead>
+    <tbody>
+      <tr><td>Stage cycle time</td><td>Days between first and last commit per stage workspace</td><td>git log per client folder</td><td>Where the pipeline stalls; quotes for speed</td></tr>
+      <tr><td>First-pass yield</td><td>% of agent drafts approved without content rework</td><td>review logs + git diffs</td><td>Prompt/template quality; model routing (Sonnet vs Opus)</td></tr>
+      <tr><td>Review latency</td><td>Draft → status change (FGD, plan, flags)</td><td>status rows + git dates</td><td>The real bottleneck in an agent-heavy pipeline is human review capacity</td></tr>
+      <tr><td>Validator failure rate</td><td>Warnings/errors per <code>check_client</code> run, by rule</td><td>check logs (persist them)</td><td>Which authoring steps need better templates</td></tr>
+      <tr><td>Estimate accuracy</td><td>Quoted vs actual days per scenario code and GAP size</td><td>effort baselines vs time-writing</td><td>The estimator (L03) — this is its training data</td></tr>
+      <tr><td>Reuse ratio</td><td>% of BPA content originating from industry packs</td><td>pack attribution in content files</td><td>Whether the flywheel is actually turning</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="keep">
+  <p class="kicker">Do not touch</p>
+  <h2>What the methodology gets right — protect it while scaling</h2>
+  <div class="grid2">
+    <div class="card"><h3 style="margin-top:0">The human gates</h3><p style="font-size:13.8px;color:var(--ink-2)">
+      FGD approval before TGD, consultant review flags in the manual, scope sign-off. As agent
+      volume grows, the temptation is to soften gates to clear backlog. Don't — widen review
+      capacity instead (that's what the role redesign is for).</p></div>
+    <div class="card"><h3 style="margin-top:0">Traceability as architecture</h3><p style="font-size:13.8px;color:var(--ink-2)">
+      Quote §14 → REQ → scenario → plan step → FGD AC → TGD test. This chain is why AI drafting
+      is safe here at all, and it is the audit answer when a client disputes scope. Every new
+      stage must join the chain, never bypass it.</p></div>
+    <div class="card"><h3 style="margin-top:0">Validators as definition of done</h3><p style="font-size:13.8px;color:var(--ink-2)">
+      Mechanical checks are what make output model-independent (Sonnet ≈ Opus ≈ Fable on this
+      pipeline). Every new capability in this report ships with its validator rule, or it
+      doesn't ship.</p></div>
+    <div class="card"><h3 style="margin-top:0">Repo-as-system portability</h3><p style="font-size:13.8px;color:var(--ink-2)">
+      Plain markdown + stdlib Python + self-contained HTML: no vendor lock, no infrastructure
+      bill, Copilot Studio and Claude run the same instructions. Resist platformising until a
+      leak demands it (only L10's Q&amp;A agent truly does).</p></div>
+  </div>
+</section>
+
+<section id="method">
+  <p class="kicker">Method</p>
+  <h2>How to read the numbers</h2>
+  <p class="sub" style="margin-bottom:10px">This review was produced against the actual repository
+  (every "evidence" line cites a real file). The euro figures are <strong>your assumptions × stated
+  formulas</strong> — deliberately simple, shown per leak, and meant to be argued with. They are
+  planning-grade, not audit-grade.</p>
+  <p class="note">Calibration path: implement L12 (telemetry) in horizon 1, run two projects,
+  replace the assumed days-saved with measured deltas, and re-price the roadmap. The report is a
+  living artifact — keep it with the repo and update the leak register as items close.<br><br>
+  <strong>v2 changelog</strong> — corrected on consultant input: testing exists as a stage (leak
+  reframed to script generation + coverage gates; kit built), data migration is client-run after a
+  RapidStart training (kit with workbooks + checkpoints built), aftercare is live issue/CR work
+  (registers built; productisation layers remain the open opportunity). Findings marked
+  <em>✓ built — adopt</em> count toward the total until adoption is confirmed on a real project.</p>
+</section>
+
+</main>
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+(function () {
+"use strict";
+
+/* ---------------- assumptions ---------------- */
+var A = { P: 12, R: 950, G: 6, Aft: 10, M: 1250, D: 45 };
+var fmt = function (n) {
+  if (n >= 1000000) return "€ " + (n / 1000000).toFixed(2) + " m";
+  if (n >= 1000) return "€ " + Math.round(n / 1000) + " k";
+  return "€ " + Math.round(n);
+};
+var CATS = { eff: "Efficiency", rev: "Revenue", risk: "Risk", know: "Knowledge & people" };
+var EFFORT = { 1: "S", 2: "M", 3: "L" };
+var STAGES = [
+  { id: "workshops", name: "Workshops", sub: "requirement meetings" },
+  { id: "bpa", name: "BPA", sub: "interactive analysis" },
+  { id: "commercial", name: "Commercial", sub: "quote · CRs" },
+  { id: "setup", name: "Setup", sub: "BC configuration" },
+  { id: "gaps", name: "Gaps", sub: "FGD → TGD → build" },
+  { id: "test", name: "Test / UAT", sub: "kit built in v2", upg: true },
+  { id: "migration", name: "Migration", sub: "client-run · kit built in v2", upg: true },
+  { id: "training", name: "Training", sub: "trajectory · sessions" },
+  { id: "manual", name: "Manual", sub: "interactive handbook" },
+  { id: "aftercare", name: "Aftercare", sub: "issues · CRs · registers in v2", upg: true },
+  { id: "cross", name: "Cross-cutting", sub: "flywheel · telemetry" }
+];
+
+/* ---------------- the twelve leaks ---------------- */
+var LEAKS = [
+  { id: "L01", t: "Workshops run blind — prep and capture are unassisted", stage: "workshops", cat: "eff", effort: 1, hz: 1,
+    val: function (a) { return 2 * a.P * a.R; }, days: 2,
+    formula: "2 days saved / project × projects × day rate",
+    leak: "The pipeline starts at inputs/ — everything before the transcript is manual. Senior consultants spend workshop hours on discoverable facts, and missed questions resurface later as change requests at the worst price.",
+    ev: "docs/bpa.md step 0 begins at 'collect'; clients/_template/bpa/inputs/ receives finished transcripts; nothing generates preparation.",
+    fix: "Pre-workshop briefing pack per domain generated from intake + catalog + expertise layer (question list, hypothesis coverage matrix, known lessons for this client pattern). Same-day extraction after each meeting so gaps are chased while the client is still in the room next week.",
+    first: "Add a 'briefing' step to docs/bpa.md + a briefing-pack template in clients/_template/bpa/; the assistant drafts it from intake.md before workshop 1." },
+  { id: "L02", t: "Every BPA is written from scratch — no industry content reuse", stage: "bpa", cat: "eff", effort: 2, hz: 1,
+    val: function (a) { return 4 * a.P * a.R; }, days: 4,
+    formula: "4 authoring days saved / project × projects × day rate",
+    leak: "60–70% of a food-manufacturing BPA matches the next food client, but content/ starts empty every time. The expertise layer captures lessons, not reusable prose.",
+    ev: "clients/_demo-bakkerij-florax/bpa/content/ hand-written; no bpa/packs/; expertise/lessons-learned.md holds arguments, not scenario text.",
+    fix: "Industry content packs: anonymised, versioned scenario documentation per vertical (bpa/packs/<industry>/) that new clients fork instead of blank templates. A 'nearest prior client' starter suggested from intake matching. The knowledge curator owns pack quality.",
+    first: "Anonymise the Florax content into bpa/packs/food-manufacturing/ as the first pack; add pack attribution lines so the reuse ratio is measurable." },
+  { id: "L03", t: "Estimation ignores the data the pipeline already produces", stage: "commercial", cat: "rev", effort: 2, hz: 2,
+    val: function (a) { return 0.02 * a.P * a.D * a.R; },
+    formula: "2% of annual delivery revenue protected from under-quoting",
+    leak: "The coverage matrix is a perfect quantity survey — scenario count, fit mix, GAP sizes — yet quotes are still expert gut. Under-priced fixed-bid projects silently eat the margin the pipeline creates.",
+    ev: "coverage.md carries scope + fit per scenario and gaps.md carries S/M/L, but no effort baselines exist anywhere; no quote artifact in the client workspace.",
+    fix: "Effort baselines per scenario code and GAP size (pricing/effort-baselines.json), calibrated each project from actuals (see metrics). Quote generator: coverage × baselines → priced scope annex that is literally the BPA's scope matrix — what the client signs is what the pipeline builds.",
+    first: "Backfill baselines from the last 5 finished projects' time-writing against their scope; generate the next quote both ways and compare." },
+  { id: "L04", t: "Change requests are absorbed, not billed — CR register built; adopt it", stage: "commercial", cat: "rev", effort: 1, hz: 1, st: "addressed",
+    val: function (a) { return 1.5 * a.P * a.R; }, days: 1.5,
+    formula: "1.5 absorbed days recovered / project × projects × day rate",
+    leak: "docs/operations.md defines the CR rule ('new REQ, re-version') but there is no CR workflow — so mid-project asks get done informally and never invoiced. CR leakage is the classic silent margin killer in fixed-bid ERP.",
+    ev: "docs/operations.md §Scope: rule exists; clients/_template/ has no CR intake, no delta-quote artifact.",
+    fix: "CR pipeline: intake block with the literal quote → agent drafts the delta (REQ + coverage rows + content diff + FGD if needed) → delta-quote from L03 baselines → delivered only from 'approved', with a BPA version bump. Ten minutes from ask to priced answer removes the social friction of billing. <strong>Built in v2</strong>: aftercare/crs.md register with machine-checked statuses (docs/aftercare.md).",
+    first: "Adopt: log every ask from the next steering meeting as a CR-x and quote it the same day; wire the L03 baselines in when they exist." },
+  { id: "L05", t: "TGDs stop one step short of code", stage: "gaps", cat: "eff", effort: 2, hz: 2,
+    val: function (a) { return 0.75 * a.G * a.P * a.R; },
+    formula: "0.75 dev-days saved per GAP × GAPs/project × projects × rate",
+    leak: "The TGD is written to be executable by a developer with zero context — which means it is precise enough for an agent to draft the AL extension: objects, event subscribers, captions in both languages, and test codeunits straight from the test plan. That first 30–40% of development is being bought at dev rates.",
+    ev: "clients/_demo-bakkerij-florax/gaps/TGD-GAP-1.md specifies objects, ranges, events, tests; no scaffold generation exists.",
+    fix: "AL scaffold stage: agent generates the app skeleton + test codeunits from an approved TGD; architect reviews the diff (a review, not a rewrite). Human gate stays — code merges only through the architect.",
+    first: "Scaffold TGD-GAP-1 as the pilot; measure review time vs historical build time for a comparable gap." },
+  { id: "L06", t: "Setup is clicked by hand and verified by trust", stage: "setup", cat: "eff", effort: 2, hz: 2,
+    val: function (a) { return 3 * a.P * a.R; }, days: 3,
+    formula: "3 days saved / project × projects × day rate",
+    leak: "The setup plan is executed manually page by page, twice (TEST then PROD), and 'done' is a checkbox nobody re-verifies. Config drift between environments surfaces during training — the most expensive possible moment.",
+    ev: "docs/setup.md states the consultant-executed boundary; no RapidStart package generation; no environment verification exists.",
+    fix: "Two additions that keep human judgement in charge: (1) RapidStart configuration-package generation per plan phase — execute once, promote mechanically; (2) a read-only verification agent (BC API) that diffs actual environment config against the plan and flags drift before every training block and before cutover.",
+    first: "Pilot the verifier: read-only API user on FLORAX-TEST equivalent, check 10 plan steps' claims automatically." },
+  { id: "L07", t: "Testing existed, but scripts were hand-made and coverage unchecked — kit built; adopt it", stage: "test", cat: "risk", effort: 2, hz: 1, st: "addressed",
+    val: function (a) { return 1.5 * a.P * a.R; }, days: 1.5,
+    formula: "1.5 days of script-writing + late-defect rework avoided / project",
+    leak: "v1 wrongly called this stage missing — corrected: testing exists in the methodology. The real leak: scripts were authored by hand (so often thin or late), nothing verified that every in-scope scenario and every FGD acceptance criterion was actually covered, and acceptance was a feeling rather than a signed record.",
+    ev: "Corrected + built in v2: clients/_template/test/ (test plan with entry/exit criteria, script format, defect register with defect-vs-CR triage) + docs/testing.md; check_client now enforces scenario and FGD-AC coverage and blocks an approved plan with open high-severity defects. Demo: 9 scripts covering all 16 in-scope scenarios and FGD-GAP-1 AC-1…5.",
+    fix: "Scripts are <strong>generated</strong> from what already exists — the BPA scenario doc states expected behaviour, the approved FGD states the acceptance criteria, the migration workbooks supply real start data. Key users execute rounds R1 (scenario) → R2 (end-to-end chains incl. document output) → R3 (regression + cutover simulation); per-domain sign-off is gate 4 before cutover.",
+    first: "Adopt on the next project: generate the script set the day the BPA is approved; run R1 with key users right after their training module." },
+  { id: "L08", t: "Client-run migration (RapidStart) had no guardrails — kit built; adopt it", stage: "migration", cat: "risk", effort: 2, hz: 1, st: "addressed",
+    val: function (a) { return 2 * a.P * a.R; }, days: 2,
+    formula: "2 days of cutover firefighting avoided / project (+ checkpoints become billable)",
+    leak: "v1 wrongly called migration absent — corrected: the model is an initial RapidStart training after which the client migrates its own data. That model is right (cost, ownership), but unguarded it fails predictably: mapping ambiguity, dirty data discovered at cutover, no reconciliation trail — and the consultant firefights for free at the worst moment.",
+    ev: "Corrected + built in v2: clients/_template/migration/ — per-entity workbooks (field mapping from BPA/setup, cleansing rules, self-checking validation incl. reconciliation of open entries to the old books), a RapidStart training prep using the client's own data, and three consultant checkpoints CP1 readiness / CP2 trial review / CP3 cutover sign-off; validator rules; demo has 3 filled workbooks. docs/migration.md.",
+    fix: "Keep the client-run model; the consultant sells <strong>guardrails instead of typing</strong>: agent-generated workbooks, competence-based training on real data, and three billable gates. Trial-loaded data doubles as the test stage's start data. Source-system mapping packs (Exact, Navision, AFAS …) make the second identical migration start at 80%.",
+    first: "Adopt on the next migration: generate the workbooks from the entity scope, run the training with real extracts, invoice CP1–CP3 as fixed review moments." },
+  { id: "L09", t: "Training delivery doesn't scale past the trainer", stage: "training", cat: "eff", effort: 1, hz: 2,
+    val: function (a) { return 1.5 * a.P * a.R; }, days: 1.5,
+    formula: "1.5 delivery/prep days saved / project × projects × rate",
+    leak: "Every hour of training is a consultant hour, and absentees or new hires trigger repeat sessions at full cost. The manual content and session exercises already exist as structured data — nothing turns them into self-serve learning.",
+    ev: "training/ produces trainer-led session preps only; manual topics and exercises are structured but single-use.",
+    fix: "Per-role learning packets generated from manual chapters + session exercises (with the self-checking expected results already in the format); quiz generation per module; session logs auto-create manual review flags. Trainer time refocuses on the decision-confirming parts of sessions.",
+    first: "Generate the M1 packet from the demo client's manual chapter 2 + S01 exercises; test with one key-user group." },
+  { id: "L10", t: "Aftercare is reactive time-and-material — registers built; productise the foresight", stage: "aftercare", cat: "rev", effort: 2, hz: 3,
+    val: function (a) { return a.Aft * a.M * 12; },
+    formula: "subscribed clients × monthly fee × 12 — new recurring revenue",
+    leak: "v1 understated this — corrected: aftercare exists and is real work (consultants resolving issues and pushing change requests through). The leak is its shape: reactive, T&M, invisible until the invoice; the resolved issues teach nobody, and the uniquely grounded assets (the client's own BPA + manual + setup record) sit unused while SaaS clients get force-upgraded twice a year.",
+    ev: "Corrected in v2 — layer 1 built: clients/_template/aftercare/ issue + CR registers with the feeding rule (a resolved issue must update the manual, propose a lesson, or flag a test gap) and machine-checked CR statuses. Layers 2–3 open: docs/aftercare.md details the wave impact reports, the doc-grounded Q&A agent and the subscription tiers.",
+    fix: "Three layers (docs/aftercare.md): 1) the registers wired into the flywheel — built; 2) proactive products from existing assets: per-wave release-impact report (diff Microsoft release plans against the client's in-scope scenario codes) and a support Q&A agent grounded exclusively in the client's own documents; 3) subscription tiers (Basis/Plus/Premium) that sell certainty and foresight — T&M stays only for delivering approved CRs.",
+    first: "Hand-produce one release-impact report for the 2026 wave 2 preview for two existing clients; price the subscription off their reaction." },
+  { id: "L11", t: "The knowledge flywheel depends on goodwill", stage: "cross", cat: "know", effort: 1, hz: 1,
+    val: function (a) { return 0.5 * a.P * a.R; }, days: 0.5,
+    formula: "0.5 days better-argued decisions / project (compounding, understated)",
+    leak: "SDR outcomes are 'filled in after go-live' (they won't be), lessons are promoted manually, freshness checks are remembered rather than scheduled. The system is designed to compound but the compounding steps are all optional human chores.",
+    ev: "SDR template's empty Outcome sections; expertise/lessons-learned.md next-ID comment; system/update-check-log.md throttle relies on being asked.",
+    fix: "Milestone harvest agent: at each project milestone, drafts SDR outcomes from what actually happened, proposes LL entries, updates effort baselines (L03's fuel), and sweeps active clients for claims invalidated by release notes. Humans approve; nothing auto-merges.",
+    first: "Run one harvest on the demo client manually to fix the template prompts; then schedule per milestone in the project checklist." },
+  { id: "L12", t: "No telemetry, and client feedback has no channel", stage: "cross", cat: "know", effort: 1, hz: 1,
+    val: function (a) { return 1 * a.P * a.R; }, days: 1,
+    formula: "1 day of review-loop waste removed / project × projects × rate",
+    leak: "The pipeline has gates but no gauges — cycle time, rework, and review latency are invisible, so improvement is anecdotal. And the client-facing deliverables are read-only: feedback arrives as unstructured email that someone re-types into the workspace.",
+    ev: "No metrics tooling; viewer has no annotation/approval capture; check_client output isn't persisted.",
+    fix: "(1) Metrics from what exists: git history + persisted check_client logs → the six KPIs in the Metrics section. (2) A feedback/approval layer in the viewer: per-domain 'approve / comment' that exports structured comments back into the workspace as REQ/CR candidates — digital sign-off shortens the approval cycle that currently gates every downstream stage.",
+    first: "Persist check_client runs to a log file per client; one-page metrics script over git history; add the viewer comment-export in the next viewer iteration." }
+];
+
+/* ---------------- calc + headline ---------------- */
+function leakVal(l) { return l.val(A); }
+function totals() {
+  var t = 0, days = 0, rec = 0, built = 0;
+  LEAKS.forEach(function (l) {
+    var v = leakVal(l); t += v;
+    if (l.days) days += l.days;
+    if (l.id === "L10") rec += v;
+    if (l.st === "addressed") built += v;
+  });
+  return { total: t, days: days, rec: rec, built: built, cap: (days * A.P) / A.D };
+}
+function renderHeadline() {
+  var s = totals();
+  document.getElementById("st-total").textContent = fmt(s.total);
+  document.getElementById("st-note").textContent = "of which " + fmt(s.built) + " already systematised in the repo — adoption pending";
+  document.getElementById("st-days").textContent = s.days.toFixed(1);
+  document.getElementById("st-rec").textContent = fmt(s.rec);
+  document.getElementById("st-cap").textContent = "+" + s.cap.toFixed(1);
+}
+
+/* ---------------- pipeline map ---------------- */
+function renderFlow() {
+  var el = document.getElementById("flow");
+  var html = "";
+  STAGES.forEach(function (s, i) {
+    var n = LEAKS.filter(function (l) { return l.stage === s.id; }).length;
+    if (i && s.id !== "cross") html += '<span class="arrow" aria-hidden="true">→</span>';
+    if (s.id === "cross") html += '<span class="arrow" aria-hidden="true">·</span>';
+    html += '<button class="stage' + (s.missing ? " missing" : s.upg ? " upg" : "") + '" data-stage="' + s.id + '">' +
+      (n ? '<span class="badge">' + n + "</span>" : "") +
+      '<span class="s-name">' + s.name + '</span><br><span class="s-sub">' + s.sub + "</span></button>";
+  });
+  el.innerHTML = html;
+  el.querySelectorAll(".stage").forEach(function (b) {
+    b.addEventListener("click", function () {
+      FILTER.stage = b.getAttribute("data-stage"); FILTER.cat = "all";
+      renderFilters(); renderRegister();
+      document.getElementById("register").scrollIntoView({ behavior: "smooth" });
+    });
+  });
+}
+
+/* ---------------- register ---------------- */
+var FILTER = { cat: "all", stage: "all", sort: "value" };
+function renderFilters() {
+  var f = document.getElementById("reg-filters");
+  var cats = [["all", "all"], ["eff", CATS.eff], ["rev", CATS.rev], ["risk", CATS.risk], ["know", CATS.know]];
+  var html = cats.map(function (c) {
+    return '<button data-cat="' + c[0] + '"' + (FILTER.cat === c[0] ? ' class="on"' : "") + ">" + c[1] + "</button>";
+  }).join("");
+  html += '<span class="sep"></span>';
+  html += '<button data-sort="value"' + (FILTER.sort === "value" ? ' class="on"' : "") + ">sort: value</button>";
+  html += '<button data-sort="effort"' + (FILTER.sort === "effort" ? ' class="on"' : "") + ">sort: effort</button>";
+  if (FILTER.stage !== "all") {
+    var st = STAGES.find(function (s) { return s.id === FILTER.stage; });
+    html += '<span class="sep"></span><button data-clear="1" class="on">stage: ' + st.name + " ✕</button>";
+  }
+  f.innerHTML = html;
+  f.querySelectorAll("button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      if (b.hasAttribute("data-clear")) FILTER.stage = "all";
+      else if (b.hasAttribute("data-sort")) FILTER.sort = b.getAttribute("data-sort");
+      else FILTER.cat = b.getAttribute("data-cat");
+      renderFilters(); renderRegister();
+    });
+  });
+}
+function renderRegister() {
+  var list = LEAKS.slice();
+  if (FILTER.cat !== "all") list = list.filter(function (l) { return l.cat === FILTER.cat; });
+  if (FILTER.stage !== "all") list = list.filter(function (l) { return l.stage === FILTER.stage; });
+  list.sort(FILTER.sort === "value"
+    ? function (a, b) { return leakVal(b) - leakVal(a); }
+    : function (a, b) { return a.effort - b.effort || leakVal(b) - leakVal(a); });
+  var open = {};
+  document.querySelectorAll("#reg-list details[open]").forEach(function (d) { open[d.id] = true; });
+  document.getElementById("reg-list").innerHTML = list.map(function (l) {
+    var st = STAGES.find(function (s) { return s.id === l.stage; });
+    return '<details class="leak" id="d-' + l.id + '"' + (open["d-" + l.id] ? " open" : "") + ">" +
+      '<summary><span class="lid">' + l.id + '</span><span class="lt">' + l.t + "</span>" +
+      '<span class="chip ' + l.cat + '"><i></i>' + CATS[l.cat] + "</span>" +
+      '<span class="chip plain">' + st.name + "</span>" +
+      '<span class="chip plain">effort ' + EFFORT[l.effort] + " · H" + l.hz + "</span>" +
+      (l.st === "addressed" ? '<span class="chip built">✓ built — adopt</span>' : "") +
+      '<span class="lv">' + fmt(leakVal(l)) + "/yr</span></summary>" +
+      '<div class="l-body">' +
+      '<div class="full"><h4>What is leaking</h4><p>' + l.leak + "</p></div>" +
+      "<div><h4>Evidence in the repo</h4><p>" + l.ev + "</p></div>" +
+      "<div><h4>Value formula</h4><p>" + l.formula + " = <strong>" + fmt(leakVal(l)) + "/yr</strong></p></div>" +
+      '<div class="full"><h4>The fix</h4><p>' + l.fix + "</p></div>" +
+      '<div class="full"><h4>First step</h4><p>' + l.first + "</p></div>" +
+      "</div></details>";
+  }).join("") || '<p class="sub">No leaks match this filter.</p>';
+}
+
+/* ---------------- scatter ---------------- */
+function renderLegend() {
+  document.getElementById("viz-legend").innerHTML = Object.keys(CATS).map(function (c) {
+    return '<span class="chip ' + c + '"><i></i>' + CATS[c] + "</span>";
+  }).join("") + '<span style="margin-left:auto;color:var(--ink-3);font-size:11.5px">bubble = annual value · faded = kit built in v2, adoption pending</span>';
+}
+function renderScatter() {
+  var W = 940, H = 380, mL = 74, mR = 24, mT = 18, mB = 46;
+  var iw = W - mL - mR, ih = H - mT - mB;
+  var vmax = Math.max.apply(null, LEAKS.map(leakVal)) * 1.15;
+  var step = Math.pow(10, Math.floor(Math.log10(vmax / 4)));
+  var tick = Math.ceil(vmax / 4 / step) * step;
+  var yv = function (v) { return mT + ih - (v / (tick * 4)) * ih; };
+  var xe = function (e, j) { return mL + ((e - 0.5) / 3) * iw + j; };
+  var s = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Annual value versus implementation effort per leak">';
+  for (var i = 0; i <= 4; i++) {
+    var y = yv(tick * i);
+    s += '<line x1="' + mL + '" y1="' + y + '" x2="' + (W - mR) + '" y2="' + y + '" stroke="var(--grid)" stroke-width="1"/>';
+    s += '<text class="axl" x="' + (mL - 8) + '" y="' + (y + 4) + '" text-anchor="end" style="font-variant-numeric:tabular-nums">' + fmt(tick * i) + "</text>";
+  }
+  ["S — extend templates", "M — one new tool", "L — new capability"].forEach(function (lbl, i) {
+    s += '<text class="axl" x="' + xe(i + 1, 0) + '" y="' + (H - 14) + '" text-anchor="middle">' + lbl + "</text>";
+  });
+  s += '<text class="axl" transform="translate(16 ' + (mT + ih / 2) + ') rotate(-90)" text-anchor="middle">annual value</text>';
+  // spread dots within an effort band by stable per-band index
+  var bandIdx = { 1: 0, 2: 0, 3: 0 };
+  var placed = LEAKS.slice().sort(function (a, b) { return leakVal(b) - leakVal(a); });
+  placed.forEach(function (l) {
+    var k = bandIdx[l.effort]++;
+    var j = (k % 5 - 2) * 52; // wide spread: dot + label clear the next dot
+    var cx = xe(l.effort, j), cy = yv(leakVal(l));
+    s += '<g class="pt" data-leak="' + l.id + '" tabindex="0" style="cursor:pointer">' +
+      '<circle cx="' + cx + '" cy="' + cy + '" r="8" fill="var(--' + l.cat + ')" stroke="var(--card)" stroke-width="2"' +
+      (l.st === "addressed" ? ' fill-opacity=".38"' : "") + "/>" +
+      '<text class="dotl" x="' + (cx + 11) + '" y="' + (cy + 4) + '">' + l.id + "</text></g>";
+  });
+  s += "</svg>";
+  document.getElementById("scatter").innerHTML = s;
+  var tip = document.getElementById("tip");
+  document.querySelectorAll("#scatter .pt").forEach(function (g) {
+    var l = LEAKS.find(function (x) { return x.id === g.getAttribute("data-leak"); });
+    function show(ev) {
+      tip.innerHTML = "<b>" + l.id + " · " + l.t + "</b>" + fmt(leakVal(l)) + "/yr · effort " + EFFORT[l.effort] + " · H" + l.hz + (l.st === "addressed" ? " · ✓ built" : "");
+      tip.style.display = "block";
+      var x = (ev.touches ? ev.touches[0] : ev).clientX, y = (ev.touches ? ev.touches[0] : ev).clientY;
+      tip.style.left = Math.min(x + 14, window.innerWidth - 300) + "px";
+      tip.style.top = (y + 14) + "px";
+    }
+    g.addEventListener("mousemove", show);
+    g.addEventListener("mouseleave", function () { tip.style.display = "none"; });
+    g.addEventListener("click", function () {
+      tip.style.display = "none";
+      var d = document.getElementById("d-" + l.id);
+      if (d) { d.open = true; d.scrollIntoView({ behavior: "smooth", block: "center" }); }
+    });
+  });
+}
+
+/* ---------------- roadmap ---------------- */
+var HZ = [
+  { n: 1, t: "Horizon 1 · 0–3 months", s: "Adopt what v2 built, measure, reuse, stop the billing leaks",
+    items: [
+      ["L07", "Adopt the test kit: generate scripts at BPA approval, run R1–R3 on the next project"],
+      ["L08", "Adopt the migration kit: workbooks + RapidStart training + billable checkpoints CP1–CP3"],
+      ["L04", "Adopt the CR register: every ask logged and quoted the same day"],
+      ["L12", "Telemetry + persisted validator logs — the calibration basis for everything else"],
+      ["L01", "Workshop briefing packs + same-day extraction"],
+      ["L02", "First industry pack (anonymise Florax → food-manufacturing)"],
+      ["L11", "Milestone harvest agent for SDR outcomes and lessons"]
+    ] },
+  { n: 2, t: "Horizon 2 · 3–9 months", s: "Execution automation — needs H1's baselines to prove itself",
+    items: [
+      ["L03", "Effort baselines + quote generator from coverage (CRs and checkpoints feed it)"],
+      ["L05", "AL scaffolds from approved TGDs (architect-gated)"],
+      ["L06", "RapidStart generation for setup + environment-verification agent"],
+      ["L09", "Per-role learning packets from manual + exercises"]
+    ] },
+  { n: 3, t: "Horizon 3 · 9–18 months", s: "Recurring revenue — sold on H1–H2 reference clients",
+    items: [
+      ["L10", "Aftercare layers 2–3: per-wave release-impact reports, doc-grounded Q&A agent, subscription tiers"],
+      ["—", "Viewer feedback/sign-off layer matured into a client portal"],
+      ["—", "Outcome-based pricing pilot: sell the analysis phase fixed-fee at half the elapsed time"]
+    ] }
+];
+function renderRoadmap() {
+  document.getElementById("horizons").innerHTML = HZ.map(function (h) {
+    var v = LEAKS.filter(function (l) { return l.hz === h.n; }).reduce(function (t, l) { return t + leakVal(l); }, 0);
+    return '<div class="hz"><div class="hz-h"><div class="t">' + h.t + '</div><div class="s">' + h.s + "</div>" +
+      '<div class="v">unlocks ' + fmt(v) + "/yr</div></div><ul>" +
+      h.items.map(function (it) {
+        return "<li>" + (it[0] !== "\u2014" ? '<span class="lref" data-leak="' + it[0] + '">' + it[0] + "</span> \u00b7 " : "") + it[1] + "</li>";
+      }).join("") + "</ul></div>";
+  }).join("");
+  document.querySelectorAll(".lref").forEach(function (r) {
+    r.addEventListener("click", function () {
+      var d = document.getElementById("d-" + r.getAttribute("data-leak"));
+      if (d) { d.open = true; d.scrollIntoView({ behavior: "smooth", block: "center" }); }
+    });
+  });
+}
+
+/* ---------------- assumptions wiring ---------------- */
+var map = { P: "P", R: "R", G: "G", A: "Aft", M: "M", D: "D" };
+Object.keys(map).forEach(function (k) {
+  var input = document.getElementById("a-" + k), out = document.getElementById("o-" + k);
+  input.addEventListener("input", function () {
+    A[map[k]] = +input.value;
+    out.textContent = (k === "R" || k === "M") ? "€ " + (+input.value).toLocaleString("fr-BE") : input.value;
+    renderHeadline(); renderRegister(); renderScatter(); renderRoadmap();
+  });
+});
+
+renderHeadline(); renderFlow(); renderFilters(); renderRegister();
+renderLegend(); renderScatter(); renderRoadmap();
+})();
+</script>
+</body></html>

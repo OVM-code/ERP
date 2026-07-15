@@ -1,0 +1,23 @@
+/* Cegeka design tokens — extracted from the official Cegeka PowerPoint template
+ * (PDF export, June 2026). Exact fills sampled from the vector artwork.
+ * Consumed by bpa/viewer/viewer.css and the PDF-export print styles; inlined
+ * into every built deliverable by tools/build_bpa.py / tools/build_manual.py.
+ * The logo custom properties (--cg-logo-dark / --cg-logo-white) are appended
+ * at build time as data-URIs from the PNGs in this folder. */
+:root {
+  /* primary brand */
+  --cg-cyan: #00c7f9;        /* Cegeka cyan — fills, highlights, cover art */
+  --cg-cyan-light: #80e3fc;  /* light cyan — secondary fills */
+  --cg-cyan-tint: #e6f9fe;   /* derived tint — soft backgrounds */
+  --cg-cyan-deep: #0079a1;   /* derived dark cyan — accessible text/links on white */
+  --cg-ink: #001d24;         /* near-black ink — all body text in the template */
+  /* accents (logo swoosh / template highlights) */
+  --cg-purple: #632064;
+  --cg-purple-tint: #f4ecf4;
+  --cg-coral: #f04b4c;
+  --cg-coral-tint: #fdeeee;
+  /* neutrals */
+  --cg-gray: #b1b1b1;
+  --cg-gray-light: #d9d9d9;
+  --cg-paper: #ffffff;
+}

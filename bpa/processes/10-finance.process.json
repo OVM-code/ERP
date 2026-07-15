@@ -1,0 +1,257 @@
+{
+  "id": "finance",
+  "domain": 10,
+  "title": {
+    "nl": "Finance",
+    "en": "Finance"
+  },
+  "subtitle": {
+    "nl": "Crediteuren, debiteuren en periodieke afsluiting",
+    "en": "Payables, receivables and period-end closing"
+  },
+  "lanes": [
+    {
+      "id": "crediteuren",
+      "label": {
+        "nl": "Crediteuren",
+        "en": "Accounts payable"
+      }
+    },
+    {
+      "id": "debiteuren",
+      "label": {
+        "nl": "Debiteuren",
+        "en": "Accounts receivable"
+      }
+    },
+    {
+      "id": "boekhouding",
+      "label": {
+        "nl": "Boekhouding",
+        "en": "Accounting"
+      }
+    }
+  ],
+  "nodes": [
+    {
+      "id": "start",
+      "type": "start",
+      "label": {
+        "nl": "Financiële verwerking",
+        "en": "Financial processing"
+      },
+      "lane": "boekhouding"
+    },
+    {
+      "id": "split",
+      "type": "gateway-parallel",
+      "label": "",
+      "lane": "boekhouding"
+    },
+    {
+      "id": "ap-factuur",
+      "type": "task",
+      "label": {
+        "nl": "Inkoopfacturen registreren",
+        "en": "Record purchase invoices"
+      },
+      "lane": "crediteuren",
+      "scenario": "BS65.200"
+    },
+    {
+      "id": "ap-goedkeuren",
+      "type": "task",
+      "label": {
+        "nl": "Inkoopfactuur goedkeuren",
+        "en": "Approve purchase invoice"
+      },
+      "lane": "crediteuren",
+      "scenario": "BS65.203"
+    },
+    {
+      "id": "ap-boeken",
+      "type": "task",
+      "label": {
+        "nl": "Inkoopfacturen boeken",
+        "en": "Post purchase invoices"
+      },
+      "lane": "crediteuren",
+      "scenario": "BS65.204"
+    },
+    {
+      "id": "ap-betalen",
+      "type": "task",
+      "label": {
+        "nl": "Leveranciersbetalingen uitvoeren",
+        "en": "Process vendor payments"
+      },
+      "lane": "crediteuren",
+      "scenario": "BS65.207"
+    },
+    {
+      "id": "ar-factuur",
+      "type": "task",
+      "label": {
+        "nl": "Manuele verkoopfacturen registreren",
+        "en": "Record manual sales invoices"
+      },
+      "lane": "debiteuren",
+      "scenario": "BS65.209"
+    },
+    {
+      "id": "ar-opvolgen",
+      "type": "task",
+      "label": {
+        "nl": "Openstaande vorderingen opvolgen",
+        "en": "Follow up open receivables"
+      },
+      "lane": "debiteuren",
+      "scenario": "BS65.213"
+    },
+    {
+      "id": "ar-aanmanen",
+      "type": "task",
+      "label": {
+        "nl": "Aanmaningen beheren",
+        "en": "Manage reminders"
+      },
+      "lane": "debiteuren",
+      "scenario": "BS65.214"
+    },
+    {
+      "id": "bank",
+      "type": "task",
+      "label": {
+        "nl": "Dagafschriften verwerken en boeken",
+        "en": "Process and post bank statements"
+      },
+      "lane": "boekhouding",
+      "scenario": "BS65.219"
+    },
+    {
+      "id": "divers",
+      "type": "task",
+      "label": {
+        "nl": "Diverse boekingen registreren",
+        "en": "Post general journal entries"
+      },
+      "lane": "boekhouding",
+      "scenario": "BS65.216"
+    },
+    {
+      "id": "btw",
+      "type": "task",
+      "label": {
+        "nl": "Periodieke BTW-aangifte aanmaken",
+        "en": "Create periodic VAT return"
+      },
+      "lane": "boekhouding",
+      "scenario": "BS65.222"
+    },
+    {
+      "id": "join",
+      "type": "gateway-parallel",
+      "label": "",
+      "lane": "boekhouding"
+    },
+    {
+      "id": "rapporten",
+      "type": "task",
+      "label": {
+        "nl": "Financiële rapporten aanmaken",
+        "en": "Create financial reports"
+      },
+      "lane": "boekhouding",
+      "scenario": "BS65.218"
+    },
+    {
+      "id": "afsluiten",
+      "type": "task",
+      "label": {
+        "nl": "Boekjaar/periode afsluiten",
+        "en": "Close fiscal year/period"
+      },
+      "lane": "boekhouding",
+      "scenario": "BS65.234"
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "label": {
+        "nl": "Periode afgesloten",
+        "en": "Period closed"
+      },
+      "lane": "boekhouding"
+    }
+  ],
+  "flows": [
+    {
+      "from": "start",
+      "to": "split"
+    },
+    {
+      "from": "split",
+      "to": "ap-factuur"
+    },
+    {
+      "from": "ap-factuur",
+      "to": "ap-goedkeuren"
+    },
+    {
+      "from": "ap-goedkeuren",
+      "to": "ap-boeken"
+    },
+    {
+      "from": "ap-boeken",
+      "to": "ap-betalen"
+    },
+    {
+      "from": "ap-betalen",
+      "to": "join"
+    },
+    {
+      "from": "split",
+      "to": "ar-factuur"
+    },
+    {
+      "from": "ar-factuur",
+      "to": "ar-opvolgen"
+    },
+    {
+      "from": "ar-opvolgen",
+      "to": "ar-aanmanen"
+    },
+    {
+      "from": "ar-aanmanen",
+      "to": "join"
+    },
+    {
+      "from": "split",
+      "to": "bank"
+    },
+    {
+      "from": "bank",
+      "to": "divers"
+    },
+    {
+      "from": "divers",
+      "to": "btw"
+    },
+    {
+      "from": "btw",
+      "to": "join"
+    },
+    {
+      "from": "join",
+      "to": "rapporten"
+    },
+    {
+      "from": "rapporten",
+      "to": "afsluiten"
+    },
+    {
+      "from": "afsluiten",
+      "to": "end"
+    }
+  ]
+}

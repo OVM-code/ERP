@@ -1,0 +1,265 @@
+{
+  "id": "productie",
+  "domain": 7,
+  "title": {
+    "nl": "Productie",
+    "en": "Manufacturing"
+  },
+  "subtitle": {
+    "nl": "Van productieorder tot afgesloten order",
+    "en": "From production order to finished order"
+  },
+  "lanes": [
+    {
+      "id": "planning",
+      "label": {
+        "nl": "Productieplanning",
+        "en": "Production planning"
+      }
+    },
+    {
+      "id": "werkvloer",
+      "label": {
+        "nl": "Werkvloer",
+        "en": "Shop floor"
+      }
+    },
+    {
+      "id": "inkoop",
+      "label": {
+        "nl": "Inkoop (uitbesteding)",
+        "en": "Purchasing (subcontracting)"
+      }
+    }
+  ],
+  "nodes": [
+    {
+      "id": "start",
+      "type": "start",
+      "label": {
+        "nl": "Productiebehoefte (planning of verkooporder)",
+        "en": "Production demand (planning or sales order)"
+      },
+      "lane": "planning"
+    },
+    {
+      "id": "order",
+      "type": "task",
+      "label": {
+        "nl": "Productieorder maken",
+        "en": "Create production order"
+      },
+      "lane": "planning",
+      "scenario": "BS40.200"
+    },
+    {
+      "id": "plannen",
+      "type": "task",
+      "label": {
+        "nl": "Productieorder plannen",
+        "en": "Schedule production order"
+      },
+      "lane": "planning",
+      "scenario": "BS40.212"
+    },
+    {
+      "id": "materialen",
+      "type": "task",
+      "label": {
+        "nl": "Ordermaterialen beheren",
+        "en": "Manage order components"
+      },
+      "lane": "planning",
+      "scenario": "BS40.201"
+    },
+    {
+      "id": "gw-uitbesteding",
+      "type": "gateway",
+      "label": {
+        "nl": "Uitbesteding nodig?",
+        "en": "Subcontracting needed?"
+      },
+      "lane": "planning"
+    },
+    {
+      "id": "uitbesteding-berekenen",
+      "type": "task",
+      "label": {
+        "nl": "Uitbestedingsvoorstel berekenen",
+        "en": "Calculate subcontracting worksheet"
+      },
+      "lane": "inkoop",
+      "scenario": "BS30.209"
+    },
+    {
+      "id": "uitbesteding-boeken",
+      "type": "task",
+      "label": {
+        "nl": "Uitbestedingsinkooporder boeken",
+        "en": "Post subcontracting purchase order"
+      },
+      "lane": "inkoop",
+      "scenario": "BS40.208"
+    },
+    {
+      "id": "klaarzetten",
+      "type": "task",
+      "label": {
+        "nl": "Materialen klaarzetten",
+        "en": "Stage components"
+      },
+      "lane": "werkvloer",
+      "scenario": "BS40.211"
+    },
+    {
+      "id": "registreren",
+      "type": "task",
+      "label": {
+        "nl": "Verbruik en output registreren",
+        "en": "Post consumption and output"
+      },
+      "lane": "werkvloer",
+      "scenario": "BS40.205"
+    },
+    {
+      "id": "gw-uitval",
+      "type": "gateway",
+      "label": {
+        "nl": "Uitval?",
+        "en": "Scrap?"
+      },
+      "lane": "werkvloer"
+    },
+    {
+      "id": "uitval",
+      "type": "task",
+      "label": {
+        "nl": "Uitval boeken",
+        "en": "Post scrap"
+      },
+      "lane": "werkvloer",
+      "scenario": "BS40.206"
+    },
+    {
+      "id": "capaciteit",
+      "type": "task",
+      "label": {
+        "nl": "Capaciteit boeken",
+        "en": "Post capacity"
+      },
+      "lane": "werkvloer",
+      "scenario": "BS40.207"
+    },
+    {
+      "id": "kostprijs",
+      "type": "task",
+      "label": {
+        "nl": "Kostprijs bijwerken",
+        "en": "Adjust cost"
+      },
+      "lane": "planning",
+      "scenario": "BS40.204"
+    },
+    {
+      "id": "afsluiten",
+      "type": "task",
+      "label": {
+        "nl": "Productieorder afsluiten",
+        "en": "Finish production order"
+      },
+      "lane": "planning",
+      "scenario": "BS40.209"
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "label": {
+        "nl": "Order geproduceerd",
+        "en": "Order produced"
+      },
+      "lane": "planning"
+    }
+  ],
+  "flows": [
+    {
+      "from": "start",
+      "to": "order"
+    },
+    {
+      "from": "order",
+      "to": "plannen"
+    },
+    {
+      "from": "plannen",
+      "to": "materialen"
+    },
+    {
+      "from": "materialen",
+      "to": "gw-uitbesteding"
+    },
+    {
+      "from": "gw-uitbesteding",
+      "to": "uitbesteding-berekenen",
+      "label": {
+        "nl": "ja",
+        "en": "yes"
+      }
+    },
+    {
+      "from": "uitbesteding-berekenen",
+      "to": "uitbesteding-boeken"
+    },
+    {
+      "from": "uitbesteding-boeken",
+      "to": "klaarzetten"
+    },
+    {
+      "from": "gw-uitbesteding",
+      "to": "klaarzetten",
+      "label": {
+        "nl": "nee",
+        "en": "no"
+      }
+    },
+    {
+      "from": "klaarzetten",
+      "to": "registreren"
+    },
+    {
+      "from": "registreren",
+      "to": "gw-uitval"
+    },
+    {
+      "from": "gw-uitval",
+      "to": "uitval",
+      "label": {
+        "nl": "ja",
+        "en": "yes"
+      }
+    },
+    {
+      "from": "uitval",
+      "to": "capaciteit"
+    },
+    {
+      "from": "gw-uitval",
+      "to": "capaciteit",
+      "label": {
+        "nl": "nee",
+        "en": "no"
+      }
+    },
+    {
+      "from": "capaciteit",
+      "to": "kostprijs"
+    },
+    {
+      "from": "kostprijs",
+      "to": "afsluiten"
+    },
+    {
+      "from": "afsluiten",
+      "to": "end"
+    }
+  ]
+}

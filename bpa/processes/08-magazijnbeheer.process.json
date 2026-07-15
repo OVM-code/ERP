@@ -1,0 +1,198 @@
+{
+  "id": "magazijnbeheer",
+  "domain": 8,
+  "title": {
+    "nl": "Magazijnbeheer",
+    "en": "Warehouse management"
+  },
+  "subtitle": {
+    "nl": "Van ontvangst tot verzending",
+    "en": "From receipt to shipment"
+  },
+  "lanes": [
+    {
+      "id": "ontvangst",
+      "label": {
+        "nl": "Ontvangst",
+        "en": "Receiving"
+      }
+    },
+    {
+      "id": "magazijn",
+      "label": {
+        "nl": "Magazijn",
+        "en": "Warehouse"
+      }
+    },
+    {
+      "id": "verzending",
+      "label": {
+        "nl": "Verzending",
+        "en": "Shipping"
+      }
+    }
+  ],
+  "nodes": [
+    {
+      "id": "start",
+      "type": "start",
+      "label": {
+        "nl": "Goederen aangemeld (inkoop/productie/transfer)",
+        "en": "Goods announced (purchase/production/transfer)"
+      },
+      "lane": "ontvangst"
+    },
+    {
+      "id": "ontvangen",
+      "type": "task",
+      "label": {
+        "nl": "Magazijnontvangst maken",
+        "en": "Create warehouse receipt"
+      },
+      "lane": "ontvangst",
+      "scenario": "BS50.202"
+    },
+    {
+      "id": "gw-crossdock",
+      "type": "gateway",
+      "label": {
+        "nl": "Cross-docking?",
+        "en": "Cross-docking?"
+      },
+      "lane": "ontvangst"
+    },
+    {
+      "id": "crossdock",
+      "type": "task",
+      "label": {
+        "nl": "Cross-dock artikelen",
+        "en": "Cross-dock items"
+      },
+      "lane": "ontvangst",
+      "scenario": "BS50.205"
+    },
+    {
+      "id": "opslag",
+      "type": "task",
+      "label": {
+        "nl": "Voorraadopslag uitvoeren",
+        "en": "Execute put-away"
+      },
+      "lane": "magazijn",
+      "scenario": "BS50.217"
+    },
+    {
+      "id": "verplaatsen",
+      "type": "task",
+      "label": {
+        "nl": "Artikelen verplaatsen",
+        "en": "Move items"
+      },
+      "lane": "magazijn",
+      "scenario": "BS50.207"
+    },
+    {
+      "id": "herbevoorraden",
+      "type": "task",
+      "label": {
+        "nl": "Opslaglocaties herbevoorraden",
+        "en": "Replenish bins"
+      },
+      "lane": "magazijn",
+      "scenario": "BS50.216"
+    },
+    {
+      "id": "picken",
+      "type": "task",
+      "label": {
+        "nl": "Artikelen picken",
+        "en": "Pick items"
+      },
+      "lane": "verzending",
+      "scenario": "BS50.213"
+    },
+    {
+      "id": "verzending-maken",
+      "type": "task",
+      "label": {
+        "nl": "Magazijnverzending maken",
+        "en": "Create warehouse shipment"
+      },
+      "lane": "verzending",
+      "scenario": "BS50.214"
+    },
+    {
+      "id": "verzenden",
+      "type": "task",
+      "label": {
+        "nl": "Artikelen verzenden",
+        "en": "Ship items"
+      },
+      "lane": "verzending",
+      "scenario": "BS50.215"
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "label": {
+        "nl": "Goederen verzonden",
+        "en": "Goods shipped"
+      },
+      "lane": "verzending"
+    }
+  ],
+  "flows": [
+    {
+      "from": "start",
+      "to": "ontvangen"
+    },
+    {
+      "from": "ontvangen",
+      "to": "gw-crossdock"
+    },
+    {
+      "from": "gw-crossdock",
+      "to": "crossdock",
+      "label": {
+        "nl": "ja",
+        "en": "yes"
+      }
+    },
+    {
+      "from": "crossdock",
+      "to": "picken"
+    },
+    {
+      "from": "gw-crossdock",
+      "to": "opslag",
+      "label": {
+        "nl": "nee",
+        "en": "no"
+      }
+    },
+    {
+      "from": "opslag",
+      "to": "verplaatsen"
+    },
+    {
+      "from": "verplaatsen",
+      "to": "herbevoorraden"
+    },
+    {
+      "from": "herbevoorraden",
+      "to": "picken"
+    },
+    {
+      "from": "picken",
+      "to": "verzending-maken"
+    },
+    {
+      "from": "verzending-maken",
+      "to": "verzenden"
+    },
+    {
+      "from": "verzenden",
+      "to": "end"
+    }
+  ]
+}

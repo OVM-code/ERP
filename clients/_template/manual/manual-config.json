@@ -1,0 +1,9 @@
+{
+  "name": "<Client name>",
+  "title": "Gebruikershandleiding",
+  "period": "<go-live / versieperiode>",
+  "version": "0.1",
+  "language": "nl",
+  "accentColor": "#00305e",
+  "use_bpa_processes": true
+}
