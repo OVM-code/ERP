@@ -34,9 +34,11 @@ HARD RULES (content is verified; do not add to it)
   (version 29). Never label any of these as new in version 29:
   Add Data pane (v27), Insert Table / enhanced add-in (v28), layout statuses
   Draft/Approved (v28), Hide If Empty controls (2024 wave 2), a copy starting
-  as Draft (already in 28.x).
-- If one of my existing screenshots shows Hide If Empty and is labelled "new",
-  flag it to me instead of using it as a "new in 29" slide.
+  as Draft (already in 28.x). Insert Table (slide W3) is shown with its own
+  label "since 2026 wave 1", not as new in 29.
+- Do not mention Hide If Empty or Hide If False anywhere in the deck.
+- If one of my existing slides shows Hide If Empty or Hide If False, move it to
+  "Unused" and tell me.
 - English text. Business Central terms exactly as written here.
 - Max 6 bullets per slide, max ~8 words per bullet. Tables max 6 rows.
   Plain words: no "improved experience", "seamless", "powerful".
@@ -65,7 +67,7 @@ SLIDES
 
 3. Word layouts in version 29: three things  (Word, 0:20)
    Three tiles: Design components · One header/footer for all documents ·
-   Hide If False
+   Insert Table
    Callout box: "Off by default: an admin enables 'New Document Report
    Experience' in Feature Management."
    Notes: "Generally available since October, but the header/footer and theme
@@ -102,18 +104,24 @@ SLIDES
    edit one file. For groups with several companies: each company gets its own
    branding without copying layouts. Remember: only after the admin switch."
 
-6. W3 · Hide If False  (Word, 1:00)
+6. W3 · Insert Table: repeater tables in one dialog  (Word, 1:00)
    Bullets:
-   - Hide a table, row, column or field
-   - Driven by a yes/no field in the report
-   - Example: hide payment details when not needed
-   - Fewer layout variants per customer
-   Visual: my screenshot of the Hide If False dialog / before-after, else
-   placeholder "SCREENSHOT: Hide If False dialog with the yes/no field
-   dropdown; document with and without the block".
-   Source line: Microsoft 365 roadmap 573329
-   Notes: "Hide If Empty has been there since 2024. New in 29 is hiding based
-   on a yes/no field, so one layout covers more cases."
+   - One dialog builds the whole data table
+   - Pick data source, columns, order
+   - Header row and captions filled in
+   - Repeater and footer bound automatically
+   - No manual Add repeater, field by field
+   Visual: my screenshot of the Create Data Table dialog / the resulting
+   table, else placeholder "SCREENSHOT: Create Data Table dialog with data
+   source, columns and Include header row; the inserted line table".
+   Source line: Microsoft Learn: Design report layouts with the Business
+   Central Word add-in · Release plan 2026 wave 1
+   Label on the slide: "Since 2026 wave 1 (preview), now standard in the
+   add-in". Do NOT label this slide "new in version 29".
+   Notes: "Before, a line table meant: draw a table, select the row, add a
+   repeater, then add every field cell by cell. Now one dialog does it,
+   including headers and a footer row. It arrived as a preview in the spring
+   release; today it is the standard way in the add-in."
 
 7. Where Excel layouts fit  (Why Excel, 1:30)
    Table, 4 columns: (criterion) | Excel layouts | Analysis mode | Power BI
@@ -178,9 +186,8 @@ BACKUP (section "Backup", after slide 10)
 B1. Not new in version 29 (avoid on stage)
     Table "Feature | Shipped":
     - Add Data pane in the Word add-in | 2025 wave 2
-    - Insert Table, enhanced add-in editing | 2026 wave 1
+    - Enhanced add-in editing (data picker, search) | 2026 wave 1
     - Layout statuses Draft/Approved/Retired | 2026 wave 1
-    - Hide If Empty controls | 2024 wave 2
     - Copy of a layout starts as Draft | already in 28.x
 
 B2. Also new, not in the main story
@@ -196,12 +203,14 @@ B3. Sources
     - Set up reusable themes and header and footer layouts (Microsoft Learn)
     - Get started with report layouts (Microsoft Learn)
     - Excel report layouts (Microsoft Learn)
-    - Microsoft 365 roadmap 573326, 573328, 573329, 573330, 573331
+    - Release plan 2026 wave 1: easier editing with the enhanced Word add-in
+    - Microsoft 365 roadmap 573326, 573328, 573330, 573331
     - Walkthroughs: yzhums.com (Dynamics 365 Business Central posts)
 ```
 
 ---
 
 Notes for you, not for Claude:
-- If you use any yzhums.com screenshot to fill a gap, credit it on the slide. Posts 76696, 76655 and 76756 show the features; image-79, image-150 and image-380 don't.
+- If you use any yzhums.com screenshot to fill a gap, credit it on the slide. Posts 76696 and 76756 show the features; image-79, image-150 and image-380 don't.
+- Insert Table is your call against the "version 29 only" Word rule: the 2026 wave 1 release plan already describes the same dialog (preview). No source shows a version 29 change, so the slide says "since 2026 wave 1".
 - The demo UI is Dutch ("Concept"). Either say both words or switch the demo user to English.

@@ -16,7 +16,7 @@ All in-scope items are listed as generally available in What's new 29.0. Importa
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | W1 | One-click design components (573328) | Insert ready-made blocks from the ribbon: address blocks, field groups, amount tables, signature lines, note lines | Build an order confirmation block in a click, no field-by-field mapping | Faster layout projects; less consultant time per document | 4 | 4 | 4 | 4 | **80** | Include | [RM573328](https://mc.merill.net/message/RM573328), [yzhums 76696](https://yzhums.com/76696/), What's new 29.0 |
 | W2 | Reusable header/footer layouts (573331 design + 573326 reuse), with five sample headers and footers | Header/footer becomes one separate Word file used by all document reports; defaults per company, report or layout | Change logo or address once instead of in every layout | One controlled place for brand and legal footer; per-company branding without cloning layouts | 4 | 4 | 4 | 2 | **74** | Include | [Themes and header/footer](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-set-up-report-themes-header-footer-layouts), [yzhums 76756](https://yzhums.com/76756/) |
-| W3 | Hide If False (573329) | Hide a table, row, column or field when a yes/no field in the dataset is false | Hide e.g. payment details or a test block based on a flag, no developer | Fewer per-customer layout variants | 3 | 3 | 4 | 4 | **68** | Include | [RM573329](https://mc.merill.net/message/RM573329), [yzhums 76655](https://yzhums.com/76655/) |
+| W3 | Hide If False (573329) | Hide a table, row, column or field when a yes/no field in the dataset is false | Hide e.g. payment details or a test block based on a flag, no developer | Fewer per-customer layout variants | 3 | 3 | 4 | 4 | 68 | **Cut (Olivia, 19 Nov)** | [RM573329](https://mc.merill.net/message/RM573329), [yzhums 76655](https://yzhums.com/76655/) |
 | W4 | Report themes (573330 design + 573327 branding), with three sample documents | A .dotx theme holds fonts, colours and styles for all document layouts | Restyle all documents by swapping one file | Consistent brand across documents | 3 | 3 | 4 | 2 | **62** | Backup: one line on the W2 slide (same mechanism, same switch) | Same as W2 |
 | W5 | Lifecycle "for all layout types" (573320) | Roadmap says statuses now cover all layout types; what changed vs 28.x is not documented | Unclear | Unclear | 2 | 4 | 2 | 5 | 57 | Backup | [RM573320](https://mc.merill.net/message/RM573320) |
 | W6 | Company Information data item in Word datasets (573321) | Company fields available as one shared data item (CompanyMetadata) in every report dataset | Company fields in any header without a developer adding them | Small; enables W2 | 2 | 3 | 1 | 3 | 42 | Backup | [RM573321](https://mc.merill.net/message/RM573321), [yzhums 76367](https://yzhums.com/76367/) |
@@ -31,11 +31,15 @@ Score reasons (one sentence each):
 - W6: plumbing; mention only if asked.
 - W7: not for this audience.
 
+| W8 | Insert Table: repeater tables in one dialog (Olivia's pick, 19 Nov) | Create Data Table dialog: pick data source and columns, header row, captions, footer; inserts a fully bound table with repeater | Build a line table in one step instead of row selection + Add repeater + field by field | Shorter layout work on every document with lines | 4 | 4 | 4 | 4 | **80** | Include, labelled "since 2026 wave 1" | [Word add-in](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-design-word-layouts-business-central-add-in#build-a-repeating-data-table), [release plan 2026 wave 1](https://learn.microsoft.com/en-us/dynamics365/release-plan/2026wave1/smb/dynamics365-business-central/get-easier-editing-document-report-layouts-enhanced-word-add-in) |
+
+W8 scope note: the 2026 wave 1 release plan already describes the same dialog (data source, columns, headers, reorder, captions, repeaters, footer) as "currently in preview". No opened source names a version 29 change, so it breaks the "Word = version 29 only" rule. Kept at Olivia's request, with an honest label instead of "new in 29".
+
 **Do NOT show as new in 29** (verifier: wrong scope):
 | Item | Actually shipped |
 |---|---|
 | Add Data task pane in the Word add-in (fields, labels, report info, Add field) | 2025 wave 2, v27 ([release plan](https://learn.microsoft.com/en-us/dynamics365/release-plan/2025wave2/smb/dynamics365-business-central/add-data-fields-report-layouts-using-word-add-in)) |
-| Enhanced add-in editing, Insert Table | 2026 wave 1, v28 ([release plan](https://learn.microsoft.com/en-us/dynamics365/release-plan/2026wave1/smb/dynamics365-business-central/get-easier-editing-document-report-layouts-enhanced-word-add-in)) |
+| Enhanced add-in editing, Insert Table (Insert Table is on slide W3 with label "since 2026 wave 1") | 2026 wave 1, v28 ([release plan](https://learn.microsoft.com/en-us/dynamics365/release-plan/2026wave1/smb/dynamics365-business-central/get-easier-editing-document-report-layouts-enhanced-word-add-in)) |
 | Layout statuses Draft / Pending Approval / Approved / Retired | 2026 wave 1, v28 ([release plan](https://learn.microsoft.com/en-us/dynamics365/release-plan/2026wave1/smb/dynamics365-business-central/control-lifecycle-report-layouts)) |
 | ReportMetadata / ReportRequest data items | 2025 wave 1, v26 |
 | Sales document layouts showing carbon footprint (ESG) | 2026 wave 1, v28 |
@@ -49,7 +53,7 @@ Score reasons (one sentence each):
 | Feature | Screen | Highlight | Before/after | Check in your deck |
 |---|---|---|---|---|
 | W1 | Word, Business Central ribbon with the new groups (Address Fields, Grouped Fields, Calculation Layouts, Signature Lines, Note Lines) | One component inserted on an order confirmation | Yes: empty layout vs the same layout after three clicks | Present? If not: yzhums 76696 has the ribbon screenshot |
-| W3 | Hide If False dialog: what to hide (Table/Row/Column/Field) and the yes/no field | The boolean field dropdown | Yes: document with and without the block | **Check that your deck does not present Hide If Empty as new in 29**; yzhums 76655 has the dialog |
+| W8 | Create Data Table dialog (Insert Table) | Data source, columns, Include header row, Add Footer | Yes: manual repeater steps vs one dialog | Present? Label it "since 2026 wave 1". Remove any Hide If slide |
 | W2 | BC page **Report defaults for theme and header-footer** with a global row and one company row | "Applies to" column and the Header/Footer part | Optional: two documents (invoice, quote) with the same new footer | Defaults page slide present? |
 | W2 (alt) | **Company Information**, Reporting FastTab | Default Header/Footer and Default Theme fields | n/a | Optional |
 | W4 (one line) | Ribbon groups Samples (Reports) and Headers & Footers | The five header and five footer samples | n/a | Optional; yzhums 76756. Do not use yzhums image-79, image-150 or image-380 (they show no feature) |
@@ -145,7 +149,7 @@ Note for the Dutch UI: say "Concept" on screen, "Draft" in the English slide tex
 | Block | Time | Content | Features |
 |---|---|---|---|
 | Opening | 1:00 | Layouts = reports users change themselves. Two news blocks: Word (v29) and Excel (v26 to v29) | — |
-| Word | 5:00 | 0:20 framing · 1:40 design components, before/after (W1) · 1:40 one header/footer for all documents, samples plus one line on themes (W2, W4) · 1:00 Hide If False (W3) · 0:20 "off by default: an admin enables New Document Report Experience" | W1 80, W2 74, W3 68 |
+| Word | 5:00 | 0:20 framing · 1:40 design components, before/after (W1) · 1:40 one header/footer for all documents, samples plus one line on themes (W2, W4) · 1:00 Insert Table (W8) · 0:20 "off by default: an admin enables New Document Report Experience" | W1 80, W2 74, W8 80 |
 | Why Excel | 1:30 | Comparison slide plus the one-liner; one line on when not to use it | Section 4 |
 | Excel demo | 5:30 | Report 113 path, section 5 | X2 83, X1 83, X3 80, X4 71 |
 | Close | 2:00 | Monday: (1) plan the v29 update and enable the document feature in a sandbox; (2) list invoice layouts with empty columns or duplicated headers; (3) switch users to the Excel versions of standard reports and set layout statuses. Questions | — |
@@ -162,7 +166,7 @@ Blogs: yzhums.com walkthroughs added after the 19 Nov recheck (credit them if yo
 |---|---|
 | W1 Design components | Learn has no page yet; [What's new 29.0](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/whatsnew/whatsnew-update-29-0) + blog [yzhums 76696](https://yzhums.com/76696/) |
 | W2 Header/footer reuse | [Set up themes and header/footer layouts](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-set-up-report-themes-header-footer-layouts) + blog [yzhums 76756](https://yzhums.com/76756/) |
-| W3 Hide If False | [Design layouts with the Word add-in](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-design-word-layouts-business-central-add-in) + blog [yzhums 76655](https://yzhums.com/76655/) |
+| W8 Insert Table | [Design layouts with the Word add-in](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-design-word-layouts-business-central-add-in#build-a-repeating-data-table) |
 | X1 Lifecycle statuses | [Get started with layouts](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-get-started-layouts) (Manage layout status) |
 | X2 Standard Excel reports | [Report overview](https://learn.microsoft.com/en-us/dynamics365/business-central/reports-available-reports); [report 113](https://learn.microsoft.com/en-us/dynamics365/business-central/reports/report-113) |
 | X3 Subtotals | [Release plan, sales scenarios](https://learn.microsoft.com/en-us/dynamics365/release-plan/2026wave1/smb/dynamics365-business-central/analyze-customer-loyalty-other-sales-scenarios) |
