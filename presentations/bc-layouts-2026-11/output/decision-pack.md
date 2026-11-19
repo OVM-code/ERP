@@ -14,18 +14,22 @@ All in-scope items are listed as generally available in What's new 29.0. Importa
 
 | # | Feature | What it does | Value for users | Value for decision-makers | Value | Breadth | Demo | Ready | Total | Decision | Sources |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| W1 | Conditional visibility in the Word add-in (573329) | "Hide if empty" controls hide a zero field, an empty table, row or column at print time | Remove an always-empty discount column yourself, no developer | Cleaner customer documents without paid layout work per customer | 4 | 4 | 5 | 4 | **85** | Include | [What's new 29.0](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/whatsnew/whatsnew-update-29-0), [Word add-in](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-design-word-layouts-business-central-add-in) |
-| W2 | Reusable header/footer layouts (573331 design + 573326 reuse) | Header/footer becomes one separate Word file used by all document reports; defaults per company, report or layout | Change logo or address once instead of in every layout | One controlled place for brand and legal footer; per-company branding without cloning layouts | 4 | 4 | 4 | 2 | **74** | Include | [Themes and header/footer](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-set-up-report-themes-header-footer-layouts), What's new 29.0 |
-| W3 | Report themes (573330 design + 573327 branding) | A .dotx theme holds fonts, colours and styles for all document layouts | Restyle all documents by swapping one file | Consistent brand across invoice, quote, credit memo; lower maintenance | 3 | 3 | 4 | 2 | **62** | Include | Same as W2 |
-| W4 | New or replaced layouts start as Draft (v29 increment of 573320) | After upload or replace, a layout is Draft until someone approves it | No half-finished layout appears in the list | Test-then-approve habit on every customer-facing document | 3 | 4 | 3 | 5 | **70** | Include, **but in the Excel block** (demo step 10); applies to all layout types | [Excel layouts](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-excel-report-layouts), Word add-in |
-| W5 | AL items: Subtype, DefaultThemePart, DefaultHeaderFooterPart, runtime 18 compiler | Developer plumbing for composite layouts | None directly | Partner effort only | 1 | 1 | 1 | 2 | 23 | Cut | [Layout declaration in AL](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-report-layout-declaration) |
+| W1 | One-click design components (573328) | Insert ready-made blocks from the ribbon: address blocks, field groups, amount tables, signature lines, note lines | Build an order confirmation block in a click, no field-by-field mapping | Faster layout projects; less consultant time per document | 4 | 4 | 4 | 4 | **80** | Include | [RM573328](https://mc.merill.net/message/RM573328), [yzhums 76696](https://yzhums.com/76696/), What's new 29.0 |
+| W2 | Reusable header/footer layouts (573331 design + 573326 reuse), with five sample headers and footers | Header/footer becomes one separate Word file used by all document reports; defaults per company, report or layout | Change logo or address once instead of in every layout | One controlled place for brand and legal footer; per-company branding without cloning layouts | 4 | 4 | 4 | 2 | **74** | Include | [Themes and header/footer](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-set-up-report-themes-header-footer-layouts), [yzhums 76756](https://yzhums.com/76756/) |
+| W3 | Hide If False (573329) | Hide a table, row, column or field when a yes/no field in the dataset is false | Hide e.g. payment details or a test block based on a flag, no developer | Fewer per-customer layout variants | 3 | 3 | 4 | 4 | **68** | Include | [RM573329](https://mc.merill.net/message/RM573329), [yzhums 76655](https://yzhums.com/76655/) |
+| W4 | Report themes (573330 design + 573327 branding), with three sample documents | A .dotx theme holds fonts, colours and styles for all document layouts | Restyle all documents by swapping one file | Consistent brand across documents | 3 | 3 | 4 | 2 | **62** | Backup: one line on the W2 slide (same mechanism, same switch) | Same as W2 |
+| W5 | Lifecycle "for all layout types" (573320) | Roadmap says statuses now cover all layout types; what changed vs 28.x is not documented | Unclear | Unclear | 2 | 4 | 2 | 5 | 57 | Backup | [RM573320](https://mc.merill.net/message/RM573320) |
+| W6 | Company Information data item in Word datasets (573321) | Company fields available as one shared data item (CompanyMetadata) in every report dataset | Company fields in any header without a developer adding them | Small; enables W2 | 2 | 3 | 1 | 3 | 42 | Backup | [RM573321](https://mc.merill.net/message/RM573321), [yzhums 76367](https://yzhums.com/76367/) |
+| W7 | AL items: Subtype, DefaultThemePart, DefaultHeaderFooterPart, runtime 18 compiler | Developer plumbing for composite layouts | None directly | Partner effort only | 1 | 1 | 1 | 2 | 23 | Cut | [Layout declaration in AL](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-report-layout-declaration) |
 
 Score reasons (one sentence each):
-- W1: removes a typical developer request (hide empty columns) and reads instantly from one before/after picture; readiness 4 because it needs the add-in.
-- W2: a rebrand or address change today means editing every layout, and this fixes that; readiness 2 because the feature switch is off by default and only "Body" layouts can use parts.
-- W3: mostly cosmetic unless the client runs several brands, same switch caveat as W2.
-- W4: low effort, high governance value, but it needs a sentence of explanation and overlaps with the version 28 statuses, so it belongs in the Excel lifecycle story.
-- W5: not for this audience.
+- W1: the most visible v29 add-in change; it removes the slowest part of building a document layout. Readiness 4: the add-in is needed, and whether it needs the feature switch is unknown.
+- W2: a rebrand or address change today means editing every layout, and this fixes that. Readiness 2 because New Document Report Experience is off by default and only "Body" layouts can use parts.
+- W3: narrower than first thought (only the yes/no control is new), but still a clear before/after.
+- W4: mostly cosmetic unless the client runs several brands; it shares W2's mechanism, so one line there is enough.
+- W5: the v29 change is not documented beyond one roadmap line, and the statuses themselves are 28.x.
+- W6: plumbing; mention only if asked.
+- W7: not for this audience.
 
 **Do NOT show as new in 29** (verifier: wrong scope):
 | Item | Actually shipped |
@@ -35,8 +39,8 @@ Score reasons (one sentence each):
 | Layout statuses Draft / Pending Approval / Approved / Retired | 2026 wave 1, v28 ([release plan](https://learn.microsoft.com/en-us/dynamics365/release-plan/2026wave1/smb/dynamics365-business-central/control-lifecycle-report-layouts)) |
 | ReportMetadata / ReportRequest data items | 2025 wave 1, v26 |
 | Sales document layouts showing carbon footprint (ESG) | 2026 wave 1, v28 |
-
-Two v29 titles are not presentable: "Design document reports with the updated Word add-in" (573328) and "Reduce complexity of report datasets" (573321). Only the titles are on Learn, so what they add is UNKNOWN (section 8).
+| **Hide If Empty controls** (Hide Field if Zero, Hide Empty Table / Row / Column) | 2024 wave 2, v25 ([release plan](https://learn.microsoft.com/en-us/dynamics365/release-plan/2024wave2/smb/dynamics365-business-central/use-improved-features-report-documents)). Only Hide If False is new in 29 |
+| A new layout copy starts as Draft | Already in 28.5 (Olivia saw "Concept"). Statuses are listed in What's new 28.0 and 28.1, so say "28.x" |
 
 ## 2. Word screenshot shot list
 
@@ -44,10 +48,11 @@ Two v29 titles are not presentable: "Design document reports with the updated Wo
 
 | Feature | Screen | Highlight | Before/after | Check in your deck |
 |---|---|---|---|---|
-| W1 | Word, Business Central ribbon tab, **Hide if empty** dropdown open on a sales invoice layout | The four controls (Hide Field if Zero, Hide Empty Table / Row / Column) | Yes: invoice PDF with an all-empty Discount % column vs the same invoice without it | Before/after slide present? |
+| W1 | Word, Business Central ribbon with the new groups (Address Fields, Grouped Fields, Calculation Layouts, Signature Lines, Note Lines) | One component inserted on an order confirmation | Yes: empty layout vs the same layout after three clicks | Present? If not: yzhums 76696 has the ribbon screenshot |
+| W3 | Hide If False dialog: what to hide (Table/Row/Column/Field) and the yes/no field | The boolean field dropdown | Yes: document with and without the block | **Check that your deck does not present Hide If Empty as new in 29**; yzhums 76655 has the dialog |
 | W2 | BC page **Report defaults for theme and header-footer** with a global row and one company row | "Applies to" column and the Header/Footer part | Optional: two documents (invoice, quote) with the same new footer | Defaults page slide present? |
 | W2 (alt) | **Company Information**, Reporting FastTab | Default Header/Footer and Default Theme fields | n/a | Optional |
-| W3 | Report Layouts, Details FactBox on a Body layout | Theme and Theme source fields | Yes: same invoice PDF with the old vs new theme (font and colour) | Before/after slide present? |
+| W4 (one line) | Ribbon groups Samples (Reports) and Headers & Footers | The five header and five footer samples | n/a | Optional; yzhums 76756. Do not use yzhums image-79, image-150 or image-380 (they show no feature) |
 | Feature switch | **Feature Management**, "New Document Report Experience" row | "Enabled for" = None by default | n/a | Recommended: supports the "off by default" warning |
 
 ## 3. Excel layouts (versions 26 to 29)
@@ -60,7 +65,7 @@ Two v29 titles are not presentable: "Design document reports with the updated Wo
 | X2 | Standard reports moved from RDL to Excel layouts | K | v26 to v28 | Yes (report 113) | About 37 standard reports now ship with an Excel layout: finance (trial balances, aged AR/AP, fixed assets), sales (10), deferrals (3), inventory (8 incl. 719), manufacturing (3), sustainability (3) | Analysis-ready workbook from a standard report, no export-and-rebuild | Less custom report work; customisations move from developer to key user | 4 | 4 | 4 | 5 | **83** | Include (live, as framing) | Release plans [2025w1 finance](https://learn.microsoft.com/en-us/dynamics365/release-plan/2025wave1/smb/dynamics365-business-central/use-enhanced-analytics-finance), [2025w2 sales](https://learn.microsoft.com/en-us/dynamics365/release-plan/2025wave2/smb/dynamics365-business-central/use-enhanced-sales-analytics), [2026w1 inventory](https://learn.microsoft.com/en-us/dynamics365/release-plan/2026wave1/smb/dynamics365-business-central/modernizing-analytical-reports-inventory) |
 | X3 | Subtotals in Excel layouts of sales and deferral reports | K | v28 (GA 1 Apr / 1 May 2026) | Yes (to confirm in dry run) | Reports 113, 115, 708, 713, 718 and deferral 1700-1702 now have subtotals built in | No more adding subtotals by hand every month | Faster month-end reconciliation | 3 | 4 | 5 | 5 | **80** | Include (live) | [Release plan sales](https://learn.microsoft.com/en-us/dynamics365/release-plan/2026wave1/smb/dynamics365-business-central/analyze-customer-loyalty-other-sales-scenarios), [deferrals](https://learn.microsoft.com/en-us/dynamics365/release-plan/2026wave1/smb/dynamics365-business-central/use-enhanced-faster-reports-analysis-deferrals-trial-balances) |
 | X4 | Validate a layout | C | v26 (GA 1 Apr 2025) | Yes | Admin checks an uploaded layout and gets an error list | Fewer broken reports after an upload | Less support time; no developer to diagnose a bad file | 3 | 3 | 4 | 5 | **71** | Include (live) | [Release plan](https://learn.microsoft.com/en-us/dynamics365/release-plan/2025wave1/smb/dynamics365-business-central/validate-report-layouts-errors-as-admin), Get started with layouts |
-| X5 | New or replaced layouts start as Draft (= W4) | C | v29 | No, slide only | See W4 | See W4 | See W4 | 3 | 4 | 3 | 5 | **70** | Include (slide, demo step 10) | [Excel layouts](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-excel-report-layouts) |
+| X5 | Lifecycle "for all layout types" (= W5) | C | v29 | No | See W5 | See W5 | See W5 | 2 | 4 | 2 | 5 | 57 | Backup (copies already start as Draft in 28.5) | [Excel layouts](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-excel-report-layouts) |
 | X6 | Faster Trial Balance Excel reports | K | v28 (feature switch, on by default) | Not visible | Performance only | Shorter waits | None visible | 3 | 4 | 1 | 4 | 57 | Backup (one line) | Release plan deferrals/trial balance, [mandatory features](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/administration/feature-management-mandatory-features) |
 | X7 | Multiple data sheets set per layout | C | v26 (per-layout override; global property is older) | Not with 113 | One data sheet per data item, for Power Pivot models | Pivot across several tables | Richer reports without breaking old layouts | 3 | 2 | 2 | 2 | 48 | Backup | [Excel layout dev guide](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-howto-excel-report-layout) |
 | X8 | Mark layout as obsolete | C | v26 (AL property; client toggle version unknown) | Check in dry run | Flags a layout as deprecated | Clear "stop using this" signal | Smoother clean-up | 2 | 2 | 3 | 3 | 48 | Backup | [Release plan](https://learn.microsoft.com/en-us/dynamics365/release-plan/2025wave1/smb/dynamics365-business-central/use-new-properties-report-layout) |
@@ -72,7 +77,7 @@ Score reasons:
 - X2: the biggest Excel story by volume, but it's content, so frame it as "your standard reports already got this" rather than as a feature.
 - X3: instantly visible in the workbook, but saves minutes rather than hours.
 - X4: valuable only to clients who customise layouts, and quick to show.
-- X5: see W4.
+- X5: see W5. Your 28.5 test showed copies already start as Draft, so the documented v29 change is too thin for a slide.
 - X6: a real gain, but nothing to see on screen.
 - X7: needs developer work first.
 - X8: low value, and it's unclear whether the toggle exists in 28.5.
@@ -87,7 +92,7 @@ Corrected comparison. The "offline use" row is dropped (inference only), and cel
 | Criterion | Excel layouts | Analysis mode | Power BI |
 |---|---|---|---|
 | Who builds it | Key user or consultant in Excel; AL for packaged ones | End user drags fields; no build | Apps: install; custom: Power BI Desktop skills |
-| Who maintains | Layout owner; statuses (v28), Draft on upload (v29) | Each user, own views | Workspace admin; app updates can overwrite edits |
+| Who maintains | Layout owner; statuses, copies start as Draft (28.x) | Each user, own views | Workspace admin; app updates can overwrite edits |
 | Extra licence | None stated | Permission set DATA ANALYSIS - EXEC | Power BI Pro per viewer, or Premium/Fabric |
 | Freshness | Snapshot at run time | Live when opened | Last refresh; 8/day shared, 48 Premium |
 | Volume | Up to 10M rows, 12 h (online max) | Large-data mode above 100,000 rows | Refresh under 2 h shared; 8 min call limit |
@@ -126,7 +131,7 @@ Sources: [Excel layouts](https://learn.microsoft.com/en-us/dynamics365/business-
 | 7 | 0:35 | Select the Excel layout, Edit Info, new name, Save Changes to Copy; point at the status of the copy: **Concept** (Draft) | A user-defined copy starts as Draft; the Microsoft original stays untouched |
 | 8 | 0:25 | Select the copy, Validate, show result | v26: check a layout without a developer (X4) |
 | 9 | 0:40 | Open the request page: the Draft copy is not in the layout list. Back to Report Layouts, Layout > Layout Status > Set Approved, show it now appears | v28: only approved layouts reach users (X1) |
-| 10 | 0:35 | Slide | v29: every new or replaced layout starts as Draft (X5/W4) |
+| 10 | 0:35 | Back to the use case: who runs this monthly, what they no longer rebuild | Recap: subtotals, Validate, statuses |
 | | **5:30** | | |
 
 If time runs short, drop step 5. Changed from the research file: step 5 no longer claims the report page mentions Copilot (verifier correction), and the obsolete toggle is dropped (backup, score 48).
@@ -140,12 +145,12 @@ Note for the Dutch UI: say "Concept" on screen, "Draft" in the English slide tex
 | Block | Time | Content | Features |
 |---|---|---|---|
 | Opening | 1:00 | Layouts = reports users change themselves. Two news blocks: Word (v29) and Excel (v26 to v29) | — |
-| Word | 5:00 | 0:20 framing · 1:40 hide-if-empty, before/after invoice (W1) · 1:40 one header/footer for all documents, defaults page (W2) · 0:50 themes, before/after PDF (W3) · 0:30 "off by default: an admin enables New Document Report Experience" | W1 85, W2 74, W3 62 |
+| Word | 5:00 | 0:20 framing · 1:40 design components, before/after (W1) · 1:40 one header/footer for all documents, samples plus one line on themes (W2, W4) · 1:00 Hide If False (W3) · 0:20 "off by default: an admin enables New Document Report Experience" | W1 80, W2 74, W3 68 |
 | Why Excel | 1:30 | Comparison slide plus the one-liner; one line on when not to use it | Section 4 |
-| Excel demo | 5:30 | Report 113 path, section 5 | X2 83, X1 83, X3 80, X4 71, X5 70 (slide) |
+| Excel demo | 5:30 | Report 113 path, section 5 | X2 83, X1 83, X3 80, X4 71 |
 | Close | 2:00 | Monday: (1) plan the v29 update and enable the document feature in a sandbox; (2) list invoice layouts with empty columns or duplicated headers; (3) switch users to the Excel versions of standard reports and set layout statuses. Questions | — |
 
-Backup slide: X6 faster trial balances, X7 multiple data sheets, X8 obsolete flag, the "Do NOT show as new" table.
+Backup slide: W4 themes, W5/X5 lifecycle for all layout types, W6 company data item, X6 faster trial balances, X7 multiple data sheets, X8 obsolete flag, the "Do NOT show as new" table.
 
 Word screenshots come from Olivia's existing slide deck, so the 5:00 Word block stands.
 
@@ -155,14 +160,13 @@ Blogs: none listed. yzhums.com could not be reached from this session, so no wal
 
 | Feature | Microsoft Learn |
 |---|---|
-| W1 Conditional visibility | [Design layouts with the Word add-in](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-design-word-layouts-business-central-add-in) (section on hiding content without a value) |
-| W2 Header/footer reuse | [Set up themes and header/footer layouts](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-set-up-report-themes-header-footer-layouts) |
-| W3 Themes | Same page as W2 |
+| W1 Design components | Learn has no page yet; [What's new 29.0](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/whatsnew/whatsnew-update-29-0) + blog [yzhums 76696](https://yzhums.com/76696/) |
+| W2 Header/footer reuse | [Set up themes and header/footer layouts](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-set-up-report-themes-header-footer-layouts) + blog [yzhums 76756](https://yzhums.com/76756/) |
+| W3 Hide If False | [Design layouts with the Word add-in](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-design-word-layouts-business-central-add-in) + blog [yzhums 76655](https://yzhums.com/76655/) |
 | X1 Lifecycle statuses | [Get started with layouts](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-get-started-layouts) (Manage layout status) |
 | X2 Standard Excel reports | [Report overview](https://learn.microsoft.com/en-us/dynamics365/business-central/reports-available-reports); [report 113](https://learn.microsoft.com/en-us/dynamics365/business-central/reports/report-113) |
 | X3 Subtotals | [Release plan, sales scenarios](https://learn.microsoft.com/en-us/dynamics365/release-plan/2026wave1/smb/dynamics365-business-central/analyze-customer-loyalty-other-sales-scenarios) |
 | X4 Validate | [Get started with layouts](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-get-started-layouts) (Validate a layout) |
-| X5 / W4 Draft on upload | [Excel layouts](https://learn.microsoft.com/en-us/dynamics365/business-central/ui-excel-report-layouts) |
 
 ## 8. Open questions and what could not be verified
 
@@ -172,13 +176,26 @@ Blogs: none listed. yzhums.com could not be reached from this session, so no wal
 3. **Output language:** English, as assumed in the plan. Say so if you want Dutch.
 
 **Dropped or unverified (not in the tables):**
-- "Automate report outputs" (573318, v29): probably the new report inbox APIs (read output, mark as read, for Power Automate or MCP). That link is unconfirmed, and it is not scheduling. Left out.
-- "Reduce complexity of report datasets" (573321, v29): title only; the seed claim of a "shared company information data item" is unsupported.
-- "Updated Word add-in" (573328, v29): what is new versus v27/v28 is unknown.
-- What "all report layouts" in the v29 lifecycle title adds beyond v28: undocumented. Only Draft-on-upload is stated.
+- "Automate report outputs" (573318, v29): confirmed as new report inbox APIs for Power Automate or MCP. No Excel, scheduling or layout content, so left out of a layouts talk.
+- What "all layout types" in the v29 lifecycle entry adds beyond 28.x: undocumented. "Now covers extension and AppSource layouts" is an inference, not a source statement.
+- Whether design components need the New Document Report Experience switch or a specific add-in version: unknown.
 - Comparison: offline use (inference), print/PDF for analysis mode and Power BI, Power BI subscriptions, emailing Excel output: all unknown.
 - Whether the analysis sheet of report 113 has slicers, and whether Cronus returns data for it: check in the dry run.
 - The deprecation of legacy finance reports in v28 (a good "why move" point) was seen only in a search snippet.
 - The Aged AR/AP Excel release dates conflict (1 April vs 15 June 2025). Both fall in v26, so say "2025 wave 1".
 
 **Verification totals:** 152 claim rows: 127 confirmed, 12 corrected, 12 unverified, 1 wrong; one more is graded corrected but is wrong scope in substance (two wrong-scope Word items in total, both moved to "Do NOT show as new").
+
+## 9. Recheck with roadmap and yzhums (19 Nov)
+
+Sources: `research/recheck-secondary.md`, checked in `research/verification-2.md` (60 claims: 49 confirmed, 5 corrected, 6 unverified, 0 wrong).
+
+| Change | Effect on the talk |
+|---|---|
+| Hide If Empty shipped in 2024 wave 2; only Hide If False is new in 29 | Old W1 (85) dropped from the top spot; Hide If False is now W3 (68) |
+| Design components (573328) confirmed new in 29 | New W1 (80), the Word opener |
+| Theme and header/footer samples (573330, 573331) confirmed | Strengthens W2; themes become one line on that slide |
+| Company Information data item (573321) confirmed, Word only | Backup (42) |
+| Automate report outputs (573318) = report inbox APIs | Out of scope for layouts |
+| Lifecycle: statuses are 28.x, copies already start as Draft in 28.5, v29 "all layout types" undocumented | Demo step 10 becomes a recap instead of a v29 slide |
+| yzhums screenshots: 76655, 76696, 76756, 76367 show the features; image-79, image-150, image-380 do not | Use only as backup for gaps in your own deck, with credit |
