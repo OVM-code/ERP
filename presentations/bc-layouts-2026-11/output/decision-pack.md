@@ -156,7 +156,7 @@ Word screenshots come from Olivia's existing slide deck, so the 5:00 Word block 
 
 ## 7. How-it-works sources per included feature
 
-Blogs: none listed. yzhums.com could not be reached from this session, so no walkthrough was opened.
+Blogs: yzhums.com walkthroughs added after the 19 Nov recheck (credit them if you reuse a screenshot).
 
 | Feature | Microsoft Learn |
 |---|---|
