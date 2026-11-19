@@ -1,6 +1,6 @@
 # Decision pack: what is new in Word and Excel layouts (BC, 15 minutes)
 
-18 November 2026 · prepared for Olivia · demo environment 28.5 · version 29 sandbox: assumed NO
+Updated 19 November 2026 · prepared for Olivia · demo environment 28.5 (report 113 tested) · Word screenshots: existing slide deck
 
 How to read this: every feature below survived the verifier (`research/verification.md`). Claims it marked UNVERIFIED or WRONG are dropped from the tables and listed in section 8. Scores are my proposal, harsh by design; overrule any of them. **You pick the features.**
 
@@ -40,15 +40,15 @@ Two v29 titles are not presentable: "Design document reports with the updated Wo
 
 ## 2. Word screenshot shot list
 
-Problem first: **you cannot capture any of these in 28.5**, and **no opened source has a screenshot of any v29 Word feature**. The community sources (yzhums.com, mc.merill.net) were blocked from this session, so they are unchecked. So option B from the plan (published screenshots) currently has nothing to offer. Without a v29 sandbox the Word block is text-only. See open question 1.
+**Settled (19 Nov):** Olivia has an existing slide deck with screenshots of the Word features. Use the list below as a checklist against that deck: each included feature should have the screen and highlight named here. Anything missing from the deck is a gap to fill, not a reason to capture new screens in 28.5 (the features don't exist there).
 
-| Feature | Screen | Highlight | Before/after | Capture |
+| Feature | Screen | Highlight | Before/after | Check in your deck |
 |---|---|---|---|---|
-| W1 | Word, Business Central ribbon tab, **Hide if empty** dropdown open on a sales invoice layout | The four controls (Hide Field if Zero, Hide Empty Table / Row / Column) | Yes: invoice PDF with an all-empty Discount % column vs the same invoice without it | Own, v29 sandbox only |
-| W2 | BC page **Report defaults for theme and header-footer** with a global row and one company row | "Applies to" column and the Header/Footer part | Optional: two documents (invoice, quote) with the same new footer | Own, v29 sandbox, after enabling New Document Report Experience |
-| W2 (alt) | **Company Information**, Reporting FastTab | Default Header/Footer and Default Theme fields | n/a | Own, v29 sandbox |
-| W3 | Report Layouts, Details FactBox on a Body layout | Theme and Theme source fields | Yes: same invoice PDF with the old vs new theme (font and colour) | Own, v29 sandbox |
-| Feature switch | **Feature Management**, "New Document Report Experience" row | "Enabled for" = None by default | n/a | Own, v29 sandbox |
+| W1 | Word, Business Central ribbon tab, **Hide if empty** dropdown open on a sales invoice layout | The four controls (Hide Field if Zero, Hide Empty Table / Row / Column) | Yes: invoice PDF with an all-empty Discount % column vs the same invoice without it | Before/after slide present? |
+| W2 | BC page **Report defaults for theme and header-footer** with a global row and one company row | "Applies to" column and the Header/Footer part | Optional: two documents (invoice, quote) with the same new footer | Defaults page slide present? |
+| W2 (alt) | **Company Information**, Reporting FastTab | Default Header/Footer and Default Theme fields | n/a | Optional |
+| W3 | Report Layouts, Details FactBox on a Body layout | Theme and Theme source fields | Yes: same invoice PDF with the old vs new theme (font and colour) | Before/after slide present? |
+| Feature switch | **Feature Management**, "New Document Report Experience" row | "Enabled for" = None by default | n/a | Recommended: supports the "off by default" warning |
 
 ## 3. Excel layouts (versions 26 to 29)
 
@@ -123,15 +123,17 @@ Sources: [Excel layouts](https://learn.microsoft.com/en-us/dynamics365/business-
 | 4 | 0:35 | Use a slicer or filter, collapse a group | What Excel users already know, on BC data |
 | 5 | 0:15 | Flash the raw data sheet, close | The data is there for your own formulas and pivots |
 | 6 | 0:25 | Search Report Layouts, filter report 113, point at the status column | One page for all layouts |
-| 7 | 0:35 | Select the Excel layout, Edit Info, new name, Save Changes to Copy | A user-defined copy; the Microsoft original stays untouched |
+| 7 | 0:35 | Select the Excel layout, Edit Info, new name, Save Changes to Copy; point at the status of the copy: **Concept** (Draft) | A user-defined copy starts as Draft; the Microsoft original stays untouched |
 | 8 | 0:25 | Select the copy, Validate, show result | v26: check a layout without a developer (X4) |
-| 9 | 0:40 | Layout > Layout Status > Set Pending Approval, show it is gone from the request page, then Set Approved | v28: only approved layouts reach users (X1) |
+| 9 | 0:40 | Open the request page: the Draft copy is not in the layout list. Back to Report Layouts, Layout > Layout Status > Set Approved, show it now appears | v28: only approved layouts reach users (X1) |
 | 10 | 0:35 | Slide | v29: every new or replaced layout starts as Draft (X5/W4) |
 | | **5:30** | | |
 
 If time runs short, drop step 5. Changed from the research file: step 5 no longer claims the report page mentions Copilot (verifier correction), and the obsolete toggle is dropped (backup, score 48).
 
-**Dry run in 28.5 before the day (15 minutes):** (1) report 113 returns rows and shows subtotals; (2) the analysis sheet has a slicer or pivot; (3) which status a fresh copy starts with; (4) Pending Approval really hides the copy from the request page; (5) take a backup screenshot of every step.
+**Dry run, confirmed by Olivia (19 Nov):** report 113 works in 28.5, and a copy starts with status **Concept** (Dutch UI for Draft). Still to check: (1) the analysis sheet has a slicer or pivot; (2) the Draft copy is really absent from the request page; (3) take a backup screenshot of every step.
+
+Note for the Dutch UI: say "Concept" on screen, "Draft" in the English slide text, or switch the demo user to English.
 
 ## 6. Run of show (15:00)
 
@@ -145,7 +147,7 @@ If time runs short, drop step 5. Changed from the research file: step 5 no longe
 
 Backup slide: X6 faster trial balances, X7 multiple data sheets, X8 obsolete flag, the "Do NOT show as new" table.
 
-Word timing holds only with screenshots. Without a v29 sandbox, cut the Word block to 3:00 and give 2:00 to the Excel demo or to questions.
+Word screenshots come from Olivia's existing slide deck, so the 5:00 Word block stands.
 
 ## 7. How-it-works sources per included feature
 
@@ -165,8 +167,8 @@ Blogs: none listed. yzhums.com could not be reached from this session, so no wal
 ## 8. Open questions and what could not be verified
 
 **Questions for you:**
-1. **Can you get a version 29 sandbox?** Without one the Word block has no images: you can't capture them, and no published v29 screenshot was found.
-2. **Allow yzhums.com and mc.merill.net for this session?** That would let an agent look for walkthrough screenshots and the roadmap text behind 573318, 573321 and 573328.
+1. ~~Version 29 sandbox~~: settled, Word screenshots come from your existing deck.
+2. ~~Allow yzhums.com and mc.merill.net~~: allowed on 19 Nov; recheck results are in section 9.
 3. **Output language:** English, as assumed in the plan. Say so if you want Dutch.
 
 **Dropped or unverified (not in the tables):**
